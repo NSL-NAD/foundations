@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
     if (!response.ok) {
       console.error("Stripe API error:", response.status, JSON.stringify(data));
       return NextResponse.json(
-        { error: "Stripe error", details: data.error?.message || "Unknown", stripeStatus: response.status },
+        { error: "Stripe error", details: data.error?.message || "Unknown", stripeStatus: response.status, baseUrl, successUrl: `${baseUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}` },
         { status: 500 }
       );
     }
