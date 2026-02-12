@@ -24,11 +24,8 @@ export async function POST(req: NextRequest) {
 
     const baseUrl = process.env.NEXT_PUBLIC_URL || "https://foundations-of-architecture.vercel.app";
 
-    // Create Stripe client fresh with explicit fetch adapter
-    const stripeClient = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-      apiVersion: "2026-01-28.clover",
-      httpClient: Stripe.createFetchHttpClient(),
-    });
+    // Create Stripe client fresh in handler
+    const stripeClient = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
     // Build checkout session params
     const params: Stripe.Checkout.SessionCreateParams = {
