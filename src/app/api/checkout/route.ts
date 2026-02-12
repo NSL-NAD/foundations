@@ -1,11 +1,26 @@
-import { PRODUCTS, type ProductKey } from "@/lib/stripe";
 import { NextRequest, NextResponse } from "next/server";
+
+// Inline the products to avoid importing from @/lib/stripe (which creates a module-level Stripe client)
+const PRODUCTS: Record<string, { priceId: string; name: string }> = {
+  course: {
+    priceId: process.env.STRIPE_PRICE_COURSE || "",
+    name: "Foundations of Architecture Course",
+  },
+  kit: {
+    priceId: process.env.STRIPE_PRICE_KIT || "",
+    name: "Architecture Starter Kit",
+  },
+  bundle: {
+    priceId: process.env.STRIPE_PRICE_BUNDLE || "",
+    name: "Course + Starter Kit Bundle",
+  },
+};
 
 export async function POST(req: NextRequest) {
   try {
     const { productType, email } = await req.json();
 
-    const product = PRODUCTS[productType as ProductKey];
+    const product = PRODUCTS[productType];
     if (!product) {
       return NextResponse.json(
         { error: "Invalid product type" },
@@ -13,9 +28,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (!product.priceId || product.priceId === "undefined") {
+    if (!product.priceId) {
       return NextResponse.json(
-        { error: "Product not configured" },
+        { error: "Product not configured", priceId: product.priceId },
         { status: 500 }
       );
     }
@@ -37,10 +52,13 @@ export async function POST(req: NextRequest) {
       body.append("shipping_address_collection[allowed_countries][0]", "US");
     }
 
-    const response = await fetch("https://api.stripe.com/v1/checkout/sessions", {
+    const stripeUrl = "https://api.stripe.com/v1/checkout/sessions";
+    const stripeKey = process.env.STRIPE_SECRET_KEY || "";
+
+    const response = await fetch(stripeUrl, {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${process.env.STRIPE_SECRET_KEY}`,
+        "Authorization": `Bearer ${stripeKey}`,
         "Content-Type": "application/x-www-form-urlencoded",
       },
       body: body.toString(),
@@ -49,9 +67,9 @@ export async function POST(req: NextRequest) {
     const data = await response.json();
 
     if (!response.ok) {
-      console.error("Stripe API error:", JSON.stringify(data));
+      console.error("Stripe API error:", response.status, JSON.stringify(data));
       return NextResponse.json(
-        { error: "Failed to create checkout session", details: data.error?.message || "Unknown error" },
+        { error: "Stripe error", details: data.error?.message || "Unknown", stripeStatus: response.status },
         { status: 500 }
       );
     }
@@ -59,9 +77,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ checkoutUrl: data.url });
   } catch (error) {
     const errMsg = error instanceof Error ? error.message : String(error);
-    console.error("Checkout error:", errMsg);
+    const errStack = error instanceof Error ? error.stack?.split("\n").slice(0, 5).join("\n") : "";
+    console.error("Checkout error:", errMsg, errStack);
     return NextResponse.json(
-      { error: "Failed to create checkout session", details: errMsg },
+      { error: "Checkout exception", details: errMsg },
       { status: 500 }
     );
   }
