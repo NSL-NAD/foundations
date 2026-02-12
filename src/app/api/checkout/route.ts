@@ -45,9 +45,12 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ checkoutUrl: session.url });
   } catch (error) {
     const errMsg = error instanceof Error ? error.message : String(error);
-    console.error("Checkout error:", errMsg);
+    const stripeKey = process.env.STRIPE_SECRET_KEY || "";
+    const keyPrefix = stripeKey.substring(0, 12);
+    const keyLength = stripeKey.length;
+    console.error("Checkout error:", errMsg, "| key prefix:", keyPrefix, "| key length:", keyLength);
     return NextResponse.json(
-      { error: "Failed to create checkout session", details: errMsg },
+      { error: "Failed to create checkout session", details: errMsg, keyInfo: `${keyPrefix}... (${keyLength} chars)` },
       { status: 500 }
     );
   }
