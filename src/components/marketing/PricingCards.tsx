@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Check, ShieldCheck } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const products = [
   {
@@ -67,8 +68,14 @@ export function PricingCards() {
       const data = await res.json();
       if (data.checkoutUrl) {
         window.location.href = data.checkoutUrl;
+      } else {
+        console.error("Checkout failed:", data);
+        toast.error("Something went wrong. Please try again.");
+        setLoading(null);
       }
-    } catch {
+    } catch (err) {
+      console.error("Checkout error:", err);
+      toast.error("Something went wrong. Please try again.");
       setLoading(null);
     }
   }
