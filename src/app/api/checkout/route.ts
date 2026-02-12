@@ -1,4 +1,4 @@
-import { stripe, PRODUCTS, type ProductKey } from "@/lib/stripe";
+import { PRODUCTS, type ProductKey } from "@/lib/stripe";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -22,10 +22,15 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Create Stripe client fresh with explicit fetch adapter
+    const stripeClient = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+      apiVersion: "2026-01-28.clover",
+      httpClient: Stripe.createFetchHttpClient(),
+    });
+
     // Build checkout session params
     const params: Stripe.Checkout.SessionCreateParams = {
       mode: "payment",
-      payment_method_types: ["card"],
       line_items: [{ price: product.priceId, quantity: 1 }],
       success_url: `${process.env.NEXT_PUBLIC_URL}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_URL}/#pricing`,
@@ -40,17 +45,15 @@ export async function POST(req: NextRequest) {
       };
     }
 
-    const session = await stripe.checkout.sessions.create(params);
+    const session = await stripeClient.checkout.sessions.create(params);
 
     return NextResponse.json({ checkoutUrl: session.url });
   } catch (error) {
     const errMsg = error instanceof Error ? error.message : String(error);
-    const stripeKey = process.env.STRIPE_SECRET_KEY || "";
-    const keyPrefix = stripeKey.substring(0, 12);
-    const keyLength = stripeKey.length;
-    console.error("Checkout error:", errMsg, "| key prefix:", keyPrefix, "| key length:", keyLength);
+    const errorType = error instanceof Stripe.errors.StripeError ? error.type : "unknown";
+    console.error("Checkout error:", errMsg, "type:", errorType);
     return NextResponse.json(
-      { error: "Failed to create checkout session", details: errMsg, keyInfo: `${keyPrefix}... (${keyLength} chars)` },
+      { error: "Failed to create checkout session", details: errMsg },
       { status: 500 }
     );
   }
