@@ -1,0 +1,115 @@
+"use client";
+
+import { useState } from "react";
+import { ModuleSidebar } from "./ModuleSidebar";
+import { LessonContent } from "./LessonContent";
+import { LessonNavigation } from "./LessonNavigation";
+import { Button } from "@/components/ui/button";
+import { Menu } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import type { CurriculumModule, CurriculumLesson } from "@/lib/course";
+import type { LessonNavigation as LessonNav } from "@/types/course";
+
+interface CoursePlayerProps {
+  moduleSlug: string;
+  lessonSlug: string;
+  lesson: CurriculumLesson;
+  module: CurriculumModule;
+  modules: CurriculumModule[];
+  navigation: LessonNav;
+  completedLessons: string[];
+  mdxSource: string;
+}
+
+export function CoursePlayer({
+  moduleSlug,
+  lessonSlug,
+  lesson,
+  module: currentModule,
+  modules,
+  navigation,
+  completedLessons,
+  mdxSource,
+}: CoursePlayerProps) {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const isCompleted = completedLessons.includes(`${moduleSlug}/${lessonSlug}`);
+
+  return (
+    <div className="flex h-[calc(100vh-4rem)]">
+      {/* Desktop Sidebar */}
+      <aside className="hidden w-80 flex-shrink-0 overflow-y-auto border-r bg-card lg:block">
+        <ModuleSidebar
+          modules={modules}
+          currentModuleSlug={moduleSlug}
+          currentLessonSlug={lessonSlug}
+          completedLessons={completedLessons}
+        />
+      </aside>
+
+      {/* Mobile Sidebar */}
+      <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
+        <SheetTrigger asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="fixed bottom-4 left-4 z-40 rounded-full shadow-lg lg:hidden"
+          >
+            <Menu className="h-5 w-5" />
+          </Button>
+        </SheetTrigger>
+        <SheetContent side="left" className="w-80 p-0">
+          <ModuleSidebar
+            modules={modules}
+            currentModuleSlug={moduleSlug}
+            currentLessonSlug={lessonSlug}
+            completedLessons={completedLessons}
+            onNavigate={() => setSidebarOpen(false)}
+          />
+        </SheetContent>
+      </Sheet>
+
+      {/* Main Content */}
+      <main className="flex-1 overflow-y-auto">
+        <div className="mx-auto max-w-3xl px-6 py-8 md:px-8">
+          {/* Module breadcrumb */}
+          <p className="mb-1 text-sm text-muted-foreground">
+            {currentModule.title}
+          </p>
+          <h1 className="text-2xl font-bold tracking-tight md:text-3xl">
+            {lesson.title}
+          </h1>
+          <div className="mt-2 flex items-center gap-3 text-sm text-muted-foreground">
+            {lesson.duration && <span>{lesson.duration}</span>}
+            <span className="capitalize">{lesson.type}</span>
+            {lesson.path !== "both" && (
+              <span className="rounded bg-secondary px-2 py-0.5 text-xs">
+                {lesson.path === "drawer"
+                  ? "Drawer Path"
+                  : "Brief Builder Path"}
+              </span>
+            )}
+          </div>
+
+          {/* Lesson Content */}
+          <div className="mt-8">
+            <LessonContent
+              mdxSource={mdxSource}
+              lesson={lesson}
+              moduleSlug={moduleSlug}
+            />
+          </div>
+
+          {/* Navigation */}
+          <div className="mt-12 border-t pt-8">
+            <LessonNavigation
+              navigation={navigation}
+              moduleSlug={moduleSlug}
+              lessonSlug={lessonSlug}
+              isCompleted={isCompleted}
+            />
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}

@@ -1,0 +1,171 @@
+{
+  "title": "Foundations of Architecture: Designing Your Dream Space",
+  "description": "A 62-lesson course teaching architectural fundamentals through two learning paths.",
+  "modules": [
+    {
+      "slug": "welcome",
+      "title": "Welcome & Orientation",
+      "description": "Meet your instructor, set up your workspace, and choose your learning path.",
+      "lessons": [
+        { "slug": "course-overview", "title": "Course Overview", "type": "video", "duration": "5 min", "path": "both" },
+        { "slug": "how-to-use", "title": "How to Use This Course", "type": "text", "duration": "3 min", "path": "both" },
+        { "slug": "choose-path", "title": "Choose Your Path", "type": "text", "duration": "5 min", "path": "both", "downloads": ["path-comparison-guide.pdf"] },
+        { "slug": "materials-needed", "title": "Materials You'll Need", "type": "text", "duration": "3 min", "path": "both", "downloads": ["materials-checklist.pdf"] }
+      ]
+    },
+    {
+      "slug": "kickoff",
+      "title": "Kickoff: Dream Home Discovery",
+      "description": "Define what home means to you and explore your vision for your dream space.",
+      "lessons": [
+        { "slug": "workshop-intro", "title": "Workshop Introduction", "type": "video", "duration": "5 min", "path": "both" },
+        { "slug": "mood-board-exercise", "title": "Drawer Path: Mood Board", "type": "exercise", "duration": "20 min", "path": "drawer", "downloads": ["mood-board-template.pdf"] },
+        { "slug": "vision-statement", "title": "Brief Builder: Vision Statement", "type": "exercise", "duration": "20 min", "path": "brief-builder", "downloads": ["vision-statement-worksheet.pdf"] },
+        { "slug": "inspiration-questions", "title": "Inspiration Questions", "type": "exercise", "duration": "15 min", "path": "both", "downloads": ["dream-home-worksheet.pdf"] }
+      ]
+    },
+    {
+      "slug": "module-1",
+      "title": "Module 1: Architecture as an Idea",
+      "description": "Discover how architecture shapes daily life and the ideas behind great design.",
+      "lessons": [
+        { "slug": "what-is-architecture", "title": "What Is Architecture?", "type": "video", "duration": "8 min", "path": "both" },
+        { "slug": "vitruvian-principles", "title": "Vitruvian Principles", "type": "text", "duration": "10 min", "path": "both" },
+        { "slug": "beyond-vitruvius", "title": "Beyond Vitruvius", "type": "text", "duration": "8 min", "path": "both" },
+        { "slug": "masters", "title": "Inspiration from the Masters", "type": "text", "duration": "12 min", "path": "both" },
+        { "slug": "design-philosophy", "title": "Your Design Philosophy", "type": "exercise", "duration": "15 min", "path": "both", "downloads": ["design-philosophy-worksheet.pdf"] },
+        { "slug": "module-1-checklist", "title": "Module 1 Checklist", "type": "checklist", "duration": "2 min", "path": "both", "downloads": ["module-1-cheat-sheet.pdf"] }
+      ]
+    },
+    {
+      "slug": "module-2",
+      "title": "Module 2: Definitions of Architecture",
+      "description": "Learn the essential vocabulary — space, circulation, scale, proportion, light, and more.",
+      "lessons": [
+        { "slug": "elements-intro", "title": "Introduction to Elements", "type": "video", "duration": "5 min", "path": "both" },
+        { "slug": "element-space", "title": "Space", "type": "text", "duration": "8 min", "path": "both" },
+        { "slug": "element-form", "title": "Form", "type": "text", "duration": "8 min", "path": "both" },
+        { "slug": "element-proportion", "title": "Proportion", "type": "text", "duration": "8 min", "path": "both" },
+        { "slug": "element-scale", "title": "Scale", "type": "text", "duration": "8 min", "path": "both" },
+        { "slug": "element-light", "title": "Light and Shadow", "type": "text", "duration": "8 min", "path": "both" },
+        { "slug": "element-texture", "title": "Texture and Materiality", "type": "text", "duration": "8 min", "path": "both" },
+        { "slug": "element-rhythm", "title": "Rhythm and Repetition", "type": "text", "duration": "6 min", "path": "both" },
+        { "slug": "element-symmetry", "title": "Symmetry and Asymmetry", "type": "text", "duration": "6 min", "path": "both" },
+        { "slug": "element-context", "title": "Context and Site", "type": "text", "duration": "8 min", "path": "both" },
+        { "slug": "element-structure", "title": "Structure and Tectonics", "type": "text", "duration": "8 min", "path": "both" },
+        { "slug": "element-transitions", "title": "Transitions", "type": "text", "duration": "6 min", "path": "both" },
+        { "slug": "element-universal-design", "title": "Universal Design", "type": "text", "duration": "10 min", "path": "both", "downloads": ["accessibility-checklist.pdf"] },
+        { "slug": "element-preferences", "title": "Element Preferences", "type": "exercise", "duration": "20 min", "path": "both", "downloads": ["element-preferences-worksheet.pdf"] },
+        { "slug": "module-2-checklist", "title": "Module 2 Checklist", "type": "checklist", "duration": "2 min", "path": "both", "downloads": ["module-2-cheat-sheet.pdf"] }
+      ]
+    },
+    {
+      "slug": "module-3",
+      "title": "Module 3: Drawing Foundations",
+      "description": "Master floor plans, elevations, sections, and site plans.",
+      "lessons": [
+        { "slug": "drawing-tools", "title": "Drawing Tools & Setup", "type": "video", "duration": "8 min", "path": "both" },
+        { "slug": "line-weights", "title": "Line Weights & Conventions", "type": "text", "duration": "8 min", "path": "both", "downloads": ["line-weight-reference.pdf"] },
+        { "slug": "site-plans", "title": "Site Plans", "type": "exercise", "duration": "15 min", "path": "both", "downloads": ["site-plan-grid.pdf"] },
+        { "slug": "floor-plans", "title": "Floor Plans", "type": "exercise", "duration": "20 min", "path": "both", "downloads": ["floor-plan-grid.pdf"] },
+        { "slug": "elevations", "title": "Elevations", "type": "exercise", "duration": "15 min", "path": "both" },
+        { "slug": "sections", "title": "Sections", "type": "exercise", "duration": "15 min", "path": "both" },
+        { "slug": "flow-circulation", "title": "Flow and Circulation", "type": "text", "duration": "10 min", "path": "both" },
+        { "slug": "storage-design", "title": "Storage Design", "type": "text", "duration": "10 min", "path": "both", "downloads": ["storage-inventory-checklist.pdf"] },
+        { "slug": "buildability", "title": "Buildability & Engineering", "type": "text", "duration": "15 min", "path": "both", "downloads": ["structural-basics-guide.pdf"] },
+        { "slug": "zoning-codes", "title": "Zoning & Code Basics", "type": "text", "duration": "12 min", "path": "both", "downloads": ["zoning-checklist.pdf"] },
+        { "slug": "room-specific", "title": "Room-Specific Design", "type": "text", "duration": "15 min", "path": "both", "downloads": ["room-planning-guide.pdf"] },
+        { "slug": "budget-design", "title": "Budget Checkpoint: Design", "type": "text", "duration": "5 min", "path": "both" },
+        { "slug": "space-requirements", "title": "Space Requirements Doc", "type": "exercise", "duration": "25 min", "path": "both", "downloads": ["room-program-worksheet.pdf"] },
+        { "slug": "module-3-checklist", "title": "Module 3 Checklist", "type": "checklist", "duration": "2 min", "path": "both", "downloads": ["module-3-cheat-sheet.pdf"] }
+      ]
+    },
+    {
+      "slug": "module-4",
+      "title": "Module 4: Materiality & Systems",
+      "description": "Explore building materials, structural systems, and how homes are put together.",
+      "lessons": [
+        { "slug": "materials-overview", "title": "Materials Overview", "type": "video", "duration": "8 min", "path": "both" },
+        { "slug": "material-concrete", "title": "Concrete", "type": "text", "duration": "6 min", "path": "both" },
+        { "slug": "material-wood", "title": "Wood", "type": "text", "duration": "6 min", "path": "both" },
+        { "slug": "material-steel", "title": "Steel", "type": "text", "duration": "6 min", "path": "both" },
+        { "slug": "material-glass", "title": "Glass", "type": "text", "duration": "6 min", "path": "both" },
+        { "slug": "material-stone-brick", "title": "Stone & Brick", "type": "text", "duration": "6 min", "path": "both" },
+        { "slug": "sustainable-materials", "title": "Sustainable Materials", "type": "text", "duration": "10 min", "path": "both" },
+        { "slug": "building-systems", "title": "Building Systems Integration", "type": "text", "duration": "12 min", "path": "both" },
+        { "slug": "construction-finishing", "title": "Construction & Finishing", "type": "text", "duration": "10 min", "path": "both" },
+        { "slug": "budget-materials", "title": "Budget Checkpoint: Materials", "type": "text", "duration": "5 min", "path": "both", "downloads": ["material-cost-guide.pdf"] },
+        { "slug": "materials-preferences", "title": "Materials Preferences", "type": "exercise", "duration": "20 min", "path": "both", "downloads": ["materials-selection-matrix.pdf"] },
+        { "slug": "module-4-checklist", "title": "Module 4 Checklist", "type": "checklist", "duration": "2 min", "path": "both", "downloads": ["module-4-cheat-sheet.pdf"] }
+      ]
+    },
+    {
+      "slug": "module-5",
+      "title": "Module 5: Environmental Design",
+      "description": "Understand passive design, climate response, and sustainability principles.",
+      "lessons": [
+        { "slug": "environmental-intro", "title": "Environmental Design Intro", "type": "video", "duration": "6 min", "path": "both" },
+        { "slug": "sunlight-solar", "title": "Sunlight & Solar Orientation", "type": "text", "duration": "12 min", "path": "both", "downloads": ["sun-path-diagram.pdf"] },
+        { "slug": "wind-ventilation", "title": "Wind & Natural Ventilation", "type": "text", "duration": "10 min", "path": "both" },
+        { "slug": "earth-insulation", "title": "Earth & Insulation", "type": "text", "duration": "10 min", "path": "both" },
+        { "slug": "energy-systems", "title": "Energy Systems", "type": "text", "duration": "10 min", "path": "both" },
+        { "slug": "site-harmony", "title": "Site Response & Harmony", "type": "text", "duration": "10 min", "path": "both" },
+        { "slug": "texture-light-sound", "title": "Texture, Light & Sound", "type": "text", "duration": "8 min", "path": "both" },
+        { "slug": "budget-environmental", "title": "Budget Checkpoint: Environmental", "type": "text", "duration": "5 min", "path": "both" },
+        { "slug": "site-requirements", "title": "Site Requirements Doc", "type": "exercise", "duration": "20 min", "path": "both", "downloads": ["sustainability-priorities-scorecard.pdf"] },
+        { "slug": "module-5-checklist", "title": "Module 5 Checklist", "type": "checklist", "duration": "2 min", "path": "both", "downloads": ["module-5-cheat-sheet.pdf"] }
+      ]
+    },
+    {
+      "slug": "module-6",
+      "title": "Module 6: Portfolio Project + AI Tools",
+      "description": "Bring it all together in a capstone project. Explore AI tools for visualization.",
+      "lessons": [
+        { "slug": "portfolio-overview", "title": "Portfolio Overview", "type": "video", "duration": "8 min", "path": "both" },
+        { "slug": "portfolio-vision", "title": "Step 1: Vision Statement", "type": "exercise", "duration": "15 min", "path": "both" },
+        { "slug": "portfolio-site", "title": "Step 2: Site Plan", "type": "exercise", "duration": "25 min", "path": "both" },
+        { "slug": "portfolio-floor", "title": "Step 3: Floor Plan", "type": "exercise", "duration": "30 min", "path": "both" },
+        { "slug": "portfolio-elevations", "title": "Step 4: Elevations", "type": "exercise", "duration": "25 min", "path": "both" },
+        { "slug": "portfolio-materials", "title": "Step 5: Materials Board", "type": "exercise", "duration": "20 min", "path": "both" },
+        { "slug": "portfolio-environmental", "title": "Step 6: Environmental Diagram", "type": "exercise", "duration": "20 min", "path": "both" },
+        { "slug": "ai-tools-overview", "title": "AI Tools for Architecture", "type": "text", "duration": "15 min", "path": "both", "downloads": ["ai-prompting-cheat-sheet.pdf"] },
+        { "slug": "ai-rayon", "title": "AI Tool: Rayon (Floor Plans)", "type": "text", "duration": "10 min", "path": "both" },
+        { "slug": "ai-spacely", "title": "AI Tool: Spacely AI", "type": "text", "duration": "10 min", "path": "both" },
+        { "slug": "ai-nano-banana", "title": "AI Tool: Nano Banana Pro", "type": "text", "duration": "10 min", "path": "both" },
+        { "slug": "ai-d5-render", "title": "AI Tool: D5 Render", "type": "text", "duration": "10 min", "path": "both" },
+        { "slug": "ai-exercise", "title": "AI Visualization Exercise", "type": "exercise", "duration": "30 min", "path": "both" },
+        { "slug": "brief-compilation", "title": "Brief Builder: Final Compilation", "type": "exercise", "duration": "30 min", "path": "brief-builder", "downloads": ["design-brief-template.pdf"] },
+        { "slug": "module-6-checklist", "title": "Module 6 Checklist", "type": "checklist", "duration": "2 min", "path": "both" }
+      ]
+    },
+    {
+      "slug": "bonus",
+      "title": "Bonus Modules",
+      "description": "Extra content including mood board deep dive, working with professionals, and intro to 3D modeling.",
+      "lessons": [
+        { "slug": "bonus-mood-board", "title": "Mood Board Deep Dive", "type": "text", "duration": "10 min", "path": "drawer" },
+        { "slug": "bonus-day-in-life", "title": "Day in the Life Narrative", "type": "exercise", "duration": "15 min", "path": "drawer" },
+        { "slug": "bonus-presentation", "title": "Presentation Tips", "type": "text", "duration": "10 min", "path": "both" },
+        { "slug": "bonus-brief-practices", "title": "Design Brief Best Practices", "type": "text", "duration": "10 min", "path": "brief-builder" },
+        { "slug": "bonus-glossary", "title": "Architecture Terms Glossary", "type": "text", "duration": "5 min", "path": "both", "downloads": ["architecture-glossary.pdf"] },
+        { "slug": "bonus-hiring", "title": "Hiring Tips", "type": "text", "duration": "12 min", "path": "both", "downloads": ["contractor-qa-sheet.pdf"] },
+        { "slug": "bonus-timeline", "title": "What to Expect (Timeline)", "type": "text", "duration": "8 min", "path": "both" },
+        { "slug": "bonus-3d-overview", "title": "3D Modeling Overview", "type": "text", "duration": "8 min", "path": "both" },
+        { "slug": "bonus-sketchup", "title": "SketchUp Quick Start", "type": "text", "duration": "15 min", "path": "both" },
+        { "slug": "bonus-3d-tools", "title": "Other 3D Tools", "type": "text", "duration": "10 min", "path": "both" }
+      ]
+    },
+    {
+      "slug": "resources",
+      "title": "Resources & Completion",
+      "description": "Recommended reading, tools, glossary, and your course completion certificate.",
+      "lessons": [
+        { "slug": "recommended-reading", "title": "Recommended Reading", "type": "text", "duration": "5 min", "path": "both", "downloads": ["recommended-reading-list.pdf"] },
+        { "slug": "tools-software", "title": "Tools & Software", "type": "text", "duration": "5 min", "path": "both" },
+        { "slug": "whats-next", "title": "What's Next?", "type": "text", "duration": "5 min", "path": "both" },
+        { "slug": "closing-remarks", "title": "Closing Remarks", "type": "video", "duration": "3 min", "path": "both" },
+        { "slug": "certificate", "title": "Certificate of Completion", "type": "download", "duration": "", "path": "both" }
+      ]
+    }
+  ]
+}
