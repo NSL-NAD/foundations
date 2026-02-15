@@ -29,6 +29,10 @@ CREATE POLICY "Admins can view all profiles" ON profiles
     (auth.jwt() ->> 'role') = 'service_role'
   );
 
+CREATE POLICY "Allow trigger inserts" ON profiles
+  FOR INSERT
+  WITH CHECK (true);
+
 -- Auto-create profile on signup
 CREATE OR REPLACE FUNCTION handle_new_user()
 RETURNS TRIGGER
