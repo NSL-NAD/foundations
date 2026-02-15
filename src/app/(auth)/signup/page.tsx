@@ -44,7 +44,7 @@ export default function SignupPage() {
       return;
     }
 
-    const { error } = await supabase.auth.signUp({
+    const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -54,13 +54,30 @@ export default function SignupPage() {
       },
     });
 
-    if (error) {
-      setError(error.message);
+    if (signUpError) {
+      setError(signUpError.message);
       setLoading(false);
-    } else {
-      router.push("/dashboard");
-      router.refresh();
+      return;
     }
+
+    // Link any existing purchases and send welcome email (non-blocking)
+    if (signUpData.user) {
+      Promise.all([
+        fetch("/api/auth/link-purchases", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId: signUpData.user.id, email }),
+        }),
+        fetch("/api/auth/welcome", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, fullName }),
+        }),
+      ]).catch(() => {});
+    }
+
+    router.push("/dashboard");
+    router.refresh();
   }
 
   return (

@@ -22,6 +22,7 @@ export function CheckoutSuccessContent() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
   const [loading, setLoading] = useState(false);
+  const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [accountCreated, setAccountCreated] = useState(false);
@@ -51,18 +52,56 @@ export function CheckoutSuccessContent() {
     setLoading(true);
     setError(null);
 
-    const { error } = await supabase.auth.signUp({
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters");
+      setLoading(false);
+      return;
+    }
+
+    const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
       email: sessionData.email,
       password,
+      options: {
+        data: {
+          full_name: fullName,
+        },
+      },
     });
 
-    if (error) {
-      setError(error.message);
+    if (signUpError) {
+      setError(signUpError.message);
       setLoading(false);
-    } else {
-      setAccountCreated(true);
-      setLoading(false);
+      return;
     }
+
+    // Link purchases to the new user and send welcome email
+    if (signUpData.user) {
+      try {
+        await Promise.all([
+          fetch("/api/auth/link-purchases", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              userId: signUpData.user.id,
+              email: sessionData.email,
+            }),
+          }),
+          fetch("/api/auth/welcome", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              email: sessionData.email,
+              fullName,
+            }),
+          }),
+        ]);
+      } catch {
+        // Non-critical — don't block account creation
+      }
+    }
+
+    setAccountCreated(true);
+    setLoading(false);
   }
 
   const productNames: Record<string, string> = {
@@ -114,7 +153,7 @@ export function CheckoutSuccessContent() {
             <form onSubmit={handleCreateAccount} className="space-y-4">
               <div>
                 <p className="mb-3 text-sm text-muted-foreground">
-                  Create a password to access your course:
+                  Create your account to access the course:
                 </p>
                 {sessionData?.email && (
                   <div className="space-y-2">
@@ -128,6 +167,18 @@ export function CheckoutSuccessContent() {
                     />
                   </div>
                 )}
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="fullName">Full Name</Label>
+                <Input
+                  id="fullName"
+                  type="text"
+                  placeholder="Your full name"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  required
+                  autoComplete="name"
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="password">Create Password</Label>

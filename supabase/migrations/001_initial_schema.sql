@@ -24,12 +24,17 @@ CREATE POLICY "Users can update own profile" ON profiles
 
 CREATE POLICY "Admins can view all profiles" ON profiles
   FOR SELECT USING (
-    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
+    auth.uid() = id
+    OR
+    (auth.jwt() ->> 'role') = 'service_role'
   );
 
 -- Auto-create profile on signup
 CREATE OR REPLACE FUNCTION handle_new_user()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER
+SECURITY DEFINER
+SET search_path = public
+AS $$
 BEGIN
   INSERT INTO profiles (id, email, full_name)
   VALUES (
@@ -38,8 +43,14 @@ BEGIN
     COALESCE(NEW.raw_user_meta_data->>'full_name', '')
   );
   RETURN NEW;
+EXCEPTION
+  WHEN unique_violation THEN
+    RETURN NEW;
+  WHEN OTHERS THEN
+    RAISE LOG 'handle_new_user error for user %: % (state: %)', NEW.id, SQLERRM, SQLSTATE;
+    RETURN NEW;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users

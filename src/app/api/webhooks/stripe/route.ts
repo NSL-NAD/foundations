@@ -1,8 +1,14 @@
-import { stripe } from "@/lib/stripe";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { sendPurchaseConfirmation } from "@/lib/resend";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
+
+function getStripe() {
+  return new Stripe((process.env.STRIPE_SECRET_KEY || "").trim(), {
+    apiVersion: "2026-01-28.clover",
+    httpClient: Stripe.createFetchHttpClient(),
+  });
+}
 
 export async function POST(req: NextRequest) {
   const body = await req.text();
@@ -15,12 +21,14 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  const stripe = getStripe();
+
   let event: Stripe.Event;
   try {
     event = stripe.webhooks.constructEvent(
       body,
       signature,
-      process.env.STRIPE_WEBHOOK_SECRET!
+      (process.env.STRIPE_WEBHOOK_SECRET || "").trim()
     );
   } catch (err) {
     console.error("Webhook signature verification failed:", err);
