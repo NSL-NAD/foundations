@@ -10,33 +10,70 @@
 
 @layer base {
   :root {
-    /* Warm architectural palette */
-    --background: 40 20% 98%;
-    --foreground: 30 10% 12%;
+    /* Foundations of Architecture — Design System v1 */
+    /* Warm parchment palette with sage green accent */
+    --background: 33 33% 97%;
+    --foreground: 0 0% 10%;
     --card: 0 0% 100%;
-    --card-foreground: 30 10% 12%;
+    --card-foreground: 0 0% 10%;
     --popover: 0 0% 100%;
-    --popover-foreground: 30 10% 12%;
-    /* Deep terracotta - architectural, warm, distinctive */
-    --primary: 16 55% 42%;
-    --primary-foreground: 40 20% 98%;
-    --secondary: 35 15% 94%;
-    --secondary-foreground: 30 10% 20%;
-    --muted: 35 12% 93%;
+    --popover-foreground: 0 0% 10%;
+    /* Deep sage green — architectural, grounded, distinctive */
+    --primary: 149 33% 27%;
+    --primary-foreground: 33 33% 97%;
+    --secondary: 37 21% 93%;
+    --secondary-foreground: 0 0% 15%;
+    --muted: 37 18% 91%;
     --muted-foreground: 30 8% 46%;
-    --accent: 35 15% 94%;
-    --accent-foreground: 30 10% 20%;
+    --accent: 41 59% 58%;
+    --accent-foreground: 0 0% 10%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 35 12% 88%;
-    --input: 35 12% 88%;
-    --ring: 16 55% 42%;
-    --chart-1: 16 55% 42%;
-    --chart-2: 173 45% 38%;
+    --border: 37 15% 85%;
+    --input: 37 15% 85%;
+    --ring: 149 33% 27%;
+    /* Extended tokens */
+    --highlight: 41 59% 58%;
+    --surface: 37 21% 93%;
+    /* Charts */
+    --chart-1: 149 33% 27%;
+    --chart-2: 41 59% 58%;
     --chart-3: 30 10% 25%;
-    --chart-4: 43 60% 55%;
+    --chart-4: 173 45% 38%;
     --chart-5: 200 40% 50%;
     --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 30 10% 7%;
+    --foreground: 37 21% 93%;
+    --card: 36 14% 11%;
+    --card-foreground: 37 21% 93%;
+    --popover: 36 14% 11%;
+    --popover-foreground: 37 21% 93%;
+    /* Lighter sage for dark mode legibility */
+    --primary: 147 25% 48%;
+    --primary-foreground: 30 10% 7%;
+    --secondary: 36 14% 11%;
+    --secondary-foreground: 37 18% 85%;
+    --muted: 36 10% 15%;
+    --muted-foreground: 37 12% 55%;
+    --accent: 41 55% 52%;
+    --accent-foreground: 37 21% 93%;
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 36 10% 18%;
+    --input: 36 10% 18%;
+    --ring: 147 25% 48%;
+    /* Extended tokens */
+    --highlight: 41 55% 52%;
+    --surface: 36 12% 13%;
+    /* Charts */
+    --chart-1: 147 25% 48%;
+    --chart-2: 41 55% 52%;
+    --chart-3: 37 12% 55%;
+    --chart-4: 173 35% 45%;
+    --chart-5: 200 35% 55%;
   }
 }
 

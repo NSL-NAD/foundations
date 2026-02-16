@@ -1,16 +1,23 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { DM_Sans, Instrument_Serif, JetBrains_Mono } from "next/font/google";
+import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
-const inter = Inter({
+const dmSans = DM_Sans({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-dm-sans",
 });
 
-const playfair = Playfair_Display({
+const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
-  variable: "--font-playfair",
+  weight: "400",
+  variable: "--font-instrument-serif",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains-mono",
 });
 
 export const metadata: Metadata = {
@@ -51,13 +58,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
+    <html
+      lang="en"
+      className={`${dmSans.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable}`}
+      suppressHydrationWarning
+    >
       <body className="min-h-screen font-sans antialiased">
-        <a href="#main-content" className="skip-nav">
-          Skip to main content
-        </a>
-        {children}
-        <Toaster />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <a href="#main-content" className="skip-nav">
+            Skip to main content
+          </a>
+          {children}
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );

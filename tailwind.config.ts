@@ -24,8 +24,9 @@ const config: Config = {
     },
     extend: {
       fontFamily: {
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
-        heading: ["var(--font-playfair)", "Georgia", "serif"],
+        sans: ["var(--font-dm-sans)", "system-ui", "sans-serif"],
+        heading: ["var(--font-instrument-serif)", "Georgia", "serif"],
+        mono: ["var(--font-jetbrains-mono)", "monospace"],
       },
       colors: {
         background: "hsl(var(--background))",
@@ -61,6 +62,8 @@ const config: Config = {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
+        highlight: "hsl(var(--highlight))",
+        surface: "hsl(var(--surface))",
         chart: {
           "1": "hsl(var(--chart-1))",
           "2": "hsl(var(--chart-2))",
