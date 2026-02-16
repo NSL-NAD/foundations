@@ -24,6 +24,7 @@ interface CoursePlayerProps {
   completedLessons: string[];
   mdxSource: string;
   userId: string;
+  email?: string;
 }
 
 export function CoursePlayer({
@@ -36,6 +37,7 @@ export function CoursePlayer({
   completedLessons,
   mdxSource,
   userId,
+  email,
 }: CoursePlayerProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const isCompleted = completedLessons.includes(`${moduleSlug}/${lessonSlug}`);
@@ -130,7 +132,7 @@ export function CoursePlayer({
 
       {/* Tools Panel + FAB */}
       <ToolsFAB />
-      <ToolsPanel userId={userId} />
+      <ToolsPanel userId={userId} email={email} />
     </div>
   );
 }

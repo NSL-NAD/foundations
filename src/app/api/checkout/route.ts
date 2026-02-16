@@ -14,6 +14,10 @@ const PRODUCTS: Record<string, { priceId: string; name: string }> = {
     priceId: (process.env.STRIPE_PRICE_BUNDLE || "").trim(),
     name: "Course + Starter Kit Bundle",
   },
+  ai_chat: {
+    priceId: (process.env.STRIPE_PRICE_AI_CHAT || "").trim(),
+    name: "AI Chat — Unlimited Access",
+  },
 };
 
 function getStripe() {
@@ -58,11 +62,16 @@ export async function POST(req: NextRequest) {
       metadata: { productType },
     };
 
-    // Collect shipping for kit and bundle
-    if (productType !== "course") {
+    // Collect shipping for kit and bundle only
+    if (["kit", "bundle"].includes(productType)) {
       params.shipping_address_collection = {
         allowed_countries: ["US"],
       };
+    }
+
+    // For ai_chat, cancel URL goes back to course (not pricing)
+    if (productType === "ai_chat") {
+      params.cancel_url = `${baseUrl}/course`;
     }
 
     const session = await stripe.checkout.sessions.create(params);

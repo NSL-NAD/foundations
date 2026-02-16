@@ -76,6 +76,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
       completedLessons={Array.from(completedLessons)}
       mdxSource={mdxContent}
       userId={user!.id}
+      email={user!.email || ""}
     />
   );
 }

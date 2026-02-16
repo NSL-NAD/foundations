@@ -10,7 +10,13 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useEffect } from "react";
 
-export function ToolsPanel({ userId }: { userId: string }) {
+export function ToolsPanel({
+  userId,
+  email,
+}: {
+  userId: string;
+  email?: string;
+}) {
   const { isOpen, activeTab, close } = useToolsPanel();
 
   // Close on Escape key
@@ -44,7 +50,7 @@ export function ToolsPanel({ userId }: { userId: string }) {
         {activeTab === "notebook" ? (
           <NotebookTab userId={userId} />
         ) : (
-          <ChatTab userId={userId} />
+          <ChatTab userId={userId} email={email} />
         )}
       </div>
     </div>

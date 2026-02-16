@@ -104,10 +104,21 @@ export function CheckoutSuccessContent() {
     setLoading(false);
   }
 
+  // For ai_chat purchases, auto-redirect back to course (user already has account)
+  useEffect(() => {
+    if (sessionData?.productType === "ai_chat") {
+      const timer = setTimeout(() => {
+        window.location.href = "/course";
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [sessionData]);
+
   const productNames: Record<string, string> = {
     course: "Foundations of Architecture Course",
     kit: "Architecture Starter Kit",
     bundle: "Course + Starter Kit Bundle",
+    ai_chat: "AI Chat — Unlimited Access",
   };
 
   const includesKit =
@@ -136,6 +147,16 @@ export function CheckoutSuccessContent() {
         </CardHeader>
 
         <CardContent className="space-y-4">
+          {sessionData?.productType === "ai_chat" && (
+            <div className="text-center">
+              <p className="text-sm text-muted-foreground">
+                AI Chat is now unlocked! Redirecting you back to the
+                course...
+              </p>
+              <Loader2 className="mx-auto mt-3 h-5 w-5 animate-spin text-primary" />
+            </div>
+          )}
+
           {includesKit && (
             <div className="flex items-start gap-3 rounded-md border p-3">
               <Package className="mt-0.5 h-5 w-5 text-muted-foreground" />
@@ -214,7 +235,11 @@ export function CheckoutSuccessContent() {
         </CardContent>
 
         <CardFooter className="flex-col gap-2">
-          {accountCreated || !includesCourse ? (
+          {sessionData?.productType === "ai_chat" ? (
+            <Button asChild className="w-full">
+              <Link href="/course">Back to Course</Link>
+            </Button>
+          ) : accountCreated || !includesCourse ? (
             <Button asChild className="w-full">
               <Link href={includesCourse ? "/dashboard" : "/"}>
                 {includesCourse ? "Go to Dashboard" : "Return Home"}

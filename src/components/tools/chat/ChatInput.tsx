@@ -9,6 +9,7 @@ interface ChatInputProps {
   setInput: (value: string) => void;
   onSubmit: (e: FormEvent) => void;
   isLoading: boolean;
+  disabled?: boolean;
 }
 
 export function ChatInput({
@@ -16,6 +17,7 @@ export function ChatInput({
   setInput,
   onSubmit,
   isLoading,
+  disabled,
 }: ChatInputProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -49,13 +51,13 @@ export function ChatInput({
         onKeyDown={handleKeyDown}
         placeholder="Ask about architecture..."
         rows={1}
-        disabled={isLoading}
+        disabled={isLoading || disabled}
         className="flex-1 resize-none rounded-lg border bg-background px-3 py-2.5 text-sm leading-relaxed placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:opacity-50"
       />
       <Button
         type="submit"
         size="icon"
-        disabled={!input.trim() || isLoading}
+        disabled={!input.trim() || isLoading || disabled}
         className="h-10 w-10 shrink-0 rounded-lg"
       >
         <Send className="h-4 w-4" />
