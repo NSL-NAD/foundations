@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { ModuleSidebar } from "./ModuleSidebar";
 import { LessonContent } from "./LessonContent";
 import { LessonNavigation } from "./LessonNavigation";
+import { StraightedgeLine } from "@/components/decorative/StraightedgeLine";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -46,7 +47,7 @@ export function CoursePlayer({
   return (
     <div className="flex h-[calc(100vh-4rem)]">
       {/* Desktop Sidebar */}
-      <aside className="hidden w-80 flex-shrink-0 overflow-y-auto border-r bg-surface lg:block">
+      <aside className="hidden flex-shrink-0 overflow-y-auto lg:block">
         <ModuleSidebar
           modules={modules}
           currentModuleSlug={moduleSlug}
@@ -61,7 +62,7 @@ export function CoursePlayer({
           <Button
             variant="ghost"
             size="icon"
-            className="fixed bottom-4 left-4 z-40 rounded-full shadow-lg lg:hidden"
+            className="fixed bottom-4 left-4 z-40 rounded-full border lg:hidden"
           >
             <Menu className="h-5 w-5" />
           </Button>
@@ -80,16 +81,16 @@ export function CoursePlayer({
       {/* Main Content */}
       <main
         className={cn(
-          "flex-1 overflow-y-auto transition-[padding] duration-300",
+          "flex-1 overflow-y-auto bg-background transition-[padding] duration-300",
           toolsPanelOpen && "lg:pr-96"
         )}
       >
         <div className="mx-auto max-w-3xl px-6 py-8 md:px-8">
           {/* Module breadcrumb */}
-          <p className="mb-1 text-sm text-muted-foreground">
+          <p className="mb-1 font-heading text-xs font-medium uppercase tracking-[0.15em] text-muted-foreground">
             {currentModule.title}
           </p>
-          <h1 className="text-2xl font-bold tracking-tight md:text-3xl">
+          <h1 className="font-heading text-3xl font-bold uppercase tracking-tight md:text-4xl">
             {lesson.title}
           </h1>
           <div className="mt-2 flex items-center gap-3 text-sm text-muted-foreground">
@@ -104,8 +105,10 @@ export function CoursePlayer({
             )}
           </div>
 
+          <StraightedgeLine showTicks className="mt-6 mb-8" />
+
           {/* Lesson Content */}
-          <div className="mt-8">
+          <div>
             <LessonContent
               mdxSource={mdxSource}
               lesson={lesson}
@@ -124,7 +127,6 @@ export function CoursePlayer({
           </div>
         </div>
       </main>
-
     </div>
   );
 }

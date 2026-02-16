@@ -100,8 +100,8 @@ export function PricingCards() {
               key={product.key}
               className={`relative flex flex-col rounded-card border p-8 ${
                 product.highlighted
-                  ? "border-primary shadow-lg ring-1 ring-primary"
-                  : "bg-card"
+                  ? "border-2 border-primary brass-glow"
+                  : "border-foreground/10 bg-card"
               }`}
             >
               {product.highlighted && (
@@ -122,7 +122,7 @@ export function PricingCards() {
                       ${product.originalPrice}
                     </span>
                   )}
-                  <span className="font-heading text-4xl font-bold">
+                  <span className="font-heading text-5xl font-bold">
                     ${product.price}
                   </span>
                   <span className="text-sm text-muted-foreground"> USD</span>

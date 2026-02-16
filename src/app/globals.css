@@ -10,69 +10,75 @@
 
 @layer base {
   :root {
-    /* FOA Design System v2 — Warm Terracotta + Retro-Futurism */
+    /* FOA Design System v3 — Slate Blue + Terracotta + Brass */
     --background: 0 0% 100%;
-    --foreground: 0 0% 21%;
-    --card: 40 7% 95%;
-    --card-foreground: 0 0% 21%;
+    --foreground: 0 0% 10%;
+    --card: 40 10% 96%;
+    --card-foreground: 0 0% 10%;
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 21%;
-    /* Warm Terracotta — earthy, grounded, material-forward */
-    --primary: 16 85% 55%;
+    --popover-foreground: 0 0% 10%;
+    /* Slate Blue — architectural, blueprint-inspired */
+    --primary: 204 25% 47%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 40 7% 95%;
-    --secondary-foreground: 0 0% 15%;
-    --muted: 40 7% 95%;
-    --muted-foreground: 207 5% 57%;
-    --accent: 16 60% 72%;
-    --accent-foreground: 0 0% 15%;
+    --secondary: 40 10% 96%;
+    --secondary-foreground: 0 0% 12%;
+    --muted: 40 10% 96%;
+    --muted-foreground: 215 10% 42%;
+    /* Warm Terracotta — accent, secondary highlights */
+    --accent: 16 55% 48%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 43 5% 85%;
-    --input: 43 5% 85%;
-    --ring: 16 85% 55%;
+    --border: 0 0% 88%;
+    --input: 0 0% 88%;
+    --ring: 204 25% 47%;
     /* Extended tokens */
-    --highlight: 16 85% 55%;
-    --surface: 50 13% 90%;
+    --highlight: 204 25% 47%;
+    --surface: 40 12% 91%;
+    /* Brass/Gold — glow effects, decorative accents */
+    --brass: 38 45% 54%;
     /* Charts */
-    --chart-1: 16 85% 55%;
-    --chart-2: 16 60% 72%;
-    --chart-3: 0 0% 40%;
-    --chart-4: 207 5% 57%;
-    --chart-5: 43 5% 85%;
+    --chart-1: 204 25% 47%;
+    --chart-2: 16 55% 48%;
+    --chart-3: 38 45% 54%;
+    --chart-4: 215 10% 42%;
+    --chart-5: 0 0% 88%;
     --radius: 1.875rem;
   }
 
   .dark {
-    --background: 20 10% 8%;
+    --background: 215 18% 11%;
     --foreground: 40 7% 92%;
-    --card: 20 8% 12%;
+    --card: 215 14% 14%;
     --card-foreground: 40 7% 92%;
-    --popover: 20 8% 12%;
+    --popover: 215 14% 14%;
     --popover-foreground: 40 7% 92%;
-    /* Lighter terracotta for dark bg */
-    --primary: 16 75% 60%;
-    --primary-foreground: 20 10% 8%;
-    --secondary: 20 8% 15%;
+    /* Lighter slate blue for dark bg */
+    --primary: 204 22% 55%;
+    --primary-foreground: 215 18% 11%;
+    --secondary: 215 12% 17%;
     --secondary-foreground: 40 7% 85%;
-    --muted: 20 6% 15%;
-    --muted-foreground: 207 5% 55%;
-    --accent: 16 55% 70%;
+    --muted: 215 10% 17%;
+    --muted-foreground: 215 10% 58%;
+    /* Warm terracotta accent */
+    --accent: 16 48% 55%;
     --accent-foreground: 40 7% 92%;
     --destructive: 0 62% 50%;
     --destructive-foreground: 0 0% 98%;
-    --border: 20 6% 20%;
-    --input: 20 6% 20%;
-    --ring: 16 75% 60%;
+    --border: 215 8% 20%;
+    --input: 215 8% 20%;
+    --ring: 204 22% 55%;
     /* Extended tokens */
-    --highlight: 16 75% 60%;
-    --surface: 20 6% 12%;
+    --highlight: 204 22% 55%;
+    --surface: 215 10% 12%;
+    /* Brass/Gold */
+    --brass: 38 40% 58%;
     /* Charts */
-    --chart-1: 16 75% 60%;
-    --chart-2: 16 55% 70%;
-    --chart-3: 40 7% 55%;
-    --chart-4: 207 5% 55%;
-    --chart-5: 20 6% 30%;
+    --chart-1: 204 22% 55%;
+    --chart-2: 16 48% 55%;
+    --chart-3: 38 40% 58%;
+    --chart-4: 215 10% 58%;
+    --chart-5: 215 8% 30%;
   }
 }
 
@@ -102,4 +108,92 @@ html {
 /* Skip navigation link */
 .skip-nav {
   @apply absolute -top-10 left-4 z-50 rounded-full bg-primary px-4 py-2 text-primary-foreground transition-all focus:top-4;
+}
+
+/* Brass corner glow — use on select cards for subtle 3D depth */
+.brass-glow {
+  position: relative;
+  overflow: hidden;
+}
+.brass-glow::before {
+  content: '';
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, hsl(var(--brass) / 0.12), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Lesson prose styling */
+.prose-lesson {
+  @apply max-w-none;
+}
+.prose-lesson h1 {
+  @apply font-heading text-3xl font-bold tracking-tight mb-6;
+}
+.prose-lesson h2 {
+  @apply font-heading text-2xl font-bold mt-14 mb-4 pb-3 border-b border-foreground/10;
+  position: relative;
+}
+.prose-lesson h2::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(to right, hsl(var(--brass)), transparent);
+}
+.prose-lesson h3 {
+  @apply font-heading text-xl font-semibold mt-10 mb-3;
+}
+.prose-lesson h4 {
+  @apply font-heading text-lg font-semibold mt-8 mb-2;
+}
+.prose-lesson p {
+  @apply mb-6 leading-relaxed text-foreground/90;
+}
+.prose-lesson ul {
+  @apply mb-6 list-disc pl-6 space-y-2;
+}
+.prose-lesson ol {
+  @apply mb-6 list-decimal pl-6 space-y-2;
+}
+.prose-lesson li {
+  @apply text-foreground/85 pl-1;
+}
+.prose-lesson strong {
+  @apply text-foreground font-semibold;
+}
+.prose-lesson blockquote {
+  @apply border-l-4 border-accent pl-6 py-1 italic text-muted-foreground my-8;
+}
+.prose-lesson code {
+  @apply bg-surface px-2 py-0.5 rounded text-sm font-mono;
+}
+.prose-lesson pre {
+  @apply bg-surface rounded-img p-4 overflow-x-auto my-6 border border-foreground/5;
+}
+.prose-lesson pre code {
+  @apply bg-transparent p-0;
+}
+.prose-lesson img {
+  @apply rounded-img my-8;
+}
+.prose-lesson a {
+  @apply text-primary underline underline-offset-2 hover:text-primary/80;
+}
+.prose-lesson hr {
+  @apply my-12 border-foreground/10;
+}
+
+/* Dark mode prose overrides */
+.dark .prose-lesson p {
+  @apply text-foreground/85;
+}
+.dark .prose-lesson li {
+  @apply text-foreground/80;
 }

@@ -1,9 +1,12 @@
 import Image from "next/image";
 import { IMAGES } from "@/lib/images";
+import { ArchCurve } from "@/components/decorative/ArchCurve";
 
 export function InstructorSection() {
   return (
-    <section className="bg-[#363636] py-20 md:py-28">
+    <section className="relative overflow-hidden bg-[#171C24] py-20 md:py-28">
+      <ArchCurve position="top-right" size={300} className="text-brass/50" />
+
       <div className="container">
         <div className="mx-auto grid max-w-5xl items-center gap-12 md:grid-cols-2">
           {/* Photo */}

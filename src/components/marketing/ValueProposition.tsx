@@ -51,12 +51,12 @@ export function ValueProposition() {
           {values.map((item) => (
             <div
               key={item.title}
-              className="group rounded-card border bg-card p-8 transition-shadow hover:shadow-md"
+              className="group rounded-card border bg-card p-8 transition-colors hover:border-foreground/20"
             >
-              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-primary/10">
-                <item.icon className="h-5 w-5 text-primary" />
+              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-brass/10">
+                <item.icon className="h-5 w-5 text-brass" />
               </div>
-              <p className="mt-6 font-heading text-xs font-medium uppercase tracking-widest text-muted-foreground">
+              <p className="mt-6 font-heading text-4xl font-bold text-primary/20">
                 {item.number}
               </p>
               <h3 className="mt-2 font-heading text-lg font-semibold uppercase">

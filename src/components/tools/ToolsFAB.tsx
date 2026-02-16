@@ -18,7 +18,7 @@ export function ToolsFAB() {
       <Button
         variant="default"
         size="icon"
-        className="h-12 w-12 rounded-full shadow-lg"
+        className="h-12 w-12 rounded-full"
         onClick={() => toggle("chat")}
         aria-label="Toggle AI Chat"
       >
@@ -27,7 +27,7 @@ export function ToolsFAB() {
       <Button
         variant="outline"
         size="icon"
-        className="h-12 w-12 rounded-full bg-card shadow-lg"
+        className="h-12 w-12 rounded-full bg-card border"
         onClick={() => toggle("notebook")}
         aria-label="Toggle Notebook"
       >

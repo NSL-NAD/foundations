@@ -31,7 +31,7 @@ const paths = [
       "Create a professional reference document",
       "Great for analytical thinkers",
     ],
-    bgClass: "bg-muted-foreground text-white",
+    bgClass: "bg-accent text-white",
   },
 ];
 
@@ -53,9 +53,9 @@ export function PathComparison() {
           {paths.map((path) => (
             <div
               key={path.title}
-              className={`rounded-card p-8 md:p-10 ${path.bgClass}`}
+              className={`rounded-card border border-white/15 p-8 md:p-10 ${path.bgClass}`}
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/20">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/15">
                 <path.icon className="h-6 w-6" />
               </div>
               <h3 className="mt-6 font-heading text-2xl font-semibold uppercase">

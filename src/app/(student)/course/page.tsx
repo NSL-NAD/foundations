@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Check, PlayCircle, FileText, PenTool, ListChecks, PenLine, MessageCircle } from "lucide-react";
 import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DashboardChatButton } from "@/components/dashboard/DashboardChatButton";
 
 export const metadata = {
@@ -50,11 +49,13 @@ export default async function CoursePage() {
     totalLessons > 0 ? Math.round((totalCompleted / totalLessons) * 100) : 0;
 
   return (
-    <div className="container py-8">
+    <div className="p-6 md:p-8">
       {/* Header */}
       <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Course Overview</h1>
+          <h1 className="font-heading text-3xl font-bold uppercase tracking-tight md:text-4xl">
+            Course Overview
+          </h1>
           <p className="mt-1 text-muted-foreground">
             {totalCompleted} of {totalLessons} lessons completed ({overallPercent}%)
           </p>
@@ -72,44 +73,40 @@ export default async function CoursePage() {
 
       {/* Tools */}
       <div className="mb-8 grid gap-4 md:grid-cols-2">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+        <div className="rounded-card border bg-card p-6">
+          <div className="flex items-center justify-between pb-2">
+            <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
               My Notes
-            </CardTitle>
+            </span>
             <PenLine className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{noteCount || 0}</div>
-            <p className="mt-1 text-xs text-muted-foreground">
-              {noteCount ? "notes across your lessons" : "Start taking notes in any lesson"}
-            </p>
-            <Button asChild variant="outline" size="sm" className="mt-3 w-full">
-              <Link href="/dashboard/notebook">
-                View All Notes
-                <ArrowRight className="ml-2 h-3.5 w-3.5" />
-              </Link>
-            </Button>
-          </CardContent>
-        </Card>
+          </div>
+          <div className="font-heading text-3xl font-bold">{noteCount || 0}</div>
+          <p className="mt-1 text-xs text-muted-foreground">
+            {noteCount ? "notes across your lessons" : "Start taking notes in any lesson"}
+          </p>
+          <Button asChild variant="outline" size="sm" className="mt-3 w-full">
+            <Link href="/dashboard/notebook">
+              View All Notes
+              <ArrowRight className="ml-2 h-3.5 w-3.5" />
+            </Link>
+          </Button>
+        </div>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+        <div className="rounded-card border bg-card p-6">
+          <div className="flex items-center justify-between pb-2">
+            <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
               AI Assistant
-            </CardTitle>
+            </span>
             <MessageCircle className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm font-medium">Ask anything</p>
-            <p className="mt-1 text-xs text-muted-foreground">
-              Search the course, review concepts, or get help
-            </p>
-            <div className="mt-3">
-              <DashboardChatButton />
-            </div>
-          </CardContent>
-        </Card>
+          </div>
+          <p className="text-sm font-medium">Ask anything</p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Search the course, review concepts, or get help
+          </p>
+          <div className="mt-3">
+            <DashboardChatButton />
+          </div>
+        </div>
       </div>
 
       {/* Modules */}
@@ -124,11 +121,13 @@ export default async function CoursePage() {
               : 0;
 
           return (
-            <div key={mod.slug} className="rounded-lg border bg-card">
+            <div key={mod.slug} className="brass-glow rounded-card border bg-card">
               <div className="border-b p-4 sm:p-6">
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <h2 className="text-lg font-semibold">{mod.title}</h2>
+                    <h2 className="font-heading text-lg font-semibold uppercase tracking-wide">
+                      {mod.title}
+                    </h2>
                     <p className="mt-1 text-sm text-muted-foreground">
                       {mod.description}
                     </p>

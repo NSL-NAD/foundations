@@ -41,10 +41,10 @@ export function Testimonials() {
             <div
               key={i}
               className={`rounded-card border bg-card p-8 ${
-                i === 1 ? "md:-translate-y-4 md:shadow-lg" : ""
+                i === 1 ? "md:-translate-y-4 border-2 border-primary" : ""
               }`}
             >
-              <div className="font-heading text-4xl font-bold text-primary/20">
+              <div className="font-heading text-4xl font-bold text-brass/30">
                 FA.
               </div>
               <p className="mt-6 text-sm leading-relaxed text-muted-foreground">

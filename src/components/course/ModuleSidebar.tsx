@@ -2,7 +2,18 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { ChevronDown, Check, Circle, PlayCircle, FileText, PenTool, ListChecks, Download } from "lucide-react";
+import {
+  ChevronDown,
+  Check,
+  Circle,
+  PlayCircle,
+  FileText,
+  PenTool,
+  ListChecks,
+  Download,
+  Pin,
+  PinOff,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Progress } from "@/components/ui/progress";
 import type { CurriculumModule } from "@/lib/course";
@@ -33,6 +44,7 @@ export function ModuleSidebar({
   const [expandedModules, setExpandedModules] = useState<Set<string>>(
     new Set([currentModuleSlug])
   );
+  const [pinned, setPinned] = useState(false);
 
   function toggleModule(slug: string) {
     setExpandedModules((prev) => {
@@ -47,12 +59,41 @@ export function ModuleSidebar({
   }
 
   return (
-    <div className="flex h-full flex-col">
-      <div className="border-b px-4 py-3">
-        <h2 className="text-sm font-semibold">Course Content</h2>
+    <div
+      className={cn(
+        "group flex h-full flex-col bg-[#171C24] text-white transition-all duration-300 ease-in-out",
+        pinned ? "w-80" : "w-16 hover:w-80"
+      )}
+    >
+      {/* Header */}
+      <div className="relative flex h-14 items-center border-b border-white/10 px-4">
+        {/* Collapsed monogram */}
+        <span
+          className={cn(
+            "font-heading text-lg font-bold tracking-wide text-brass transition-opacity duration-200",
+            pinned
+              ? "opacity-0 absolute"
+              : "opacity-100 group-hover:opacity-0"
+          )}
+        >
+          FA
+        </span>
+        {/* Expanded title */}
+        <span
+          className={cn(
+            "font-heading whitespace-nowrap text-sm font-semibold uppercase tracking-[0.15em] transition-opacity duration-200",
+            pinned
+              ? "opacity-100"
+              : "opacity-0 group-hover:opacity-100"
+          )}
+        >
+          Course Content
+        </span>
       </div>
+
+      {/* Module list */}
       <nav className="flex-1 overflow-y-auto py-2">
-        {modules.map((mod) => {
+        {modules.map((mod, modIndex) => {
           const isExpanded = expandedModules.has(mod.slug);
           const moduleCompleted = mod.lessons.filter((l) =>
             completedLessons.includes(`${mod.slug}/${l.slug}`)
@@ -61,27 +102,56 @@ export function ModuleSidebar({
             mod.lessons.length > 0
               ? Math.round((moduleCompleted / mod.lessons.length) * 100)
               : 0;
+          const moduleNumber = String(modIndex + 1).padStart(2, "0");
 
           return (
             <div key={mod.slug} className="mb-1">
               <button
                 onClick={() => toggleModule(mod.slug)}
                 className={cn(
-                  "flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm transition-colors hover:bg-accent",
-                  mod.slug === currentModuleSlug && "bg-accent/50"
+                  "flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm transition-colors hover:bg-white/5",
+                  mod.slug === currentModuleSlug && "bg-white/10"
                 )}
               >
+                {/* Collapsed: module number */}
+                <span
+                  className={cn(
+                    "font-heading shrink-0 text-xs font-bold tracking-wider text-white/60 transition-opacity duration-200",
+                    pinned
+                      ? "hidden"
+                      : "inline group-hover:hidden"
+                  )}
+                >
+                  {moduleNumber}
+                </span>
+
+                {/* Expanded: chevron + full title */}
                 <ChevronDown
                   className={cn(
-                    "h-4 w-4 shrink-0 text-muted-foreground transition-transform",
-                    !isExpanded && "-rotate-90"
+                    "h-4 w-4 shrink-0 text-white/40 transition-transform duration-200",
+                    !isExpanded && "-rotate-90",
+                    pinned
+                      ? "inline-flex"
+                      : "hidden group-hover:inline-flex"
                   )}
                 />
-                <div className="flex-1 min-w-0">
-                  <p className="font-medium truncate">{mod.title}</p>
+                <div
+                  className={cn(
+                    "min-w-0 flex-1 transition-opacity duration-200",
+                    pinned
+                      ? "opacity-100"
+                      : "opacity-0 group-hover:opacity-100"
+                  )}
+                >
+                  <p className="truncate font-medium text-white/90">
+                    {mod.title}
+                  </p>
                   <div className="mt-1 flex items-center gap-2">
-                    <Progress value={modulePercent} className="h-1 flex-1" />
-                    <span className="text-xs text-muted-foreground whitespace-nowrap">
+                    <Progress
+                      value={modulePercent}
+                      className="h-1 flex-1 bg-white/10 [&>div]:bg-brass"
+                    />
+                    <span className="whitespace-nowrap text-xs text-white/40">
                       {moduleCompleted}/{mod.lessons.length}
                     </span>
                   </div>
@@ -105,18 +175,20 @@ export function ModuleSidebar({
                           href={`/course/${mod.slug}/${lesson.slug}`}
                           onClick={onNavigate}
                           className={cn(
-                            "flex items-center gap-2 py-2 pl-10 pr-4 text-sm transition-colors hover:bg-accent",
-                            isActive &&
-                              "bg-primary/10 font-medium text-primary border-l-2 border-primary",
-                            !isActive && "text-muted-foreground"
+                            "flex items-center gap-2 py-2 pl-10 pr-4 text-sm transition-colors hover:bg-white/5",
+                            isActive && "bg-white/10 font-medium text-white",
+                            !isActive && "text-white/50",
+                            pinned
+                              ? "opacity-100"
+                              : "opacity-0 group-hover:opacity-100"
                           )}
                         >
                           {isLessonCompleted ? (
-                            <Check className="h-3.5 w-3.5 shrink-0 text-primary" />
+                            <Check className="h-3.5 w-3.5 shrink-0 text-brass" />
                           ) : isActive ? (
-                            <Circle className="h-3.5 w-3.5 shrink-0 fill-primary text-primary" />
+                            <Circle className="h-3.5 w-3.5 shrink-0 fill-brass text-brass" />
                           ) : (
-                            <Icon className="h-3.5 w-3.5 shrink-0" />
+                            <Icon className="h-3.5 w-3.5 shrink-0 text-white/30" />
                           )}
                           <span className="truncate">{lesson.title}</span>
                         </Link>
@@ -129,6 +201,32 @@ export function ModuleSidebar({
           );
         })}
       </nav>
+
+      {/* Pin button */}
+      <div className="border-t border-white/10 p-3">
+        <button
+          onClick={() => setPinned(!pinned)}
+          className={cn(
+            "flex w-full items-center justify-center gap-2 rounded-md px-3 py-2 text-sm text-white/50 transition-colors hover:bg-white/5 hover:text-white/80",
+            pinned ? "justify-start" : "group-hover:justify-start"
+          )}
+          title={pinned ? "Unpin sidebar" : "Pin sidebar"}
+        >
+          {pinned ? (
+            <>
+              <PinOff className="h-4 w-4 shrink-0" />
+              <span className="whitespace-nowrap text-xs">Unpin</span>
+            </>
+          ) : (
+            <>
+              <Pin className="h-4 w-4 shrink-0" />
+              <span className="whitespace-nowrap text-xs opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                Pin
+              </span>
+            </>
+          )}
+        </button>
+      </div>
     </div>
   );
 }

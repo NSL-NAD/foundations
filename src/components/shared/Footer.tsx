@@ -13,7 +13,7 @@ const footerLinks = [
 
 export function Footer() {
   return (
-    <footer className="bg-[#363636] text-white">
+    <footer className="bg-[#171C24] text-white">
       <div className="container py-16">
         <div className="flex flex-col gap-12 md:flex-row md:items-start md:justify-between">
           {/* Brand */}
@@ -31,7 +31,7 @@ export function Footer() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="font-heading text-[13px] font-medium uppercase tracking-wider text-white/60 transition-colors hover:text-white"
+                className="font-heading text-[13px] font-medium uppercase tracking-wider text-white/60 transition-colors hover:text-brass"
               >
                 {link.label}
               </Link>

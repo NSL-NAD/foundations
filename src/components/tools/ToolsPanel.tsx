@@ -71,7 +71,7 @@ export function ToolsPanel({
       {/* Desktop: fixed right panel */}
       <aside
         className={cn(
-          "fixed right-0 top-16 z-30 hidden h-[calc(100vh-4rem)] w-96 border-l bg-card shadow-lg transition-transform duration-300 lg:block",
+          "fixed right-0 top-16 z-30 hidden h-[calc(100vh-4rem)] w-96 border-l bg-card transition-transform duration-300 lg:block",
           isOpen ? "translate-x-0" : "translate-x-full"
         )}
       >

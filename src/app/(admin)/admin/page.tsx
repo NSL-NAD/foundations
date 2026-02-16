@@ -95,7 +95,7 @@ export default async function AdminPage() {
       <div className="grid gap-4 md:grid-cols-2">
         <Link
           href="/admin/students"
-          className="group flex items-center justify-between rounded-card border bg-card p-6 transition-all hover:shadow-md"
+          className="group flex items-center justify-between rounded-card border bg-card p-6 transition-all hover:border-foreground/20"
         >
           <div>
             <h2 className="font-heading text-lg font-semibold uppercase">
@@ -110,7 +110,7 @@ export default async function AdminPage() {
 
         <Link
           href="/admin/orders"
-          className="group flex items-center justify-between rounded-card border bg-card p-6 transition-all hover:shadow-md"
+          className="group flex items-center justify-between rounded-card border bg-card p-6 transition-all hover:border-foreground/20"
         >
           <div>
             <h2 className="font-heading text-lg font-semibold uppercase">

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Archivo, JetBrains_Mono } from "next/font/google";
+import { Space_Grotesk, Syne, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
@@ -10,9 +10,10 @@ const spaceGrotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
 });
 
-const archivo = Archivo({
+const syne = Syne({
   subsets: ["latin"],
-  variable: "--font-archivo",
+  variable: "--font-syne",
+  weight: ["400", "500", "600", "700"],
 });
 
 const jetbrainsMono = JetBrains_Mono({
@@ -60,7 +61,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${archivo.variable} ${jetbrainsMono.variable}`}
+      className={`${spaceGrotesk.variable} ${syne.variable} ${jetbrainsMono.variable}`}
       suppressHydrationWarning
     >
       <body className="min-h-screen font-sans antialiased">

@@ -160,7 +160,7 @@ export default async function DashboardPage() {
             <Link
               key={mod.slug}
               href={getLessonPath(mod.slug, firstModuleLesson.slug)}
-              className="group flex items-center justify-between rounded-card border bg-card p-5 transition-all hover:shadow-md"
+              className="group flex items-center justify-between rounded-card border bg-card p-5 transition-all hover:border-foreground/20"
             >
               <div className="flex-1">
                 <h3 className="font-heading text-sm font-semibold uppercase tracking-wide group-hover:text-primary">

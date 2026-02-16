@@ -32,7 +32,7 @@ export function Header({ user, isAdmin }: HeaderProps) {
   const links = user ? studentLinks : publicLinks;
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+    <header className="sticky top-0 z-40 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 border-b border-foreground/8">
       <div className="container flex h-16 items-center justify-between">
         <Logo />
 
@@ -42,7 +42,7 @@ export function Header({ user, isAdmin }: HeaderProps) {
             <Link
               key={link.href}
               href={link.href}
-              className={`font-heading text-[13px] font-medium uppercase tracking-wider transition-colors hover:text-primary ${
+              className={`font-heading text-[13px] font-medium uppercase tracking-[0.15em] transition-colors hover:text-primary ${
                 pathname === link.href
                   ? "text-foreground"
                   : "text-muted-foreground"
@@ -54,7 +54,7 @@ export function Header({ user, isAdmin }: HeaderProps) {
           {isAdmin && (
             <Link
               href="/admin"
-              className="font-heading text-[13px] font-medium uppercase tracking-wider text-muted-foreground transition-colors hover:text-primary"
+              className="font-heading text-[13px] font-medium uppercase tracking-[0.15em] text-muted-foreground transition-colors hover:text-primary"
             >
               Admin
             </Link>
@@ -95,7 +95,7 @@ export function Header({ user, isAdmin }: HeaderProps) {
                   key={link.href}
                   href={link.href}
                   onClick={() => setOpen(false)}
-                  className={`font-heading text-xl font-light uppercase tracking-wider transition-colors hover:text-primary ${
+                  className={`font-heading text-xl font-light uppercase tracking-[0.15em] transition-colors hover:text-primary ${
                     pathname === link.href
                       ? "text-foreground"
                       : "text-muted-foreground"
@@ -108,7 +108,7 @@ export function Header({ user, isAdmin }: HeaderProps) {
                 <Link
                   href="/admin"
                   onClick={() => setOpen(false)}
-                  className="font-heading text-xl font-light uppercase tracking-wider text-muted-foreground transition-colors hover:text-primary"
+                  className="font-heading text-xl font-light uppercase tracking-[0.15em] text-muted-foreground transition-colors hover:text-primary"
                 >
                   Admin
                 </Link>

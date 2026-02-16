@@ -24,7 +24,7 @@ const config: Config = {
     },
     extend: {
       fontFamily: {
-        sans: ["var(--font-archivo)", "system-ui", "sans-serif"],
+        sans: ["var(--font-syne)", "system-ui", "sans-serif"],
         heading: ["var(--font-space-grotesk)", "system-ui", "sans-serif"],
         mono: ["var(--font-jetbrains-mono)", "monospace"],
       },
@@ -64,6 +64,7 @@ const config: Config = {
         ring: "hsl(var(--ring))",
         highlight: "hsl(var(--highlight))",
         surface: "hsl(var(--surface))",
+        brass: "hsl(var(--brass))",
         chart: {
           "1": "hsl(var(--chart-1))",
           "2": "hsl(var(--chart-2))",

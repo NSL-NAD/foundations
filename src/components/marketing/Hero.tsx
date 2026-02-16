@@ -6,12 +6,14 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { GridPaper } from "@/components/decorative/GridPaper";
+import { ArchCurve } from "@/components/decorative/ArchCurve";
 import { IMAGES } from "@/lib/images";
 
 export function Hero() {
   return (
     <section className="relative overflow-hidden bg-card">
       <GridPaper opacity={0.02} size={60} />
+      <ArchCurve position="bottom-left" size={400} className="text-brass" />
 
       <div className="container relative py-12 md:py-0">
         <div className="grid min-h-[85vh] items-center gap-8 md:grid-cols-2 md:gap-12">
@@ -22,7 +24,7 @@ export function Hero() {
             transition={{ duration: 0.7 }}
             className="py-8 md:py-20"
           >
-            <h1 className="font-heading text-5xl font-light uppercase leading-[1.1] tracking-tight sm:text-6xl lg:text-7xl">
+            <h1 className="font-heading text-6xl font-light uppercase leading-[1.1] tracking-tight sm:text-7xl lg:text-8xl">
               Design Your
               <span className="block font-medium text-primary">Dream Home</span>
             </h1>
@@ -90,7 +92,7 @@ export function Hero() {
               { value: "2", label: "Learning Paths" },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
-                <div className="font-heading text-3xl font-bold md:text-4xl">
+                <div className="font-heading text-4xl font-bold md:text-5xl">
                   {stat.value}
                 </div>
                 <div className="mt-1 text-xs uppercase tracking-widest text-muted-foreground">

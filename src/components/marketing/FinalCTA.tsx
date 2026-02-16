@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { IMAGES } from "@/lib/images";
+import { ArchCurve } from "@/components/decorative/ArchCurve";
 
 export function FinalCTA() {
   return (
@@ -21,9 +22,12 @@ export function FinalCTA() {
             <div className="absolute inset-0 bg-black/70" />
           </div>
 
+          <ArchCurve position="top-left" size={200} className="text-brass/30" />
+          <ArchCurve position="bottom-right" size={200} className="text-brass/30" />
+
           {/* Content */}
           <div className="relative px-8 py-20 text-center text-white md:px-16 md:py-28">
-            <h2 className="font-heading text-3xl font-light uppercase leading-tight tracking-tight md:text-5xl">
+            <h2 className="font-heading text-4xl font-light uppercase leading-tight tracking-tight md:text-6xl">
               Your Dream Home
               <span className="block font-medium">Starts Here</span>
             </h2>
