@@ -33,7 +33,7 @@ export function Header({ user, isAdmin }: HeaderProps) {
 
   return (
     <header className="sticky top-0 z-40 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 border-b border-foreground/8">
-      <div className="container flex h-16 items-center justify-between">
+      <div className="container flex h-16 items-center justify-between !px-3 sm:!px-4 lg:!px-6">
         <Logo />
 
         {/* Desktop Navigation — centered */}
