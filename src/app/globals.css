@@ -127,6 +127,22 @@ html {
   z-index: 0;
 }
 
+/* Slim scrollbar for lesson lists */
+.lesson-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--border)) transparent;
+}
+.lesson-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+.lesson-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.lesson-scroll::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--border));
+  border-radius: 9999px;
+}
+
 /* Lesson prose styling */
 .prose-lesson {
   @apply max-w-none;

@@ -140,40 +140,46 @@ export default async function CoursePage() {
                 <Progress value={modulePercent} className="mt-3 h-1.5" />
               </div>
 
-              {/* Lesson list */}
-              <ul className="divide-y">
-                {mod.lessons.map((lesson) => {
-                  const isComplete = completedSet.has(
-                    `${mod.slug}/${lesson.slug}`
-                  );
-                  const Icon = typeIcons[lesson.type] || FileText;
+              {/* Lesson list — show ~5 rows, scroll the rest */}
+              <div className="relative">
+                <ul className="lesson-scroll divide-y overflow-y-auto max-h-[210px]">
+                  {mod.lessons.map((lesson) => {
+                    const isComplete = completedSet.has(
+                      `${mod.slug}/${lesson.slug}`
+                    );
+                    const Icon = typeIcons[lesson.type] || FileText;
 
-                  return (
-                    <li key={lesson.slug}>
-                      <Link
-                        href={getLessonPath(mod.slug, lesson.slug)}
-                        className="flex items-center gap-3 px-5 py-2.5 text-sm transition-colors hover:bg-accent/10 hover:text-accent"
-                      >
-                        {isComplete ? (
-                          <Check className="h-4 w-4 shrink-0 text-primary" />
-                        ) : (
-                          <Icon className="h-4 w-4 shrink-0 text-muted-foreground" />
-                        )}
-                        <span
-                          className={
-                            isComplete ? "text-muted-foreground" : ""
-                          }
+                    return (
+                      <li key={lesson.slug}>
+                        <Link
+                          href={getLessonPath(mod.slug, lesson.slug)}
+                          className="flex items-center gap-3 px-5 py-2.5 text-sm transition-colors hover:bg-accent/10 hover:text-accent"
                         >
-                          {lesson.title}
-                        </span>
-                        <span className="ml-auto text-xs text-muted-foreground">
-                          {lesson.duration}
-                        </span>
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
+                          {isComplete ? (
+                            <Check className="h-4 w-4 shrink-0 text-primary" />
+                          ) : (
+                            <Icon className="h-4 w-4 shrink-0 text-muted-foreground" />
+                          )}
+                          <span
+                            className={
+                              isComplete ? "text-muted-foreground" : ""
+                            }
+                          >
+                            {lesson.title}
+                          </span>
+                          <span className="ml-auto shrink-0 text-xs text-muted-foreground">
+                            {lesson.duration}
+                          </span>
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+                {/* Fade indicator when there are more than 5 lessons */}
+                {mod.lessons.length > 5 && (
+                  <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-card to-transparent" />
+                )}
+              </div>
             </div>
           );
         })}
