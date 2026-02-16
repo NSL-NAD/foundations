@@ -141,7 +141,7 @@ export default async function CoursePage() {
               </div>
 
               {/* Lesson list — show ~5 rows, scroll the rest */}
-              <div className="relative overflow-hidden rounded-b-card">
+              <div className="rounded-b-card">
                 <ul className="lesson-scroll divide-y overflow-y-auto max-h-[210px]">
                   {mod.lessons.map((lesson, lessonIdx) => {
                     const isComplete = completedSet.has(
@@ -178,10 +178,6 @@ export default async function CoursePage() {
                     );
                   })}
                 </ul>
-                {/* Fade indicator when there are more than 4 rows to scroll */}
-                {mod.lessons.length > 4 && (
-                  <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-12 rounded-b-card bg-gradient-to-t from-card via-card/60 to-transparent" />
-                )}
               </div>
             </div>
           );
