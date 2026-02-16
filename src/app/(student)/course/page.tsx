@@ -3,19 +3,12 @@ import { getModules, getFirstLesson, getLessonPath } from "@/lib/course";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Check, PlayCircle, FileText, PenTool, ListChecks, PenLine, MessageCircle } from "lucide-react";
+import { ArrowRight, PenLine, MessageCircle } from "lucide-react";
 import Link from "next/link";
 import { DashboardChatButton } from "@/components/dashboard/DashboardChatButton";
 
 export const metadata = {
   title: "Course Overview",
-};
-
-const typeIcons: Record<string, typeof FileText> = {
-  video: PlayCircle,
-  text: FileText,
-  exercise: PenTool,
-  checklist: ListChecks,
 };
 
 export default async function CoursePage() {
@@ -109,8 +102,8 @@ export default async function CoursePage() {
         </div>
       </div>
 
-      {/* Modules */}
-      <div className="space-y-6">
+      {/* Modules — 2-col on md, 3-col on xl */}
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {modules.map((mod) => {
           const moduleCompleted = mod.lessons.filter((l) =>
             completedSet.has(`${mod.slug}/${l.slug}`)
@@ -119,60 +112,39 @@ export default async function CoursePage() {
             mod.lessons.length > 0
               ? Math.round((moduleCompleted / mod.lessons.length) * 100)
               : 0;
+          const firstModuleLesson = mod.lessons[0];
 
           return (
-            <div key={mod.slug} className="brass-glow rounded-card border bg-card">
-              <div className="border-b p-4 sm:p-6">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <h2 className="font-heading text-lg font-semibold uppercase tracking-wide">
-                      {mod.title}
-                    </h2>
-                    <p className="mt-1 text-sm text-muted-foreground">
-                      {mod.description}
-                    </p>
-                  </div>
-                  <Badge variant="secondary" className="shrink-0">
+            <Link
+              key={mod.slug}
+              href={getLessonPath(mod.slug, firstModuleLesson.slug)}
+              className="group flex flex-col rounded-card border bg-card transition-colors hover:border-foreground/20"
+            >
+              {/* Module header */}
+              <div className="flex-1 p-5">
+                <div className="flex items-start justify-between gap-3">
+                  <h2 className="font-heading text-sm font-semibold uppercase tracking-wide group-hover:text-primary">
+                    {mod.title}
+                  </h2>
+                  <Badge variant="secondary" className="shrink-0 text-[10px]">
                     {moduleCompleted}/{mod.lessons.length}
                   </Badge>
                 </div>
-                <Progress value={modulePercent} className="mt-3 h-1.5" />
+                <p className="mt-2 text-xs leading-relaxed text-muted-foreground line-clamp-2">
+                  {mod.description}
+                </p>
               </div>
 
-              <ul className="divide-y">
-                {mod.lessons.map((lesson) => {
-                  const isComplete = completedSet.has(
-                    `${mod.slug}/${lesson.slug}`
-                  );
-                  const Icon = typeIcons[lesson.type] || FileText;
-
-                  return (
-                    <li key={lesson.slug}>
-                      <Link
-                        href={getLessonPath(mod.slug, lesson.slug)}
-                        className="flex items-center gap-3 px-4 py-3 text-sm transition-colors hover:bg-accent sm:px-6"
-                      >
-                        {isComplete ? (
-                          <Check className="h-4 w-4 shrink-0 text-primary" />
-                        ) : (
-                          <Icon className="h-4 w-4 shrink-0 text-muted-foreground" />
-                        )}
-                        <span
-                          className={
-                            isComplete ? "text-muted-foreground" : ""
-                          }
-                        >
-                          {lesson.title}
-                        </span>
-                        <span className="ml-auto text-xs text-muted-foreground">
-                          {lesson.duration}
-                        </span>
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
+              {/* Progress footer */}
+              <div className="border-t px-5 py-3">
+                <div className="flex items-center gap-3">
+                  <Progress value={modulePercent} className="h-1.5 flex-1" />
+                  <span className="text-xs font-medium text-muted-foreground">
+                    {modulePercent}%
+                  </span>
+                </div>
+              </div>
+            </Link>
           );
         })}
       </div>
