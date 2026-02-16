@@ -1,22 +1,21 @@
 import { Award, BookOpen, Home } from "lucide-react";
+import Image from "next/image";
+import { IMAGES } from "@/lib/images";
 
 export function InstructorSection() {
   return (
     <section className="py-20">
       <div className="container">
         <div className="mx-auto grid max-w-5xl items-center gap-12 md:grid-cols-2">
-          {/* Photo placeholder */}
+          {/* Photo */}
           <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-muted">
-            <div className="flex h-full items-center justify-center">
-              <div className="text-center">
-                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-primary/10">
-                  <Home className="h-10 w-10 text-primary" />
-                </div>
-                <p className="mt-4 text-sm text-muted-foreground">
-                  Instructor photo
-                </p>
-              </div>
-            </div>
+            <Image
+              src={IMAGES.instructor.src}
+              alt={IMAGES.instructor.alt}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
           </div>
 
           {/* Bio */}
@@ -70,7 +69,7 @@ export function InstructorSection() {
               ].map((stat) => (
                 <div
                   key={stat.label}
-                  className="rounded-lg bg-secondary p-3 text-center"
+                  className="rounded-lg bg-surface p-3 text-center"
                 >
                   <stat.icon className="mx-auto h-4 w-4 text-primary" />
                   <div className="mt-1 text-lg font-bold">{stat.value}</div>

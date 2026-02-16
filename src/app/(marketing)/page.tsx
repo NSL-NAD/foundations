@@ -7,19 +7,36 @@ import { Testimonials } from "@/components/marketing/Testimonials";
 import { PricingCards } from "@/components/marketing/PricingCards";
 import { FAQ } from "@/components/marketing/FAQ";
 import { FinalCTA } from "@/components/marketing/FinalCTA";
+import { FadeInSection } from "@/components/shared/FadeInSection";
 
 export default function HomePage() {
   return (
     <>
       <Hero />
-      <ValueProposition />
-      <PathComparison />
-      <CurriculumPreview />
-      <InstructorSection />
-      <Testimonials />
-      <PricingCards />
-      <FAQ />
-      <FinalCTA />
+      <FadeInSection>
+        <ValueProposition />
+      </FadeInSection>
+      <FadeInSection>
+        <PathComparison />
+      </FadeInSection>
+      <FadeInSection>
+        <CurriculumPreview />
+      </FadeInSection>
+      <FadeInSection>
+        <InstructorSection />
+      </FadeInSection>
+      <FadeInSection>
+        <Testimonials />
+      </FadeInSection>
+      <FadeInSection>
+        <PricingCards />
+      </FadeInSection>
+      <FadeInSection>
+        <FAQ />
+      </FadeInSection>
+      <FadeInSection>
+        <FinalCTA />
+      </FadeInSection>
     </>
   );
 }

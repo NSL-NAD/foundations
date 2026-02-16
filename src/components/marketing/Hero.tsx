@@ -4,31 +4,28 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
+import { GridPaper } from "@/components/decorative/GridPaper";
+import { IMAGES } from "@/lib/images";
 
 export function Hero() {
   return (
     <section className="relative overflow-hidden bg-background py-20 md:py-32">
-      {/* Subtle architectural grid pattern */}
-      <div className="absolute inset-0 opacity-[0.04]">
-        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern
-              id="grid"
-              width="60"
-              height="60"
-              patternUnits="userSpaceOnUse"
-            >
-              <path
-                d="M 60 0 L 0 0 0 60"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1"
-              />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#grid)" />
-        </svg>
+      {/* Background image with overlay */}
+      <div className="absolute inset-0">
+        <Image
+          src={IMAGES.hero.src}
+          alt=""
+          fill
+          className="object-cover"
+          priority
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-background/85 dark:bg-background/90" />
       </div>
+
+      {/* Subtle architectural grid pattern */}
+      <GridPaper opacity={0.04} size={60} />
 
       <div className="container relative">
         <motion.div
@@ -51,13 +48,13 @@ export function Hero() {
           </p>
 
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Button asChild size="lg" className="text-base px-8">
+            <Button asChild size="lg" className="text-base px-8 hover:scale-[1.02] transition-transform">
               <Link href="#pricing">
                 Enroll Now — $93
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
-            <Button asChild variant="outline" size="lg" className="text-base">
+            <Button asChild variant="outline" size="lg" className="text-base hover:scale-[1.02] transition-transform">
               <Link href="#curriculum">View Curriculum</Link>
             </Button>
           </div>
@@ -81,7 +78,7 @@ export function Hero() {
             { value: "2", label: "Learning Paths" },
           ].map((stat) => (
             <div key={stat.label} className="text-center">
-              <div className="text-2xl font-bold text-primary md:text-3xl">
+              <div className="font-heading text-2xl font-bold text-primary md:text-3xl">
                 {stat.value}
               </div>
               <div className="mt-1 text-sm text-muted-foreground">
