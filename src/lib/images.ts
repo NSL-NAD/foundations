@@ -6,8 +6,8 @@
 
 export const IMAGES = {
   hero: {
-    src: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1600&q=80",
-    alt: "Dramatic modern architecture with curved glass facade",
+    src: "https://images.unsplash.com/photo-1511818966892-d7d671e672a2?w=1600&q=80",
+    alt: "Abstract geometric architectural detail in black and white",
     width: 1600,
     height: 1067,
   },
