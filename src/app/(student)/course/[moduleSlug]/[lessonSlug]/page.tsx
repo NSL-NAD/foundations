@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import { CoursePlayer } from "@/components/course/CoursePlayer";
 import { promises as fs } from "fs";
 import path from "path";
+import { serialize } from "next-mdx-remote/serialize";
+import type { MDXRemoteSerializeResult } from "next-mdx-remote";
 
 interface LessonPageProps {
   params: { moduleSlug: string; lessonSlug: string };
@@ -48,8 +50,8 @@ export default async function LessonPage({ params }: LessonPageProps) {
     progressRecords?.map((p) => `${p.module_slug}/${p.lesson_slug}`) || []
   );
 
-  // Load MDX content from filesystem
-  let mdxContent = "";
+  // Load MDX content from filesystem and serialize for client rendering
+  let serializedMdx: MDXRemoteSerializeResult | null = null;
   try {
     const contentPath = path.join(
       process.cwd(),
@@ -59,10 +61,12 @@ export default async function LessonPage({ params }: LessonPageProps) {
       moduleSlug,
       `${lessonSlug}.mdx`
     );
-    mdxContent = await fs.readFile(contentPath, "utf-8");
+    const mdxContent = await fs.readFile(contentPath, "utf-8");
+    if (mdxContent.trim()) {
+      serializedMdx = await serialize(mdxContent);
+    }
   } catch {
     // Content not yet created — show placeholder
-    mdxContent = "";
   }
 
   return (
@@ -74,7 +78,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
       modules={modules}
       navigation={navigation}
       completedLessons={Array.from(completedLessons)}
-      mdxSource={mdxContent}
+      mdxSource={serializedMdx}
     />
   );
 }

@@ -11,6 +11,7 @@ import { useToolsPanel } from "@/contexts/ToolsPanelContext";
 import { cn } from "@/lib/utils";
 import type { CurriculumModule, CurriculumLesson } from "@/lib/course";
 import type { LessonNavigation as LessonNav } from "@/types/course";
+import type { MDXRemoteSerializeResult } from "next-mdx-remote";
 
 interface CoursePlayerProps {
   moduleSlug: string;
@@ -20,7 +21,7 @@ interface CoursePlayerProps {
   modules: CurriculumModule[];
   navigation: LessonNav;
   completedLessons: string[];
-  mdxSource: string;
+  mdxSource: MDXRemoteSerializeResult | null;
 }
 
 export function CoursePlayer({

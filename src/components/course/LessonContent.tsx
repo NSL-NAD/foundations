@@ -1,10 +1,12 @@
 "use client";
 
+import { MDXRemote } from "next-mdx-remote";
+import type { MDXRemoteSerializeResult } from "next-mdx-remote";
 import { Download, PlayCircle } from "lucide-react";
 import type { CurriculumLesson } from "@/lib/course";
 
 interface LessonContentProps {
-  mdxSource: string;
+  mdxSource: MDXRemoteSerializeResult | null;
   lesson: CurriculumLesson;
   moduleSlug: string;
 }
@@ -29,27 +31,7 @@ export function LessonContent({ mdxSource, lesson, moduleSlug }: LessonContentPr
       {/* MDX Content or placeholder */}
       {mdxSource ? (
         <div className="prose prose-stone max-w-none [&_h1]:text-2xl [&_h1]:font-bold [&_h1]:tracking-tight [&_h1]:mb-4 [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:mt-8 [&_h2]:mb-3 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:mt-6 [&_h3]:mb-2 [&_p]:mb-4 [&_p]:text-muted-foreground [&_ul]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:mb-4 [&_ol]:list-decimal [&_ol]:pl-6 [&_li]:mb-1 [&_li]:text-muted-foreground [&_strong]:text-foreground [&_blockquote]:border-l-2 [&_blockquote]:border-primary [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-muted-foreground">
-          {/* For now, render as simple text. MDX compilation will be added when content is ready */}
-          {mdxSource.split("\n").map((line, i) => {
-            if (line.startsWith("# "))
-              return (
-                <h1 key={i}>{line.slice(2)}</h1>
-              );
-            if (line.startsWith("## "))
-              return (
-                <h2 key={i}>{line.slice(3)}</h2>
-              );
-            if (line.startsWith("### "))
-              return (
-                <h3 key={i}>{line.slice(4)}</h3>
-              );
-            if (line.startsWith("- "))
-              return (
-                <li key={i}>{line.slice(2)}</li>
-              );
-            if (line.trim() === "") return <br key={i} />;
-            return <p key={i}>{line}</p>;
-          })}
+          <MDXRemote {...mdxSource} />
         </div>
       ) : (
         <div className="rounded-lg border border-dashed p-8 text-center">
