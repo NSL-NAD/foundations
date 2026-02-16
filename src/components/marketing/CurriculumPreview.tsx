@@ -100,9 +100,9 @@ export function CurriculumPreview() {
               <AccordionItem
                 key={section.title}
                 value={`section-${index}`}
-                className="rounded-card border bg-card px-5 md:px-6"
+                className="rounded-card border bg-card px-4 md:px-5"
               >
-                <AccordionTrigger className="hover:no-underline py-4">
+                <AccordionTrigger className="hover:no-underline py-3.5">
                   <div className="flex flex-1 items-center justify-between pr-4 text-left">
                     <div className="flex items-start gap-4">
                       <span className="font-heading text-2xl font-bold text-primary/50">

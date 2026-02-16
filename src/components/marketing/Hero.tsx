@@ -18,7 +18,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="flex flex-col justify-between rounded-card bg-card p-5 md:p-7 lg:p-9"
+            className="flex flex-col justify-between rounded-card bg-card p-4 md:p-6 lg:p-8"
           >
             <div>
               <h1 className="font-heading text-5xl font-light uppercase leading-[0.95] tracking-tight sm:text-6xl lg:text-[4.875rem]">
@@ -55,8 +55,8 @@ export function Hero() {
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
             {/* Quote overlay with thin outline box */}
-            <div className="relative flex min-h-[400px] flex-col justify-end p-5 md:min-h-full md:p-6 lg:p-7">
-              <div className="mt-auto rounded-[1.25rem] border border-white/25 p-5 md:p-6 lg:p-7">
+            <div className="relative flex min-h-[400px] flex-col justify-end p-4 md:min-h-full md:p-5 lg:p-6">
+              <div className="mt-auto rounded-[1.25rem] border border-white/25 p-4 md:p-5 lg:p-6">
                 <p className="font-heading text-2xl font-medium uppercase leading-tight tracking-tight text-white md:text-3xl lg:text-4xl">
                   Where vision meets
                   <br />
@@ -90,7 +90,7 @@ export function Hero() {
             className="grid grid-cols-2 gap-3"
           >
             {/* Card 1 — Accent (terracotta) */}
-            <div className="flex flex-col justify-between rounded-card bg-accent p-4 text-white md:p-5">
+            <div className="flex flex-col justify-between rounded-card bg-accent p-3.5 text-white md:p-4">
               <span className="font-heading text-5xl font-bold leading-none md:text-6xl lg:text-7xl">
                 62
               </span>
@@ -106,7 +106,7 @@ export function Hero() {
             </div>
 
             {/* Card 2 — Primary (slate blue) */}
-            <div className="flex flex-col justify-between rounded-card bg-primary p-4 text-white md:p-5">
+            <div className="flex flex-col justify-between rounded-card bg-primary p-3.5 text-white md:p-4">
               <span className="font-heading text-5xl font-bold leading-none md:text-6xl lg:text-7xl">
                 02
               </span>

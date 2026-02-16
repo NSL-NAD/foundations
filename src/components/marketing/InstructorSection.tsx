@@ -65,7 +65,7 @@ export function InstructorSection() {
               ].map((stat) => (
                 <div
                   key={stat.label}
-                  className="rounded-img border border-white/10 p-3 text-center"
+                  className="rounded-img border border-white/10 p-2.5 text-center"
                 >
                   <div className="font-heading text-2xl font-bold">
                     {stat.value}
