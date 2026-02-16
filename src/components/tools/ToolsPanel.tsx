@@ -8,7 +8,7 @@ import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export function ToolsPanel({
   userId,
@@ -18,6 +18,16 @@ export function ToolsPanel({
   email?: string;
 }) {
   const { isOpen, activeTab, close } = useToolsPanel();
+
+  // Track if we're on mobile (below lg breakpoint = 1024px)
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mql = window.matchMedia("(max-width: 1023px)");
+    setIsMobile(mql.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, []);
 
   // Close on Escape key
   useEffect(() => {
@@ -68,11 +78,11 @@ export function ToolsPanel({
         {panelContent}
       </aside>
 
-      {/* Mobile: bottom sheet */}
-      <Sheet open={isOpen} onOpenChange={(open) => !open && close()}>
+      {/* Mobile: bottom sheet (only open on mobile to avoid overlay on desktop) */}
+      <Sheet open={isOpen && isMobile} onOpenChange={(open) => !open && close()}>
         <SheetContent
           side="bottom"
-          className="h-[85vh] rounded-t-xl p-0 lg:hidden"
+          className="h-[85vh] rounded-t-xl p-0"
         >
           <div className="mx-auto mb-2 mt-2 h-1 w-12 rounded-full bg-muted-foreground/30" />
           {panelContent}
