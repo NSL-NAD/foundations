@@ -7,8 +7,6 @@ import { LessonNavigation } from "./LessonNavigation";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { ToolsFAB } from "@/components/tools/ToolsFAB";
-import { ToolsPanel } from "@/components/tools/ToolsPanel";
 import { useToolsPanel } from "@/contexts/ToolsPanelContext";
 import { cn } from "@/lib/utils";
 import type { CurriculumModule, CurriculumLesson } from "@/lib/course";
@@ -23,8 +21,6 @@ interface CoursePlayerProps {
   navigation: LessonNav;
   completedLessons: string[];
   mdxSource: string;
-  userId: string;
-  email?: string;
 }
 
 export function CoursePlayer({
@@ -36,8 +32,6 @@ export function CoursePlayer({
   navigation,
   completedLessons,
   mdxSource,
-  userId,
-  email,
 }: CoursePlayerProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const isCompleted = completedLessons.includes(`${moduleSlug}/${lessonSlug}`);
@@ -130,9 +124,6 @@ export function CoursePlayer({
         </div>
       </main>
 
-      {/* Tools Panel + FAB */}
-      <ToolsFAB />
-      <ToolsPanel userId={userId} email={email} />
     </div>
   );
 }

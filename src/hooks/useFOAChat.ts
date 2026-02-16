@@ -90,6 +90,20 @@ export function useFOAChat({
     [input, chat, usage.hasFullAccess]
   );
 
+  // Direct send without going through input state (for suggestion chips)
+  const sendText = useCallback(
+    (text: string) => {
+      const trimmed = text.trim();
+      if (!trimmed) return;
+      setInput("");
+      chat.sendMessage({ text: trimmed });
+      if (!usage.hasFullAccess) {
+        setUsage((prev) => ({ ...prev, used: prev.used + 1 }));
+      }
+    },
+    [chat, usage.hasFullAccess]
+  );
+
   const isLoading = chat.status === "submitted" || chat.status === "streaming";
 
   // Derived usage states
@@ -111,6 +125,7 @@ export function useFOAChat({
     input,
     setInput,
     handleSubmit,
+    sendText,
     isLoading,
     error: chat.error,
     // Usage

@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { Header } from "@/components/shared/Header";
+import { StudentTools } from "@/components/shared/StudentTools";
 import { ToolsPanelProvider } from "@/contexts/ToolsPanelContext";
 
 export default async function StudentLayout({
@@ -41,6 +42,7 @@ export default async function StudentLayout({
       <main id="main-content" className="min-h-[calc(100vh-4rem)]">
         {children}
       </main>
+      <StudentTools userId={user.id} email={profile?.email || ""} />
     </ToolsPanelProvider>
   );
 }

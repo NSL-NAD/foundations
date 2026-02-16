@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import { ChatMessage } from "./ChatMessage";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Bot, Loader2 } from "lucide-react";
+import { Bot, Loader2, Sparkles } from "lucide-react";
 import type { UIMessage } from "ai";
 
 function getTextContent(message: UIMessage): string {
@@ -16,9 +16,16 @@ function getTextContent(message: UIMessage): string {
 interface ChatMessageListProps {
   messages: UIMessage[];
   isLoading: boolean;
+  suggestions?: string[];
+  onSuggestionClick?: (text: string) => void;
 }
 
-export function ChatMessageList({ messages, isLoading }: ChatMessageListProps) {
+export function ChatMessageList({
+  messages,
+  isLoading,
+  suggestions,
+  onSuggestionClick,
+}: ChatMessageListProps) {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -26,6 +33,8 @@ export function ChatMessageList({ messages, isLoading }: ChatMessageListProps) {
   }, [messages, isLoading]);
 
   if (messages.length === 0 && !isLoading) {
+    const hasLessonContext = !suggestions || suggestions.length === 0;
+
     return (
       <div className="flex h-full flex-col items-center justify-center gap-3 p-6 text-center">
         <div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted">
@@ -34,9 +43,27 @@ export function ChatMessageList({ messages, isLoading }: ChatMessageListProps) {
         <div>
           <p className="text-sm font-medium">Architecture Assistant</p>
           <p className="mt-1 text-xs text-muted-foreground">
-            Ask me anything about the lesson or architecture concepts.
+            {hasLessonContext
+              ? "Ask me anything about the lesson or architecture concepts."
+              : "Ask me anything about the course or architecture concepts."}
           </p>
         </div>
+
+        {/* Suggestion chips — shown when no lesson context */}
+        {suggestions && suggestions.length > 0 && onSuggestionClick && (
+          <div className="mt-2 flex flex-col gap-2 w-full max-w-[280px]">
+            {suggestions.map((suggestion) => (
+              <button
+                key={suggestion}
+                onClick={() => onSuggestionClick(suggestion)}
+                className="flex items-start gap-2 rounded-lg border border-primary/20 bg-primary/5 px-3 py-2.5 text-left text-xs text-foreground transition-colors hover:border-primary/40 hover:bg-primary/10"
+              >
+                <Sparkles className="mt-0.5 h-3 w-3 shrink-0 text-primary" />
+                <span>{suggestion}</span>
+              </button>
+            ))}
+          </div>
+        )}
       </div>
     );
   }

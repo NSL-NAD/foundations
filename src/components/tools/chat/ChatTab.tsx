@@ -1,10 +1,17 @@
 "use client";
 
+import { useMemo } from "react";
 import { useToolsPanel } from "@/contexts/ToolsPanelContext";
 import { ChatMessageList } from "./ChatMessageList";
 import { ChatInput } from "./ChatInput";
 import { ChatUpgradeBanner } from "./ChatUpgradeBanner";
 import { useFOAChat } from "@/hooks/useFOAChat";
+
+const DASHBOARD_SUGGESTIONS = [
+  "Take me to the part of the course that talks about...",
+  "What are the main topics covered in this course?",
+  "Help me review what I've learned so far",
+];
 
 interface ChatTabProps {
   userId: string;
@@ -18,6 +25,7 @@ export function ChatTab({ userId, email }: ChatTabProps) {
     input,
     setInput,
     handleSubmit,
+    sendText,
     isLoading,
     error,
     usage,
@@ -30,6 +38,12 @@ export function ChatTab({ userId, email }: ChatTabProps) {
     moduleSlug,
     lessonSlug,
   });
+
+  // Show suggestions only when no lesson context (Dashboard / Course index)
+  const suggestions = useMemo(
+    () => (!moduleSlug ? DASHBOARD_SUGGESTIONS : undefined),
+    [moduleSlug]
+  );
 
   return (
     <div className="flex h-full flex-col">
@@ -49,7 +63,12 @@ export function ChatTab({ userId, email }: ChatTabProps) {
       )}
 
       <div className="flex-1 overflow-hidden">
-        <ChatMessageList messages={messages} isLoading={isLoading} />
+        <ChatMessageList
+          messages={messages}
+          isLoading={isLoading}
+          suggestions={suggestions}
+          onSuggestionClick={sendText}
+        />
       </div>
 
       {error && (

@@ -3,8 +3,10 @@ import { getModules, getFirstLesson, getLessonPath } from "@/lib/course";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Check, PlayCircle, FileText, PenTool, ListChecks } from "lucide-react";
+import { ArrowRight, Check, PlayCircle, FileText, PenTool, ListChecks, PenLine, MessageCircle } from "lucide-react";
 import Link from "next/link";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { DashboardChatButton } from "@/components/dashboard/DashboardChatButton";
 
 export const metadata = {
   title: "Course Overview",
@@ -28,6 +30,13 @@ export default async function CoursePage() {
     .select("lesson_slug, module_slug, completed")
     .eq("user_id", user!.id)
     .eq("completed", true);
+
+  // Count notes
+  const { count: noteCount } = await supabase
+    .from("notebook_entries")
+    .select("id", { count: "exact", head: true })
+    .eq("user_id", user!.id)
+    .neq("content", "");
 
   const completedSet = new Set(
     progressRecords?.map((p) => `${p.module_slug}/${p.lesson_slug}`) || []
@@ -59,6 +68,48 @@ export default async function CoursePage() {
             <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
         </Button>
+      </div>
+
+      {/* Tools */}
+      <div className="mb-8 grid gap-4 md:grid-cols-2">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              My Notes
+            </CardTitle>
+            <PenLine className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{noteCount || 0}</div>
+            <p className="mt-1 text-xs text-muted-foreground">
+              {noteCount ? "notes across your lessons" : "Start taking notes in any lesson"}
+            </p>
+            <Button asChild variant="outline" size="sm" className="mt-3 w-full">
+              <Link href="/dashboard/notebook">
+                View All Notes
+                <ArrowRight className="ml-2 h-3.5 w-3.5" />
+              </Link>
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              AI Assistant
+            </CardTitle>
+            <MessageCircle className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm font-medium">Ask anything</p>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Search the course, review concepts, or get help
+            </p>
+            <div className="mt-3">
+              <DashboardChatButton />
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Modules */}
