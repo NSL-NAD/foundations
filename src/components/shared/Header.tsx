@@ -7,6 +7,7 @@ import { Menu, X, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Logo } from "./Logo";
+import { ThemeToggle } from "./ThemeToggle";
 
 interface HeaderProps {
   user?: { email: string; full_name?: string | null } | null;
@@ -62,7 +63,8 @@ export function Header({ user, isAdmin }: HeaderProps) {
         </nav>
 
         {/* Desktop CTA */}
-        <div className="hidden items-center gap-3 md:flex">
+        <div className="hidden items-center gap-2 md:flex">
+          <ThemeToggle />
           {user ? (
             <form action="/api/auth/signout" method="POST">
               <Button variant="ghost" size="sm" type="submit">
@@ -116,7 +118,10 @@ export function Header({ user, isAdmin }: HeaderProps) {
                   Admin
                 </Link>
               )}
-              <div className="mt-4 border-t pt-4">
+              <div className="mt-4 flex items-center justify-between border-t pt-4">
+                <ThemeToggle />
+              </div>
+              <div className="border-t pt-4">
                 {user ? (
                   <form action="/api/auth/signout" method="POST">
                     <Button variant="outline" className="w-full" type="submit">
