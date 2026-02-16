@@ -55,8 +55,8 @@ export function Hero() {
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
             {/* Quote overlay with thin outline box */}
-            <div className="relative flex min-h-[400px] flex-col justify-end p-4 md:min-h-full md:p-5 lg:p-6">
-              <div className="mt-auto rounded-[1.25rem] border border-white/25 p-4 md:p-5 lg:p-6">
+            <div className="relative flex min-h-[400px] flex-col justify-end p-2 md:min-h-full md:p-2.5 lg:p-3">
+              <div className="mt-auto rounded-[1.25rem] border-[1.5px] border-white/25 p-4 md:p-5 lg:p-6">
                 <p className="font-heading text-2xl font-medium uppercase leading-tight tracking-tight text-white md:text-3xl lg:text-4xl">
                   Where vision meets
                   <br />
