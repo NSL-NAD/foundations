@@ -46,7 +46,7 @@ export function CoursePlayer({
   return (
     <div className="flex h-[calc(100vh-4rem)]">
       {/* Desktop Sidebar */}
-      <aside className="hidden w-80 flex-shrink-0 overflow-y-auto border-r bg-card lg:block">
+      <aside className="hidden w-80 flex-shrink-0 overflow-y-auto border-r bg-surface lg:block">
         <ModuleSidebar
           modules={modules}
           currentModuleSlug={moduleSlug}

@@ -9,7 +9,7 @@ export function Hero() {
   return (
     <section className="relative overflow-hidden bg-background py-20 md:py-32">
       {/* Subtle architectural grid pattern */}
-      <div className="absolute inset-0 opacity-[0.03]">
+      <div className="absolute inset-0 opacity-[0.04]">
         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <pattern
@@ -42,7 +42,7 @@ export function Hero() {
           </p>
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
             Design Your Dream Home
-            <span className="block text-primary">for $93, Not $200K</span>
+            <span className="block text-highlight">for $93, Not $200K</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground md:text-xl">
             A beginner-friendly course that teaches you the architectural

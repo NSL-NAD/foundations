@@ -6,7 +6,7 @@ export function FinalCTA() {
   return (
     <section className="py-20">
       <div className="container">
-        <div className="mx-auto max-w-3xl rounded-2xl bg-primary px-8 py-16 text-center text-primary-foreground">
+        <div className="mx-auto max-w-3xl rounded-2xl bg-gradient-to-br from-primary to-primary/80 px-8 py-16 text-center text-primary-foreground">
           <h2 className="text-3xl font-bold tracking-tight">
             Your Dream Home Starts Here
           </h2>
@@ -18,8 +18,7 @@ export function FinalCTA() {
             <Button
               asChild
               size="lg"
-              variant="secondary"
-              className="text-base px-8"
+              className="bg-highlight text-foreground hover:bg-highlight/90 text-base px-8"
             >
               <Link href="#pricing">
                 Enroll Now — $93

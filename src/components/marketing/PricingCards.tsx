@@ -107,7 +107,7 @@ export function PricingCards() {
               }`}
             >
               {product.highlighted && (
-                <Badge className="absolute -top-3 left-1/2 -translate-x-1/2">
+                <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-highlight text-foreground hover:bg-highlight/90">
                   Best Value
                 </Badge>
               )}

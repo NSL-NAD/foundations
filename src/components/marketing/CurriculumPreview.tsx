@@ -83,7 +83,7 @@ const sections = [
 
 export function CurriculumPreview() {
   return (
-    <section id="curriculum" className="bg-secondary/50 py-20">
+    <section id="curriculum" className="bg-surface py-20">
       <div className="container">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-bold tracking-tight">
@@ -105,11 +105,16 @@ export function CurriculumPreview() {
               >
                 <AccordionTrigger className="hover:no-underline">
                   <div className="flex flex-1 items-center justify-between pr-4 text-left">
-                    <div>
-                      <h3 className="font-semibold">{section.title}</h3>
-                      <p className="mt-0.5 text-sm text-muted-foreground">
-                        {section.lessons} lessons
-                      </p>
+                    <div className="flex items-start gap-3">
+                      <span className="mt-0.5 font-mono text-xs text-muted-foreground/60">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      <div>
+                        <h3 className="font-semibold">{section.title}</h3>
+                        <p className="mt-0.5 text-sm text-muted-foreground">
+                          {section.lessons} lessons
+                        </p>
+                      </div>
                     </div>
                     <div className="hidden gap-2 sm:flex">
                       {section.tags.map((tag) => (

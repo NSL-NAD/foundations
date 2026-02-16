@@ -35,7 +35,7 @@ const values = [
 
 export function ValueProposition() {
   return (
-    <section className="bg-secondary/50 py-20">
+    <section className="bg-surface py-20">
       <div className="container">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-bold tracking-tight">
@@ -49,7 +49,7 @@ export function ValueProposition() {
 
         <div className="mx-auto mt-12 grid max-w-5xl gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {values.map((item) => (
-            <Card key={item.title} className="border-0 bg-card shadow-sm">
+            <Card key={item.title} className="border-0 bg-card shadow-sm transition-shadow hover:shadow-md">
               <CardContent className="pt-6">
                 <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
                   <item.icon className="h-5 w-5 text-primary" />

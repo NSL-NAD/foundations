@@ -52,7 +52,7 @@ const faqs = [
 
 export function FAQ() {
   return (
-    <section id="faq" className="bg-secondary/50 py-20">
+    <section id="faq" className="bg-surface py-20">
       <div className="container">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-bold tracking-tight">

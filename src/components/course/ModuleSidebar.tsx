@@ -107,7 +107,7 @@ export function ModuleSidebar({
                           className={cn(
                             "flex items-center gap-2 py-2 pl-10 pr-4 text-sm transition-colors hover:bg-accent",
                             isActive &&
-                              "bg-primary/5 font-medium text-primary",
+                              "bg-primary/10 font-medium text-primary border-l-2 border-primary",
                             !isActive && "text-muted-foreground"
                           )}
                         >
