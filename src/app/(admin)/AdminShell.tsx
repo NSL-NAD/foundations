@@ -8,8 +8,8 @@ import {
   Users,
   Package,
   ExternalLink,
-  ChevronLeft,
-  ChevronRight,
+  Pin,
+  PinOff,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/shared/ThemeToggle";
@@ -27,104 +27,120 @@ interface AdminShellProps {
 
 export function AdminShell({ children }: AdminShellProps) {
   const pathname = usePathname();
-  const [collapsed, setCollapsed] = useState(false);
+  const [pinned, setPinned] = useState(false);
 
-  // Persist sidebar state
   useEffect(() => {
-    const stored = localStorage.getItem("admin-sidebar-collapsed");
-    if (stored === "true") setCollapsed(true);
+    const stored = localStorage.getItem("admin-sidebar-pinned");
+    if (stored === "true") setPinned(true);
   }, []);
 
-  function toggleCollapsed() {
-    const next = !collapsed;
-    setCollapsed(next);
-    localStorage.setItem("admin-sidebar-collapsed", String(next));
+  function togglePinned() {
+    const next = !pinned;
+    setPinned(next);
+    localStorage.setItem("admin-sidebar-pinned", String(next));
   }
 
   return (
     <div className="flex min-h-screen">
-      {/* Desktop Sidebar */}
+      {/* Desktop Sidebar — icon-only, expands on hover or pin */}
       <aside
         className={cn(
-          "hidden flex-shrink-0 flex-col border-r bg-card transition-[width] duration-200 md:flex",
-          collapsed ? "w-16" : "w-60"
+          "group hidden flex-shrink-0 flex-col bg-[#1a1a1a] text-white transition-all duration-300 ease-in-out md:flex",
+          pinned ? "w-56" : "w-16 hover:w-56"
         )}
       >
         {/* Header */}
-        <div
-          className={cn(
-            "flex h-14 items-center border-b",
-            collapsed ? "justify-center px-2" : "px-4"
-          )}
-        >
-          {collapsed ? (
-            <span className="font-heading text-sm font-semibold">A</span>
-          ) : (
-            <h2 className="text-sm font-semibold">Admin</h2>
-          )}
+        <div className="flex h-14 items-center px-4">
+          <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded border border-white/20">
+            <span className="font-heading text-xs font-semibold tracking-widest">
+              FA
+            </span>
+          </div>
+          <span
+            className={cn(
+              "ml-3 font-heading text-xs font-medium uppercase tracking-[0.2em] transition-opacity duration-200",
+              pinned ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+            )}
+          >
+            Admin
+          </span>
         </div>
 
         {/* Nav links */}
-        <nav className="flex-1 space-y-1 p-2">
+        <nav className="flex-1 space-y-1 px-2 pt-4">
           {adminNav.map((item) => {
             const isActive = pathname === item.href;
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                title={collapsed ? item.label : undefined}
+                title={!pinned ? item.label : undefined}
                 className={cn(
-                  "flex items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors",
-                  collapsed && "justify-center px-2",
+                  "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors",
                   isActive
-                    ? "bg-primary/10 text-primary font-medium"
-                    : "text-muted-foreground hover:bg-accent hover:text-foreground"
+                    ? "bg-white/10 text-white font-medium"
+                    : "text-white/50 hover:bg-white/5 hover:text-white/80"
                 )}
               >
                 <item.icon className="h-4 w-4 flex-shrink-0" />
-                {!collapsed && <span>{item.label}</span>}
+                <span
+                  className={cn(
+                    "whitespace-nowrap transition-opacity duration-200",
+                    pinned ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+                  )}
+                >
+                  {item.label}
+                </span>
+                {isActive && (
+                  <div className="ml-auto h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary" />
+                )}
               </Link>
             );
           })}
-          <hr className="my-2" />
+          <div className="my-3 border-t border-white/10" />
           <Link
             href="/"
-            title={collapsed ? "View Site" : undefined}
-            className={cn(
-              "flex items-center gap-2 rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground",
-              collapsed && "justify-center px-2"
-            )}
+            title={!pinned ? "View Site" : undefined}
+            className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-white/50 transition-colors hover:bg-white/5 hover:text-white/80"
           >
             <ExternalLink className="h-4 w-4 flex-shrink-0" />
-            {!collapsed && <span>View Site</span>}
+            <span
+              className={cn(
+                "whitespace-nowrap transition-opacity duration-200",
+                pinned ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+              )}
+            >
+              View Site
+            </span>
           </Link>
         </nav>
 
         {/* Bottom actions */}
-        <div
-          className={cn(
-            "border-t p-2",
-            collapsed ? "flex flex-col items-center gap-1" : "flex items-center justify-between"
-          )}
-        >
-          <ThemeToggle />
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={toggleCollapsed}
-            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-          >
-            {collapsed ? (
-              <ChevronRight className="h-4 w-4" />
-            ) : (
-              <ChevronLeft className="h-4 w-4" />
-            )}
-          </Button>
+        <div className="border-t border-white/10 p-2">
+          <div className="flex items-center justify-center gap-1">
+            <ThemeToggle />
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={togglePinned}
+              aria-label={pinned ? "Unpin sidebar" : "Pin sidebar"}
+              className={cn(
+                "text-white/50 hover:bg-white/10 hover:text-white transition-opacity duration-200",
+                pinned ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+              )}
+            >
+              {pinned ? (
+                <PinOff className="h-4 w-4" />
+              ) : (
+                <Pin className="h-4 w-4" />
+              )}
+            </Button>
+          </div>
         </div>
       </aside>
 
       {/* Mobile nav */}
-      <div className="sticky top-0 z-10 flex h-12 items-center gap-4 border-b bg-card px-4 md:hidden">
+      <div className="sticky top-0 z-10 flex h-12 items-center gap-4 border-b bg-[#1a1a1a] px-4 text-white md:hidden">
         {adminNav.map((item) => {
           const isActive = pathname === item.href;
           return (
@@ -132,10 +148,11 @@ export function AdminShell({ children }: AdminShellProps) {
               key={item.href}
               href={item.href}
               className={cn(
-                "text-sm transition-colors hover:text-foreground",
-                isActive ? "text-primary font-medium" : "text-muted-foreground"
+                "flex items-center gap-1.5 text-xs font-medium uppercase tracking-wider transition-colors",
+                isActive ? "text-primary" : "text-white/50 hover:text-white/80"
               )}
             >
+              <item.icon className="h-3.5 w-3.5" />
               {item.label}
             </Link>
           );
@@ -146,7 +163,7 @@ export function AdminShell({ children }: AdminShellProps) {
       </div>
 
       {/* Content */}
-      <main className="flex-1">{children}</main>
+      <main className="flex-1 bg-background">{children}</main>
     </div>
   );
 }

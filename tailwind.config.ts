@@ -24,8 +24,8 @@ const config: Config = {
     },
     extend: {
       fontFamily: {
-        sans: ["var(--font-dm-sans)", "system-ui", "sans-serif"],
-        heading: ["var(--font-instrument-serif)", "Georgia", "serif"],
+        sans: ["var(--font-archivo)", "system-ui", "sans-serif"],
+        heading: ["var(--font-space-grotesk)", "system-ui", "sans-serif"],
         mono: ["var(--font-jetbrains-mono)", "monospace"],
       },
       colors: {
@@ -74,8 +74,10 @@ const config: Config = {
       },
       borderRadius: {
         lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        md: "calc(var(--radius) - 4px)",
+        sm: "calc(var(--radius) - 8px)",
+        card: "1.875rem",
+        img: "0.75rem",
       },
       spacing: {
         "18": "4.5rem",

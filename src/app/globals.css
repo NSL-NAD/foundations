@@ -10,70 +10,69 @@
 
 @layer base {
   :root {
-    /* Foundations of Architecture — Design System v1 */
-    /* Warm parchment palette with sage green accent */
-    --background: 33 33% 97%;
-    --foreground: 0 0% 10%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 10%;
+    /* FOA Design System v2 — Warm Terracotta + Retro-Futurism */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 21%;
+    --card: 40 7% 95%;
+    --card-foreground: 0 0% 21%;
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 10%;
-    /* Deep sage green — architectural, grounded, distinctive */
-    --primary: 149 33% 27%;
-    --primary-foreground: 33 33% 97%;
-    --secondary: 37 21% 93%;
+    --popover-foreground: 0 0% 21%;
+    /* Warm Terracotta — earthy, grounded, material-forward */
+    --primary: 16 85% 55%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 40 7% 95%;
     --secondary-foreground: 0 0% 15%;
-    --muted: 37 18% 91%;
-    --muted-foreground: 30 8% 46%;
-    --accent: 41 59% 58%;
-    --accent-foreground: 0 0% 10%;
-    --destructive: 0 84.2% 60.2%;
+    --muted: 40 7% 95%;
+    --muted-foreground: 207 5% 57%;
+    --accent: 16 60% 72%;
+    --accent-foreground: 0 0% 15%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 37 15% 85%;
-    --input: 37 15% 85%;
-    --ring: 149 33% 27%;
+    --border: 43 5% 85%;
+    --input: 43 5% 85%;
+    --ring: 16 85% 55%;
     /* Extended tokens */
-    --highlight: 41 59% 58%;
-    --surface: 37 21% 93%;
+    --highlight: 16 85% 55%;
+    --surface: 50 13% 90%;
     /* Charts */
-    --chart-1: 149 33% 27%;
-    --chart-2: 41 59% 58%;
-    --chart-3: 30 10% 25%;
-    --chart-4: 173 45% 38%;
-    --chart-5: 200 40% 50%;
-    --radius: 0.5rem;
+    --chart-1: 16 85% 55%;
+    --chart-2: 16 60% 72%;
+    --chart-3: 0 0% 40%;
+    --chart-4: 207 5% 57%;
+    --chart-5: 43 5% 85%;
+    --radius: 1.875rem;
   }
 
   .dark {
-    --background: 30 10% 7%;
-    --foreground: 37 21% 93%;
-    --card: 36 14% 11%;
-    --card-foreground: 37 21% 93%;
-    --popover: 36 14% 11%;
-    --popover-foreground: 37 21% 93%;
-    /* Lighter sage for dark mode legibility */
-    --primary: 147 25% 48%;
-    --primary-foreground: 30 10% 7%;
-    --secondary: 36 14% 11%;
-    --secondary-foreground: 37 18% 85%;
-    --muted: 36 10% 15%;
-    --muted-foreground: 37 12% 55%;
-    --accent: 41 55% 52%;
-    --accent-foreground: 37 21% 93%;
+    --background: 20 10% 8%;
+    --foreground: 40 7% 92%;
+    --card: 20 8% 12%;
+    --card-foreground: 40 7% 92%;
+    --popover: 20 8% 12%;
+    --popover-foreground: 40 7% 92%;
+    /* Lighter terracotta for dark bg */
+    --primary: 16 75% 60%;
+    --primary-foreground: 20 10% 8%;
+    --secondary: 20 8% 15%;
+    --secondary-foreground: 40 7% 85%;
+    --muted: 20 6% 15%;
+    --muted-foreground: 207 5% 55%;
+    --accent: 16 55% 70%;
+    --accent-foreground: 40 7% 92%;
     --destructive: 0 62% 50%;
     --destructive-foreground: 0 0% 98%;
-    --border: 36 10% 18%;
-    --input: 36 10% 18%;
-    --ring: 147 25% 48%;
+    --border: 20 6% 20%;
+    --input: 20 6% 20%;
+    --ring: 16 75% 60%;
     /* Extended tokens */
-    --highlight: 41 55% 52%;
-    --surface: 36 12% 13%;
+    --highlight: 16 75% 60%;
+    --surface: 20 6% 12%;
     /* Charts */
-    --chart-1: 147 25% 48%;
-    --chart-2: 41 55% 52%;
-    --chart-3: 37 12% 55%;
-    --chart-4: 173 35% 45%;
-    --chart-5: 200 35% 55%;
+    --chart-1: 16 75% 60%;
+    --chart-2: 16 55% 70%;
+    --chart-3: 40 7% 55%;
+    --chart-4: 207 5% 55%;
+    --chart-5: 20 6% 30%;
   }
 }
 
@@ -102,5 +101,5 @@ html {
 
 /* Skip navigation link */
 .skip-nav {
-  @apply absolute -top-10 left-4 z-50 rounded bg-primary px-4 py-2 text-primary-foreground transition-all focus:top-4;
+  @apply absolute -top-10 left-4 z-50 rounded-full bg-primary px-4 py-2 text-primary-foreground transition-all focus:top-4;
 }

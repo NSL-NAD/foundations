@@ -1,7 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { getModules, getTotalLessons, getLessonPath, getFirstLesson } from "@/lib/course";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { ArrowRight, BookOpen, Trophy, PenLine, MessageCircle } from "lucide-react";
 import Link from "next/link";
@@ -48,112 +47,104 @@ export default async function DashboardPage() {
   const firstLesson = getFirstLesson();
 
   return (
-    <div className="container py-8">
+    <div className="container py-10 md:py-14">
       {/* Welcome */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight">
+      <div className="mb-10">
+        <h1 className="font-heading text-2xl font-bold uppercase tracking-tight md:text-3xl">
           Welcome back, {displayName}
         </h1>
-        <p className="mt-1 text-muted-foreground">
+        <p className="mt-1 text-sm text-muted-foreground">
           Continue your architecture learning journey.
         </p>
       </div>
 
       {/* Progress Overview */}
-      <div className="mb-8 grid gap-4 md:grid-cols-3">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+      <div className="mb-10 grid gap-4 md:grid-cols-3">
+        <div className="rounded-card border bg-card p-6">
+          <div className="flex items-center justify-between pb-3">
+            <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
               Course Progress
-            </CardTitle>
+            </span>
             <BookOpen className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{completionPercent}%</div>
-            <Progress value={completionPercent} className="mt-2" />
-            <p className="mt-2 text-xs text-muted-foreground">
-              {completedCount} of {totalLessons} lessons completed
-            </p>
-          </CardContent>
-        </Card>
+          </div>
+          <div className="font-heading text-3xl font-bold">{completionPercent}%</div>
+          <Progress value={completionPercent} className="mt-3" />
+          <p className="mt-2 text-xs text-muted-foreground">
+            {completedCount} of {totalLessons} lessons completed
+          </p>
+        </div>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+        <div className="rounded-card border bg-card p-6">
+          <div className="flex items-center justify-between pb-3">
+            <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
               Lessons Completed
-            </CardTitle>
+            </span>
             <Trophy className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{completedCount}</div>
-            <p className="mt-2 text-xs text-muted-foreground">
-              {totalLessons - completedCount} remaining
-            </p>
-          </CardContent>
-        </Card>
+          </div>
+          <div className="font-heading text-3xl font-bold">{completedCount}</div>
+          <p className="mt-2 text-xs text-muted-foreground">
+            {totalLessons - completedCount} remaining
+          </p>
+        </div>
 
-        <Card className="flex flex-col justify-center">
-          <CardContent className="pt-6">
-            <Button asChild className="w-full" size="lg">
-              <Link
-                href={
-                  completedCount === 0
-                    ? getLessonPath(firstLesson.moduleSlug, firstLesson.lessonSlug)
-                    : "/course"
-                }
-              >
-                {completedCount === 0 ? "Start Learning" : "Continue Learning"}
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-          </CardContent>
-        </Card>
+        <div className="flex flex-col justify-center rounded-card border bg-card p-6">
+          <Button asChild className="w-full" size="lg">
+            <Link
+              href={
+                completedCount === 0
+                  ? getLessonPath(firstLesson.moduleSlug, firstLesson.lessonSlug)
+                  : "/course"
+              }
+            >
+              {completedCount === 0 ? "Start Learning" : "Continue Learning"}
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
+        </div>
       </div>
 
       {/* Tools */}
-      <div className="mb-8 grid gap-4 md:grid-cols-2">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+      <div className="mb-10 grid gap-4 md:grid-cols-2">
+        <div className="rounded-card border bg-card p-6">
+          <div className="flex items-center justify-between pb-3">
+            <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
               My Notes
-            </CardTitle>
+            </span>
             <PenLine className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{noteCount || 0}</div>
-            <p className="mt-1 text-xs text-muted-foreground">
-              {noteCount ? "notes across your lessons" : "Start taking notes in any lesson"}
-            </p>
-            <Button asChild variant="outline" size="sm" className="mt-3 w-full">
-              <Link href="/dashboard/notebook">
-                View All Notes
-                <ArrowRight className="ml-2 h-3.5 w-3.5" />
-              </Link>
-            </Button>
-          </CardContent>
-        </Card>
+          </div>
+          <div className="font-heading text-3xl font-bold">{noteCount || 0}</div>
+          <p className="mt-1 text-xs text-muted-foreground">
+            {noteCount ? "notes across your lessons" : "Start taking notes in any lesson"}
+          </p>
+          <Button asChild variant="outline" size="sm" className="mt-4 w-full">
+            <Link href="/dashboard/notebook">
+              View All Notes
+              <ArrowRight className="ml-2 h-3.5 w-3.5" />
+            </Link>
+          </Button>
+        </div>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+        <div className="rounded-card border bg-card p-6">
+          <div className="flex items-center justify-between pb-3">
+            <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
               AI Assistant
-            </CardTitle>
+            </span>
             <MessageCircle className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm font-medium">Ask anything</p>
-            <p className="mt-1 text-xs text-muted-foreground">
-              Search the course, review concepts, or get help
-            </p>
-            <div className="mt-3">
-              <DashboardChatButton />
-            </div>
-          </CardContent>
-        </Card>
+          </div>
+          <p className="font-heading text-sm font-semibold uppercase">Ask anything</p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Search the course, review concepts, or get help
+          </p>
+          <div className="mt-4">
+            <DashboardChatButton />
+          </div>
+        </div>
       </div>
 
       {/* Module List */}
-      <h2 className="mb-4 text-xl font-semibold">Course Modules</h2>
+      <h2 className="mb-4 font-heading text-lg font-semibold uppercase tracking-wide">
+        Course Modules
+      </h2>
       <div className="grid gap-3">
         {modules.map((mod) => {
           const moduleCompleted =
@@ -169,13 +160,13 @@ export default async function DashboardPage() {
             <Link
               key={mod.slug}
               href={getLessonPath(mod.slug, firstModuleLesson.slug)}
-              className="group flex items-center justify-between rounded-lg border bg-card p-4 transition-colors hover:bg-accent"
+              className="group flex items-center justify-between rounded-card border bg-card p-5 transition-all hover:shadow-md"
             >
               <div className="flex-1">
-                <h3 className="font-medium group-hover:text-primary">
+                <h3 className="font-heading text-sm font-semibold uppercase tracking-wide group-hover:text-primary">
                   {mod.title}
                 </h3>
-                <p className="text-sm text-muted-foreground">
+                <p className="mt-0.5 text-xs text-muted-foreground">
                   {moduleCompleted}/{mod.lessons.length} lessons complete
                 </p>
               </div>
@@ -183,10 +174,10 @@ export default async function DashboardPage() {
                 <div className="hidden w-24 sm:block">
                   <Progress value={percent} className="h-2" />
                 </div>
-                <span className="text-sm text-muted-foreground">
+                <span className="text-sm font-medium text-muted-foreground">
                   {percent}%
                 </span>
-                <ArrowRight className="h-4 w-4 text-muted-foreground" />
+                <ArrowRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:translate-x-1" />
               </div>
             </Link>
           );

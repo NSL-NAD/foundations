@@ -29,25 +29,27 @@ export default async function OrdersPage() {
     .order("created_at", { ascending: false });
 
   return (
-    <div className="container py-8">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold tracking-tight">Kit Orders</h1>
-        <p className="text-sm text-muted-foreground">
+    <div className="p-6 md:p-10">
+      <div className="mb-8">
+        <h1 className="font-heading text-2xl font-bold uppercase tracking-tight md:text-3xl">
+          Kit Orders
+        </h1>
+        <p className="mt-1 text-sm text-muted-foreground">
           {orders?.filter((o) => o.status === "pending").length || 0} pending,{" "}
           {orders?.length || 0} total
         </p>
       </div>
 
-      <div className="rounded-lg border">
+      <div className="rounded-card border">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Email</TableHead>
-              <TableHead>Ship To</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Tracking</TableHead>
-              <TableHead>Ordered</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead className="text-xs font-medium uppercase tracking-wider">Email</TableHead>
+              <TableHead className="text-xs font-medium uppercase tracking-wider">Ship To</TableHead>
+              <TableHead className="text-xs font-medium uppercase tracking-wider">Status</TableHead>
+              <TableHead className="text-xs font-medium uppercase tracking-wider">Tracking</TableHead>
+              <TableHead className="text-xs font-medium uppercase tracking-wider">Ordered</TableHead>
+              <TableHead className="text-right text-xs font-medium uppercase tracking-wider">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

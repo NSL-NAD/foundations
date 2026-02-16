@@ -1,6 +1,3 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { Star } from "lucide-react";
-
 const testimonials = [
   {
     name: "Coming Soon",
@@ -24,42 +21,40 @@ const testimonials = [
 
 export function Testimonials() {
   return (
-    <section className="bg-surface py-20">
+    <section className="bg-surface py-20 md:py-28">
       <div className="container">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="text-sm font-medium uppercase tracking-widest text-primary">
+          <p className="font-heading text-xs font-medium uppercase tracking-[0.3em] text-primary">
             Founding Students
           </p>
-          <h2 className="mt-2 text-3xl font-bold tracking-tight">
+          <h2 className="mt-3 font-heading text-3xl font-bold uppercase tracking-tight md:text-4xl">
             Join the First 1,000
           </h2>
-          <p className="mt-3 text-lg text-muted-foreground">
+          <p className="mt-4 text-muted-foreground">
             Founding students get exclusive pricing and lifetime access to all
             future content and updates.
           </p>
         </div>
 
-        <div className="mx-auto mt-12 grid max-w-5xl gap-6 md:grid-cols-3">
+        <div className="mx-auto mt-16 grid max-w-5xl gap-6 md:grid-cols-3">
           {testimonials.map((item, i) => (
-            <Card key={i} className="border-0 bg-card shadow-sm">
-              <CardContent className="pt-6">
-                <div className="flex gap-0.5">
-                  {Array.from({ length: 5 }).map((_, j) => (
-                    <Star
-                      key={j}
-                      className="h-4 w-4 fill-primary/20 text-primary/20"
-                    />
-                  ))}
-                </div>
-                <p className="mt-4 text-sm text-muted-foreground">
-                  &ldquo;{item.quote}&rdquo;
-                </p>
-                <div className="mt-4 border-t pt-4">
-                  <p className="text-sm font-medium">{item.name}</p>
-                  <p className="text-xs text-muted-foreground">{item.role}</p>
-                </div>
-              </CardContent>
-            </Card>
+            <div
+              key={i}
+              className={`rounded-card border bg-card p-8 ${
+                i === 1 ? "md:-translate-y-4 md:shadow-lg" : ""
+              }`}
+            >
+              <div className="font-heading text-4xl font-bold text-primary/20">
+                FA.
+              </div>
+              <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
+                &ldquo;{item.quote}&rdquo;
+              </p>
+              <div className="mt-8 border-t pt-4">
+                <p className="font-heading text-sm font-semibold">{item.name}</p>
+                <p className="text-xs text-muted-foreground">{item.role}</p>
+              </div>
+            </div>
           ))}
         </div>
       </div>

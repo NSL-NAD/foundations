@@ -42,23 +42,25 @@ export default async function StudentsPage() {
   const totalLessons = 95;
 
   return (
-    <div className="container py-8">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold tracking-tight">Students</h1>
-        <p className="text-sm text-muted-foreground">
+    <div className="p-6 md:p-10">
+      <div className="mb-8">
+        <h1 className="font-heading text-2xl font-bold uppercase tracking-tight md:text-3xl">
+          Students
+        </h1>
+        <p className="mt-1 text-sm text-muted-foreground">
           {purchases?.length || 0} enrolled students
         </p>
       </div>
 
-      <div className="rounded-lg border">
+      <div className="rounded-card border">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Email</TableHead>
-              <TableHead>Product</TableHead>
-              <TableHead>Progress</TableHead>
-              <TableHead>Enrolled</TableHead>
-              <TableHead>Account</TableHead>
+              <TableHead className="text-xs font-medium uppercase tracking-wider">Email</TableHead>
+              <TableHead className="text-xs font-medium uppercase tracking-wider">Product</TableHead>
+              <TableHead className="text-xs font-medium uppercase tracking-wider">Progress</TableHead>
+              <TableHead className="text-xs font-medium uppercase tracking-wider">Enrolled</TableHead>
+              <TableHead className="text-xs font-medium uppercase tracking-wider">Account</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

@@ -5,7 +5,7 @@ interface GridPaperProps {
 }
 
 export function GridPaper({
-  opacity = 0.04,
+  opacity = 0.02,
   className = "",
   size = 20,
 }: GridPaperProps) {

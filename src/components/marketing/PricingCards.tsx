@@ -1,8 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Check, ShieldCheck } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -81,91 +79,96 @@ export function PricingCards() {
   }
 
   return (
-    <section id="pricing" className="py-20">
+    <section id="pricing" className="py-20 md:py-28">
       <div className="container">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="text-sm font-medium uppercase tracking-widest text-primary">
+          <p className="font-heading text-xs font-medium uppercase tracking-[0.3em] text-primary">
             Founding Student Pricing
           </p>
-          <h2 className="mt-2 text-3xl font-bold tracking-tight">
+          <h2 className="mt-3 font-heading text-3xl font-bold uppercase tracking-tight md:text-4xl">
             Invest in Your Dream Home
           </h2>
-          <p className="mt-3 text-lg text-muted-foreground">
+          <p className="mt-4 text-muted-foreground">
             Choose the option that fits your learning style. All options include
             lifetime access for founding students.
           </p>
         </div>
 
-        <div className="mx-auto mt-12 grid max-w-5xl gap-6 md:grid-cols-3">
+        <div className="mx-auto mt-16 grid max-w-5xl gap-6 md:grid-cols-3">
           {products.map((product) => (
-            <Card
+            <div
               key={product.key}
-              className={`relative flex flex-col ${
+              className={`relative flex flex-col rounded-card border p-8 ${
                 product.highlighted
                   ? "border-primary shadow-lg ring-1 ring-primary"
-                  : ""
+                  : "bg-card"
               }`}
             >
               {product.highlighted && (
-                <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-highlight text-foreground hover:bg-highlight/90">
+                <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-primary px-4 py-1 text-[10px] font-medium uppercase tracking-wider text-primary-foreground">
                   Best Value
-                </Badge>
+                </span>
               )}
-              <CardHeader className="text-center">
-                <CardTitle className="text-lg">{product.name}</CardTitle>
-                <p className="text-sm text-muted-foreground">
+              <div className="text-center">
+                <h3 className="font-heading text-lg font-semibold uppercase">
+                  {product.name}
+                </h3>
+                <p className="mt-1 text-sm text-muted-foreground">
                   {product.description}
                 </p>
-                <div className="mt-4">
+                <div className="mt-6">
                   {product.originalPrice && (
                     <span className="mr-2 text-lg text-muted-foreground line-through">
                       ${product.originalPrice}
                     </span>
                   )}
-                  <span className="text-4xl font-bold">${product.price}</span>
-                  <span className="text-muted-foreground"> USD</span>
+                  <span className="font-heading text-4xl font-bold">
+                    ${product.price}
+                  </span>
+                  <span className="text-sm text-muted-foreground"> USD</span>
                 </div>
-              </CardHeader>
-              <CardContent className="flex flex-1 flex-col">
-                <ul className="flex-1 space-y-3">
-                  {product.features.map((feature) => (
-                    <li
-                      key={feature}
-                      className="flex items-start gap-2 text-sm"
-                    >
-                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-                {product.note && (
-                  <p className="mt-3 text-xs text-muted-foreground italic">
-                    {product.note}
-                  </p>
-                )}
-                <Button
-                  className="mt-6 w-full"
-                  size="lg"
-                  variant={product.highlighted ? "default" : "outline"}
-                  onClick={() => handleCheckout(product.key)}
-                  disabled={loading !== null}
-                >
-                  {loading === product.key ? "Redirecting..." : `Get ${product.name}`}
-                </Button>
-              </CardContent>
-            </Card>
+              </div>
+
+              <ul className="mt-8 flex-1 space-y-3">
+                {product.features.map((feature) => (
+                  <li
+                    key={feature}
+                    className="flex items-start gap-2.5 text-sm"
+                  >
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+              {product.note && (
+                <p className="mt-4 text-xs text-muted-foreground italic">
+                  {product.note}
+                </p>
+              )}
+              <Button
+                className="mt-8 w-full"
+                size="lg"
+                variant={product.highlighted ? "default" : "outline"}
+                onClick={() => handleCheckout(product.key)}
+                disabled={loading !== null}
+              >
+                {loading === product.key
+                  ? "Redirecting..."
+                  : `Get ${product.name}`}
+              </Button>
+            </div>
           ))}
         </div>
 
         {/* Trust signals */}
-        <div className="mx-auto mt-8 flex max-w-lg items-center justify-center gap-6 text-sm text-muted-foreground">
-          <div className="flex items-center gap-1.5">
+        <div className="mx-auto mt-10 flex max-w-lg items-center justify-center gap-8 text-xs uppercase tracking-wider text-muted-foreground">
+          <div className="flex items-center gap-2">
             <ShieldCheck className="h-4 w-4" />
-            <span>30-day money-back guarantee</span>
+            <span>30-day guarantee</span>
           </div>
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-2">
             <ShieldCheck className="h-4 w-4" />
-            <span>Secure checkout via Stripe</span>
+            <span>Secure checkout</span>
           </div>
         </div>
       </div>

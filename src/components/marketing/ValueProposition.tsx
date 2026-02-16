@@ -1,65 +1,78 @@
 import {
   Compass,
   PenTool,
-  Lightbulb,
   MessageSquare,
+  ArrowRight,
 } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import Link from "next/link";
 
 const values = [
   {
     icon: Compass,
+    number: "01",
     title: "Think Like an Architect",
     description:
       "Learn how architects see the world — from space planning and circulation to light, materials, and proportion.",
+    href: "#curriculum",
   },
   {
     icon: PenTool,
+    number: "02",
     title: "Choose Your Path",
     description:
-      "Drawer path for hands-on sketching, or Brief Builder path for creating a detailed written plan. Both lead to your dream home.",
-  },
-  {
-    icon: Lightbulb,
-    title: "No Prerequisites",
-    description:
-      "No degree, no experience, no expensive software. Just curiosity about the space you live in and want to create.",
+      "Drawer path for hands-on sketching, or Brief Builder path for creating a detailed written plan.",
+    href: "#curriculum",
   },
   {
     icon: MessageSquare,
+    number: "03",
     title: "Speak the Language",
     description:
       "Gain the vocabulary and confidence to communicate your vision to architects, contractors, and designers.",
+    href: "#curriculum",
   },
 ];
 
 export function ValueProposition() {
   return (
-    <section className="bg-surface py-20">
+    <section className="py-20 md:py-28">
       <div className="container">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight">
+          <h2 className="font-heading text-3xl font-bold uppercase tracking-tight md:text-4xl">
             Why This Course Exists
           </h2>
-          <p className="mt-3 text-lg text-muted-foreground">
+          <p className="mt-4 text-muted-foreground">
             Architecture shapes every moment of your life at home. You deserve to
             understand it.
           </p>
         </div>
 
-        <div className="mx-auto mt-12 grid max-w-5xl gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mx-auto mt-16 grid max-w-5xl gap-6 md:grid-cols-3">
           {values.map((item) => (
-            <Card key={item.title} className="border-0 bg-card shadow-sm transition-shadow hover:shadow-md">
-              <CardContent className="pt-6">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                  <item.icon className="h-5 w-5 text-primary" />
-                </div>
-                <h3 className="mt-4 font-semibold">{item.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  {item.description}
-                </p>
-              </CardContent>
-            </Card>
+            <div
+              key={item.title}
+              className="group rounded-card border bg-card p-8 transition-shadow hover:shadow-md"
+            >
+              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-primary/10">
+                <item.icon className="h-5 w-5 text-primary" />
+              </div>
+              <p className="mt-6 font-heading text-xs font-medium uppercase tracking-widest text-muted-foreground">
+                {item.number}
+              </p>
+              <h3 className="mt-2 font-heading text-lg font-semibold uppercase">
+                {item.title}
+              </h3>
+              <p className="mt-3 text-sm text-muted-foreground">
+                {item.description}
+              </p>
+              <Link
+                href={item.href}
+                className="mt-6 inline-flex items-center gap-2 rounded-full border border-foreground/20 px-5 py-2 text-xs font-medium uppercase tracking-wider transition-colors hover:bg-foreground hover:text-background"
+              >
+                Learn More
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            </div>
           ))}
         </div>
       </div>

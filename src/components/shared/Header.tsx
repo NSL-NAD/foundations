@@ -3,11 +3,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Menu, X, LogIn } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Logo } from "./Logo";
-import { ThemeToggle } from "./ThemeToggle";
 
 interface HeaderProps {
   user?: { email: string; full_name?: string | null } | null;
@@ -33,17 +32,17 @@ export function Header({ user, isAdmin }: HeaderProps) {
   const links = user ? studentLinks : publicLinks;
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+    <header className="sticky top-0 z-40 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <div className="container flex h-16 items-center justify-between">
         <Logo />
 
-        {/* Desktop Navigation */}
-        <nav className="hidden items-center gap-6 md:flex" aria-label="Main navigation">
+        {/* Desktop Navigation — centered */}
+        <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 md:flex" aria-label="Main navigation">
           {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`text-sm font-medium transition-colors hover:text-primary ${
+              className={`font-heading text-[13px] font-medium uppercase tracking-wider transition-colors hover:text-primary ${
                 pathname === link.href
                   ? "text-foreground"
                   : "text-muted-foreground"
@@ -55,7 +54,7 @@ export function Header({ user, isAdmin }: HeaderProps) {
           {isAdmin && (
             <Link
               href="/admin"
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+              className="font-heading text-[13px] font-medium uppercase tracking-wider text-muted-foreground transition-colors hover:text-primary"
             >
               Admin
             </Link>
@@ -63,8 +62,7 @@ export function Header({ user, isAdmin }: HeaderProps) {
         </nav>
 
         {/* Desktop CTA */}
-        <div className="hidden items-center gap-2 md:flex">
-          <ThemeToggle />
+        <div className="hidden items-center gap-3 md:flex">
           {user ? (
             <form action="/api/auth/signout" method="POST">
               <Button variant="ghost" size="sm" type="submit">
@@ -74,10 +72,7 @@ export function Header({ user, isAdmin }: HeaderProps) {
           ) : (
             <>
               <Button variant="ghost" size="sm" asChild>
-                <Link href="/login">
-                  <LogIn className="mr-2 h-4 w-4" />
-                  Log In
-                </Link>
+                <Link href="/login">Log In</Link>
               </Button>
               <Button size="sm" asChild>
                 <Link href="/#pricing">Enroll Now</Link>
@@ -93,14 +88,14 @@ export function Header({ user, isAdmin }: HeaderProps) {
               {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>
           </SheetTrigger>
-          <SheetContent side="right" className="w-[280px]">
-            <div className="mt-6 flex flex-col gap-4">
+          <SheetContent side="right" className="w-[300px]">
+            <div className="mt-8 flex flex-col gap-6">
               {links.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
                   onClick={() => setOpen(false)}
-                  className={`text-lg font-medium transition-colors hover:text-primary ${
+                  className={`font-heading text-xl font-light uppercase tracking-wider transition-colors hover:text-primary ${
                     pathname === link.href
                       ? "text-foreground"
                       : "text-muted-foreground"
@@ -113,15 +108,12 @@ export function Header({ user, isAdmin }: HeaderProps) {
                 <Link
                   href="/admin"
                   onClick={() => setOpen(false)}
-                  className="text-lg font-medium text-muted-foreground transition-colors hover:text-primary"
+                  className="font-heading text-xl font-light uppercase tracking-wider text-muted-foreground transition-colors hover:text-primary"
                 >
                   Admin
                 </Link>
               )}
-              <div className="mt-4 flex items-center justify-between border-t pt-4">
-                <ThemeToggle />
-              </div>
-              <div className="border-t pt-4">
+              <div className="mt-4 border-t pt-6">
                 {user ? (
                   <form action="/api/auth/signout" method="POST">
                     <Button variant="outline" className="w-full" type="submit">
@@ -129,7 +121,7 @@ export function Header({ user, isAdmin }: HeaderProps) {
                     </Button>
                   </form>
                 ) : (
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-3">
                     <Button variant="outline" asChild className="w-full">
                       <Link href="/login" onClick={() => setOpen(false)}>
                         Log In

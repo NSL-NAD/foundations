@@ -1,5 +1,6 @@
+"use client";
+
 import { PenTool, FileText, Check } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const paths = [
   {
@@ -15,7 +16,7 @@ const paths = [
       "Use the Architecture Starter Kit tools",
       "Great for visual thinkers",
     ],
-    accent: "bg-primary/10 text-primary",
+    bgClass: "bg-primary text-white",
   },
   {
     icon: FileText,
@@ -30,55 +31,54 @@ const paths = [
       "Create a professional reference document",
       "Great for analytical thinkers",
     ],
-    accent: "bg-chart-2/10 text-chart-2",
+    bgClass: "bg-muted-foreground text-white",
   },
 ];
 
 export function PathComparison() {
   return (
-    <section className="py-20">
+    <section className="bg-surface py-20 md:py-28">
       <div className="container">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight">
+          <h2 className="font-heading text-3xl font-bold uppercase tracking-tight md:text-4xl">
             Two Paths, One Destination
           </h2>
-          <p className="mt-3 text-lg text-muted-foreground">
+          <p className="mt-4 text-muted-foreground">
             Whether you prefer to sketch or write, there&apos;s a path designed
             for you. Switch anytime — both are included.
           </p>
         </div>
 
-        <div className="mx-auto mt-12 grid max-w-4xl gap-8 md:grid-cols-2">
+        <div className="mx-auto mt-16 grid max-w-5xl gap-6 md:grid-cols-2">
           {paths.map((path) => (
-            <Card key={path.title} className="relative overflow-hidden">
-              <CardHeader>
-                <div
-                  className={`flex h-12 w-12 items-center justify-center rounded-xl ${path.accent}`}
-                >
-                  <path.icon className="h-6 w-6" />
-                </div>
-                <CardTitle className="mt-3 text-xl">{path.title}</CardTitle>
-                <p className="text-sm font-medium text-muted-foreground">
-                  {path.subtitle}
-                </p>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  {path.description}
-                </p>
-                <ul className="mt-4 space-y-2">
-                  {path.features.map((feature) => (
-                    <li
-                      key={feature}
-                      className="flex items-start gap-2 text-sm"
-                    >
-                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
+            <div
+              key={path.title}
+              className={`rounded-card p-8 md:p-10 ${path.bgClass}`}
+            >
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/20">
+                <path.icon className="h-6 w-6" />
+              </div>
+              <h3 className="mt-6 font-heading text-2xl font-semibold uppercase">
+                {path.title}
+              </h3>
+              <p className="mt-1 text-sm font-medium opacity-70">
+                {path.subtitle}
+              </p>
+              <p className="mt-4 text-sm opacity-80">
+                {path.description}
+              </p>
+              <ul className="mt-6 space-y-3">
+                {path.features.map((feature) => (
+                  <li
+                    key={feature}
+                    className="flex items-start gap-2.5 text-sm"
+                  >
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 opacity-70" />
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           ))}
         </div>
       </div>

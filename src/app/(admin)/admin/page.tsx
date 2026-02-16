@@ -11,7 +11,6 @@ export const metadata = {
 export default async function AdminPage() {
   const supabase = createClient();
 
-  // Get stats
   const { count: totalStudents } = await supabase
     .from("purchases")
     .select("*", { count: "exact", head: true })
@@ -32,42 +31,46 @@ export default async function AdminPage() {
     .eq("status", "pending");
 
   return (
-    <div className="container py-8">
-      <div className="mb-8 flex items-center justify-between">
+    <div className="p-6 md:p-10">
+      <div className="mb-10 flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Admin Dashboard</h1>
-          <p className="mt-1 text-muted-foreground">
+          <h1 className="font-heading text-2xl font-bold uppercase tracking-tight md:text-3xl">
+            Admin Dashboard
+          </h1>
+          <p className="mt-1 text-sm text-muted-foreground">
             Manage students, orders, and track metrics.
           </p>
         </div>
-        <Button variant="outline" asChild>
+        <Button variant="outline" size="sm" asChild>
           <Link href="/">View Site</Link>
         </Button>
       </div>
 
       {/* Stats */}
-      <div className="mb-8 grid gap-4 md:grid-cols-3">
+      <div className="mb-10 grid gap-4 md:grid-cols-3">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
               Total Students
             </CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{totalStudents || 0}</div>
+            <div className="font-heading text-3xl font-bold">
+              {totalStudents || 0}
+            </div>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
               Total Revenue
             </CardTitle>
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="font-heading text-3xl font-bold">
               ${(totalRevenue / 100).toFixed(2)}
             </div>
           </CardContent>
@@ -75,13 +78,15 @@ export default async function AdminPage() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
               Pending Kit Orders
             </CardTitle>
             <Package className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{pendingKits || 0}</div>
+            <div className="font-heading text-3xl font-bold">
+              {pendingKits || 0}
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -90,11 +95,13 @@ export default async function AdminPage() {
       <div className="grid gap-4 md:grid-cols-2">
         <Link
           href="/admin/students"
-          className="group flex items-center justify-between rounded-lg border bg-card p-6 transition-colors hover:bg-accent"
+          className="group flex items-center justify-between rounded-card border bg-card p-6 transition-all hover:shadow-md"
         >
           <div>
-            <h2 className="text-lg font-semibold">Students</h2>
-            <p className="text-sm text-muted-foreground">
+            <h2 className="font-heading text-lg font-semibold uppercase">
+              Students
+            </h2>
+            <p className="mt-1 text-sm text-muted-foreground">
               View and manage student accounts and progress
             </p>
           </div>
@@ -103,11 +110,13 @@ export default async function AdminPage() {
 
         <Link
           href="/admin/orders"
-          className="group flex items-center justify-between rounded-lg border bg-card p-6 transition-colors hover:bg-accent"
+          className="group flex items-center justify-between rounded-card border bg-card p-6 transition-all hover:shadow-md"
         >
           <div>
-            <h2 className="text-lg font-semibold">Kit Orders</h2>
-            <p className="text-sm text-muted-foreground">
+            <h2 className="font-heading text-lg font-semibold uppercase">
+              Kit Orders
+            </h2>
+            <p className="mt-1 text-sm text-muted-foreground">
               Manage kit fulfillment and tracking
             </p>
           </div>
