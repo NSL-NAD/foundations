@@ -75,6 +75,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
       navigation={navigation}
       completedLessons={Array.from(completedLessons)}
       mdxSource={mdxContent}
+      userId={user!.id}
     />
   );
 }

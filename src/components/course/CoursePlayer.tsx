@@ -1,12 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ModuleSidebar } from "./ModuleSidebar";
 import { LessonContent } from "./LessonContent";
 import { LessonNavigation } from "./LessonNavigation";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { ToolsFAB } from "@/components/tools/ToolsFAB";
+import { ToolsPanel } from "@/components/tools/ToolsPanel";
+import { useToolsPanel } from "@/contexts/ToolsPanelContext";
+import { cn } from "@/lib/utils";
 import type { CurriculumModule, CurriculumLesson } from "@/lib/course";
 import type { LessonNavigation as LessonNav } from "@/types/course";
 
@@ -19,6 +23,7 @@ interface CoursePlayerProps {
   navigation: LessonNav;
   completedLessons: string[];
   mdxSource: string;
+  userId: string;
 }
 
 export function CoursePlayer({
@@ -30,9 +35,16 @@ export function CoursePlayer({
   navigation,
   completedLessons,
   mdxSource,
+  userId,
 }: CoursePlayerProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const isCompleted = completedLessons.includes(`${moduleSlug}/${lessonSlug}`);
+  const { isOpen: toolsPanelOpen, setLessonContext } = useToolsPanel();
+
+  // Update lesson context when navigating
+  useEffect(() => {
+    setLessonContext(moduleSlug, lessonSlug);
+  }, [moduleSlug, lessonSlug, setLessonContext]);
 
   return (
     <div className="flex h-[calc(100vh-4rem)]">
@@ -69,7 +81,12 @@ export function CoursePlayer({
       </Sheet>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto">
+      <main
+        className={cn(
+          "flex-1 overflow-y-auto transition-[padding] duration-300",
+          toolsPanelOpen && "lg:pr-96"
+        )}
+      >
         <div className="mx-auto max-w-3xl px-6 py-8 md:px-8">
           {/* Module breadcrumb */}
           <p className="mb-1 text-sm text-muted-foreground">
@@ -110,6 +127,10 @@ export function CoursePlayer({
           </div>
         </div>
       </main>
+
+      {/* Tools Panel + FAB */}
+      <ToolsFAB />
+      <ToolsPanel userId={userId} />
     </div>
   );
 }

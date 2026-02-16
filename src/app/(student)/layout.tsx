@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { Header } from "@/components/shared/Header";
+import { ToolsPanelProvider } from "@/contexts/ToolsPanelContext";
 
 export default async function StudentLayout({
   children,
@@ -32,7 +33,7 @@ export default async function StudentLayout({
     .single();
 
   return (
-    <>
+    <ToolsPanelProvider>
       <Header
         user={profile ? { email: profile.email, full_name: profile.full_name } : null}
         isAdmin={profile?.role === "admin"}
@@ -40,6 +41,6 @@ export default async function StudentLayout({
       <main id="main-content" className="min-h-[calc(100vh-4rem)]">
         {children}
       </main>
-    </>
+    </ToolsPanelProvider>
   );
 }
