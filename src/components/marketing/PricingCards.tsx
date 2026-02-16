@@ -98,7 +98,7 @@ export function PricingCards() {
           {products.map((product) => (
             <div
               key={product.key}
-              className={`relative flex flex-col rounded-card border p-8 ${
+              className={`relative flex flex-col rounded-card border p-6 ${
                 product.highlighted
                   ? "border-2 border-primary brass-glow"
                   : "border-foreground/10 bg-card"

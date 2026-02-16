@@ -18,13 +18,13 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="flex flex-col justify-between rounded-card bg-card p-8 md:p-12 lg:p-16"
+            className="flex flex-col justify-between rounded-card bg-card p-6 md:p-9 lg:p-12"
           >
             <div>
-              <h1 className="font-heading text-6xl font-bold uppercase leading-[0.95] tracking-tight sm:text-7xl lg:text-[6.5rem]">
-                Design
+              <h1 className="font-heading text-6xl font-light uppercase leading-[0.95] tracking-tight sm:text-7xl lg:text-[6.5rem]">
+                Design Your
                 <br />
-                Your Home
+                Dream Home
               </h1>
             </div>
 
@@ -55,7 +55,7 @@ export function Hero() {
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
             {/* Quote overlay */}
-            <div className="relative flex min-h-[400px] flex-col justify-end p-8 md:min-h-full md:p-10 lg:p-12">
+            <div className="relative flex min-h-[400px] flex-col justify-end p-6 md:min-h-full md:p-7 lg:p-9">
               <div className="mt-auto">
                 <p className="font-heading text-2xl font-medium uppercase leading-tight tracking-tight text-white md:text-3xl lg:text-4xl">
                   Where vision meets
@@ -90,7 +90,7 @@ export function Hero() {
             className="grid grid-cols-2 gap-4"
           >
             {/* Card 1 — Accent (terracotta) */}
-            <div className="flex flex-col justify-between rounded-card bg-accent p-6 text-white md:p-8">
+            <div className="flex flex-col justify-between rounded-card bg-accent p-5 text-white md:p-6">
               <span className="font-heading text-5xl font-bold leading-none md:text-6xl lg:text-7xl">
                 62
               </span>
@@ -106,7 +106,7 @@ export function Hero() {
             </div>
 
             {/* Card 2 — Primary (slate blue) */}
-            <div className="flex flex-col justify-between rounded-card bg-primary p-6 text-white md:p-8">
+            <div className="flex flex-col justify-between rounded-card bg-primary p-5 text-white md:p-6">
               <span className="font-heading text-5xl font-bold leading-none md:text-6xl lg:text-7xl">
                 02
               </span>

@@ -26,7 +26,7 @@ export function FinalCTA() {
           <ArchCurve position="bottom-right" size={200} className="text-brass/30" />
 
           {/* Content */}
-          <div className="relative px-8 py-20 text-center text-white md:px-16 md:py-28">
+          <div className="relative px-6 py-16 text-center text-white md:px-12 md:py-20">
             <h2 className="font-heading text-4xl font-light uppercase leading-tight tracking-tight md:text-6xl">
               Your Dream Home
               <span className="block font-medium">Starts Here</span>

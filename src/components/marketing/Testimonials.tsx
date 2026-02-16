@@ -40,7 +40,7 @@ export function Testimonials() {
           {testimonials.map((item, i) => (
             <div
               key={i}
-              className={`rounded-card border bg-card p-8 ${
+              className={`rounded-card border bg-card p-6 ${
                 i === 1 ? "md:-translate-y-4 border-2 border-primary" : ""
               }`}
             >
