@@ -141,19 +141,22 @@ export default async function CoursePage() {
               </div>
 
               {/* Lesson list — show ~5 rows, scroll the rest */}
-              <div className="relative">
+              <div className="relative overflow-hidden rounded-b-card">
                 <ul className="lesson-scroll divide-y overflow-y-auto max-h-[210px]">
-                  {mod.lessons.map((lesson) => {
+                  {mod.lessons.map((lesson, lessonIdx) => {
                     const isComplete = completedSet.has(
                       `${mod.slug}/${lesson.slug}`
                     );
                     const Icon = typeIcons[lesson.type] || FileText;
+                    const isLast = lessonIdx === mod.lessons.length - 1;
 
                     return (
                       <li key={lesson.slug}>
                         <Link
                           href={getLessonPath(mod.slug, lesson.slug)}
-                          className="flex items-center gap-3 px-5 py-2.5 text-sm transition-colors hover:bg-accent/10 hover:text-accent"
+                          className={`flex items-center gap-3 px-5 py-2.5 text-sm transition-colors hover:bg-accent/10 hover:text-accent ${
+                            isLast ? "rounded-b-card" : ""
+                          }`}
                         >
                           {isComplete ? (
                             <Check className="h-4 w-4 shrink-0 text-primary" />
@@ -175,9 +178,9 @@ export default async function CoursePage() {
                     );
                   })}
                 </ul>
-                {/* Fade indicator when there are more than 5 lessons */}
-                {mod.lessons.length > 5 && (
-                  <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-card to-transparent" />
+                {/* Fade indicator when there are more than 4 rows to scroll */}
+                {mod.lessons.length > 4 && (
+                  <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-12 rounded-b-card bg-gradient-to-t from-card via-card/60 to-transparent" />
                 )}
               </div>
             </div>
