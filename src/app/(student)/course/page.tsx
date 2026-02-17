@@ -141,8 +141,8 @@ export default async function CoursePage() {
               </div>
 
               {/* Lesson list — show ~5 rows, scroll the rest */}
-              <div className="rounded-b-card">
-                <ul className="lesson-scroll divide-y overflow-y-auto max-h-[210px]">
+              <div className="overflow-hidden rounded-b-card">
+                <ul className={`divide-y max-h-[210px] ${mod.lessons.length > 5 ? "lesson-scroll overflow-y-scroll" : "overflow-y-auto"}`}>
                   {mod.lessons.map((lesson, lessonIdx) => {
                     const isComplete = completedSet.has(
                       `${mod.slug}/${lesson.slug}`
