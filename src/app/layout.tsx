@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     template: "%s | Foundations of Architecture",
   },
   description:
-    "Learn architecture fundamentals for $93. 62 lessons, two learning paths, 34 downloadable resources. No degree required.",
+    "Learn architecture fundamentals for $47. 62 lessons, two learning paths, 34 downloadable resources. No degree required.",
   metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "http://localhost:3007"),
   openGraph: {
     type: "website",
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Foundations of Architecture",
     description:
-      "Design your dream home for $93, not $200K. Learn architecture fundamentals with no degree required.",
+      "Design your dream home for $47, not $200K. Learn architecture fundamentals with no degree required.",
   },
   keywords: [
     "architecture course",

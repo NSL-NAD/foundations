@@ -9,7 +9,8 @@ const products = [
   {
     key: "course",
     name: "Course Only",
-    price: 93,
+    price: 47,
+    originalPrice: 93,
     description: "Full digital course access",
     features: [
       "62 lessons across 10 modules",
@@ -23,15 +24,15 @@ const products = [
   {
     key: "bundle",
     name: "Course + Starter Kit",
-    price: 123,
-    originalPrice: 135,
+    price: 62,
+    originalPrice: 123,
     description: "Everything you need to start",
     features: [
       "Everything in Course Only",
       "Architecture Starter Kit shipped to you",
       "Grid paper, ruler, pencils, eraser",
       "Architecture journal & carry pouch",
-      "Save $12 vs. buying separately",
+      "Save vs. buying separately",
     ],
     highlighted: true,
   },

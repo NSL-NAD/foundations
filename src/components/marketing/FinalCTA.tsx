@@ -37,7 +37,7 @@ export function FinalCTA() {
                   className="rounded-full border-foreground bg-foreground px-6 text-xs font-medium uppercase tracking-wider text-background hover:bg-brass hover:text-white hover:border-brass"
                 >
                   <Link href="#pricing">
-                    Enroll Now — $93
+                    Enroll Now — $47
                     <ArrowRight className="ml-1.5 h-3 w-3" />
                   </Link>
                 </Button>
@@ -65,11 +65,6 @@ export function FinalCTA() {
                   becomes the blueprint
                   <br />
                   for home.
-                </p>
-
-                <p className="mt-4 text-[10px] uppercase tracking-[0.3em] text-white/50">
-                  30-day guarantee &middot; Founding pricing &middot; Lifetime
-                  access
                 </p>
               </div>
             </div>

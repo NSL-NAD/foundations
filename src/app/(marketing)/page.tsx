@@ -7,6 +7,7 @@ import { Testimonials } from "@/components/marketing/Testimonials";
 import { PricingCards } from "@/components/marketing/PricingCards";
 import { FAQ } from "@/components/marketing/FAQ";
 import { FinalCTA } from "@/components/marketing/FinalCTA";
+import { ValueBanner } from "@/components/marketing/ValueBanner";
 import { FadeInSection } from "@/components/shared/FadeInSection";
 
 export default function HomePage() {
@@ -15,6 +16,9 @@ export default function HomePage() {
       <Hero />
       <FadeInSection>
         <ValueProposition />
+      </FadeInSection>
+      <FadeInSection>
+        <ValueBanner />
       </FadeInSection>
       <FadeInSection>
         <PathComparison />

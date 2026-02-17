@@ -73,7 +73,7 @@ export function Hero() {
                     className="rounded-full border-white bg-white px-5 text-xs font-medium uppercase tracking-wider text-black hover:bg-brass hover:text-white hover:border-brass"
                   >
                     <Link href="#pricing">
-                      Enroll Now — $93
+                      Enroll Now — $47
                       <ArrowRight className="ml-1.5 h-3 w-3" />
                     </Link>
                   </Button>
@@ -90,11 +90,11 @@ export function Hero() {
             className="grid grid-cols-2 gap-3"
           >
             {/* Card 1 — Accent (terracotta) */}
-            <div className="flex flex-col justify-between rounded-card bg-accent p-3.5 text-white md:p-4">
+            <div className="flex flex-col rounded-card bg-accent p-3.5 text-white md:p-4">
               <span className="font-heading text-5xl font-bold leading-none md:text-6xl lg:text-7xl">
                 62
               </span>
-              <div className="mt-5">
+              <div className="mt-auto pt-5">
                 <h3 className="font-heading text-sm font-semibold uppercase tracking-wider">
                   Lessons
                 </h3>
@@ -106,11 +106,11 @@ export function Hero() {
             </div>
 
             {/* Card 2 — Primary (slate blue) */}
-            <div className="flex flex-col justify-between rounded-card bg-primary p-3.5 text-white md:p-4">
+            <div className="flex flex-col rounded-card bg-primary p-3.5 text-white md:p-4">
               <span className="font-heading text-5xl font-bold leading-none md:text-6xl lg:text-7xl">
                 02
               </span>
-              <div className="mt-5">
+              <div className="mt-auto pt-5">
                 <h3 className="font-heading text-sm font-semibold uppercase tracking-wider">
                   Paths
                 </h3>
@@ -130,12 +130,12 @@ export function Hero() {
           transition={{ duration: 0.5, delay: 0.4 }}
           className="mt-5 flex items-center justify-between border-t border-foreground/8 pt-5"
         >
-          <div className="flex items-center gap-8 text-xs uppercase tracking-[0.2em] text-muted-foreground">
+          <div className="flex flex-wrap items-center gap-x-8 gap-y-1 text-xs uppercase tracking-[0.2em] text-muted-foreground">
             <span>30-day guarantee</span>
             <span className="hidden sm:inline">&middot;</span>
-            <span className="hidden sm:inline">Founding pricing</span>
+            <span>Founding pricing</span>
             <span className="hidden sm:inline">&middot;</span>
-            <span className="hidden sm:inline">Lifetime access</span>
+            <span>Lifetime access</span>
           </div>
         </motion.div>
       </div>
