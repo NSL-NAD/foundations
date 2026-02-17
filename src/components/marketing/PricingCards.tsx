@@ -82,7 +82,7 @@ export function PricingCards() {
     <section id="pricing" className="py-20 md:py-28">
       <div className="container">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="font-heading text-xs font-medium uppercase tracking-[0.3em] text-primary">
+          <p className="font-heading text-xs font-medium uppercase tracking-[0.3em] text-accent">
             Founding Student Pricing
           </p>
           <h2 className="mt-3 font-heading text-3xl font-bold uppercase tracking-tight md:text-4xl">
@@ -94,18 +94,18 @@ export function PricingCards() {
           </p>
         </div>
 
-        <div className="mx-auto mt-16 grid max-w-5xl gap-6 md:grid-cols-3">
+        <div className="mx-auto mt-16 grid max-w-5xl items-center gap-6 md:grid-cols-3">
           {products.map((product) => (
             <div
               key={product.key}
-              className={`relative flex flex-col rounded-card border p-5 ${
+              className={`group relative flex flex-col rounded-card border p-5 transition-all ${
                 product.highlighted
-                  ? "border-2 border-primary brass-glow"
-                  : "border-foreground/10 bg-card"
+                  ? "border-2 border-primary bg-card md:scale-105 md:p-6"
+                  : "border-transparent bg-card hover:border-[#171C24]/40"
               }`}
             >
               {product.highlighted && (
-                <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-primary px-4 py-1 text-[10px] font-medium uppercase tracking-wider text-primary-foreground">
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-accent px-4 py-1 text-[10px] font-medium uppercase tracking-wider text-white">
                   Best Value
                 </span>
               )}
@@ -135,19 +135,23 @@ export function PricingCards() {
                     key={feature}
                     className="flex items-start gap-2.5 text-sm"
                   >
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
                     <span>{feature}</span>
                   </li>
                 ))}
               </ul>
               {product.note && (
-                <p className="mt-4 text-xs text-muted-foreground italic">
+                <p className="mt-4 text-xs text-accent/70 italic">
                   {product.note}
                 </p>
               )}
               <Button
-                className="mt-8 w-full"
-                size="lg"
+                className={`mt-6 w-full rounded-full text-xs font-medium uppercase tracking-wider ${
+                  product.highlighted
+                    ? "bg-primary text-white hover:bg-brass hover:text-white"
+                    : "border-foreground/20 bg-transparent text-foreground hover:bg-brass hover:text-white hover:border-brass"
+                }`}
+                size="sm"
                 variant={product.highlighted ? "default" : "outline"}
                 onClick={() => handleCheckout(product.key)}
                 disabled={loading !== null}
