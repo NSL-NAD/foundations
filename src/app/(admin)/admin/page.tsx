@@ -46,9 +46,9 @@ export default async function AdminPage() {
         </Button>
       </div>
 
-      {/* Stats */}
-      <div className="mb-10 grid gap-4 md:grid-cols-3">
-        <Card>
+      {/* Students row — stat + action side by side */}
+      <div className="mb-4 grid grid-cols-2 gap-4">
+        <Card className="aspect-square">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
               Total Students
@@ -62,6 +62,25 @@ export default async function AdminPage() {
           </CardContent>
         </Card>
 
+        <Link
+          href="/admin/students"
+          className="group flex aspect-square flex-col justify-between rounded-card bg-accent p-5 text-white transition-opacity hover:opacity-90"
+        >
+          <Users className="h-5 w-5 text-white/70" />
+          <div>
+            <h2 className="font-heading text-sm font-semibold uppercase tracking-wider">
+              Students
+            </h2>
+            <p className="mt-1 text-xs leading-relaxed text-white/80">
+              View and manage accounts
+            </p>
+          </div>
+          <ArrowRight className="h-4 w-4 text-white/70 transition-transform group-hover:translate-x-1" />
+        </Link>
+      </div>
+
+      {/* Revenue — full width */}
+      <div className="mb-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
@@ -75,8 +94,11 @@ export default async function AdminPage() {
             </div>
           </CardContent>
         </Card>
+      </div>
 
-        <Card>
+      {/* Kit Orders row — stat + action side by side */}
+      <div className="grid grid-cols-2 gap-4">
+        <Card className="aspect-square">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
               Pending Kit Orders
@@ -89,38 +111,21 @@ export default async function AdminPage() {
             </div>
           </CardContent>
         </Card>
-      </div>
-
-      {/* Quick Links */}
-      <div className="grid gap-4 md:grid-cols-2">
-        <Link
-          href="/admin/students"
-          className="group flex items-center justify-between rounded-card border bg-card p-6 transition-all hover:border-foreground/20"
-        >
-          <div>
-            <h2 className="font-heading text-lg font-semibold uppercase">
-              Students
-            </h2>
-            <p className="mt-1 text-sm text-muted-foreground">
-              View and manage student accounts and progress
-            </p>
-          </div>
-          <ArrowRight className="h-5 w-5 text-muted-foreground transition-transform group-hover:translate-x-1" />
-        </Link>
 
         <Link
           href="/admin/orders"
-          className="group flex items-center justify-between rounded-card border bg-card p-6 transition-all hover:border-foreground/20"
+          className="group flex aspect-square flex-col justify-between rounded-card bg-accent p-5 text-white transition-opacity hover:opacity-90"
         >
+          <Package className="h-5 w-5 text-white/70" />
           <div>
-            <h2 className="font-heading text-lg font-semibold uppercase">
+            <h2 className="font-heading text-sm font-semibold uppercase tracking-wider">
               Kit Orders
             </h2>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Manage kit fulfillment and tracking
+            <p className="mt-1 text-xs leading-relaxed text-white/80">
+              Manage fulfillment and tracking
             </p>
           </div>
-          <ArrowRight className="h-5 w-5 text-muted-foreground transition-transform group-hover:translate-x-1" />
+          <ArrowRight className="h-4 w-4 text-white/70 transition-transform group-hover:translate-x-1" />
         </Link>
       </div>
     </div>
