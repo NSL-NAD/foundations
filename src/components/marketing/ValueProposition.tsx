@@ -62,8 +62,8 @@ export function ValueProposition() {
               key={item.title}
               className="group rounded-card border bg-card p-5 transition-colors hover:border-[#171C24]/50"
             >
-              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-brass/10">
-                <item.icon className="h-5 w-5 text-brass" />
+              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-accent/10">
+                <item.icon className="h-5 w-5 text-accent" />
               </div>
               <p className="mt-6 font-heading text-4xl font-bold text-primary/20">
                 {item.number}

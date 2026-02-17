@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { IMAGES } from "@/lib/images";
 import { ArchCurve } from "@/components/decorative/ArchCurve";
 
 export function InstructorSection() {
@@ -12,17 +11,19 @@ export function InstructorSection() {
           {/* Photo */}
           <div className="relative aspect-[4/5] overflow-hidden rounded-card bg-muted">
             <Image
-              src={IMAGES.instructor.src}
-              alt={IMAGES.instructor.alt}
+              src="/images/nic-demore.jpg"
+              alt="Nic DeMore — Foundations of Architecture instructor"
               fill
               className="object-cover"
               sizes="(max-width: 768px) 100vw, 50vw"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-            <div className="absolute bottom-8 left-8 right-8">
-              <p className="font-heading text-xl font-light uppercase leading-snug text-white md:text-2xl">
-                Creating the course I wish existed when I started.
-              </p>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
+            <div className="absolute bottom-6 left-6 right-6">
+              <div className="rounded-[1.25rem] border-[1.5px] border-white p-5 md:p-6">
+                <p className="font-heading text-xl font-light uppercase leading-snug text-white md:text-2xl">
+                  Creating the course I wish existed when I started.
+                </p>
+              </div>
             </div>
           </div>
 
@@ -59,13 +60,13 @@ export function InstructorSection() {
 
             <div className="mt-10 grid grid-cols-3 gap-4">
               {[
-                { value: "62", label: "Lessons" },
-                { value: "34", label: "Resources" },
                 { value: "10", label: "Modules" },
+                { value: "34", label: "Resources" },
+                { value: "62", label: "Lessons" },
               ].map((stat) => (
                 <div
                   key={stat.label}
-                  className="rounded-img border border-white/10 p-2.5 text-center"
+                  className="rounded-img border border-accent/30 bg-accent/5 p-2.5 text-center"
                 >
                   <div className="font-heading text-2xl font-bold">
                     {stat.value}

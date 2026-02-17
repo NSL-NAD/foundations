@@ -117,7 +117,7 @@ export function CurriculumPreview() {
                         </p>
                       </div>
                     </div>
-                    <span className="hidden rounded-full bg-surface px-3 py-1 text-[10px] font-medium uppercase tracking-wider text-muted-foreground sm:inline-block">
+                    <span className="hidden rounded-full bg-accent/10 px-3 py-1 text-[10px] font-medium uppercase tracking-wider text-accent sm:inline-block">
                       {section.tag}
                     </span>
                   </div>
