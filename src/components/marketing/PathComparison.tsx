@@ -45,7 +45,9 @@ export function PathComparison() {
           </h2>
           <p className="mt-4 text-muted-foreground">
             Whether you prefer to sketch or write, there&apos;s a path designed
-            for you. Switch anytime — both are included.
+            for you. Switch anytime — both are included. Both result in a
+            detailed Design Brief that you can hand-off to your architect or
+            designer.
           </p>
         </div>
 
