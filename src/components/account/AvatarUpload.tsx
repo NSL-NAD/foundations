@@ -84,7 +84,7 @@ export function AvatarUpload({
   }
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-start">
       <button
         onClick={() => fileInputRef.current?.click()}
         disabled={uploading}

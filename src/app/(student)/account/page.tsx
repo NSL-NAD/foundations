@@ -34,7 +34,7 @@ export default async function AccountPage() {
           <CardTitle>Profile</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="flex justify-center pb-2">
+          <div className="pb-2">
             <AvatarUpload
               userId={user!.id}
               currentAvatarUrl={profile?.avatar_url ?? null}
