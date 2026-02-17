@@ -42,7 +42,7 @@ export function ChatInput({
   return (
     <form
       onSubmit={onSubmit}
-      className="flex items-end gap-2 border-t bg-card p-4"
+      className="flex items-end gap-2 border-t bg-card p-4 pb-[max(1rem,env(safe-area-inset-bottom))]"
     >
       <textarea
         ref={textareaRef}

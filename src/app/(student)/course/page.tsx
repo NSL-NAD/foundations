@@ -2,7 +2,6 @@ import { createClient } from "@/lib/supabase/server";
 import { getModules, getFirstLesson, getLessonPath } from "@/lib/course";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Check, PlayCircle, FileText, PenTool, ListChecks, PenLine, MessageCircle, BookOpen, Trophy } from "lucide-react";
 import Link from "next/link";
 import { DashboardChatButton } from "@/components/dashboard/DashboardChatButton";
@@ -159,9 +158,9 @@ export default async function CoursePage() {
                       {mod.description}
                     </p>
                   </div>
-                  <Badge variant="secondary" className="shrink-0 text-[10px]">
+                  <span className="shrink-0 font-heading text-2xl font-bold text-accent/40">
                     {modulePercent}%
-                  </Badge>
+                  </span>
                 </div>
                 <Progress value={modulePercent} className="mt-3 h-1.5" />
               </div>

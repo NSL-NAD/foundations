@@ -45,7 +45,7 @@ export function CoursePlayer({
   }, [moduleSlug, lessonSlug, setLessonContext]);
 
   return (
-    <div className="flex h-[calc(100vh-4rem)]">
+    <div className="flex h-[calc(100dvh-4rem)]">
       {/* Desktop Sidebar */}
       <aside className="hidden flex-shrink-0 overflow-y-auto lg:block">
         <ModuleSidebar
@@ -60,9 +60,9 @@ export function CoursePlayer({
       <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
         <SheetTrigger asChild>
           <Button
-            variant="ghost"
+            variant="outline"
             size="icon"
-            className="fixed bottom-4 left-4 z-40 rounded-full border lg:hidden"
+            className="fixed bottom-4 left-4 z-40 h-12 w-12 rounded-full border bg-card/90 backdrop-blur shadow-md lg:hidden"
           >
             <Menu className="h-5 w-5" />
           </Button>
@@ -85,7 +85,7 @@ export function CoursePlayer({
           toolsPanelOpen && "lg:pr-96"
         )}
       >
-        <div className="mx-auto max-w-3xl px-6 py-8 md:px-8">
+        <div className="mx-auto max-w-3xl px-6 py-8 pb-24 md:px-8 lg:pb-8">
           {/* Module breadcrumb */}
           <p className="mb-1 font-heading text-xs font-medium uppercase tracking-[0.15em] text-muted-foreground">
             {currentModule.title}
