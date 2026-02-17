@@ -128,9 +128,11 @@ export function AvatarUpload({
         className="hidden"
       />
 
-      <p className="mt-2 text-[10px] uppercase tracking-wider text-muted-foreground">
-        {uploading ? "Uploading..." : "Click to upload"}
-      </p>
+      {uploading && (
+        <p className="mt-2 text-[10px] uppercase tracking-wider text-muted-foreground">
+          Uploading...
+        </p>
+      )}
     </div>
   );
 }
