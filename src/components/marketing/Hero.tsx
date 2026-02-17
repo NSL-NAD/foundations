@@ -128,9 +128,9 @@ export function Hero() {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-5 flex items-center justify-between border-t border-foreground/8 pt-5"
+          className="mt-5 flex items-center justify-center border-t border-foreground/8 pt-5"
         >
-          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-1 text-xs uppercase tracking-[0.2em] text-muted-foreground sm:justify-start">
+          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-1 text-xs uppercase tracking-[0.2em] text-muted-foreground">
             <span>30-day guarantee</span>
             <span className="hidden sm:inline">&middot;</span>
             <span>Founding pricing</span>

@@ -78,8 +78,8 @@ export default async function AdminPage() {
             <ArrowRight className="h-4 w-4 text-white/70 transition-transform group-hover:translate-x-1" />
           </Link>
 
-          {/* Revenue — spans 2 cols on desktop */}
-          <Card className="col-span-2 aspect-square md:aspect-auto">
+          {/* Revenue — spans full width */}
+          <Card className="col-span-2">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                 Total Revenue

@@ -18,13 +18,13 @@ export default function HomePage() {
         <ValueProposition />
       </FadeInSection>
       <FadeInSection>
-        <ValueBanner />
-      </FadeInSection>
-      <FadeInSection>
         <PathComparison />
       </FadeInSection>
       <FadeInSection>
         <CurriculumPreview />
+      </FadeInSection>
+      <FadeInSection>
+        <ValueBanner />
       </FadeInSection>
       <FadeInSection>
         <InstructorSection />
