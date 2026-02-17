@@ -39,7 +39,7 @@ export function PathComparison() {
   return (
     <section className="bg-surface py-20 md:py-28">
       <div className="container">
-        <div className="mx-auto max-w-2xl text-center">
+        <div className="mx-auto max-w-3xl text-center">
           <h2 className="font-heading text-3xl font-bold uppercase tracking-tight md:text-4xl">
             Two Paths, One Destination
           </h2>
