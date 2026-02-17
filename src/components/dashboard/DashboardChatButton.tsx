@@ -9,12 +9,13 @@ export function DashboardChatButton() {
 
   return (
     <Button
-      variant="outline"
-      className="w-full"
+      variant="ghost"
+      size="sm"
+      className="h-auto w-auto justify-start p-0 text-xs text-muted-foreground hover:text-foreground"
       onClick={() => toggle("chat")}
     >
-      <MessageCircle className="mr-2 h-4 w-4" />
       Open AI Chat
+      <MessageCircle className="ml-1.5 h-3 w-3" />
     </Button>
   );
 }
