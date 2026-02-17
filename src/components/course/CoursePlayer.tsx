@@ -67,13 +67,14 @@ export function CoursePlayer({
             <Menu className="h-5 w-5" />
           </Button>
         </SheetTrigger>
-        <SheetContent side="left" className="w-80 border-r-0 bg-[#171C24] p-0 [&>button:first-child]:text-white/50 [&>button:first-child]:hover:text-white [&>button:first-child]:rounded-none [&>button:first-child]:border-0 [&>button:first-child]:ring-0 [&>button:first-child]:ring-offset-0 [&>button:first-child]:focus:ring-0 [&>button:first-child]:focus:ring-offset-0">
+        <SheetContent side="left" className="w-80 border-r-0 bg-[#171C24] p-0 [&>button:first-child]:z-50 [&>button:first-child]:pointer-events-auto [&>button:first-child]:h-10 [&>button:first-child]:w-10 [&>button:first-child]:text-white/60 [&>button:first-child]:hover:text-white [&>button:first-child]:rounded-none [&>button:first-child]:border-0 [&>button:first-child]:ring-0 [&>button:first-child]:ring-offset-0 [&>button:first-child]:focus:ring-0 [&>button:first-child]:focus:ring-offset-0 [&>button:first-child]:focus:outline-none">
           <ModuleSidebar
             modules={modules}
             currentModuleSlug={moduleSlug}
             currentLessonSlug={lessonSlug}
             completedLessons={completedLessons}
             onNavigate={() => setSidebarOpen(false)}
+            forceExpanded
           />
         </SheetContent>
       </Sheet>

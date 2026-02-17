@@ -24,6 +24,7 @@ interface ModuleSidebarProps {
   currentLessonSlug: string;
   completedLessons: string[];
   onNavigate?: () => void;
+  forceExpanded?: boolean;
 }
 
 const typeIcons: Record<string, typeof FileText> = {
@@ -40,11 +41,15 @@ export function ModuleSidebar({
   currentLessonSlug,
   completedLessons,
   onNavigate,
+  forceExpanded = false,
 }: ModuleSidebarProps) {
   const [expandedModules, setExpandedModules] = useState<Set<string>>(
     new Set([currentModuleSlug])
   );
   const [pinned, setPinned] = useState(false);
+
+  // When forceExpanded (mobile sheet), treat as always pinned/expanded
+  const isExpanded = forceExpanded || pinned;
 
   function toggleModule(slug: string) {
     setExpandedModules((prev) => {
@@ -62,7 +67,7 @@ export function ModuleSidebar({
     <div
       className={cn(
         "group flex h-full flex-col bg-[#171C24] text-white transition-all duration-300 ease-in-out",
-        pinned ? "w-80" : "w-16 hover:w-80"
+        isExpanded ? "w-80" : "w-16 hover:w-80"
       )}
     >
       {/* Header */}
@@ -71,7 +76,7 @@ export function ModuleSidebar({
         <span
           className={cn(
             "font-heading text-lg font-bold tracking-wide text-brass transition-opacity duration-200",
-            pinned
+            isExpanded
               ? "opacity-0 absolute"
               : "opacity-100 group-hover:opacity-0"
           )}
@@ -82,7 +87,7 @@ export function ModuleSidebar({
         <span
           className={cn(
             "font-heading whitespace-nowrap text-sm font-semibold uppercase tracking-[0.15em] transition-opacity duration-200",
-            pinned
+            isExpanded
               ? "opacity-100"
               : "opacity-0 group-hover:opacity-100"
           )}
@@ -117,7 +122,7 @@ export function ModuleSidebar({
                 <span
                   className={cn(
                     "font-heading shrink-0 text-xs font-bold tracking-wider text-white/60 transition-opacity duration-200",
-                    pinned
+                    isExpanded
                       ? "hidden"
                       : "inline group-hover:hidden"
                   )}
@@ -130,7 +135,7 @@ export function ModuleSidebar({
                   className={cn(
                     "h-4 w-4 shrink-0 text-white/40 transition-transform duration-200",
                     !isExpanded && "-rotate-90",
-                    pinned
+                    isExpanded
                       ? "inline-flex"
                       : "hidden group-hover:inline-flex"
                   )}
@@ -138,7 +143,7 @@ export function ModuleSidebar({
                 <div
                   className={cn(
                     "min-w-0 flex-1 transition-opacity duration-200",
-                    pinned
+                    isExpanded
                       ? "opacity-100"
                       : "opacity-0 group-hover:opacity-100"
                   )}
@@ -178,7 +183,7 @@ export function ModuleSidebar({
                             "flex items-center gap-2 py-2 pl-10 pr-4 text-sm transition-colors hover:bg-white/5",
                             isActive && "bg-white/10 font-medium text-white",
                             !isActive && "text-white/50",
-                            pinned
+                            isExpanded
                               ? "opacity-100"
                               : "opacity-0 group-hover:opacity-100"
                           )}
@@ -202,31 +207,33 @@ export function ModuleSidebar({
         })}
       </nav>
 
-      {/* Pin button */}
-      <div className="border-t border-white/10 p-3">
-        <button
-          onClick={() => setPinned(!pinned)}
-          className={cn(
-            "flex w-full items-center justify-center gap-2 rounded-md px-3 py-2 text-sm text-white/50 transition-colors hover:bg-white/5 hover:text-white/80",
-            pinned ? "justify-start" : "group-hover:justify-start"
-          )}
-          title={pinned ? "Unpin sidebar" : "Pin sidebar"}
-        >
-          {pinned ? (
-            <>
-              <PinOff className="h-4 w-4 shrink-0" />
-              <span className="whitespace-nowrap text-xs">Unpin</span>
-            </>
-          ) : (
-            <>
-              <Pin className="h-4 w-4 shrink-0" />
-              <span className="whitespace-nowrap text-xs opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-                Pin
-              </span>
-            </>
-          )}
-        </button>
-      </div>
+      {/* Pin button — hidden on mobile (forceExpanded) */}
+      {!forceExpanded && (
+        <div className="border-t border-white/10 p-3">
+          <button
+            onClick={() => setPinned(!pinned)}
+            className={cn(
+              "flex w-full items-center justify-center gap-2 rounded-md px-3 py-2 text-sm text-white/50 transition-colors hover:bg-white/5 hover:text-white/80",
+              pinned ? "justify-start" : "group-hover:justify-start"
+            )}
+            title={pinned ? "Unpin sidebar" : "Pin sidebar"}
+          >
+            {pinned ? (
+              <>
+                <PinOff className="h-4 w-4 shrink-0" />
+                <span className="whitespace-nowrap text-xs">Unpin</span>
+              </>
+            ) : (
+              <>
+                <Pin className="h-4 w-4 shrink-0" />
+                <span className="whitespace-nowrap text-xs opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                  Pin
+                </span>
+              </>
+            )}
+          </button>
+        </div>
+      )}
     </div>
   );
 }

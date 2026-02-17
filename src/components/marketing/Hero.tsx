@@ -100,7 +100,7 @@ export function Hero() {
                 </h3>
                 <p className="mt-2 text-xs leading-relaxed text-white/80">
                   Comprehensive coverage across 10 modules, from fundamentals to
-                  your final design.
+                  final design.
                 </p>
               </div>
             </div>
@@ -130,7 +130,7 @@ export function Hero() {
           transition={{ duration: 0.5, delay: 0.4 }}
           className="mt-5 flex items-center justify-between border-t border-foreground/8 pt-5"
         >
-          <div className="flex flex-wrap items-center gap-x-8 gap-y-1 text-xs uppercase tracking-[0.2em] text-muted-foreground">
+          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-1 text-xs uppercase tracking-[0.2em] text-muted-foreground sm:justify-start">
             <span>30-day guarantee</span>
             <span className="hidden sm:inline">&middot;</span>
             <span>Founding pricing</span>

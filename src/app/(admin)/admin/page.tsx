@@ -46,87 +46,84 @@ export default async function AdminPage() {
         </Button>
       </div>
 
-      {/* Students row — stat + action side by side */}
-      <div className="mb-4 grid grid-cols-2 gap-4">
-        <Card className="aspect-square">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-              Total Students
-            </CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
+      {/* Stats + Actions grid */}
+      <div className="max-w-3xl">
+        {/* Students row */}
+        <div className="mb-4 grid grid-cols-2 gap-4 md:grid-cols-4">
+          <div className="flex aspect-square flex-col justify-between rounded-card bg-primary p-5 text-white md:aspect-auto">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-medium uppercase tracking-wider text-white/70">
+                Total Students
+              </span>
+              <Users className="h-4 w-4 text-white/50" />
+            </div>
             <div className="font-heading text-3xl font-bold">
               {totalStudents || 0}
             </div>
-          </CardContent>
-        </Card>
-
-        <Link
-          href="/admin/students"
-          className="group flex aspect-square flex-col justify-between rounded-card bg-accent p-5 text-white transition-opacity hover:opacity-90"
-        >
-          <Users className="h-5 w-5 text-white/70" />
-          <div>
-            <h2 className="font-heading text-sm font-semibold uppercase tracking-wider">
-              Students
-            </h2>
-            <p className="mt-1 text-xs leading-relaxed text-white/80">
-              View and manage accounts
-            </p>
           </div>
-          <ArrowRight className="h-4 w-4 text-white/70 transition-transform group-hover:translate-x-1" />
-        </Link>
-      </div>
 
-      {/* Revenue — full width */}
-      <div className="mb-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-              Total Revenue
-            </CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="font-heading text-3xl font-bold">
-              ${(totalRevenue / 100).toFixed(2)}
+          <Link
+            href="/admin/students"
+            className="group flex aspect-square flex-col justify-between rounded-card bg-accent p-5 text-white transition-opacity hover:opacity-90 md:aspect-auto"
+          >
+            <Users className="h-5 w-5 text-white/70" />
+            <div>
+              <h2 className="font-heading text-sm font-semibold uppercase tracking-wider">
+                Students
+              </h2>
+              <p className="mt-1 text-xs leading-relaxed text-white/80">
+                View and manage accounts
+              </p>
             </div>
-          </CardContent>
-        </Card>
-      </div>
+            <ArrowRight className="h-4 w-4 text-white/70 transition-transform group-hover:translate-x-1" />
+          </Link>
 
-      {/* Kit Orders row — stat + action side by side */}
-      <div className="grid grid-cols-2 gap-4">
-        <Card className="aspect-square">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-              Pending Kit Orders
-            </CardTitle>
-            <Package className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
+          {/* Revenue — spans 2 cols on desktop */}
+          <Card className="col-span-2 aspect-square md:aspect-auto">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                Total Revenue
+              </CardTitle>
+              <DollarSign className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="font-heading text-3xl font-bold">
+                ${(totalRevenue / 100).toFixed(2)}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Kit Orders row */}
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+          <div className="flex aspect-square flex-col justify-between rounded-card bg-primary p-5 text-white md:aspect-auto">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-medium uppercase tracking-wider text-white/70">
+                Pending Kit Orders
+              </span>
+              <Package className="h-4 w-4 text-white/50" />
+            </div>
             <div className="font-heading text-3xl font-bold">
               {pendingKits || 0}
             </div>
-          </CardContent>
-        </Card>
-
-        <Link
-          href="/admin/orders"
-          className="group flex aspect-square flex-col justify-between rounded-card bg-accent p-5 text-white transition-opacity hover:opacity-90"
-        >
-          <Package className="h-5 w-5 text-white/70" />
-          <div>
-            <h2 className="font-heading text-sm font-semibold uppercase tracking-wider">
-              Kit Orders
-            </h2>
-            <p className="mt-1 text-xs leading-relaxed text-white/80">
-              Manage fulfillment and tracking
-            </p>
           </div>
-          <ArrowRight className="h-4 w-4 text-white/70 transition-transform group-hover:translate-x-1" />
-        </Link>
+
+          <Link
+            href="/admin/orders"
+            className="group flex aspect-square flex-col justify-between rounded-card bg-accent p-5 text-white transition-opacity hover:opacity-90 md:aspect-auto"
+          >
+            <Package className="h-5 w-5 text-white/70" />
+            <div>
+              <h2 className="font-heading text-sm font-semibold uppercase tracking-wider">
+                Kit Orders
+              </h2>
+              <p className="mt-1 text-xs leading-relaxed text-white/80">
+                Manage fulfillment and tracking
+              </p>
+            </div>
+            <ArrowRight className="h-4 w-4 text-white/70 transition-transform group-hover:translate-x-1" />
+          </Link>
+        </div>
       </div>
     </div>
   );

@@ -82,7 +82,7 @@ export function ToolsPanel({
       <Sheet open={isOpen && isMobile} onOpenChange={(open) => !open && close()}>
         <SheetContent
           side="bottom"
-          className="h-[80dvh] rounded-t-xl p-0 [&>button:first-child]:hidden"
+          className="h-[75dvh] rounded-t-xl p-0 pb-[env(safe-area-inset-bottom)] [&>button:first-child]:hidden"
         >
           <div className="mx-auto mb-2 mt-2 h-1 w-12 rounded-full bg-muted-foreground/30" />
           {panelContent}
