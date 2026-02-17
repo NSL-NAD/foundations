@@ -93,6 +93,11 @@ export function PricingCards() {
             Choose the option that fits your learning style. All options include
             lifetime access for founding students.
           </p>
+          <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-4 py-1.5">
+            <span className="font-heading text-xs font-bold uppercase tracking-wider text-accent">
+              50% Founding Student Discount
+            </span>
+          </div>
         </div>
 
         <div className="mx-auto mt-16 grid max-w-5xl items-center gap-6 md:grid-cols-3">
@@ -123,7 +128,7 @@ export function PricingCards() {
                       ${product.originalPrice}
                     </span>
                   )}
-                  <span className="font-heading text-5xl font-bold">
+                  <span className="font-heading text-5xl font-bold text-accent">
                     ${product.price}
                   </span>
                   <span className="text-sm text-muted-foreground"> USD</span>

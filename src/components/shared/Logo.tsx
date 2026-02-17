@@ -30,7 +30,7 @@ export function Logo({ className = "", linkTo = "/", inverted = false }: LogoPro
 
   if (linkTo) {
     return (
-      <Link href={linkTo} aria-label="Foundations of Architecture - Home" className="hover:text-brass transition-colors">
+      <Link href={linkTo} aria-label="Foundations of Architecture - Home" className="hover:text-accent/70 transition-colors">
         {logo}
       </Link>
     );

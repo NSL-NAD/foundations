@@ -46,7 +46,7 @@ export function Testimonials() {
               key={i}
               className="group flex flex-col rounded-card border border-transparent bg-card p-5 transition-all hover:border-[#171C24]/40 md:min-h-[420px]"
             >
-              <div className="font-heading text-4xl font-bold text-brass/20 transition-colors group-hover:text-[#171C24]/40">
+              <div className="font-heading text-4xl font-bold text-brass/20 transition-colors group-hover:text-accent/40">
                 FA.
               </div>
               <p className="mt-6 flex-1 text-sm leading-relaxed text-muted-foreground">

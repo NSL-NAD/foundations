@@ -67,7 +67,7 @@ export function CoursePlayer({
             <Menu className="h-5 w-5" />
           </Button>
         </SheetTrigger>
-        <SheetContent side="left" className="w-80 border-r-0 bg-[#171C24] p-0 [&>button:first-child]:z-50 [&>button:first-child]:right-3 [&>button:first-child]:top-3 [&>button:first-child]:pointer-events-auto [&>button:first-child]:h-8 [&>button:first-child]:w-8 [&>button:first-child]:text-white/60 [&>button:first-child]:hover:text-white [&>button:first-child]:hover:bg-white/10 [&>button:first-child]:rounded-md [&>button:first-child]:border-0 [&>button:first-child]:ring-0 [&>button:first-child]:ring-offset-0 [&>button:first-child]:focus:ring-0 [&>button:first-child]:focus:ring-offset-0 [&>button:first-child]:focus:outline-none">
+        <SheetContent side="left" className="w-80 border-r-0 bg-[#171C24] p-0 [&>button:first-child]:z-50 [&>button:first-child]:right-3 [&>button:first-child]:top-3 [&>button:first-child]:pointer-events-auto [&>button:first-child]:h-8 [&>button:first-child]:w-8 [&>button:first-child]:bg-transparent [&>button:first-child]:text-white/60 [&>button:first-child]:hover:text-white [&>button:first-child]:hover:bg-white/10 [&>button:first-child]:rounded-md [&>button:first-child]:border-0 [&>button:first-child]:ring-0 [&>button:first-child]:ring-offset-0 [&>button:first-child]:focus:ring-0 [&>button:first-child]:focus:ring-offset-0 [&>button:first-child]:focus:outline-none [&>button:first-child]:data-[state=open]:bg-transparent">
           <ModuleSidebar
             modules={modules}
             currentModuleSlug={moduleSlug}

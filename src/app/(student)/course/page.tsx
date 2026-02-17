@@ -50,13 +50,11 @@ export default async function CoursePage() {
   return (
     <div className="p-6 md:p-8">
       {/* Header */}
-      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="font-heading text-3xl font-bold uppercase tracking-tight md:text-4xl">
-            Course Overview
-          </h1>
-        </div>
-        <Button asChild size="lg">
+      <div className="mb-8">
+        <h1 className="font-heading text-3xl font-bold uppercase tracking-tight md:text-4xl">
+          Course Overview
+        </h1>
+        <Button asChild size="lg" className="mt-4">
           <Link
             href={getLessonPath(firstLesson.moduleSlug, firstLesson.lessonSlug)}
           >
