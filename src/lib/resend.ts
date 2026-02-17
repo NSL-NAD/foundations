@@ -117,6 +117,38 @@ export async function sendWelcomeEmail({
   });
 }
 
+export async function sendContactEmail({
+  email,
+  name,
+  subject,
+  message,
+}: {
+  email: string;
+  name: string;
+  subject: string;
+  message: string;
+}) {
+  await resend.emails.send({
+    from: FROM_EMAIL,
+    to: "foundations@goodatscale.co",
+    replyTo: email,
+    subject: `[FOA Contact] ${subject}`,
+    html: `
+      <div style="max-width: 560px; margin: 0 auto; font-family: system-ui, sans-serif; color: #1a1a1a;">
+        <h1 style="font-size: 24px; margin-bottom: 16px;">New Message from ${name}</h1>
+        <p style="color: #666; font-size: 14px;">From: ${name} (${email})</p>
+        <p style="color: #666; font-size: 14px;">Subject: ${subject}</p>
+        <div style="margin-top: 16px; padding: 16px; background: #f5f5f5; border-radius: 6px;">
+          <p style="white-space: pre-wrap;">${message}</p>
+        </div>
+        <p style="margin-top: 24px; color: #666; font-size: 14px;">
+          Reply directly to this email to respond to the student.
+        </p>
+      </div>
+    `,
+  });
+}
+
 export async function sendKitShippedEmail({
   email,
   trackingNumber,

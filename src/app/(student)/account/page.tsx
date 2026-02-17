@@ -2,6 +2,14 @@ import { createClient } from "@/lib/supabase/server";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { AvatarUpload } from "@/components/account/AvatarUpload";
+import { CourseProgressMeter } from "@/components/account/CourseProgressMeter";
+import { CourseCertificate } from "@/components/account/CourseCertificate";
+import { DesignBriefLink } from "@/components/account/DesignBriefLink";
+import { DreamHomeUpload } from "@/components/account/DreamHomeUpload";
+import { CourseReview } from "@/components/account/CourseReview";
+import { ShareInvite } from "@/components/account/ShareInvite";
+import { ContactFOADialog } from "@/components/account/ContactFOADialog";
+import { getTotalLessons } from "@/lib/course";
 
 export const metadata = {
   title: "Account",
@@ -25,10 +33,69 @@ export default async function AccountPage() {
     .eq("user_id", user!.id)
     .order("created_at", { ascending: false });
 
+  // Course progress
+  const { count: completedLessons } = await supabase
+    .from("lesson_progress")
+    .select("id", { count: "exact", head: true })
+    .eq("user_id", user!.id)
+    .eq("completed", true);
+
+  const totalLessons = getTotalLessons();
+  const completed = completedLessons || 0;
+  const overallPercent =
+    totalLessons > 0 ? Math.round((completed / totalLessons) * 100) : 0;
+  const isComplete = completed >= totalLessons && totalLessons > 0;
+
+  // Last completion date (for certificate)
+  let completionDate = "";
+  if (isComplete) {
+    const { data: lastCompletion } = await supabase
+      .from("lesson_progress")
+      .select("completed_at")
+      .eq("user_id", user!.id)
+      .eq("completed", true)
+      .order("completed_at", { ascending: false })
+      .limit(1)
+      .single();
+
+    completionDate = lastCompletion?.completed_at
+      ? new Date(lastCompletion.completed_at).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })
+      : new Date().toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+  }
+
+  // Design brief responses
+  const { count: briefResponseCount } = await supabase
+    .from("design_brief_responses")
+    .select("id", { count: "exact", head: true })
+    .eq("user_id", user!.id);
+
+  // Existing course review
+  const { data: existingReview } = await supabase
+    .from("course_reviews")
+    .select("rating, review_text")
+    .eq("user_id", user!.id)
+    .single();
+
+  // Existing dream home submission
+  const { data: existingSubmission } = await supabase
+    .from("dream_home_submissions")
+    .select("image_urls, description")
+    .eq("user_id", user!.id)
+    .single();
+
   return (
     <div className="container max-w-2xl py-8">
       <h1 className="mb-8 text-3xl font-bold tracking-tight">Account</h1>
 
+      {/* Profile */}
       <Card className="mb-6">
         <CardHeader>
           <CardTitle>Profile</CardTitle>
@@ -61,6 +128,71 @@ export default async function AccountPage() {
         </CardContent>
       </Card>
 
+      {/* Course Progress */}
+      <div className="mb-6">
+        <CourseProgressMeter
+          percent={overallPercent}
+          completed={completed}
+          total={totalLessons}
+        />
+      </div>
+
+      {/* Certificate (only when 100% complete) */}
+      {isComplete && (
+        <div className="mb-6">
+          <CourseCertificate
+            isComplete={isComplete}
+            studentName={profile?.full_name || "Student"}
+            completionDate={completionDate}
+          />
+        </div>
+      )}
+
+      {/* Design Brief */}
+      <Card className="mb-6">
+        <CardHeader>
+          <CardTitle>Design Brief</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <DesignBriefLink
+            hasResponses={(briefResponseCount || 0) > 0}
+            responseCount={briefResponseCount || 0}
+          />
+        </CardContent>
+      </Card>
+
+      {/* Dream Home Upload */}
+      <Card className="mb-6">
+        <CardHeader>
+          <CardTitle>Dream Home / Space</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <DreamHomeUpload
+            userId={user!.id}
+            existingSubmission={existingSubmission}
+          />
+        </CardContent>
+      </Card>
+
+      {/* Course Review */}
+      <Card className="mb-6">
+        <CardHeader>
+          <CardTitle>Course Review</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <CourseReview existingReview={existingReview} />
+        </CardContent>
+      </Card>
+
+      {/* Share + Contact */}
+      <Card className="mb-6">
+        <CardContent className="flex flex-wrap items-center gap-3 pt-6">
+          <ShareInvite />
+          <ContactFOADialog />
+        </CardContent>
+      </Card>
+
+      {/* Purchase History */}
       <Card>
         <CardHeader>
           <CardTitle>Purchase History</CardTitle>

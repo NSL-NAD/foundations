@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Users, DollarSign, Package, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { NewStudentsCard } from "@/components/admin/NewStudentsCard";
 
 export const metadata = {
   title: "Admin Dashboard",
@@ -29,6 +30,15 @@ export default async function AdminPage() {
     .from("kit_orders")
     .select("*", { count: "exact", head: true })
     .eq("status", "pending");
+
+  // New (unviewed) students
+  const { data: newStudents } = await supabase
+    .from("purchases")
+    .select("id, email, product_type, created_at")
+    .is("admin_viewed_at", null)
+    .in("product_type", ["course", "bundle"])
+    .eq("status", "completed")
+    .order("created_at", { ascending: false });
 
   return (
     <div className="p-6 md:p-10">
@@ -66,7 +76,6 @@ export default async function AdminPage() {
             href="/admin/students"
             className="group flex aspect-square flex-col justify-between rounded-card bg-accent p-5 text-white transition-opacity hover:opacity-90 md:aspect-auto"
           >
-            <Users className="h-5 w-5 text-white/70" />
             <div>
               <h2 className="font-heading text-sm font-semibold uppercase tracking-wider">
                 Students
@@ -94,6 +103,11 @@ export default async function AdminPage() {
           </Card>
         </div>
 
+        {/* New Students — below revenue */}
+        <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-4">
+          <NewStudentsCard students={newStudents || []} />
+        </div>
+
         {/* Kit Orders row */}
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           <div className="flex aspect-square flex-col justify-between rounded-card bg-primary p-5 text-white md:aspect-auto">
@@ -112,7 +126,6 @@ export default async function AdminPage() {
             href="/admin/orders"
             className="group flex aspect-square flex-col justify-between rounded-card bg-accent p-5 text-white transition-opacity hover:opacity-90 md:aspect-auto"
           >
-            <Package className="h-5 w-5 text-white/70" />
             <div>
               <h2 className="font-heading text-sm font-semibold uppercase tracking-wider">
                 Kit Orders
