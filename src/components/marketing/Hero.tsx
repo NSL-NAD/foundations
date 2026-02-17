@@ -10,7 +10,7 @@ import { IMAGES } from "@/lib/images";
 export function Hero() {
   return (
     <section className="bg-background">
-      <div className="container py-3 md:py-4">
+      <div className="container pt-6 pb-3 md:pt-8 md:pb-4">
         {/* Bento grid */}
         <div className="grid gap-3 md:grid-cols-2 md:grid-rows-[1fr_auto]">
           {/* ── Top-left: Main headline card ── */}
@@ -18,7 +18,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="flex flex-col justify-between rounded-card bg-card p-4 md:p-6 lg:p-8"
+            className="flex flex-col justify-between rounded-card bg-card p-2 md:p-3 lg:p-4"
           >
             <div>
               <h1 className="font-heading text-5xl font-light uppercase leading-[0.95] tracking-tight sm:text-6xl lg:text-[4.875rem]">
@@ -29,7 +29,7 @@ export function Hero() {
             </div>
 
             <div className="mt-10 md:mt-12">
-              <p className="max-w-md text-sm leading-relaxed text-muted-foreground md:text-base">
+              <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
                 A beginner-friendly course that teaches you the architectural
                 fundamentals to confidently plan, communicate, and design your
                 ideal living space — no degree required.
@@ -56,8 +56,8 @@ export function Hero() {
 
             {/* Quote overlay with thin outline box */}
             <div className="relative flex min-h-[400px] flex-col justify-end p-2 md:min-h-full md:p-2.5 lg:p-3">
-              <div className="mt-auto rounded-[1.25rem] border-[1.5px] border-white/25 p-4 md:p-5 lg:p-6">
-                <p className="font-heading text-2xl font-medium uppercase leading-tight tracking-tight text-white md:text-3xl lg:text-4xl">
+              <div className="mt-auto rounded-[1.25rem] border-[1.5px] border-white p-4 md:p-5 lg:p-6">
+                <p className="font-heading text-2xl font-light uppercase leading-tight tracking-tight text-white md:text-3xl lg:text-4xl">
                   Where vision meets
                   <br />
                   precision, architecture
@@ -65,16 +65,16 @@ export function Hero() {
                   transcends boundaries.
                 </p>
 
-                <div className="mt-6">
+                <div className="mt-5">
                   <Button
                     asChild
                     variant="outline"
-                    size="lg"
-                    className="border-white/60 bg-transparent text-white hover:bg-white hover:text-black"
+                    size="sm"
+                    className="rounded-full border-white bg-white px-5 text-xs font-medium uppercase tracking-wider text-black hover:bg-brass hover:text-white hover:border-brass"
                   >
                     <Link href="#pricing">
                       Enroll Now — $93
-                      <ArrowRight className="ml-2 h-4 w-4" />
+                      <ArrowRight className="ml-1.5 h-3 w-3" />
                     </Link>
                   </Button>
                 </div>
@@ -137,12 +137,6 @@ export function Hero() {
             <span className="hidden sm:inline">&middot;</span>
             <span className="hidden sm:inline">Lifetime access</span>
           </div>
-          <Button asChild size="sm" className="hidden sm:inline-flex">
-            <Link href="#curriculum">
-              View Curriculum
-              <ArrowRight className="ml-2 h-3.5 w-3.5" />
-            </Link>
-          </Button>
         </motion.div>
       </div>
     </section>
