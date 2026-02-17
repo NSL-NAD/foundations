@@ -134,7 +134,7 @@ export default async function CoursePage() {
                     </p>
                   </div>
                   <Badge variant="secondary" className="shrink-0 text-[10px]">
-                    {moduleCompleted}/{mod.lessons.length}
+                    {modulePercent}%
                   </Badge>
                 </div>
                 <Progress value={modulePercent} className="mt-3 h-1.5" />
