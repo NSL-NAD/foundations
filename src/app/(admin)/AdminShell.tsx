@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
   Users,
+  UserPlus,
   Package,
   ExternalLink,
   Pin,
@@ -18,6 +19,7 @@ import { cn } from "@/lib/utils";
 const adminNav = [
   { href: "/admin", label: "Overview", icon: LayoutDashboard },
   { href: "/admin/students", label: "Students", icon: Users },
+  { href: "/admin/new-students", label: "New Students", icon: UserPlus },
   { href: "/admin/orders", label: "Kit Orders", icon: Package },
 ];
 

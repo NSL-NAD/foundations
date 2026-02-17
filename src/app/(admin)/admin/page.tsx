@@ -1,9 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Users, DollarSign, Package, ArrowRight } from "lucide-react";
+import { Users, DollarSign, Package, ArrowRight, UserPlus } from "lucide-react";
 import Link from "next/link";
-import { NewStudentsCard } from "@/components/admin/NewStudentsCard";
 
 export const metadata = {
   title: "Admin Dashboard",
@@ -31,14 +30,13 @@ export default async function AdminPage() {
     .select("*", { count: "exact", head: true })
     .eq("status", "pending");
 
-  // New (unviewed) students
-  const { data: newStudents } = await supabase
+  // New (unviewed) students count
+  const { count: newStudentsCount } = await supabase
     .from("purchases")
-    .select("id, email, product_type, created_at")
+    .select("*", { count: "exact", head: true })
     .is("admin_viewed_at", null)
     .in("product_type", ["course", "bundle"])
-    .eq("status", "completed")
-    .order("created_at", { ascending: false });
+    .eq("status", "completed");
 
   return (
     <div className="p-6 md:p-10">
@@ -57,9 +55,9 @@ export default async function AdminPage() {
       </div>
 
       {/* Stats + Actions grid */}
-      <div className="max-w-3xl">
-        {/* Students row */}
-        <div className="mb-4 grid grid-cols-2 gap-4 md:grid-cols-4">
+      <div className="max-w-4xl">
+        {/* Row 1: Total Students | Students | Total Revenue */}
+        <div className="mb-4 grid grid-cols-2 gap-4 md:grid-cols-3">
           <div className="flex aspect-square flex-col justify-between rounded-card bg-primary p-5 text-white md:aspect-auto">
             <div className="flex items-center justify-between">
               <span className="text-xs font-medium uppercase tracking-wider text-white/70">
@@ -87,8 +85,7 @@ export default async function AdminPage() {
             <ArrowRight className="h-4 w-4 text-white/70 transition-transform group-hover:translate-x-1" />
           </Link>
 
-          {/* Revenue — spans full width */}
-          <Card className="col-span-2">
+          <Card className="col-span-2 md:col-span-1">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                 Total Revenue
@@ -103,13 +100,8 @@ export default async function AdminPage() {
           </Card>
         </div>
 
-        {/* New Students — below revenue */}
-        <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-4">
-          <NewStudentsCard students={newStudents || []} />
-        </div>
-
-        {/* Kit Orders row */}
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+        {/* Row 2: Pending Kit Orders | Kit Orders | New Students */}
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
           <div className="flex aspect-square flex-col justify-between rounded-card bg-primary p-5 text-white md:aspect-auto">
             <div className="flex items-center justify-between">
               <span className="text-xs font-medium uppercase tracking-wider text-white/70">
@@ -135,6 +127,30 @@ export default async function AdminPage() {
               </p>
             </div>
             <ArrowRight className="h-4 w-4 text-white/70 transition-transform group-hover:translate-x-1" />
+          </Link>
+
+          <Link
+            href="/admin/new-students"
+            className="col-span-2 md:col-span-1"
+          >
+            <Card className="h-full transition-shadow hover:shadow-md">
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                  New Students
+                </CardTitle>
+                <UserPlus className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="font-heading text-3xl font-bold">
+                  {newStudentsCount || 0}
+                </div>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {(newStudentsCount || 0) > 0
+                    ? "Click to view & mark as viewed"
+                    : "All caught up"}
+                </p>
+              </CardContent>
+            </Card>
           </Link>
         </div>
       </div>
