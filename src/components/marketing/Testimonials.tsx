@@ -23,28 +23,27 @@ export function Testimonials() {
   return (
     <section className="bg-surface py-20 md:py-28">
       <div className="container">
-        <div className="mx-auto max-w-2xl text-center">
+        {/* Left-aligned header */}
+        <div className="mx-auto max-w-5xl">
           <p className="font-heading text-xs font-medium uppercase tracking-[0.3em] text-primary">
             Founding Students
           </p>
           <h2 className="mt-3 font-heading text-3xl font-bold uppercase tracking-tight md:text-4xl">
             Join the First 1,000
           </h2>
-          <p className="mt-4 text-muted-foreground">
+          <p className="mt-4 max-w-lg text-muted-foreground">
             Founding students get exclusive pricing and lifetime access to all
             future content and updates.
           </p>
         </div>
 
-        <div className="mx-auto mt-16 grid max-w-5xl gap-6 md:grid-cols-3">
+        <div className="mx-auto mt-12 grid max-w-5xl gap-6 md:grid-cols-3">
           {testimonials.map((item, i) => (
             <div
               key={i}
-              className={`rounded-card border bg-card p-5 ${
-                i === 1 ? "md:-translate-y-4 border-2 border-primary" : ""
-              }`}
+              className="group rounded-card border border-transparent bg-card p-5 transition-all hover:border-[#171C24]/40"
             >
-              <div className="font-heading text-4xl font-bold text-brass/30">
+              <div className="font-heading text-4xl font-bold text-brass/20 transition-colors group-hover:text-[#171C24]/40">
                 FA.
               </div>
               <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
