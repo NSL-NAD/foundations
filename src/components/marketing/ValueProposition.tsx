@@ -60,7 +60,7 @@ export function ValueProposition() {
           {values.map((item) => (
             <div
               key={item.title}
-              className="group rounded-card border bg-card p-5 transition-colors hover:border-[#171C24]/50"
+              className="group flex flex-col rounded-card border bg-card p-5 transition-colors hover:border-[#171C24]/50"
             >
               <div className="flex h-11 w-11 items-center justify-center rounded-full bg-accent/10">
                 <item.icon className="h-5 w-5 text-accent" />
@@ -71,12 +71,12 @@ export function ValueProposition() {
               <h3 className="mt-2 font-heading text-lg font-semibold uppercase">
                 {item.title}
               </h3>
-              <p className="mt-3 text-sm text-muted-foreground">
+              <p className="mt-3 flex-1 text-sm text-muted-foreground">
                 {item.description}
               </p>
               <Link
                 href={item.href}
-                className="mt-6 inline-flex items-center gap-2 rounded-full border border-foreground/20 px-5 py-2 text-xs font-medium uppercase tracking-wider transition-colors hover:bg-foreground hover:text-background"
+                className="mt-6 inline-flex items-center gap-2 self-start rounded-full border border-foreground/20 px-5 py-2 text-xs font-medium uppercase tracking-wider transition-colors hover:bg-foreground hover:text-background"
               >
                 Learn More
                 <ArrowRight className="h-3.5 w-3.5" />
