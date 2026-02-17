@@ -47,4 +47,10 @@ export const IMAGES = {
     width: 1400,
     height: 933,
   },
+  ctaResidential: {
+    src: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1600&q=80",
+    alt: "Luxury modern home exterior with pool and landscaping",
+    width: 1600,
+    height: 1067,
+  },
 } as const;
