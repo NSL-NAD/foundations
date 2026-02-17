@@ -25,15 +25,13 @@ export function Testimonials() {
       <div className="container">
         <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-2 lg:grid-cols-4">
           {/* Terracotta header card */}
-          <div className="flex flex-col justify-between rounded-card bg-accent p-5 text-white">
+          <div className="flex flex-col justify-between rounded-card bg-accent p-5 text-white md:min-h-[420px]">
             <div>
               <p className="font-heading text-xs font-medium uppercase tracking-[0.3em] text-white/70">
                 Founding Students
               </p>
               <h2 className="mt-3 font-heading text-2xl font-bold uppercase tracking-tight md:text-3xl">
-                Join the
-                <br />
-                First 1,000
+                Join the First 1,000
               </h2>
             </div>
             <p className="mt-6 text-sm leading-relaxed text-white/80">
@@ -46,7 +44,7 @@ export function Testimonials() {
           {testimonials.map((item, i) => (
             <div
               key={i}
-              className="group flex flex-col rounded-card border border-transparent bg-card p-5 transition-all hover:border-[#171C24]/40"
+              className="group flex flex-col rounded-card border border-transparent bg-card p-5 transition-all hover:border-[#171C24]/40 md:min-h-[420px]"
             >
               <div className="font-heading text-4xl font-bold text-brass/20 transition-colors group-hover:text-[#171C24]/40">
                 FA.
