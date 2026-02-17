@@ -39,7 +39,7 @@ export default async function StudentLayout({
         user={profile ? { email: profile.email, full_name: profile.full_name } : null}
         isAdmin={profile?.role === "admin"}
       />
-      <main id="main-content" className="min-h-[calc(100vh-4rem)]">
+      <main id="main-content" className="min-h-[calc(100dvh-4rem)]">
         {children}
       </main>
       <StudentTools userId={user.id} email={profile?.email || ""} />
