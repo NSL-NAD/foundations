@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Sun, Moon } from "lucide-react";
+import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Logo } from "./Logo";
@@ -28,6 +29,7 @@ const studentLinks = [
 export function Header({ user, isAdmin }: HeaderProps) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const { theme, setTheme } = useTheme();
 
   const links = user ? studentLinks : publicLinks;
 
@@ -134,6 +136,23 @@ export function Header({ user, isAdmin }: HeaderProps) {
                     </Button>
                   </div>
                 )}
+              </div>
+
+              {/* Theme toggle */}
+              <div className="border-t pt-6">
+                <button
+                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                  className="flex w-full items-center justify-between rounded-card border px-4 py-3 text-sm transition-colors hover:bg-card"
+                >
+                  <span className="font-heading text-xs font-medium uppercase tracking-[0.15em] text-muted-foreground">
+                    {theme === "dark" ? "Dark Mode" : "Light Mode"}
+                  </span>
+                  {theme === "dark" ? (
+                    <Moon className="h-4 w-4 text-muted-foreground" />
+                  ) : (
+                    <Sun className="h-4 w-4 text-muted-foreground" />
+                  )}
+                </button>
               </div>
             </div>
           </SheetContent>
