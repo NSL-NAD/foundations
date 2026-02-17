@@ -32,7 +32,7 @@ export function Hero() {
               <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
                 A beginner-friendly course that teaches you the architectural
                 fundamentals to confidently plan, communicate, and design your
-                ideal living space — no degree required.
+                ideal living space or dream home — no degree required.
               </p>
             </div>
           </motion.div>
