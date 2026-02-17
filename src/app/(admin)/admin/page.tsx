@@ -56,7 +56,7 @@ export default async function AdminPage() {
 
       {/* Stats + Actions grid */}
       <div className="max-w-4xl">
-        {/* Row 1: Total Students | Students | Total Revenue */}
+        {/* Row 1: Total Students | Students | New Students */}
         <div className="mb-4 grid grid-cols-2 gap-4 md:grid-cols-3">
           <div className="flex aspect-square flex-col justify-between rounded-card bg-primary p-5 text-white md:aspect-auto">
             <div className="flex items-center justify-between">
@@ -85,22 +85,32 @@ export default async function AdminPage() {
             <ArrowRight className="h-4 w-4 text-white/70 transition-transform group-hover:translate-x-1" />
           </Link>
 
-          <Card className="col-span-2 md:col-span-1">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                Total Revenue
-              </CardTitle>
-              <DollarSign className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="font-heading text-3xl font-bold">
-                ${(totalRevenue / 100).toFixed(2)}
-              </div>
-            </CardContent>
-          </Card>
+          <Link
+            href="/admin/new-students"
+            className="col-span-2 md:col-span-1"
+          >
+            <Card className="h-full transition-shadow hover:shadow-md">
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                  New Students
+                </CardTitle>
+                <UserPlus className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="font-heading text-3xl font-bold">
+                  {newStudentsCount || 0}
+                </div>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {(newStudentsCount || 0) > 0
+                    ? "Click to view & mark as viewed"
+                    : "All caught up"}
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
         </div>
 
-        {/* Row 2: Pending Kit Orders | Kit Orders | New Students */}
+        {/* Row 2: Pending Kit Orders | Kit Orders | Total Revenue */}
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
           <div className="flex aspect-square flex-col justify-between rounded-card bg-primary p-5 text-white md:aspect-auto">
             <div className="flex items-center justify-between">
@@ -129,29 +139,19 @@ export default async function AdminPage() {
             <ArrowRight className="h-4 w-4 text-white/70 transition-transform group-hover:translate-x-1" />
           </Link>
 
-          <Link
-            href="/admin/new-students"
-            className="col-span-2 md:col-span-1"
-          >
-            <Card className="h-full transition-shadow hover:shadow-md">
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                  New Students
-                </CardTitle>
-                <UserPlus className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="font-heading text-3xl font-bold">
-                  {newStudentsCount || 0}
-                </div>
-                <p className="mt-1 text-xs text-muted-foreground">
-                  {(newStudentsCount || 0) > 0
-                    ? "Click to view & mark as viewed"
-                    : "All caught up"}
-                </p>
-              </CardContent>
-            </Card>
-          </Link>
+          <Card className="col-span-2 md:col-span-1">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                Total Revenue
+              </CardTitle>
+              <DollarSign className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="font-heading text-3xl font-bold">
+                ${(totalRevenue / 100).toFixed(2)}
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>
