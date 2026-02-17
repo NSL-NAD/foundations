@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { AvatarUpload } from "@/components/account/AvatarUpload";
 
 export const metadata = {
   title: "Account",
@@ -33,6 +34,14 @@ export default async function AccountPage() {
           <CardTitle>Profile</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
+          <div className="flex justify-center pb-2">
+            <AvatarUpload
+              userId={user!.id}
+              currentAvatarUrl={profile?.avatar_url ?? null}
+              fullName={profile?.full_name ?? null}
+              email={profile?.email ?? ""}
+            />
+          </div>
           <div>
             <p className="text-sm text-muted-foreground">Name</p>
             <p className="font-medium">{profile?.full_name || "Not set"}</p>
