@@ -89,7 +89,8 @@ export function Header({ user, isAdmin }: HeaderProps) {
               {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>
           </SheetTrigger>
-          <SheetContent side="right" className="w-[300px]">
+          <SheetContent side="right" className="flex w-[300px] flex-col [&>button:first-child]:rounded-none [&>button:first-child]:border-0 [&>button:first-child]:ring-0 [&>button:first-child]:ring-offset-0 [&>button:first-child]:focus:ring-0 [&>button:first-child]:focus:ring-offset-0">
+            {/* Nav links */}
             <div className="mt-8 flex flex-col gap-6">
               {links.map((link) => (
                 <Link
@@ -114,45 +115,45 @@ export function Header({ user, isAdmin }: HeaderProps) {
                   Admin
                 </Link>
               )}
-              <div className="mt-4 border-t pt-6">
-                {user ? (
-                  <form action="/api/auth/signout" method="POST">
-                    <Button variant="outline" className="w-full" type="submit">
-                      Sign Out
-                    </Button>
-                  </form>
-                ) : (
-                  <div className="flex flex-col gap-3">
-                    <Button variant="outline" asChild className="w-full">
-                      <Link href="/login" onClick={() => setOpen(false)}>
-                        Log In
-                      </Link>
-                    </Button>
-                    <Button asChild className="w-full">
-                      <Link href="/#pricing" onClick={() => setOpen(false)}>
-                        Enroll Now
-                      </Link>
-                    </Button>
-                  </div>
-                )}
-              </div>
+            </div>
 
+            {/* Bottom actions — pushed to bottom */}
+            <div className="mt-auto flex flex-col gap-3 pb-[env(safe-area-inset-bottom)]">
               {/* Theme toggle */}
-              <div className="border-t pt-6">
-                <button
-                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                  className="flex w-full items-center justify-between rounded-card border px-4 py-3 text-sm transition-colors hover:bg-card"
-                >
-                  <span className="font-heading text-xs font-medium uppercase tracking-[0.15em] text-muted-foreground">
-                    {theme === "dark" ? "Dark Mode" : "Light Mode"}
-                  </span>
-                  {theme === "dark" ? (
-                    <Moon className="h-4 w-4 text-muted-foreground" />
-                  ) : (
-                    <Sun className="h-4 w-4 text-muted-foreground" />
-                  )}
-                </button>
-              </div>
+              <button
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                className="flex w-full items-center justify-between rounded-card border px-4 py-3 text-sm transition-colors hover:bg-card"
+              >
+                <span className="font-heading text-xs font-medium uppercase tracking-[0.15em] text-muted-foreground">
+                  {theme === "dark" ? "Dark Mode" : "Light Mode"}
+                </span>
+                {theme === "dark" ? (
+                  <Moon className="h-4 w-4 text-muted-foreground" />
+                ) : (
+                  <Sun className="h-4 w-4 text-muted-foreground" />
+                )}
+              </button>
+
+              {user ? (
+                <form action="/api/auth/signout" method="POST">
+                  <Button variant="outline" className="w-full" type="submit">
+                    Sign Out
+                  </Button>
+                </form>
+              ) : (
+                <div className="flex flex-col gap-3">
+                  <Button variant="outline" asChild className="w-full">
+                    <Link href="/login" onClick={() => setOpen(false)}>
+                      Log In
+                    </Link>
+                  </Button>
+                  <Button asChild className="w-full">
+                    <Link href="/#pricing" onClick={() => setOpen(false)}>
+                      Enroll Now
+                    </Link>
+                  </Button>
+                </div>
+              )}
             </div>
           </SheetContent>
         </Sheet>
