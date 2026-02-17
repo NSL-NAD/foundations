@@ -99,7 +99,7 @@ export default async function CoursePage() {
             </span>
             <MessageCircle className="h-4 w-4 text-muted-foreground" />
           </div>
-          <p className="text-sm font-medium">Ask anything</p>
+          <div className="font-heading text-3xl font-bold">Ask anything</div>
           <p className="mt-1 text-xs text-muted-foreground">
             Search the course, review concepts, or get help
           </p>
