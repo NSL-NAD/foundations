@@ -76,13 +76,13 @@ export default async function CoursePage() {
         <div className="rounded-card border bg-card p-6">
           <div className="flex items-center justify-between pb-2">
             <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-              My Notes
+              My Notebook
             </span>
             <PenLine className="h-4 w-4 text-muted-foreground" />
           </div>
           <div className="font-heading text-3xl font-bold">{noteCount || 0}</div>
           <p className="mt-1 text-xs text-muted-foreground">
-            {noteCount ? "notes across your lessons" : "Start taking notes in any lesson"}
+            {noteCount ? "notes across your lessons — your Notebook will be converted to a Design Brief at course completion" : "Start taking notes in any lesson — your Notebook will be converted to a Design Brief at course completion"}
           </p>
           <Button asChild variant="outline" size="sm" className="mt-3 w-full">
             <Link href="/dashboard/notebook">
