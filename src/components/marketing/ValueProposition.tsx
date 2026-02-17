@@ -2,6 +2,7 @@ import {
   Compass,
   PenTool,
   MessageSquare,
+  Home,
   ArrowRight,
 } from "lucide-react";
 import Link from "next/link";
@@ -31,6 +32,14 @@ const values = [
       "Gain the vocabulary and confidence to communicate your vision to architects, contractors, and designers.",
     href: "#curriculum",
   },
+  {
+    icon: Home,
+    number: "04",
+    title: "Design Your Dream Home",
+    description:
+      "Bring it all together in a capstone project — from concept to a complete design you can share with professionals.",
+    href: "#curriculum",
+  },
 ];
 
 export function ValueProposition() {
@@ -47,11 +56,11 @@ export function ValueProposition() {
           </p>
         </div>
 
-        <div className="mx-auto mt-16 grid max-w-5xl gap-6 md:grid-cols-3">
+        <div className="mx-auto mt-16 grid max-w-6xl gap-6 md:grid-cols-2 lg:grid-cols-4">
           {values.map((item) => (
             <div
               key={item.title}
-              className="group rounded-card border bg-card p-5 transition-colors hover:border-foreground/20"
+              className="group rounded-card border bg-card p-5 transition-colors hover:border-[#171C24]/50"
             >
               <div className="flex h-11 w-11 items-center justify-center rounded-full bg-brass/10">
                 <item.icon className="h-5 w-5 text-brass" />
