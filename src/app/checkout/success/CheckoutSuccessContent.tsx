@@ -241,8 +241,8 @@ export function CheckoutSuccessContent() {
             </Button>
           ) : accountCreated || !includesCourse ? (
             <Button asChild className="w-full">
-              <Link href={includesCourse ? "/dashboard" : "/"}>
-                {includesCourse ? "Go to Dashboard" : "Return Home"}
+              <Link href={includesCourse ? "/course" : "/"}>
+                {includesCourse ? "Go to Course" : "Return Home"}
               </Link>
             </Button>
           ) : (

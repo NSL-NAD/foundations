@@ -74,11 +74,11 @@ export function NotebookFullView({
       {/* Header */}
       <div className="mb-8">
         <Link
-          href="/dashboard"
+          href="/course"
           className="mb-4 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
-          Dashboard
+          Course
         </Link>
         <h1 className="text-3xl font-bold tracking-tight">My Notes</h1>
         <p className="mt-1 text-muted-foreground">

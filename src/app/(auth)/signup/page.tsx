@@ -76,7 +76,7 @@ export default function SignupPage() {
       ]).catch(() => {});
     }
 
-    router.push("/dashboard");
+    router.push("/course");
     router.refresh();
   }
 
