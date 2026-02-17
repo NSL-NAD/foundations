@@ -41,8 +41,8 @@ export function ToolsPanel({
   }, [isOpen, close]);
 
   const panelContent = (
-    <div className="flex h-full flex-col">
-      <div className="flex items-center justify-between pr-2">
+    <div className="flex h-full min-h-0 flex-col">
+      <div className="flex shrink-0 items-center justify-between pr-2">
         <div className="flex-1">
           <ToolsTabBar />
         </div>
@@ -56,7 +56,7 @@ export function ToolsPanel({
           <X className="h-4 w-4" />
         </Button>
       </div>
-      <div className="flex-1 overflow-hidden">
+      <div className="min-h-0 flex-1 overflow-hidden">
         {activeTab === "notebook" ? (
           <NotebookTab userId={userId} />
         ) : (
@@ -82,7 +82,7 @@ export function ToolsPanel({
       <Sheet open={isOpen && isMobile} onOpenChange={(open) => !open && close()}>
         <SheetContent
           side="bottom"
-          className="flex h-[75dvh] flex-col rounded-t-xl p-0 pb-[env(safe-area-inset-bottom)] [&>button:first-child]:hidden"
+          className="flex h-[70svh] max-h-[75dvh] flex-col rounded-t-xl p-0 pb-[env(safe-area-inset-bottom)] [&>button:first-child]:hidden"
         >
           <div className="mx-auto mb-2 mt-2 h-1 w-12 shrink-0 rounded-full bg-muted-foreground/30" />
           <div className="min-h-0 flex-1">

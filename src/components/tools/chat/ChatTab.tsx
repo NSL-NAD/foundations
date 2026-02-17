@@ -46,10 +46,10 @@ export function ChatTab({ userId, email }: ChatTabProps) {
   );
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full min-h-0 flex-col">
       {/* Usage indicator */}
       {!usageLoading && (
-        <div className="flex items-center justify-between border-b px-4 py-2">
+        <div className="flex shrink-0 items-center justify-between border-b px-4 py-2">
           <span className="text-[11px] text-muted-foreground">
             {usage.hasFullAccess ? (
               <span className="font-medium text-primary">✦ Unlimited</span>
@@ -62,7 +62,7 @@ export function ChatTab({ userId, email }: ChatTabProps) {
         </div>
       )}
 
-      <div className="flex-1 overflow-hidden">
+      <div className="min-h-0 flex-1 overflow-hidden">
         <ChatMessageList
           messages={messages}
           isLoading={isLoading}
@@ -72,7 +72,7 @@ export function ChatTab({ userId, email }: ChatTabProps) {
       </div>
 
       {error && (
-        <div className="px-4 py-2 text-xs text-destructive">
+        <div className="shrink-0 px-4 py-2 text-xs text-destructive">
           Something went wrong. Please try again.
         </div>
       )}
