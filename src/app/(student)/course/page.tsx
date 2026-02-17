@@ -3,7 +3,7 @@ import { getModules, getFirstLesson, getLessonPath } from "@/lib/course";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Check, PlayCircle, FileText, PenTool, ListChecks, PenLine, MessageCircle } from "lucide-react";
+import { ArrowRight, Check, PlayCircle, FileText, PenTool, ListChecks, PenLine, MessageCircle, BookOpen, Trophy } from "lucide-react";
 import Link from "next/link";
 import { DashboardChatButton } from "@/components/dashboard/DashboardChatButton";
 
@@ -56,10 +56,6 @@ export default async function CoursePage() {
           <h1 className="font-heading text-3xl font-bold uppercase tracking-tight md:text-4xl">
             Course Overview
           </h1>
-          <p className="mt-1 text-muted-foreground">
-            {totalCompleted} of {totalLessons} lessons completed ({overallPercent}%)
-          </p>
-          <Progress value={overallPercent} className="mt-2 h-2 w-64" />
         </div>
         <Button asChild size="lg">
           <Link
@@ -69,6 +65,36 @@ export default async function CoursePage() {
             <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
         </Button>
+      </div>
+
+      {/* Progress Cards */}
+      <div className="mb-8 grid gap-4 md:grid-cols-2">
+        <div className="rounded-card border bg-card p-6">
+          <div className="flex items-center justify-between pb-2">
+            <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+              Course Progress
+            </span>
+            <BookOpen className="h-4 w-4 text-muted-foreground" />
+          </div>
+          <div className="font-heading text-3xl font-bold">{overallPercent}%</div>
+          <Progress value={overallPercent} className="mt-3" />
+          <p className="mt-2 text-xs text-muted-foreground">
+            {totalCompleted} of {totalLessons} lessons completed
+          </p>
+        </div>
+
+        <div className="rounded-card border bg-card p-6">
+          <div className="flex items-center justify-between pb-2">
+            <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+              Lessons Completed
+            </span>
+            <Trophy className="h-4 w-4 text-muted-foreground" />
+          </div>
+          <div className="font-heading text-3xl font-bold">{totalCompleted}</div>
+          <p className="mt-2 text-xs text-muted-foreground">
+            {totalLessons - totalCompleted} remaining
+          </p>
+        </div>
       </div>
 
       {/* Tools */}
