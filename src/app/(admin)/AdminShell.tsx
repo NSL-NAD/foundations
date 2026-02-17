@@ -41,7 +41,7 @@ export function AdminShell({ children }: AdminShellProps) {
   }
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen flex-col md:flex-row">
       {/* Desktop Sidebar — icon-only, expands on hover or pin */}
       <aside
         className={cn(
@@ -140,7 +140,7 @@ export function AdminShell({ children }: AdminShellProps) {
       </aside>
 
       {/* Mobile nav */}
-      <div className="sticky top-0 z-10 flex h-12 items-center gap-4 border-b bg-[#1a1a1a] px-4 text-white md:hidden">
+      <div className="sticky top-0 z-10 flex h-12 w-full items-center gap-4 border-b bg-[#1a1a1a] px-4 text-white md:hidden">
         {adminNav.map((item) => {
           const isActive = pathname === item.href;
           return (
@@ -163,7 +163,7 @@ export function AdminShell({ children }: AdminShellProps) {
       </div>
 
       {/* Content */}
-      <main className="flex-1 bg-background">{children}</main>
+      <main className="min-w-0 flex-1 bg-background">{children}</main>
     </div>
   );
 }
