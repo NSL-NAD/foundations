@@ -2,9 +2,10 @@ import { createClient } from "@/lib/supabase/server";
 import { getModules, getFirstLesson, getLessonPath } from "@/lib/course";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Check, PlayCircle, FileText, PenTool, ListChecks, PenLine, MessageCircle, BookOpen, Trophy, ClipboardList, Award } from "lucide-react";
+import { ArrowRight, Check, PlayCircle, FileText, PenTool, ListChecks, PenLine, MessageCircle, BookOpen, ClipboardList, Award } from "lucide-react";
 import Link from "next/link";
 import { DashboardChatButton } from "@/components/dashboard/DashboardChatButton";
+import { CourseReview } from "@/components/account/CourseReview";
 
 export const metadata = {
   title: "Course Overview",
@@ -35,6 +36,13 @@ export default async function CoursePage() {
     .select("id", { count: "exact", head: true })
     .eq("user_id", user!.id)
     .neq("content", "");
+
+  // Existing course review
+  const { data: existingReview } = await supabase
+    .from("course_reviews")
+    .select("rating, review_text")
+    .eq("user_id", user!.id)
+    .single();
 
   const completedSet = new Set(
     progressRecords?.map((p) => `${p.module_slug}/${p.lesson_slug}`) || []
@@ -85,19 +93,6 @@ export default async function CoursePage() {
         <div className="flex flex-col rounded-card border-accent-foreground/10 bg-accent text-accent-foreground p-6">
           <div className="flex items-center justify-between pb-2">
             <span className="text-xs font-medium uppercase tracking-wider text-accent-foreground/70">
-              Lessons Completed
-            </span>
-            <Trophy className="h-4 w-4 text-accent-foreground/70" />
-          </div>
-          <div className="font-heading text-3xl font-bold">{totalCompleted}</div>
-          <p className="mt-auto pt-3 text-xs text-accent-foreground/70">
-            {totalLessons - totalCompleted} remaining
-          </p>
-        </div>
-
-        <div className="flex flex-col rounded-card border-accent-foreground/10 bg-accent text-accent-foreground p-6">
-          <div className="flex items-center justify-between pb-2">
-            <span className="text-xs font-medium uppercase tracking-wider text-accent-foreground/70">
               My Notebook
             </span>
             <PenLine className="h-4 w-4 text-accent-foreground/70" />
@@ -129,6 +124,15 @@ export default async function CoursePage() {
           </p>
           <div className="mt-3">
             <DashboardChatButton />
+          </div>
+        </div>
+
+        <div className="flex flex-col rounded-card border bg-card p-5">
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            Course Review
+          </p>
+          <div className="min-h-0 flex-1">
+            <CourseReview existingReview={existingReview} compact />
           </div>
         </div>
       </div>

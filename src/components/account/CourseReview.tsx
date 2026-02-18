@@ -12,9 +12,10 @@ interface CourseReviewProps {
     rating: number;
     review_text: string;
   } | null;
+  compact?: boolean;
 }
 
-export function CourseReview({ existingReview }: CourseReviewProps) {
+export function CourseReview({ existingReview, compact }: CourseReviewProps) {
   const [rating, setRating] = useState(existingReview?.rating || 0);
   const [hoverRating, setHoverRating] = useState(0);
   const [reviewText, setReviewText] = useState(
@@ -76,9 +77,9 @@ export function CourseReview({ existingReview }: CourseReviewProps) {
   }
 
   return (
-    <div className="flex h-full flex-col gap-3">
+    <div className={`flex h-full flex-col ${compact ? "gap-2" : "gap-3"}`}>
       <div>
-        <Label className="mb-2 block">Your Rating</Label>
+        {!compact && <Label className="mb-2 block">Your Rating</Label>}
         <div className="flex items-center gap-1">
           {[1, 2, 3, 4, 5].map((star) => (
             <button
@@ -90,7 +91,7 @@ export function CourseReview({ existingReview }: CourseReviewProps) {
               className="transition-transform hover:scale-110"
             >
               <Star
-                className={`h-6 w-6 ${
+                className={`${compact ? "h-5 w-5" : "h-6 w-6"} ${
                   star <= (hoverRating || rating)
                     ? "fill-primary text-primary"
                     : "text-muted-foreground/30"
@@ -100,14 +101,14 @@ export function CourseReview({ existingReview }: CourseReviewProps) {
           ))}
         </div>
       </div>
-      <div className="flex flex-1 flex-col gap-2">
-        <Label htmlFor="review-text">Your Review (optional)</Label>
+      <div className="flex flex-1 flex-col gap-1.5">
+        {!compact && <Label htmlFor="review-text">Your Review (optional)</Label>}
         <Textarea
           id="review-text"
           value={reviewText}
           onChange={(e) => setReviewText(e.target.value)}
           placeholder="Tell us about your experience..."
-          className="min-h-[120px] flex-1 resize-y"
+          className={`${compact ? "min-h-[60px] text-sm" : "min-h-[120px]"} flex-1 resize-y`}
         />
       </div>
       <div className="mt-auto">
