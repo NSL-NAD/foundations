@@ -66,46 +66,46 @@ export default async function CoursePage() {
 
       {/* Stats & Tools — single row on desktop, 2x2 on mobile */}
       <div className="mb-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <div className="flex flex-col rounded-card border bg-accent/10 p-6">
+        <div className="flex flex-col rounded-card border-accent-foreground/10 bg-accent text-accent-foreground p-6">
           <div className="flex items-center justify-between pb-2">
-            <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+            <span className="text-xs font-medium uppercase tracking-wider text-accent-foreground/70">
               Course Progress
             </span>
-            <BookOpen className="h-4 w-4 text-muted-foreground" />
+            <BookOpen className="h-4 w-4 text-accent-foreground/70" />
           </div>
           <div className="font-heading text-3xl font-bold">{overallPercent}%</div>
           <Progress value={overallPercent} className="mt-3" />
-          <p className="mt-2 text-xs text-muted-foreground">
+          <p className="mt-2 text-xs text-accent-foreground/70">
             {totalCompleted} of {totalLessons} lessons completed
           </p>
         </div>
 
-        <div className="flex flex-col rounded-card border bg-accent/10 p-6">
+        <div className="flex flex-col rounded-card border-accent-foreground/10 bg-accent text-accent-foreground p-6">
           <div className="flex items-center justify-between pb-2">
-            <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+            <span className="text-xs font-medium uppercase tracking-wider text-accent-foreground/70">
               Lessons Completed
             </span>
-            <Trophy className="h-4 w-4 text-muted-foreground" />
+            <Trophy className="h-4 w-4 text-accent-foreground/70" />
           </div>
           <div className="font-heading text-3xl font-bold">{totalCompleted}</div>
-          <p className="mt-2 text-xs text-muted-foreground">
+          <p className="mt-2 text-xs text-accent-foreground/70">
             {totalLessons - totalCompleted} remaining
           </p>
         </div>
 
-        <div className="flex flex-col rounded-card border bg-accent/10 p-6">
+        <div className="flex flex-col rounded-card border-accent-foreground/10 bg-accent text-accent-foreground p-6">
           <div className="flex items-center justify-between pb-2">
-            <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+            <span className="text-xs font-medium uppercase tracking-wider text-accent-foreground/70">
               My Notebook
             </span>
-            <PenLine className="h-4 w-4 text-muted-foreground" />
+            <PenLine className="h-4 w-4 text-accent-foreground/70" />
           </div>
           <div className="font-heading text-3xl font-bold">{noteCount || 0}</div>
-          <p className="mt-1 flex-1 text-xs text-muted-foreground">
+          <p className="mt-1 flex-1 text-xs text-accent-foreground/70">
             {noteCount ? "notes across your lessons" : "Start taking notes in any lesson"}
           </p>
           <div className="mt-3">
-            <Button asChild size="sm">
+            <Button asChild size="sm" variant="secondary" className="bg-primary text-primary-foreground hover:bg-primary/90">
               <Link href="/dashboard/notebook">
                 View All Notes
                 <ArrowRight className="ml-1.5 h-3 w-3" />
@@ -114,15 +114,15 @@ export default async function CoursePage() {
           </div>
         </div>
 
-        <div className="flex flex-col rounded-card border bg-accent/10 p-6">
+        <div className="flex flex-col rounded-card border-accent-foreground/10 bg-accent text-accent-foreground p-6">
           <div className="flex items-center justify-between pb-2">
-            <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+            <span className="text-xs font-medium uppercase tracking-wider text-accent-foreground/70">
               AI Assistant
             </span>
-            <MessageCircle className="h-4 w-4 text-muted-foreground" />
+            <MessageCircle className="h-4 w-4 text-accent-foreground/70" />
           </div>
           <div className="font-heading text-3xl font-bold">Ask anything</div>
-          <p className="mt-1 flex-1 text-xs text-muted-foreground">
+          <p className="mt-1 flex-1 text-xs text-accent-foreground/70">
             Search the course, review concepts, or get help
           </p>
           <div className="mt-3">
@@ -176,7 +176,7 @@ export default async function CoursePage() {
                       <li key={lesson.slug}>
                         <Link
                           href={getLessonPath(mod.slug, lesson.slug)}
-                          className={`flex items-center gap-3 px-5 py-2.5 text-sm transition-colors hover:bg-accent/10 hover:text-accent ${
+                          className={`flex items-center gap-3 px-5 py-2.5 text-sm transition-colors hover:bg-accent text-accent-foreground hover:text-accent ${
                             isLast ? "rounded-b-card" : ""
                           }`}
                         >
