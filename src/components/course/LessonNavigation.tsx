@@ -39,8 +39,16 @@ export function LessonNavigation({
       });
 
       if (res.ok) {
+        const wasCompleting = !completed;
         setCompleted(!completed);
         router.refresh();
+
+        // Auto-navigate to next lesson after marking complete
+        if (wasCompleting && navigation.next) {
+          router.push(
+            `/course/${navigation.next.moduleSlug}/${navigation.next.lessonSlug}`
+          );
+        }
       }
     } finally {
       setLoading(false);

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { ModuleSidebar } from "./ModuleSidebar";
 import { LessonContent } from "./LessonContent";
 import { LessonNavigation } from "./LessonNavigation";
+import { LessonDownloads } from "./LessonDownloads";
 import { StraightedgeLine } from "@/components/decorative/StraightedgeLine";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
@@ -38,6 +39,13 @@ export function CoursePlayer({
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const isCompleted = completedLessons.includes(`${moduleSlug}/${lessonSlug}`);
   const { isOpen: toolsPanelOpen, setLessonContext } = useToolsPanel();
+
+  // Extract downloads from lesson metadata
+  const downloads =
+    "downloads" in lesson && Array.isArray(lesson.downloads)
+      ? (lesson.downloads as string[])
+      : [];
+  const hasDownloads = downloads.length > 0;
 
   // Update lesson context when navigating
   useEffect(() => {
@@ -87,22 +95,43 @@ export function CoursePlayer({
         )}
       >
         <div className="mx-auto max-w-3xl px-6 py-8 pb-24 md:px-8 lg:pb-8">
-          {/* Module breadcrumb */}
-          <p className="mb-1 font-heading text-xs font-medium uppercase tracking-[0.15em] text-muted-foreground">
-            {currentModule.title}
-          </p>
-          <h1 className="font-heading text-3xl font-bold uppercase tracking-tight md:text-4xl">
-            {lesson.title}
-          </h1>
-          <div className="mt-2 flex items-center gap-3 text-sm text-muted-foreground">
-            {lesson.duration && <span>{lesson.duration}</span>}
-            <span className="capitalize">{lesson.type}</span>
-            {lesson.path !== "both" && (
-              <span className="rounded bg-secondary px-2 py-0.5 text-xs">
-                {lesson.path === "drawer"
-                  ? "Drawer Path"
-                  : "Brief Builder Path"}
-              </span>
+          {/* Lesson header with optional downloads */}
+          <div
+            className={
+              hasDownloads
+                ? "flex flex-col gap-6 md:flex-row md:items-start md:justify-between"
+                : ""
+            }
+          >
+            <div className={hasDownloads ? "min-w-0 flex-1" : ""}>
+              {/* Module breadcrumb */}
+              <p className="mb-1 font-heading text-xs font-medium uppercase tracking-[0.15em] text-muted-foreground">
+                {currentModule.title}
+              </p>
+              <h1 className="font-heading text-3xl font-bold uppercase tracking-tight md:text-4xl">
+                {lesson.title}
+              </h1>
+              <div className="mt-2 flex items-center gap-3 text-sm text-muted-foreground">
+                {lesson.duration && <span>{lesson.duration}</span>}
+                <span className="capitalize">{lesson.type}</span>
+                {lesson.path !== "both" && (
+                  <span className="rounded bg-secondary px-2 py-0.5 text-xs">
+                    {lesson.path === "drawer"
+                      ? "Drawer Path"
+                      : "Brief Builder Path"}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* Downloads card — top right */}
+            {hasDownloads && (
+              <div className="w-full shrink-0 md:w-56">
+                <LessonDownloads
+                  downloads={downloads}
+                  moduleSlug={moduleSlug}
+                />
+              </div>
             )}
           </div>
 

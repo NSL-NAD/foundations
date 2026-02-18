@@ -4,7 +4,7 @@ import { MDXRemote } from "next-mdx-remote";
 import type { MDXRemoteSerializeResult } from "next-mdx-remote";
 import { Children, isValidElement } from "react";
 import type { ReactNode } from "react";
-import { Download, PlayCircle, Lightbulb } from "lucide-react";
+import { PlayCircle, Lightbulb } from "lucide-react";
 import type { CurriculumLesson } from "@/lib/course";
 import { DrawerPath, BriefPath } from "@/components/course/PathIndicator";
 import { StraightedgeLine } from "@/components/decorative/StraightedgeLine";
@@ -75,9 +75,7 @@ interface LessonContentProps {
   moduleSlug: string;
 }
 
-export function LessonContent({ mdxSource, lesson, moduleSlug }: LessonContentProps) {
-  const hasDownloads = "downloads" in lesson && Array.isArray(lesson.downloads) && lesson.downloads.length > 0;
-
+export function LessonContent({ mdxSource, lesson }: LessonContentProps) {
   return (
     <div>
       {/* Video placeholder for video lessons */}
@@ -102,26 +100,6 @@ export function LessonContent({ mdxSource, lesson, moduleSlug }: LessonContentPr
           <p className="text-muted-foreground">
             Lesson content is being prepared. Check back soon!
           </p>
-        </div>
-      )}
-
-      {/* Downloads */}
-      {hasDownloads && (
-        <div className="mt-8 rounded-card border border-foreground/10 p-4">
-          <h3 className="mb-3 text-sm font-semibold">Downloads</h3>
-          <div className="space-y-2">
-            {(lesson as { downloads: string[] }).downloads.map((file) => (
-              <a
-                key={file}
-                href={`/downloads/${moduleSlug}/${file}`}
-                download
-                className="flex items-center gap-2 rounded-full border border-foreground/10 bg-card px-3 py-2 text-sm transition-colors hover:bg-accent"
-              >
-                <Download className="h-4 w-4 text-primary" />
-                <span>{file}</span>
-              </a>
-            ))}
-          </div>
         </div>
       )}
     </div>
