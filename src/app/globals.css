@@ -157,7 +157,7 @@ html {
   @apply font-heading text-3xl font-bold tracking-tight mb-6;
 }
 .prose-lesson h2 {
-  @apply font-heading text-2xl font-bold mt-14 mb-4 pb-3 border-b border-foreground/10;
+  @apply font-heading text-2xl font-bold mt-16 mb-5 pb-3 border-b border-foreground/10;
   position: relative;
 }
 .prose-lesson h2::after {
@@ -165,12 +165,15 @@ html {
   position: absolute;
   bottom: -1px;
   left: 0;
-  width: 60px;
-  height: 2px;
-  background: linear-gradient(to right, hsl(var(--brass)), transparent);
+  width: 100px;
+  height: 3px;
+  background: linear-gradient(to right, hsl(var(--brass)), hsl(var(--brass) / 0.3), transparent);
+  border-radius: 2px;
 }
 .prose-lesson h3 {
   @apply font-heading text-xl font-semibold mt-10 mb-3;
+  padding-left: 1rem;
+  border-left: 2px solid hsl(var(--brass) / 0.4);
 }
 .prose-lesson h4 {
   @apply font-heading text-lg font-semibold mt-8 mb-2;
@@ -179,19 +182,59 @@ html {
   @apply mb-6 leading-relaxed text-foreground/90;
 }
 .prose-lesson ul {
-  @apply mb-6 list-disc pl-6 space-y-2;
+  @apply mb-6 pl-6 space-y-2.5;
+  list-style: none;
+}
+.prose-lesson ul > li {
+  @apply relative pl-2;
+}
+.prose-lesson ul > li::before {
+  content: '';
+  position: absolute;
+  left: -1rem;
+  top: 0.6em;
+  width: 5px;
+  height: 5px;
+  border-radius: 1px;
+  background: hsl(var(--brass) / 0.5);
+  transform: rotate(45deg);
 }
 .prose-lesson ol {
-  @apply mb-6 list-decimal pl-6 space-y-2;
+  @apply mb-6 space-y-3 pl-0;
+  list-style: none;
+  counter-reset: lesson-counter;
+}
+.prose-lesson ol > li {
+  @apply relative text-foreground/85;
+  padding-left: 2.5rem;
+  counter-increment: lesson-counter;
+}
+.prose-lesson ol > li::before {
+  content: counter(lesson-counter, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 0.1em;
+  font-family: var(--font-space-grotesk);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: hsl(var(--primary) / 0.35);
+  width: 1.75rem;
+  text-align: center;
 }
 .prose-lesson li {
-  @apply text-foreground/85 pl-1;
+  @apply text-foreground/85;
 }
 .prose-lesson strong {
   @apply text-foreground font-semibold;
 }
 .prose-lesson blockquote {
-  @apply border-l-4 border-accent pl-6 py-1 italic text-muted-foreground my-8;
+  @apply my-10 rounded-lg py-5 px-6 not-italic;
+  border-left: 4px solid hsl(var(--brass));
+  background: hsl(var(--brass) / 0.04);
+}
+.prose-lesson blockquote p {
+  @apply mb-0 italic leading-relaxed text-foreground/80;
+  font-size: 1.02em;
 }
 .prose-lesson code {
   @apply bg-surface px-2 py-0.5 rounded text-sm font-mono;
@@ -203,35 +246,60 @@ html {
   @apply bg-transparent p-0;
 }
 .prose-lesson img {
-  @apply rounded-img my-8;
+  @apply rounded-img my-8 shadow-sm ring-1 ring-foreground/5;
 }
 .prose-lesson a {
-  @apply text-primary underline underline-offset-2 hover:text-primary/80;
+  @apply text-primary no-underline;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.prose-lesson a:hover {
+  color: hsl(var(--brass));
+  border-bottom-color: hsl(var(--brass) / 0.5);
 }
 .prose-lesson hr {
-  @apply my-12 border-foreground/10;
+  @apply my-14 border-none;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    hsl(var(--brass) / 0.3) 10%,
+    hsl(var(--brass) / 0.3) 90%,
+    transparent
+  );
 }
 
 /* GFM Tables */
 .prose-lesson table {
-  @apply mb-6 w-full border-collapse text-sm;
+  @apply mb-8 w-full text-sm;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid hsl(var(--foreground) / 0.08);
 }
 .prose-lesson thead th {
-  @apply border-b border-foreground/15 bg-surface px-4 py-2.5 text-left text-xs font-semibold uppercase tracking-wider text-foreground/70;
+  @apply border-b border-foreground/15 bg-surface px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-foreground/70;
 }
 .prose-lesson tbody td {
-  @apply border-b border-foreground/5 px-4 py-2.5 text-foreground/85;
+  @apply border-b border-foreground/5 px-5 py-3 text-foreground/85;
 }
 .prose-lesson tbody tr:hover {
-  @apply bg-surface/50;
+  background: hsl(var(--brass) / 0.04);
+}
+.prose-lesson tbody tr:last-child td {
+  @apply border-b-0;
 }
 
 /* GFM Task-list checkboxes */
 .prose-lesson ul:has(> li > input[type="checkbox"]) {
-  @apply list-none pl-0;
+  @apply pl-0;
 }
 .prose-lesson li:has(> input[type="checkbox"]) {
   @apply flex items-start gap-3 pl-0;
+}
+.prose-lesson li:has(> input[type="checkbox"])::before {
+  display: none;
 }
 .prose-lesson input[type="checkbox"] {
   @apply mt-1.5 h-4 w-4 shrink-0 cursor-default appearance-none rounded border-2 border-foreground/30 bg-transparent;
@@ -262,10 +330,27 @@ html {
   @apply text-foreground font-semibold;
 }
 
+/* Key Insight card prose (inside blockquote override) */
+.prose-insight p {
+  @apply mb-0 italic leading-relaxed text-foreground/80;
+  font-size: 1.02em;
+}
+.prose-insight p:first-child {
+  @apply mt-0;
+}
+
+/* Bold-label callout card prose */
+.prose-callout p {
+  @apply mb-0 text-[0.95rem] leading-relaxed text-foreground/85;
+}
+
 /* Dark mode prose overrides */
 .dark .prose-lesson p {
   @apply text-foreground/85;
 }
 .dark .prose-lesson li {
   @apply text-foreground/80;
+}
+.dark .prose-lesson blockquote {
+  background: hsl(var(--brass) / 0.06);
 }
