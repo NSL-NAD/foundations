@@ -1,20 +1,24 @@
 "use client";
 
 import { useState } from "react";
-import { Loader2, ShoppingCart } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
+import { Loader2, ShoppingCart, GraduationCap, Package, MessageCircle } from "lucide-react";
+
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  course: GraduationCap,
+  kit: Package,
+  ai_chat: MessageCircle,
+};
 
 interface ProductCheckoutLinkProps {
   productType: string;
   label: string;
-  icon: LucideIcon;
 }
 
 export function ProductCheckoutLink({
   productType,
   label,
-  icon: Icon,
 }: ProductCheckoutLinkProps) {
+  const Icon = iconMap[productType] || ShoppingCart;
   const [loading, setLoading] = useState(false);
 
   async function handleCheckout() {

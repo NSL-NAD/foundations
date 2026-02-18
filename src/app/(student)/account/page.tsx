@@ -162,7 +162,7 @@ export default async function AccountPage() {
                         <CheckCircle2 className="ml-auto h-4 w-4 shrink-0 text-primary" />
                       </div>
                     ) : (
-                      <ProductCheckoutLink productType="course" label="Course" icon={GraduationCap} />
+                      <ProductCheckoutLink productType="course" label="Course" />
                     )}
 
                     {/* Starter Kit */}
@@ -173,7 +173,7 @@ export default async function AccountPage() {
                         <CheckCircle2 className="ml-auto h-4 w-4 shrink-0 text-primary" />
                       </div>
                     ) : (
-                      <ProductCheckoutLink productType="kit" label="Starter Kit" icon={Package} />
+                      <ProductCheckoutLink productType="kit" label="Starter Kit" />
                     )}
 
                     {/* AI Chat */}
@@ -184,7 +184,7 @@ export default async function AccountPage() {
                         <CheckCircle2 className="ml-auto h-4 w-4 shrink-0 text-primary" />
                       </div>
                     ) : (
-                      <ProductCheckoutLink productType="ai_chat" label="AI Chat" icon={MessageCircle} />
+                      <ProductCheckoutLink productType="ai_chat" label="AI Chat" />
                     )}
                   </div>
                 </div>
