@@ -209,7 +209,7 @@ export function CoursePlayer({
           </div>
 
           {/* Navigation */}
-          <div className="mt-12 border-t pt-8">
+          <div className="mt-12 pt-8">
             <LessonNavigation
               navigation={navigation}
               moduleSlug={moduleSlug}

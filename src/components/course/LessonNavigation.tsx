@@ -4,7 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { StraightedgeLine } from "@/components/decorative/StraightedgeLine";
 import { ArrowLeft, ArrowRight, Check, Loader2 } from "lucide-react";
 import type { LessonNavigation as LessonNav } from "@/types/course";
 
@@ -57,8 +56,6 @@ export function LessonNavigation({
 
   return (
     <>
-      <StraightedgeLine showTicks className="mb-6" />
-
       {/* Mobile: button on top, nav row below */}
       <div className="flex flex-col gap-4 md:hidden">
         <div className="flex justify-center">
