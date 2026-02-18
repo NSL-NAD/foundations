@@ -58,8 +58,9 @@ export function LessonNavigation({
   return (
     <>
       <StraightedgeLine showTicks className="mb-6" />
-      <div className="space-y-6">
-        {/* Mark Complete */}
+
+      {/* Mobile: button on top, nav row below */}
+      <div className="flex flex-col gap-4 md:hidden">
         <div className="flex justify-center">
           <Button
             onClick={handleMarkComplete}
@@ -81,7 +82,6 @@ export function LessonNavigation({
           </Button>
         </div>
 
-        {/* Prev / Next */}
         <div className="flex items-center justify-between gap-4">
           {navigation.previous ? (
             <Button asChild variant="ghost" className="gap-2">
@@ -89,10 +89,7 @@ export function LessonNavigation({
                 href={`/course/${navigation.previous.moduleSlug}/${navigation.previous.lessonSlug}`}
               >
                 <ArrowLeft className="h-4 w-4" />
-                <span className="hidden sm:inline">
-                  {navigation.previous.title}
-                </span>
-                <span className="sm:hidden">Previous</span>
+                <span>Previous</span>
               </Link>
             </Button>
           ) : (
@@ -104,10 +101,7 @@ export function LessonNavigation({
               <Link
                 href={`/course/${navigation.next.moduleSlug}/${navigation.next.lessonSlug}`}
               >
-                <span className="hidden sm:inline">
-                  {navigation.next.title}
-                </span>
-                <span className="sm:hidden">Next</span>
+                <span>Next</span>
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
@@ -115,6 +109,58 @@ export function LessonNavigation({
             <div />
           )}
         </div>
+      </div>
+
+      {/* Desktop: single row — prev left, button center, next right */}
+      <div className="hidden md:flex md:items-center md:justify-between md:gap-4">
+        {navigation.previous ? (
+          <Button asChild variant="ghost" className="gap-2 min-w-0 flex-shrink">
+            <Link
+              href={`/course/${navigation.previous.moduleSlug}/${navigation.previous.lessonSlug}`}
+            >
+              <ArrowLeft className="h-4 w-4 shrink-0" />
+              <span className="truncate max-w-[180px]">
+                {navigation.previous.title}
+              </span>
+            </Link>
+          </Button>
+        ) : (
+          <div className="min-w-[120px]" />
+        )}
+
+        <Button
+          onClick={handleMarkComplete}
+          disabled={loading}
+          variant={completed ? "outline" : "default"}
+          size="lg"
+          className={
+            completed
+              ? "min-w-[200px] shrink-0 border-brass text-brass hover:bg-brass hover:text-white"
+              : "min-w-[200px] shrink-0 border-0 bg-brass text-white hover:bg-brass/90"
+          }
+        >
+          {loading ? (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          ) : completed ? (
+            <Check className="mr-2 h-4 w-4" />
+          ) : null}
+          {completed ? "Completed" : "Mark as Complete"}
+        </Button>
+
+        {navigation.next ? (
+          <Button asChild variant="ghost" className="gap-2 min-w-0 flex-shrink">
+            <Link
+              href={`/course/${navigation.next.moduleSlug}/${navigation.next.lessonSlug}`}
+            >
+              <span className="truncate max-w-[180px]">
+                {navigation.next.title}
+              </span>
+              <ArrowRight className="h-4 w-4 shrink-0" />
+            </Link>
+          </Button>
+        ) : (
+          <div className="min-w-[120px]" />
+        )}
       </div>
     </>
   );

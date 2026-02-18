@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import { ModuleSidebar } from "./ModuleSidebar";
 import { LessonContent } from "./LessonContent";
 import { LessonNavigation } from "./LessonNavigation";
@@ -8,7 +9,7 @@ import { LessonDownloads } from "./LessonDownloads";
 import { SelectionBubble } from "./SelectionBubble";
 import { StraightedgeLine } from "@/components/decorative/StraightedgeLine";
 import { Button } from "@/components/ui/button";
-import { Menu } from "lucide-react";
+import { Menu, Check, Circle, ArrowLeft, ArrowRight } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useToolsPanel } from "@/contexts/ToolsPanelContext";
 import { cn } from "@/lib/utils";
@@ -124,6 +125,56 @@ export function CoursePlayer({
                       ? "Drawer Path"
                       : "Brief Builder Path"}
                   </span>
+                )}
+              </div>
+
+              {/* Completed indicator */}
+              <div className="mt-2.5 flex items-center gap-1.5 text-xs">
+                {isCompleted ? (
+                  <>
+                    <Check className="h-3.5 w-3.5 text-brass" />
+                    <span className="font-medium text-brass">Completed</span>
+                  </>
+                ) : (
+                  <>
+                    <Circle className="h-3.5 w-3.5 text-muted-foreground/50" />
+                    <span className="text-muted-foreground/50">Not completed</span>
+                  </>
+                )}
+              </div>
+
+              {/* Top prev / next nav */}
+              <div className="mt-3 flex items-center gap-4">
+                {navigation.previous ? (
+                  <Link
+                    href={`/course/${navigation.previous.moduleSlug}/${navigation.previous.lessonSlug}`}
+                    className="flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    <ArrowLeft className="h-3 w-3" />
+                    <span className="hidden sm:inline max-w-[150px] truncate">
+                      {navigation.previous.title}
+                    </span>
+                    <span className="sm:hidden">Previous</span>
+                  </Link>
+                ) : (
+                  <div />
+                )}
+
+                <div className="flex-1" />
+
+                {navigation.next ? (
+                  <Link
+                    href={`/course/${navigation.next.moduleSlug}/${navigation.next.lessonSlug}`}
+                    className="flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    <span className="hidden sm:inline max-w-[150px] truncate">
+                      {navigation.next.title}
+                    </span>
+                    <span className="sm:hidden">Next</span>
+                    <ArrowRight className="h-3 w-3" />
+                  </Link>
+                ) : (
+                  <div />
                 )}
               </div>
             </div>
