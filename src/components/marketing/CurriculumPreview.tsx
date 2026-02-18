@@ -96,7 +96,7 @@ export function CurriculumPreview() {
             What You&apos;ll Learn
           </h2>
           <p className="mt-4 text-muted-foreground">
-            99 lessons across 11 sections — from foundational concepts to your
+            99 lessons across 11 modules — from foundational concepts to your
             own capstone project.
           </p>
         </div>
