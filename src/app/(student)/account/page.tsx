@@ -212,8 +212,8 @@ export default async function AccountPage() {
         </div>
       </div>
 
-      {/* Row 2: Design Brief + Certificate */}
-      <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+      {/* Row 2: Design Brief + Certificate + Dream Home */}
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         {/* Design Brief */}
         <Card>
           <CardHeader>
@@ -266,20 +266,20 @@ export default async function AccountPage() {
             </div>
           </div>
         )}
-      </div>
 
-      {/* Row 3: Dream Home */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Dream Home / Space</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <DreamHomeUpload
-            userId={user!.id}
-            existingSubmission={existingSubmission}
-          />
-        </CardContent>
-      </Card>
+        {/* Dream Home / Space */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Dream Home / Space</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <DreamHomeUpload
+              userId={user!.id}
+              existingSubmission={existingSubmission}
+            />
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
