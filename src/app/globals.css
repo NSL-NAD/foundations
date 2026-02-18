@@ -162,6 +162,10 @@ html {
   background: hsl(16 55% 48% / 0.22);
   color: inherit;
 }
+/* Hide the MDX h1 visually — the header card already shows the title as an h1 */
+.prose-lesson > h1:first-child {
+  @apply sr-only;
+}
 .prose-lesson h1 {
   @apply font-heading text-3xl font-bold tracking-tight mb-6;
 }
