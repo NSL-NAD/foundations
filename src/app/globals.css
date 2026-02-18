@@ -242,6 +242,26 @@ html {
   background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
 }
 
+/* Path indicator prose (inside DrawerPath / BriefPath cards) */
+.prose-path p {
+  @apply mb-3 text-sm leading-relaxed text-foreground/85;
+}
+.prose-path p:last-child {
+  @apply mb-0;
+}
+.prose-path ul {
+  @apply mb-3 list-disc pl-5 space-y-1;
+}
+.prose-path ol {
+  @apply mb-3 list-decimal pl-5 space-y-1;
+}
+.prose-path li {
+  @apply text-sm text-foreground/80;
+}
+.prose-path strong {
+  @apply text-foreground font-semibold;
+}
+
 /* Dark mode prose overrides */
 .dark .prose-lesson p {
   @apply text-foreground/85;

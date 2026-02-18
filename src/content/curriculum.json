@@ -19,8 +19,8 @@
       "description": "Define what home means to you and explore your vision for your dream space.",
       "lessons": [
         { "slug": "workshop-intro", "title": "Workshop Introduction", "type": "video", "duration": "5 min", "path": "both" },
-        { "slug": "mood-board-exercise", "title": "Drawer Path: Mood Board", "type": "exercise", "duration": "20 min", "path": "drawer", "downloads": ["mood-board-template.pdf"] },
-        { "slug": "vision-statement", "title": "Brief Builder: Vision Statement", "type": "exercise", "duration": "20 min", "path": "brief-builder", "downloads": ["vision-statement-worksheet.pdf"] },
+        { "slug": "mood-board-exercise", "title": "Mood Board Exercise", "type": "exercise", "duration": "20 min", "path": "both", "downloads": ["mood-board-template.pdf"] },
+        { "slug": "vision-statement", "title": "Vision Statement Exercise", "type": "exercise", "duration": "20 min", "path": "both", "downloads": ["vision-statement-worksheet.pdf"] },
         { "slug": "inspiration-questions", "title": "Inspiration Questions", "type": "exercise", "duration": "15 min", "path": "both", "downloads": ["dream-home-worksheet.pdf"] }
       ]
     },
@@ -128,7 +128,7 @@
         { "slug": "portfolio-elevations", "title": "Step 4: Elevations", "type": "exercise", "duration": "25 min", "path": "both" },
         { "slug": "portfolio-materials", "title": "Step 5: Materials Board", "type": "exercise", "duration": "20 min", "path": "both" },
         { "slug": "portfolio-environmental", "title": "Step 6: Environmental Diagram", "type": "exercise", "duration": "20 min", "path": "both" },
-        { "slug": "brief-compilation", "title": "Brief Builder: Final Compilation", "type": "exercise", "duration": "30 min", "path": "brief-builder", "downloads": ["design-brief-template.pdf"] },
+        { "slug": "brief-compilation", "title": "Final Compilation", "type": "exercise", "duration": "30 min", "path": "both", "downloads": ["design-brief-template.pdf"] },
         { "slug": "module-6-checklist", "title": "Module 6 Checklist", "type": "checklist", "duration": "2 min", "path": "both" }
       ]
     },
@@ -137,10 +137,10 @@
       "title": "Bonus Modules",
       "description": "Extra content including mood board deep dive, working with professionals, and intro to 3D modeling.",
       "lessons": [
-        { "slug": "bonus-mood-board", "title": "Mood Board Deep Dive", "type": "text", "duration": "10 min", "path": "drawer" },
-        { "slug": "bonus-day-in-life", "title": "Day in the Life Narrative", "type": "exercise", "duration": "15 min", "path": "drawer" },
+        { "slug": "bonus-mood-board", "title": "Mood Board Deep Dive", "type": "text", "duration": "10 min", "path": "both" },
+        { "slug": "bonus-day-in-life", "title": "Day in the Life Narrative", "type": "exercise", "duration": "15 min", "path": "both" },
         { "slug": "bonus-presentation", "title": "Presentation Tips", "type": "text", "duration": "10 min", "path": "both" },
-        { "slug": "bonus-brief-practices", "title": "Design Brief Best Practices", "type": "text", "duration": "10 min", "path": "brief-builder" },
+        { "slug": "bonus-brief-practices", "title": "Design Brief Best Practices", "type": "text", "duration": "10 min", "path": "both" },
         { "slug": "bonus-glossary", "title": "Architecture Terms Glossary", "type": "text", "duration": "5 min", "path": "both", "downloads": ["architecture-glossary.pdf"] },
         { "slug": "bonus-hiring", "title": "Hiring Tips", "type": "text", "duration": "12 min", "path": "both", "downloads": ["contractor-qa-sheet.pdf"] },
         { "slug": "bonus-timeline", "title": "What to Expect (Timeline)", "type": "text", "duration": "8 min", "path": "both" },

@@ -4,6 +4,12 @@ import { MDXRemote } from "next-mdx-remote";
 import type { MDXRemoteSerializeResult } from "next-mdx-remote";
 import { Download, PlayCircle } from "lucide-react";
 import type { CurriculumLesson } from "@/lib/course";
+import { DrawerPath, BriefPath } from "@/components/course/PathIndicator";
+
+const mdxComponents = {
+  DrawerPath,
+  BriefPath,
+};
 
 interface LessonContentProps {
   mdxSource: MDXRemoteSerializeResult | null;
@@ -31,7 +37,7 @@ export function LessonContent({ mdxSource, lesson, moduleSlug }: LessonContentPr
       {/* MDX Content or placeholder */}
       {mdxSource ? (
         <div className="prose-lesson">
-          <MDXRemote {...mdxSource} />
+          <MDXRemote {...mdxSource} components={mdxComponents} />
         </div>
       ) : (
         <div className="rounded-lg border border-dashed p-8 text-center">
