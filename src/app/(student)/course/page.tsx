@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import { getModules, getFirstLesson, getLessonPath } from "@/lib/course";
+import { getModules, getNextIncompleteLesson, getLessonPath } from "@/lib/course";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Check, PlayCircle, FileText, PenTool, ListChecks, PenLine, MessageCircle, BookOpen, ClipboardList, Award } from "lucide-react";
@@ -49,7 +49,7 @@ export default async function CoursePage() {
   );
 
   const modules = getModules();
-  const firstLesson = getFirstLesson();
+  const continueLesson = getNextIncompleteLesson(completedSet);
   const totalCompleted = completedSet.size;
   const totalLessons = modules.reduce((s, m) => s + m.lessons.length, 0);
   const overallPercent =
@@ -64,7 +64,7 @@ export default async function CoursePage() {
         </h1>
         <Button asChild size="lg" className="mt-4">
           <Link
-            href={getLessonPath(firstLesson.moduleSlug, firstLesson.lessonSlug)}
+            href={getLessonPath(continueLesson.moduleSlug, continueLesson.lessonSlug)}
           >
             {totalCompleted === 0 ? "Start Course" : "Continue Learning"}
             <ArrowRight className="ml-2 h-4 w-4" />

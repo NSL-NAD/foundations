@@ -8,7 +8,7 @@ import { DreamHomeUpload } from "@/components/account/DreamHomeUpload";
 import { CourseReview } from "@/components/account/CourseReview";
 import { ShareInvite } from "@/components/account/ShareInvite";
 import { ContactFOADialog } from "@/components/account/ContactFOADialog";
-import { getTotalLessons, getFirstLesson, getLessonPath } from "@/lib/course";
+import { getTotalLessons, getNextIncompleteLesson, getLessonPath } from "@/lib/course";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { BookOpen, Award, Lock, ArrowRight, ClipboardList } from "lucide-react";
@@ -35,19 +35,23 @@ export default async function AccountPage() {
     .eq("user_id", user!.id)
     .order("created_at", { ascending: false });
 
-  // Course progress
-  const { count: completedLessons } = await supabase
+  // Course progress (fetch slugs to determine next incomplete lesson)
+  const { data: progressRecords } = await supabase
     .from("lesson_progress")
-    .select("id", { count: "exact", head: true })
+    .select("lesson_slug, module_slug, completed")
     .eq("user_id", user!.id)
     .eq("completed", true);
 
+  const completedSet = new Set(
+    progressRecords?.map((p) => `${p.module_slug}/${p.lesson_slug}`) || []
+  );
+
   const totalLessons = getTotalLessons();
-  const completed = completedLessons || 0;
+  const completed = completedSet.size;
   const overallPercent =
     totalLessons > 0 ? Math.round((completed / totalLessons) * 100) : 0;
   const isComplete = completed >= totalLessons && totalLessons > 0;
-  const firstLesson = getFirstLesson();
+  const continueLesson = getNextIncompleteLesson(completedSet);
 
   // Last completion date (for certificate)
   let completionDate = "";
@@ -229,7 +233,7 @@ export default async function AccountPage() {
           </p>
           <div className="mt-auto pt-4">
             <Button asChild size="sm" className="rounded-full border border-background bg-background px-6 text-xs font-medium uppercase tracking-wider text-foreground transition-all duration-300 hover:border-brass hover:bg-brass hover:text-white group-hover:border-foreground group-hover:bg-foreground group-hover:text-background group-hover:hover:border-brass group-hover:hover:bg-brass group-hover:hover:text-white">
-              <Link href={getLessonPath(firstLesson.moduleSlug, firstLesson.lessonSlug)}>
+              <Link href={getLessonPath(continueLesson.moduleSlug, continueLesson.lessonSlug)}>
                 Continue Learning
                 <ArrowRight className="ml-2 h-3 w-3" />
               </Link>
@@ -265,7 +269,7 @@ export default async function AccountPage() {
             </p>
             <div className="mt-auto pt-4">
               <Button asChild size="sm" className="rounded-full border border-background bg-background px-6 text-xs font-medium uppercase tracking-wider text-foreground transition-all duration-300 hover:border-brass hover:bg-brass hover:text-white group-hover:border-foreground group-hover:bg-foreground group-hover:text-background group-hover:hover:border-brass group-hover:hover:bg-brass group-hover:hover:text-white">
-                <Link href={getLessonPath(firstLesson.moduleSlug, firstLesson.lessonSlug)}>
+                <Link href={getLessonPath(continueLesson.moduleSlug, continueLesson.lessonSlug)}>
                   Continue Learning
                   <ArrowRight className="ml-2 h-3 w-3" />
                 </Link>

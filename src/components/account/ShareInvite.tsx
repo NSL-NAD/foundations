@@ -20,7 +20,7 @@ export function ShareInvite() {
   }
 
   return (
-    <Button variant="outline" size="sm" onClick={handleCopy}>
+    <Button variant="outline" size="sm" className="min-w-[120px]" onClick={handleCopy}>
       <Link2 className="mr-2 h-4 w-4" />
       Share
     </Button>

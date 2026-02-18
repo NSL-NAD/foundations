@@ -98,6 +98,25 @@ export function getFirstLesson(): {
   };
 }
 
+/**
+ * Returns the first incomplete lesson based on a set of completed lesson keys.
+ * Keys should be in "moduleSlug/lessonSlug" format.
+ * Falls back to the first lesson if all are complete or none are started.
+ */
+export function getNextIncompleteLesson(
+  completedSet: Set<string>
+): { moduleSlug: string; lessonSlug: string } {
+  for (const mod of curriculum.modules) {
+    for (const lesson of mod.lessons) {
+      if (!completedSet.has(`${mod.slug}/${lesson.slug}`)) {
+        return { moduleSlug: mod.slug, lessonSlug: lesson.slug };
+      }
+    }
+  }
+  // All complete — fall back to first lesson
+  return getFirstLesson();
+}
+
 export function getLessonPath(moduleSlug: string, lessonSlug: string): string {
   return `/course/${moduleSlug}/${lessonSlug}`;
 }
