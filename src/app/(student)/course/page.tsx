@@ -75,7 +75,7 @@ export default async function CoursePage() {
           </div>
           <div className="font-heading text-3xl font-bold">{overallPercent}%</div>
           <div className="mt-auto pt-3">
-            <Progress value={overallPercent} className="h-2 bg-accent-foreground/20 [&>div]:bg-foreground" />
+            <Progress value={overallPercent} className="h-2 bg-accent-foreground/20 [&>div]:bg-accent-foreground" />
             <p className="mt-2 text-xs text-accent-foreground/70">
               {totalCompleted} of {totalLessons} lessons completed
             </p>
@@ -107,7 +107,7 @@ export default async function CoursePage() {
             {noteCount ? "notes across your lessons" : "Start taking notes in any lesson"}
           </p>
           <div className="mt-3">
-            <Button asChild size="sm" variant="secondary" className="bg-foreground text-background hover:bg-foreground/90">
+            <Button asChild size="sm" variant="secondary" className="bg-accent-foreground text-foreground hover:bg-accent-foreground/90">
               <Link href="/dashboard/notebook">
                 View All Notes
                 <ArrowRight className="ml-1.5 h-3 w-3" />
