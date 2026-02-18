@@ -133,9 +133,9 @@ export default async function CoursePage() {
         </div>
       </div>
 
-      {/* Modules — 2-col on md (first 10 modules) */}
+      {/* Modules — 2-col on md */}
       <div className="grid gap-4 md:grid-cols-2">
-        {modules.slice(0, -1).map((mod, modIdx) => {
+        {modules.map((mod, modIdx) => {
           const moduleCompleted = mod.lessons.filter((l) =>
             completedSet.has(`${mod.slug}/${l.slug}`)
           ).length;
@@ -211,101 +211,30 @@ export default async function CoursePage() {
             </div>
           );
         })}
-      </div>
 
-      {/* Last module + info cards — 3-col row */}
-      {(() => {
-        const lastMod = modules[modules.length - 1];
-        const lastModCompleted = lastMod.lessons.filter((l) =>
-          completedSet.has(`${lastMod.slug}/${l.slug}`)
-        ).length;
-        const lastModPercent =
-          lastMod.lessons.length > 0
-            ? Math.round((lastModCompleted / lastMod.lessons.length) * 100)
-            : 0;
-
-        return (
-          <div className="mt-4 grid gap-4 md:grid-cols-3">
-            <div className="rounded-card border bg-card">
-              <div className="border-b p-5">
-                <div className="flex items-start justify-between gap-3">
-                  <div className="flex items-start gap-3">
-                    <span className="shrink-0 font-heading text-2xl font-bold text-primary/50">
-                      {String(modules.length).padStart(2, "0")}
-                    </span>
-                    <div>
-                      <h2 className="font-heading text-sm font-semibold uppercase tracking-wide">
-                        {lastMod.title}
-                      </h2>
-                      <p className="mt-1 text-xs text-muted-foreground">
-                        {lastMod.description}
-                      </p>
-                    </div>
-                  </div>
-                  <span className="shrink-0 font-heading text-2xl font-bold text-accent/40">
-                    {lastModPercent}%
-                  </span>
-                </div>
-                <Progress value={lastModPercent} className="mt-3 h-1.5" />
-              </div>
-              <div className="overflow-hidden rounded-b-card">
-                <ul className="lesson-scroll divide-y max-h-[210px] overflow-y-auto">
-                  {lastMod.lessons.map((lesson, lessonIdx) => {
-                    const isComplete = completedSet.has(
-                      `${lastMod.slug}/${lesson.slug}`
-                    );
-                    const Icon = typeIcons[lesson.type] || FileText;
-                    const isLast = lessonIdx === lastMod.lessons.length - 1;
-
-                    return (
-                      <li key={lesson.slug}>
-                        <Link
-                          href={getLessonPath(lastMod.slug, lesson.slug)}
-                          className={`flex items-center gap-3 px-5 py-2.5 text-sm transition-colors hover:bg-accent/10 ${
-                            isLast ? "rounded-b-card" : ""
-                          }`}
-                        >
-                          {isComplete ? (
-                            <Check className="h-4 w-4 shrink-0 text-primary" />
-                          ) : (
-                            <Icon className="h-4 w-4 shrink-0 text-muted-foreground" />
-                          )}
-                          <span className={isComplete ? "text-muted-foreground" : ""}>
-                            {lesson.title}
-                          </span>
-                          <span className="ml-auto shrink-0 text-xs text-muted-foreground">
-                            {lesson.duration}
-                          </span>
-                        </Link>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            </div>
-
-            <div className="flex flex-col rounded-card bg-primary text-primary-foreground p-6">
-              <ClipboardList className="h-5 w-5 text-primary-foreground/50" />
-              <h2 className="mt-3 font-heading text-2xl font-bold uppercase tracking-tight">
-                Design Brief
-              </h2>
-              <p className="mt-auto text-xs text-primary-foreground/70">
-                As you progress through each module, your answers and decisions compile into a personalized Design Brief — a complete reference document for your dream home.
-              </p>
-            </div>
-
-            <div className="flex flex-col rounded-card bg-accent text-accent-foreground p-6">
-              <Award className="h-5 w-5 text-accent-foreground/50" />
-              <h2 className="mt-3 font-heading text-2xl font-bold uppercase tracking-tight">
-                Certificate
-              </h2>
-              <p className="mt-auto text-xs text-accent-foreground/70">
-                Complete all lessons to unlock a downloadable PDF Certificate of Completion — proof of your architectural foundations knowledge.
-              </p>
-            </div>
+        {/* Info cards — side by side, filling one column of the 2-col grid */}
+        <div className="grid grid-cols-2 gap-4">
+          <div className="flex flex-col rounded-card bg-primary text-primary-foreground p-6">
+            <ClipboardList className="h-5 w-5 text-primary-foreground/50" />
+            <h2 className="mt-3 font-heading text-xl font-bold uppercase tracking-tight">
+              Design Brief
+            </h2>
+            <p className="mt-auto text-xs text-primary-foreground/70">
+              As you progress through each module, your answers and decisions compile into a personalized Design Brief — a complete reference document for your dream home.
+            </p>
           </div>
-        );
-      })()}
+
+          <div className="flex flex-col rounded-card bg-accent text-accent-foreground p-6">
+            <Award className="h-5 w-5 text-accent-foreground/50" />
+            <h2 className="mt-3 font-heading text-xl font-bold uppercase tracking-tight">
+              Certificate
+            </h2>
+            <p className="mt-auto text-xs text-accent-foreground/70">
+              Complete all lessons to unlock a downloadable PDF Certificate of Completion — proof of your architectural foundations knowledge.
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

@@ -98,9 +98,9 @@ export default async function AccountPage() {
         Account
       </h1>
 
-      {/* Row 1: Profile + Course Progress */}
-      <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-3">
-        {/* Profile — 2/3 width */}
+      {/* Row 1: Profile + Course Review + Course Progress */}
+      <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-4">
+        {/* Profile — half width */}
         <Card className="md:col-span-2">
           <CardHeader>
             <CardTitle>Profile</CardTitle>
@@ -133,7 +133,17 @@ export default async function AccountPage() {
           </CardContent>
         </Card>
 
-        {/* Course Progress — 1/3 width, terracotta stat card */}
+        {/* Course Review */}
+        <Card className="transition-colors hover:border-foreground/20">
+          <CardHeader>
+            <CardTitle>Course Review</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <CourseReview existingReview={existingReview} />
+          </CardContent>
+        </Card>
+
+        {/* Course Progress — terracotta stat card */}
         <div className="flex flex-col rounded-card bg-accent text-accent-foreground p-6">
           <div className="flex items-center justify-between pb-2">
             <span className="text-xs font-medium uppercase tracking-wider text-accent-foreground/70">
@@ -151,9 +161,9 @@ export default async function AccountPage() {
         </div>
       </div>
 
-      {/* Row 2: Design Brief + Certificate + Course Review */}
-      <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-3">
-        {/* Design Brief — brass left accent */}
+      {/* Row 2: Design Brief + Certificate */}
+      <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+        {/* Design Brief */}
         <Card>
           <CardHeader>
             <CardTitle>Design Brief</CardTitle>
@@ -205,16 +215,6 @@ export default async function AccountPage() {
             </div>
           </div>
         )}
-
-        {/* Course Review */}
-        <Card className="transition-colors hover:border-foreground/20">
-          <CardHeader>
-            <CardTitle>Course Review</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <CourseReview existingReview={existingReview} />
-          </CardContent>
-        </Card>
       </div>
 
       {/* Row 3: Dream Home + Purchase History & Share */}
