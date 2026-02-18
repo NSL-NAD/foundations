@@ -9,9 +9,7 @@ export function DashboardChatButton() {
 
   return (
     <Button
-      variant="ghost"
       size="sm"
-      className="h-auto w-auto justify-start p-0 text-xs text-muted-foreground hover:text-foreground"
       onClick={() => toggle("chat")}
     >
       Open AI Chat

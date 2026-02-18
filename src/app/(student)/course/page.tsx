@@ -66,7 +66,7 @@ export default async function CoursePage() {
 
       {/* Stats & Tools — single row on desktop, 2x2 on mobile */}
       <div className="mb-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <div className="flex flex-col rounded-card border bg-card p-6">
+        <div className="flex flex-col rounded-card border bg-accent/10 p-6">
           <div className="flex items-center justify-between pb-2">
             <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
               Course Progress
@@ -80,7 +80,7 @@ export default async function CoursePage() {
           </p>
         </div>
 
-        <div className="flex flex-col rounded-card border bg-card p-6">
+        <div className="flex flex-col rounded-card border bg-accent/10 p-6">
           <div className="flex items-center justify-between pb-2">
             <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
               Lessons Completed
@@ -93,7 +93,7 @@ export default async function CoursePage() {
           </p>
         </div>
 
-        <div className="flex flex-col rounded-card border bg-card p-6">
+        <div className="flex flex-col rounded-card border bg-accent/10 p-6">
           <div className="flex items-center justify-between pb-2">
             <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
               My Notebook
@@ -104,7 +104,7 @@ export default async function CoursePage() {
           <p className="mt-1 flex-1 text-xs text-muted-foreground">
             {noteCount ? "notes across your lessons" : "Start taking notes in any lesson"}
           </p>
-          <Button asChild variant="ghost" size="sm" className="mt-3 h-auto w-auto justify-start p-0 text-xs text-muted-foreground hover:text-foreground">
+          <Button asChild size="sm" className="mt-3">
             <Link href="/dashboard/notebook">
               View All Notes
               <ArrowRight className="ml-1.5 h-3 w-3" />
@@ -112,7 +112,7 @@ export default async function CoursePage() {
           </Button>
         </div>
 
-        <div className="flex flex-col rounded-card border bg-card p-6">
+        <div className="flex flex-col rounded-card border bg-accent/10 p-6">
           <div className="flex items-center justify-between pb-2">
             <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
               AI Assistant
