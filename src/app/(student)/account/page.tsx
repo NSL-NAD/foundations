@@ -4,13 +4,14 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { AvatarUpload } from "@/components/account/AvatarUpload";
 import { CourseCertificateButton } from "@/components/account/CourseCertificate";
-import { DesignBriefLink } from "@/components/account/DesignBriefLink";
 import { DreamHomeUpload } from "@/components/account/DreamHomeUpload";
 import { CourseReview } from "@/components/account/CourseReview";
 import { ShareInvite } from "@/components/account/ShareInvite";
 import { ContactFOADialog } from "@/components/account/ContactFOADialog";
-import { getTotalLessons } from "@/lib/course";
-import { BookOpen, Award, Lock } from "lucide-react";
+import { getTotalLessons, getFirstLesson, getLessonPath } from "@/lib/course";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { BookOpen, Award, Lock, ArrowRight, ClipboardList } from "lucide-react";
 
 export const metadata = {
   title: "Account",
@@ -46,6 +47,7 @@ export default async function AccountPage() {
   const overallPercent =
     totalLessons > 0 ? Math.round((completed / totalLessons) * 100) : 0;
   const isComplete = completed >= totalLessons && totalLessons > 0;
+  const firstLesson = getFirstLesson();
 
   // Last completion date (for certificate)
   let completionDate = "";
@@ -215,17 +217,25 @@ export default async function AccountPage() {
       {/* Row 2: Design Brief + Certificate + Dream Home */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         {/* Design Brief */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Design Brief</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <DesignBriefLink
-              hasResponses={(briefResponseCount || 0) > 0}
-              responseCount={briefResponseCount || 0}
-            />
-          </CardContent>
-        </Card>
+        <div className="group flex flex-col rounded-card bg-foreground p-6 text-background transition-all duration-300 hover:bg-transparent hover:text-foreground hover:ring-2 hover:ring-foreground">
+          <ClipboardList className="h-6 w-6 text-background/50 transition-colors duration-300 group-hover:text-foreground/50" />
+          <p className="mt-2 font-heading text-sm font-semibold uppercase tracking-wide">
+            Design Brief
+          </p>
+          <p className="mt-1 text-xs text-background/70 transition-colors duration-300 group-hover:text-foreground/70">
+            {(briefResponseCount || 0) > 0
+              ? `${briefResponseCount} responses recorded — view your personalized brief`
+              : "Complete lessons to start building your personalized Design Brief"}
+          </p>
+          <div className="mt-auto pt-4">
+            <Button asChild size="sm" className="rounded-full border border-background bg-background px-6 text-xs font-medium uppercase tracking-wider text-foreground transition-all duration-300 hover:border-brass hover:bg-brass hover:text-white group-hover:border-foreground group-hover:bg-foreground group-hover:text-background group-hover:hover:border-brass group-hover:hover:bg-brass group-hover:hover:text-white">
+              <Link href={getLessonPath(firstLesson.moduleSlug, firstLesson.lessonSlug)}>
+                Continue Learning
+                <ArrowRight className="ml-2 h-3 w-3" />
+              </Link>
+            </Button>
+          </div>
+        </div>
 
         {/* Certificate — always visible */}
         {isComplete ? (
@@ -245,24 +255,21 @@ export default async function AccountPage() {
             </div>
           </div>
         ) : (
-          <div className="flex flex-col rounded-card border bg-card p-6">
-            <Lock className="h-6 w-6 text-muted-foreground/40" />
+          <div className="group flex flex-col rounded-card bg-foreground p-6 text-background transition-all duration-300 hover:bg-transparent hover:text-foreground hover:ring-2 hover:ring-foreground">
+            <Lock className="h-6 w-6 text-background/50 transition-colors duration-300 group-hover:text-foreground/50" />
             <p className="mt-2 font-heading text-sm font-semibold uppercase tracking-wide">
               Certificate
             </p>
-            <p className="mt-1 text-xs text-muted-foreground">
+            <p className="mt-1 text-xs text-background/70 transition-colors duration-300 group-hover:text-foreground/70">
               Complete all lessons to unlock your PDF Certificate of Completion
             </p>
-            <div className="mt-auto pt-3">
-              <div className="h-1.5 rounded-full bg-muted">
-                <div
-                  className="h-full rounded-full bg-primary/30 transition-all"
-                  style={{ width: `${overallPercent}%` }}
-                />
-              </div>
-              <p className="mt-1.5 text-[11px] text-muted-foreground">
-                {overallPercent}% complete
-              </p>
+            <div className="mt-auto pt-4">
+              <Button asChild size="sm" className="rounded-full border border-background bg-background px-6 text-xs font-medium uppercase tracking-wider text-foreground transition-all duration-300 hover:border-brass hover:bg-brass hover:text-white group-hover:border-foreground group-hover:bg-foreground group-hover:text-background group-hover:hover:border-brass group-hover:hover:bg-brass group-hover:hover:text-white">
+                <Link href={getLessonPath(firstLesson.moduleSlug, firstLesson.lessonSlug)}>
+                  Continue Learning
+                  <ArrowRight className="ml-2 h-3 w-3" />
+                </Link>
+              </Button>
             </div>
           </div>
         )}
