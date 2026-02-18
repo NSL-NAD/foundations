@@ -123,7 +123,7 @@ export function LessonContent({ mdxSource, lesson }: LessonContentProps) {
     // Right card — bordered description
     const rightCard = document.createElement("div");
     rightCard.className =
-      "flex-1 rounded-card border-2 border-foreground/15 p-5 md:p-6";
+      "flex-1 rounded-card border border-foreground p-5 md:p-6";
 
     // Move intro paragraphs into the right card
     introElements.forEach((el) => rightCard.appendChild(el));
