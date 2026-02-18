@@ -76,7 +76,7 @@ export function CourseReview({ existingReview }: CourseReviewProps) {
   }
 
   return (
-    <div className="space-y-3">
+    <div className="flex h-full flex-col gap-3">
       <div>
         <Label className="mb-2 block">Your Rating</Label>
         <div className="flex items-center gap-1">
@@ -100,20 +100,22 @@ export function CourseReview({ existingReview }: CourseReviewProps) {
           ))}
         </div>
       </div>
-      <div className="space-y-2">
+      <div className="flex flex-1 flex-col gap-2">
         <Label htmlFor="review-text">Your Review (optional)</Label>
         <Textarea
           id="review-text"
           value={reviewText}
           onChange={(e) => setReviewText(e.target.value)}
           placeholder="Tell us about your experience..."
-          className="min-h-[80px] resize-y"
+          className="min-h-[120px] flex-1 resize-y"
         />
       </div>
-      <Button onClick={handleSubmit} disabled={loading || rating === 0} size="sm">
-        {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-        Submit Review
-      </Button>
+      <div className="mt-auto">
+        <Button onClick={handleSubmit} disabled={loading || rating === 0} size="sm">
+          {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          Submit Review
+        </Button>
+      </div>
     </div>
   );
 }

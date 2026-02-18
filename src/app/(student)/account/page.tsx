@@ -134,11 +134,11 @@ export default async function AccountPage() {
         </Card>
 
         {/* Course Review */}
-        <Card className="transition-colors hover:border-foreground/20">
+        <Card className="flex flex-col transition-colors hover:border-foreground/20">
           <CardHeader>
             <CardTitle>Course Review</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="flex-1">
             <CourseReview existingReview={existingReview} />
           </CardContent>
         </Card>
