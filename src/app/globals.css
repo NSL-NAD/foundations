@@ -334,6 +334,12 @@ html {
 .prose-path ul {
   @apply mb-3 list-disc pl-5 space-y-1;
 }
+.prose-path ul > li::before {
+  display: none;
+}
+.prose-path ul > li {
+  @apply pl-0;
+}
 .prose-path ol {
   @apply mb-3 list-decimal pl-5 space-y-1;
 }
