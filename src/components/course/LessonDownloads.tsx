@@ -19,7 +19,7 @@ export function LessonDownloads({ downloads, moduleSlug }: LessonDownloadsProps)
             key={file}
             href={`/downloads/${moduleSlug}/${file}`}
             download
-            className="flex items-center gap-2 text-sm transition-colors text-background/80 hover:text-background group-hover:text-foreground/80 group-hover:hover:text-foreground"
+            className="flex items-center gap-2 rounded-full px-3 py-1.5 text-sm transition-all text-background/80 hover:bg-background/15 group-hover:text-foreground/80 group-hover:hover:bg-accent group-hover:hover:text-accent-foreground"
           >
             <Download className="h-3.5 w-3.5 shrink-0" />
             <span className="truncate">{file.replace('.pdf', '')}</span>
