@@ -309,7 +309,8 @@ html {
   @apply pl-0;
 }
 .prose-lesson li:has(> input[type="checkbox"]) {
-  @apply flex items-start gap-3 pl-0;
+  @apply grid gap-3 pl-0;
+  grid-template-columns: auto 1fr;
 }
 .prose-lesson li:has(> input[type="checkbox"])::before {
   display: none;
