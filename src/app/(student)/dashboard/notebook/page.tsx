@@ -3,7 +3,7 @@ import { getModules, getLessonPath, getLesson } from "@/lib/course";
 import { NotebookFullView } from "@/components/notebook/NotebookFullView";
 
 export const metadata = {
-  title: "My Notes",
+  title: "My Notebook",
 };
 
 interface NoteRecord {

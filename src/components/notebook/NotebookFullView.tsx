@@ -80,7 +80,7 @@ export function NotebookFullView({
           <ArrowLeft className="h-3.5 w-3.5" />
           Course
         </Link>
-        <h1 className="text-3xl font-bold tracking-tight">My Notes</h1>
+        <h1 className="text-3xl font-bold tracking-tight">My Notebook</h1>
         <p className="mt-1 text-muted-foreground">
           {totalNotes === 0
             ? "Start taking notes in any lesson to see them here."
@@ -112,7 +112,10 @@ export function NotebookFullView({
               {/* Module header */}
               <button
                 onClick={() => toggleModule(mod.slug)}
-                className="flex w-full items-center justify-between p-4 text-left hover:bg-accent/50"
+                className={cn(
+                  "flex w-full items-center justify-between p-4 text-left hover:bg-accent/50",
+                  expandedModules.has(mod.slug) ? "rounded-t-lg" : "rounded-lg"
+                )}
               >
                 <div className="flex items-center gap-3">
                   {expandedModules.has(mod.slug) ? (

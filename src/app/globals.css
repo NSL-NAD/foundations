@@ -343,6 +343,13 @@ html {
 .prose-path ol {
   @apply mb-3 list-decimal pl-5 space-y-1;
 }
+.prose-path ol > li::before {
+  display: none;
+}
+.prose-path ol > li {
+  @apply pl-0;
+  padding-left: 0;
+}
 .prose-path li {
   @apply text-sm text-foreground/80;
 }
