@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 export function ValueBanner() {
@@ -48,6 +49,17 @@ export function ValueBanner() {
             <p className="mt-6 font-heading text-sm font-medium uppercase tracking-wider text-accent-foreground/60">
               Lifetime Access
             </p>
+          </div>
+
+          {/* Image card — full width below */}
+          <div className="relative h-[180px] overflow-hidden rounded-card md:col-span-3 md:h-[220px]">
+            <Image
+              src="/images/architecture-detail.jpg"
+              alt="Architectural detail"
+              fill
+              className="object-cover grayscale"
+              sizes="(max-width: 768px) 100vw, 1200px"
+            />
           </div>
         </div>
       </div>
