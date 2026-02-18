@@ -6,14 +6,14 @@
 
 export const IMAGES = {
   hero: {
-    src: "https://images.unsplash.com/photo-1511818966892-d7d671e672a2?w=1600&q=80",
-    alt: "Abstract geometric architectural detail in black and white",
+    src: "https://images.unsplash.com/photo-1600585154363-67eb9e2e2099?w=1600&q=80",
+    alt: "Modern residential home at dusk with warm wood cladding, dark panels, and concrete",
     width: 1600,
     height: 1067,
   },
   heroSecondary: {
-    src: "https://images.unsplash.com/photo-1511818966892-d7d671e672a2?w=1200&q=80",
-    alt: "Geometric architectural detail with dramatic shadows",
+    src: "https://images.unsplash.com/photo-1600585154363-67eb9e2e2099?w=1200&q=80",
+    alt: "Modern residential home at dusk with warm wood and dark panel cladding",
     width: 1200,
     height: 800,
   },
@@ -48,8 +48,8 @@ export const IMAGES = {
     height: 933,
   },
   ctaResidential: {
-    src: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1600&q=80",
-    alt: "Luxury modern home exterior with pool and landscaping",
+    src: "https://images.unsplash.com/photo-1600585153490-76fb20a32601?w=1600&q=80",
+    alt: "Modern residential home at twilight with vertical windows and warm interior glow",
     width: 1600,
     height: 1067,
   },
