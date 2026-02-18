@@ -66,3 +66,53 @@ export function CourseCertificate({
     </div>
   );
 }
+
+/* Compact download button for use in the Account page grid */
+interface CourseCertificateButtonProps {
+  studentName: string;
+  completionDate: string;
+}
+
+export function CourseCertificateButton({
+  studentName,
+  completionDate,
+}: CourseCertificateButtonProps) {
+  const [downloading, setDownloading] = useState(false);
+
+  async function handleDownload() {
+    setDownloading(true);
+    try {
+      const { pdf } = await import("@react-pdf/renderer");
+      const { CertificateDocument } = await import("./CertificateDocument");
+
+      const blob = await pdf(
+        <CertificateDocument
+          studentName={studentName}
+          completionDate={completionDate}
+        />
+      ).toBlob();
+
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `FOA-Certificate-${studentName.replace(/\s+/g, "-")}.pdf`;
+      link.click();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("Certificate generation error:", err);
+    } finally {
+      setDownloading(false);
+    }
+  }
+
+  return (
+    <Button onClick={handleDownload} disabled={downloading} size="sm" className="w-full">
+      {downloading ? (
+        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+      ) : (
+        <Download className="mr-2 h-4 w-4" />
+      )}
+      Download PDF
+    </Button>
+  );
+}

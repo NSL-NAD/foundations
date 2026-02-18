@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getModules, getFirstLesson, getLessonPath } from "@/lib/course";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Check, PlayCircle, FileText, PenTool, ListChecks, PenLine, MessageCircle, BookOpen, Trophy } from "lucide-react";
+import { ArrowRight, Check, PlayCircle, FileText, PenTool, ListChecks, PenLine, MessageCircle, BookOpen, Trophy, ClipboardList, Award } from "lucide-react";
 import Link from "next/link";
 import { DashboardChatButton } from "@/components/dashboard/DashboardChatButton";
 
@@ -135,7 +135,7 @@ export default async function CoursePage() {
 
       {/* Modules — 2-col on md */}
       <div className="grid gap-4 md:grid-cols-2">
-        {modules.map((mod) => {
+        {modules.map((mod, modIdx) => {
           const moduleCompleted = mod.lessons.filter((l) =>
             completedSet.has(`${mod.slug}/${l.slug}`)
           ).length;
@@ -149,13 +149,18 @@ export default async function CoursePage() {
               {/* Module header */}
               <div className="border-b p-5">
                 <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <h2 className="font-heading text-sm font-semibold uppercase tracking-wide">
-                      {mod.title}
-                    </h2>
-                    <p className="mt-1 text-xs text-muted-foreground">
-                      {mod.description}
-                    </p>
+                  <div className="flex items-start gap-3">
+                    <span className="shrink-0 font-heading text-2xl font-bold text-primary/50">
+                      {String(modIdx + 1).padStart(2, "0")}
+                    </span>
+                    <div>
+                      <h2 className="font-heading text-sm font-semibold uppercase tracking-wide">
+                        {mod.title}
+                      </h2>
+                      <p className="mt-1 text-xs text-muted-foreground">
+                        {mod.description}
+                      </p>
+                    </div>
                   </div>
                   <span className="shrink-0 font-heading text-2xl font-bold text-accent/40">
                     {modulePercent}%
@@ -206,6 +211,27 @@ export default async function CoursePage() {
             </div>
           );
         })}
+
+          {/* Info cards — Design Brief & Certificate */}
+          <div className="flex flex-col rounded-card bg-primary text-primary-foreground p-6 min-h-[200px]">
+            <ClipboardList className="h-5 w-5 text-primary-foreground/50" />
+            <h2 className="mt-3 font-heading text-2xl font-bold uppercase tracking-tight">
+              Design Brief
+            </h2>
+            <p className="mt-auto text-xs text-primary-foreground/70">
+              As you progress through each module, your answers and decisions compile into a personalized Design Brief — a complete reference document for your dream home.
+            </p>
+          </div>
+
+          <div className="flex flex-col rounded-card bg-accent text-accent-foreground p-6 min-h-[200px]">
+            <Award className="h-5 w-5 text-accent-foreground/50" />
+            <h2 className="mt-3 font-heading text-2xl font-bold uppercase tracking-tight">
+              Certificate
+            </h2>
+            <p className="mt-auto text-xs text-accent-foreground/70">
+              Complete all lessons to unlock a downloadable PDF Certificate of Completion — proof of your architectural foundations knowledge.
+            </p>
+          </div>
       </div>
     </div>
   );
