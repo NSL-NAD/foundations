@@ -13,14 +13,14 @@ export default function RefundPage() {
         <p>
           We want you to be completely satisfied with your purchase. If
           Foundations of Architecture isn&apos;t right for you, we offer a
-          full refund within 30 days of purchase, provided you have completed
-          less than 10% of the course content.
+          full refund within 30 days of purchase. If you&apos;ve completed
+          more than 10% of the course, refunds are no longer available.
         </p>
 
         <h2>Course Refund Conditions</h2>
         <ul className="list-disc pl-6">
           <li>Refund must be requested within 30 days of purchase</li>
-          <li>Less than 10% of course lessons must be marked as complete</li>
+          <li>No more than 10% of course lessons may be marked as complete</li>
           <li>Refund requests should be sent via email</li>
           <li>Refunds are processed within 5-10 business days</li>
           <li>Refunds are issued to the original payment method</li>

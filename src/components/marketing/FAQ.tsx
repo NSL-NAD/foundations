@@ -31,7 +31,7 @@ const faqs = [
   {
     question: "What's your refund policy?",
     answer:
-      "We offer a 30-day money-back guarantee. If you've completed less than 10% of the course and aren't satisfied, contact us for a full refund. Physical kit items must be returned unopened for kit/bundle refunds.",
+      "We offer a 30-day money-back guarantee. If you've completed more than 10% of the course, refunds are no longer available. Otherwise, contact us for a full refund. Physical kit items must be returned unopened for kit/bundle refunds.",
   },
   {
     question: "Will this course help me become a licensed architect?",
