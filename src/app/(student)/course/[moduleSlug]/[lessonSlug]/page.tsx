@@ -6,6 +6,11 @@ import { promises as fs } from "fs";
 import path from "path";
 import { serialize } from "next-mdx-remote/serialize";
 import type { MDXRemoteSerializeResult } from "next-mdx-remote";
+import remarkGfm from "remark-gfm";
+
+// remark-gfm v3 has a type mismatch with next-mdx-remote's unified version
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const gfmPlugin = remarkGfm as any;
 
 interface LessonPageProps {
   params: { moduleSlug: string; lessonSlug: string };
@@ -63,7 +68,9 @@ export default async function LessonPage({ params }: LessonPageProps) {
     );
     const mdxContent = await fs.readFile(contentPath, "utf-8");
     if (mdxContent.trim()) {
-      serializedMdx = await serialize(mdxContent);
+      serializedMdx = await serialize(mdxContent, {
+        mdxOptions: { remarkPlugins: [gfmPlugin] },
+      });
     }
   } catch {
     // Content not yet created — show placeholder
