@@ -6,26 +6,49 @@ export function ValueBanner() {
   return (
     <section className="pb-10 md:pb-16">
       <div className="container">
-        <div className="flex flex-col items-center justify-between gap-6 rounded-card bg-card p-6 sm:flex-row md:p-8 lg:p-10">
-          <div>
-            <p className="font-heading text-xs font-medium uppercase tracking-[0.3em] text-accent">
-              Over $500 in Value
-            </p>
-            <h3 className="mt-2 font-heading text-2xl font-bold uppercase tracking-tight md:text-3xl">
-              Starting at $47 One-Time for Lifetime Access
-            </h3>
+        <div className="grid gap-4 md:grid-cols-3">
+          {/* Left card — 2/3 width: Founder pricing */}
+          <div className="group relative flex flex-col justify-between rounded-card bg-foreground p-8 text-background transition-all duration-300 hover:bg-transparent hover:text-foreground hover:ring-2 hover:ring-foreground md:col-span-2 md:p-10">
+            <div>
+              <p className="font-heading text-xs font-medium uppercase tracking-[0.3em] text-background/60 transition-colors duration-300 group-hover:text-foreground/60">
+                Founder Pricing — 50% Off
+              </p>
+              <h3 className="mt-3 font-heading text-3xl font-bold uppercase tracking-tight md:text-4xl">
+                Starting at $47
+              </h3>
+              <p className="mt-2 text-sm text-background/60 transition-colors duration-300 group-hover:text-foreground/60">
+                Course only · First 1,000 students
+              </p>
+            </div>
+            <div className="mt-6">
+              <Button
+                asChild
+                variant="outline"
+                size="sm"
+                className="shrink-0 rounded-full border-background bg-background px-6 text-xs font-medium uppercase tracking-wider text-foreground transition-all duration-300 hover:bg-brass hover:text-white hover:border-brass group-hover:border-foreground group-hover:bg-foreground group-hover:text-background group-hover:hover:bg-brass group-hover:hover:border-brass group-hover:hover:text-white"
+              >
+                <Link href="#pricing">
+                  Enroll Now
+                  <ArrowRight className="ml-1.5 h-3 w-3" />
+                </Link>
+              </Button>
+            </div>
           </div>
-          <Button
-            asChild
-            variant="outline"
-            size="sm"
-            className="shrink-0 rounded-full border-foreground bg-foreground px-6 text-xs font-medium uppercase tracking-wider text-background hover:bg-brass hover:text-white hover:border-brass"
-          >
-            <Link href="#pricing">
-              Enroll Now
-              <ArrowRight className="ml-1.5 h-3 w-3" />
-            </Link>
-          </Button>
+
+          {/* Right card — 1/3 width: Value highlight */}
+          <div className="flex flex-col justify-between rounded-card bg-accent p-8 text-accent-foreground md:p-10">
+            <div>
+              <p className="font-heading text-xs font-medium uppercase tracking-[0.3em] text-accent-foreground/50">
+                Total Value
+              </p>
+              <h3 className="mt-3 font-heading text-5xl font-bold uppercase tracking-tight text-accent-foreground/80 md:text-6xl">
+                $500+
+              </h3>
+            </div>
+            <p className="mt-6 font-heading text-sm font-medium uppercase tracking-wider text-accent-foreground/60">
+              Lifetime Access
+            </p>
+          </div>
         </div>
       </div>
     </section>
