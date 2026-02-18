@@ -56,7 +56,7 @@ export function ContactFOADialog() {
       <DialogTrigger asChild>
         <Button variant="outline" size="sm">
           <Mail className="mr-2 h-4 w-4" />
-          Contact FOA
+          Contact
         </Button>
       </DialogTrigger>
       <DialogContent>

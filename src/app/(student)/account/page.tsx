@@ -175,7 +175,7 @@ export default async function AccountPage() {
                 ) : (
                   <p className="text-sm text-muted-foreground">No purchases yet.</p>
                 )}
-                <div className="mt-auto flex flex-wrap items-center gap-3 pt-4">
+                <div className="mt-auto flex items-center justify-end gap-2 pt-4">
                   <ShareInvite />
                   <ContactFOADialog />
                 </div>
