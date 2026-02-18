@@ -104,12 +104,14 @@ export default async function CoursePage() {
           <p className="mt-1 flex-1 text-xs text-muted-foreground">
             {noteCount ? "notes across your lessons" : "Start taking notes in any lesson"}
           </p>
-          <Button asChild size="sm" className="mt-3">
-            <Link href="/dashboard/notebook">
-              View All Notes
-              <ArrowRight className="ml-1.5 h-3 w-3" />
-            </Link>
-          </Button>
+          <div className="mt-3">
+            <Button asChild size="sm">
+              <Link href="/dashboard/notebook">
+                View All Notes
+                <ArrowRight className="ml-1.5 h-3 w-3" />
+              </Link>
+            </Button>
+          </div>
         </div>
 
         <div className="flex flex-col rounded-card border bg-accent/10 p-6">
