@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ModuleSidebar } from "./ModuleSidebar";
 import { LessonContent } from "./LessonContent";
 import { LessonNavigation } from "./LessonNavigation";
 import { LessonDownloads } from "./LessonDownloads";
+import { SelectionBubble } from "./SelectionBubble";
 import { StraightedgeLine } from "@/components/decorative/StraightedgeLine";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
@@ -37,6 +38,7 @@ export function CoursePlayer({
   mdxSource,
 }: CoursePlayerProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
   const isCompleted = completedLessons.includes(`${moduleSlug}/${lessonSlug}`);
   const { isOpen: toolsPanelOpen, setLessonContext } = useToolsPanel();
 
@@ -94,6 +96,8 @@ export function CoursePlayer({
           toolsPanelOpen && "lg:pr-96"
         )}
       >
+        {/* Selection-to-Notebook bubble (position: fixed, renders above selection) */}
+        <SelectionBubble containerRef={contentRef} />
         <div className="mx-auto max-w-3xl px-6 py-8 pb-24 md:px-8 lg:pb-8">
           {/* Lesson header with optional downloads */}
           <div
@@ -138,7 +142,7 @@ export function CoursePlayer({
           <StraightedgeLine showTicks className="mt-6 mb-8" />
 
           {/* Lesson Content */}
-          <div>
+          <div ref={contentRef}>
             <LessonContent
               mdxSource={mdxSource}
               lesson={lesson}

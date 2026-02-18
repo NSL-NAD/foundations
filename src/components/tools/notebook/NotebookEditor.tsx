@@ -1,6 +1,8 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { useNotebook } from "@/hooks/useNotebook";
+import { useToolsPanel } from "@/contexts/ToolsPanelContext";
 import { Loader2, Check } from "lucide-react";
 
 interface NotebookEditorProps {
@@ -19,6 +21,31 @@ export function NotebookEditor({
     moduleSlug,
     lessonSlug,
   });
+  const { pendingClip, clearPendingClip } = useToolsPanel();
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  // Consume pending clip from highlight-to-notebook feature
+  useEffect(() => {
+    if (!pendingClip || isLoading) return;
+
+    const currentContent = textareaRef.current?.value ?? content;
+    const separator = currentContent.trim() ? "\n\n---\n\n" : "";
+    const quotedClip = `> ${pendingClip.replace(/\n/g, "\n> ")}`;
+    const newContent = currentContent + separator + quotedClip + "\n\n";
+    setContent(newContent);
+    clearPendingClip();
+
+    // Scroll textarea to bottom and place cursor at end
+    requestAnimationFrame(() => {
+      if (textareaRef.current) {
+        textareaRef.current.scrollTop = textareaRef.current.scrollHeight;
+        textareaRef.current.focus();
+        textareaRef.current.selectionStart = newContent.length;
+        textareaRef.current.selectionEnd = newContent.length;
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pendingClip, isLoading]);
 
   return (
     <div className="flex flex-col gap-3">
@@ -41,6 +68,7 @@ export function NotebookEditor({
         </div>
       </div>
       <textarea
+        ref={textareaRef}
         value={content}
         onChange={(e) => setContent(e.target.value)}
         placeholder="Take notes on this lesson..."

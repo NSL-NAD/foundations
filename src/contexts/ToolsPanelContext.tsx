@@ -15,11 +15,14 @@ interface ToolsPanelContextValue {
   activeTab: ToolsTab;
   moduleSlug: string;
   lessonSlug: string;
+  pendingClip: string;
   open: (tab?: ToolsTab) => void;
   close: () => void;
   toggle: (tab?: ToolsTab) => void;
   setActiveTab: (tab: ToolsTab) => void;
   setLessonContext: (moduleSlug: string, lessonSlug: string) => void;
+  setPendingClip: (text: string) => void;
+  clearPendingClip: () => void;
 }
 
 const ToolsPanelContext = createContext<ToolsPanelContextValue | null>(null);
@@ -29,6 +32,7 @@ export function ToolsPanelProvider({ children }: { children: ReactNode }) {
   const [activeTab, setActiveTab] = useState<ToolsTab>("notebook");
   const [moduleSlug, setModuleSlug] = useState("");
   const [lessonSlug, setLessonSlug] = useState("");
+  const [pendingClip, setPendingClipState] = useState("");
 
   const open = useCallback(
     (tab?: ToolsTab) => {
@@ -62,6 +66,14 @@ export function ToolsPanelProvider({ children }: { children: ReactNode }) {
     []
   );
 
+  const setPendingClip = useCallback((text: string) => {
+    setPendingClipState(text);
+  }, []);
+
+  const clearPendingClip = useCallback(() => {
+    setPendingClipState("");
+  }, []);
+
   return (
     <ToolsPanelContext.Provider
       value={{
@@ -69,11 +81,14 @@ export function ToolsPanelProvider({ children }: { children: ReactNode }) {
         activeTab,
         moduleSlug,
         lessonSlug,
+        pendingClip,
         open,
         close,
         toggle,
         setActiveTab,
         setLessonContext,
+        setPendingClip,
+        clearPendingClip,
       }}
     >
       {children}
