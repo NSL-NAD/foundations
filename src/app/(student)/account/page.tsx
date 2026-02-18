@@ -10,7 +10,8 @@ import { ContactFOADialog } from "@/components/account/ContactFOADialog";
 import { getTotalLessons, getNextIncompleteLesson, getLessonPath } from "@/lib/course";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { BookOpen, Award, Lock, ArrowRight, ClipboardList, CheckCircle2, ShoppingCart, GraduationCap, Package, MessageCircle } from "lucide-react";
+import { ProductCheckoutLink } from "@/components/account/ProductCheckoutLink";
+import { BookOpen, Award, Lock, ArrowRight, ClipboardList, CheckCircle2, GraduationCap, Package, MessageCircle } from "lucide-react";
 
 export const metadata = {
   title: "Account",
@@ -161,11 +162,7 @@ export default async function AccountPage() {
                         <CheckCircle2 className="ml-auto h-4 w-4 shrink-0 text-primary" />
                       </div>
                     ) : (
-                      <Link href="/#pricing" className="flex items-center gap-3 rounded-md border px-3 py-2 opacity-50 transition-opacity hover:opacity-80">
-                        <GraduationCap className="h-4 w-4 shrink-0 text-muted-foreground" />
-                        <span className="text-sm text-muted-foreground">Course</span>
-                        <ShoppingCart className="ml-auto h-4 w-4 shrink-0 text-muted-foreground" />
-                      </Link>
+                      <ProductCheckoutLink productType="course" label="Course" icon={GraduationCap} />
                     )}
 
                     {/* Starter Kit */}
@@ -176,11 +173,7 @@ export default async function AccountPage() {
                         <CheckCircle2 className="ml-auto h-4 w-4 shrink-0 text-primary" />
                       </div>
                     ) : (
-                      <Link href="/#pricing" className="flex items-center gap-3 rounded-md border px-3 py-2 opacity-50 transition-opacity hover:opacity-80">
-                        <Package className="h-4 w-4 shrink-0 text-muted-foreground" />
-                        <span className="text-sm text-muted-foreground">Starter Kit</span>
-                        <ShoppingCart className="ml-auto h-4 w-4 shrink-0 text-muted-foreground" />
-                      </Link>
+                      <ProductCheckoutLink productType="kit" label="Starter Kit" icon={Package} />
                     )}
 
                     {/* AI Chat */}
@@ -191,11 +184,7 @@ export default async function AccountPage() {
                         <CheckCircle2 className="ml-auto h-4 w-4 shrink-0 text-primary" />
                       </div>
                     ) : (
-                      <Link href="/#pricing" className="flex items-center gap-3 rounded-md border px-3 py-2 opacity-50 transition-opacity hover:opacity-80">
-                        <MessageCircle className="h-4 w-4 shrink-0 text-muted-foreground" />
-                        <span className="text-sm text-muted-foreground">AI Chat</span>
-                        <ShoppingCart className="ml-auto h-4 w-4 shrink-0 text-muted-foreground" />
-                      </Link>
+                      <ProductCheckoutLink productType="ai_chat" label="AI Chat" icon={MessageCircle} />
                     )}
                   </div>
                 </div>
