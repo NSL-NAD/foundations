@@ -1,4 +1,4 @@
-import { Download } from "lucide-react";
+import { Download, FolderDown } from "lucide-react";
 
 interface LessonDownloadsProps {
   downloads: string[];
@@ -10,10 +10,13 @@ export function LessonDownloads({ downloads, moduleSlug }: LessonDownloadsProps)
 
   return (
     <div className="group flex h-full w-full flex-col rounded-card bg-foreground p-4 text-background transition-all duration-300 hover:bg-transparent hover:text-foreground hover:ring-2 hover:ring-foreground">
-      <p className="font-heading text-xs font-semibold uppercase tracking-[0.1em]">
-        Downloads
-      </p>
-      <div className="mt-3 space-y-2">
+      <div className="flex items-center justify-between">
+        <p className="font-heading text-xs font-semibold uppercase tracking-[0.1em]">
+          Downloads
+        </p>
+        <FolderDown className="h-4 w-4 text-background/50 transition-colors group-hover:text-foreground/50" />
+      </div>
+      <div className="mt-auto space-y-2">
         {downloads.map((file) => (
           <a
             key={file}
