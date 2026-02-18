@@ -100,35 +100,86 @@ export default async function AccountPage() {
 
       {/* Row 1: Profile + Course Review + Course Progress */}
       <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-4">
-        {/* Profile — half width */}
+        {/* Profile — half width, includes purchase history & actions */}
         <Card className="md:col-span-2">
           <CardHeader>
             <CardTitle>Profile</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="pb-2">
-              <AvatarUpload
-                userId={user!.id}
-                currentAvatarUrl={profile?.avatar_url ?? null}
-                fullName={profile?.full_name ?? null}
-                email={profile?.email ?? ""}
-              />
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground">Name</p>
-              <p className="font-medium">{profile?.full_name || "Not set"}</p>
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground">Email</p>
-              <p className="font-medium">{profile?.email}</p>
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground">Member since</p>
-              <p className="font-medium">
-                {profile?.created_at
-                  ? new Date(profile.created_at).toLocaleDateString()
-                  : "N/A"}
-              </p>
+          <CardContent>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+              {/* Left: avatar + info */}
+              <div className="space-y-4">
+                <div className="pb-2">
+                  <AvatarUpload
+                    userId={user!.id}
+                    currentAvatarUrl={profile?.avatar_url ?? null}
+                    fullName={profile?.full_name ?? null}
+                    email={profile?.email ?? ""}
+                  />
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Name</p>
+                  <p className="font-medium">{profile?.full_name || "Not set"}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Email</p>
+                  <p className="font-medium">{profile?.email}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Member since</p>
+                  <p className="font-medium">
+                    {profile?.created_at
+                      ? new Date(profile.created_at).toLocaleDateString()
+                      : "N/A"}
+                  </p>
+                </div>
+              </div>
+
+              {/* Right: purchase history + share/contact */}
+              <div className="flex flex-col">
+                <p className="mb-3 text-sm font-semibold">Purchase History</p>
+                {purchases && purchases.length > 0 ? (
+                  <div className="space-y-3">
+                    {purchases.map((purchase) => (
+                      <div
+                        key={purchase.id}
+                        className="flex items-center justify-between rounded-md border p-3"
+                      >
+                        <div>
+                          <p className="text-sm font-medium capitalize">
+                            {purchase.product_type === "bundle"
+                              ? "Course + Starter Kit"
+                              : purchase.product_type}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {new Date(purchase.created_at).toLocaleDateString()}
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-medium">
+                            ${(purchase.amount_cents / 100).toFixed(2)}
+                          </span>
+                          <Badge
+                            variant={
+                              purchase.status === "completed"
+                                ? "default"
+                                : "secondary"
+                            }
+                          >
+                            {purchase.status}
+                          </Badge>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm text-muted-foreground">No purchases yet.</p>
+                )}
+                <div className="mt-auto flex flex-wrap items-center gap-3 pt-4">
+                  <ShareInvite />
+                  <ContactFOADialog />
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -217,76 +268,18 @@ export default async function AccountPage() {
         )}
       </div>
 
-      {/* Row 3: Dream Home + Purchase History & Share */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        {/* Dream Home — 2/3 width */}
-        <Card className="md:col-span-2">
-          <CardHeader>
-            <CardTitle>Dream Home / Space</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <DreamHomeUpload
-              userId={user!.id}
-              existingSubmission={existingSubmission}
-            />
-          </CardContent>
-        </Card>
-
-        {/* Purchase History + Share/Contact stacked — 1/3 width */}
-        <div className="flex flex-col gap-4">
-          <Card className="flex-1">
-            <CardHeader>
-              <CardTitle>Purchase History</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {purchases && purchases.length > 0 ? (
-                <div className="space-y-3">
-                  {purchases.map((purchase) => (
-                    <div
-                      key={purchase.id}
-                      className="flex items-center justify-between rounded-md border p-3"
-                    >
-                      <div>
-                        <p className="text-sm font-medium capitalize">
-                          {purchase.product_type === "bundle"
-                            ? "Course + Starter Kit"
-                            : purchase.product_type}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          {new Date(purchase.created_at).toLocaleDateString()}
-                        </p>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium">
-                          ${(purchase.amount_cents / 100).toFixed(2)}
-                        </span>
-                        <Badge
-                          variant={
-                            purchase.status === "completed"
-                              ? "default"
-                              : "secondary"
-                          }
-                        >
-                          {purchase.status}
-                        </Badge>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-sm text-muted-foreground">No purchases yet.</p>
-              )}
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="flex flex-wrap items-center gap-3 pt-6">
-              <ShareInvite />
-              <ContactFOADialog />
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+      {/* Row 3: Dream Home */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Dream Home / Space</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <DreamHomeUpload
+            userId={user!.id}
+            existingSubmission={existingSubmission}
+          />
+        </CardContent>
+      </Card>
     </div>
   );
 }
