@@ -40,9 +40,22 @@ export function Footer() {
         </div>
 
         <div className="mt-12 flex items-center justify-between border-t border-white/10 pt-8">
-          <p className="text-xs text-white/40">
-            &copy; {new Date().getFullYear()} Foundations of Architecture. All rights reserved.
-          </p>
+          <div className="flex flex-col gap-1">
+            <p className="text-xs text-white/40">
+              &copy; {new Date().getFullYear()} Foundations of Architecture. All rights reserved.
+            </p>
+            <p className="text-[11px] text-white/25">
+              Powered by{" "}
+              <a
+                href="https://www.goodatscale.studio"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white/40 transition-colors"
+              >
+                GAS Studio
+              </a>
+            </p>
+          </div>
           <ThemeToggle />
         </div>
       </div>
