@@ -1,6 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { AvatarUpload } from "@/components/account/AvatarUpload";
 import { CourseCertificateButton } from "@/components/account/CourseCertificate";
@@ -11,7 +10,7 @@ import { ContactFOADialog } from "@/components/account/ContactFOADialog";
 import { getTotalLessons, getNextIncompleteLesson, getLessonPath } from "@/lib/course";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { BookOpen, Award, Lock, ArrowRight, ClipboardList } from "lucide-react";
+import { BookOpen, Award, Lock, ArrowRight, ClipboardList, CheckCircle2, ShoppingCart, GraduationCap, Package, MessageCircle } from "lucide-react";
 
 export const metadata = {
   title: "Account",
@@ -34,6 +33,14 @@ export default async function AccountPage() {
     .select("*")
     .eq("user_id", user!.id)
     .order("created_at", { ascending: false });
+
+  // Determine which products are purchased
+  const purchasedTypes = new Set(
+    purchases?.filter((p) => p.status === "completed").map((p) => p.product_type) || []
+  );
+  const hasCourse = purchasedTypes.has("course") || purchasedTypes.has("bundle");
+  const hasKit = purchasedTypes.has("kit") || purchasedTypes.has("bundle");
+  const hasAiChat = purchasedTypes.has("ai_chat");
 
   // Course progress (fetch slugs to determine next incomplete lesson)
   const { data: progressRecords } = await supabase
@@ -141,46 +148,57 @@ export default async function AccountPage() {
                 </div>
               </div>
 
-              {/* Right: purchase history + share/contact */}
+              {/* Right: products + share/contact */}
               <div className="flex flex-col">
-                <p className="mb-3 text-sm font-semibold">Purchase History</p>
-                {purchases && purchases.length > 0 ? (
-                  <div className="space-y-3">
-                    {purchases.map((purchase) => (
-                      <div
-                        key={purchase.id}
-                        className="flex items-center justify-between rounded-md border p-3"
-                      >
-                        <div>
-                          <p className="text-sm font-medium capitalize">
-                            {purchase.product_type === "bundle"
-                              ? "Course + Starter Kit"
-                              : purchase.product_type}
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            {new Date(purchase.created_at).toLocaleDateString()}
-                          </p>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm font-medium">
-                            ${(purchase.amount_cents / 100).toFixed(2)}
-                          </span>
-                          <Badge
-                            variant={
-                              purchase.status === "completed"
-                                ? "default"
-                                : "secondary"
-                            }
-                          >
-                            {purchase.status}
-                          </Badge>
-                        </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Products</p>
+                  <div className="mt-2 space-y-2">
+                    {/* Course */}
+                    {hasCourse ? (
+                      <div className="flex items-center gap-3 rounded-md border border-primary/20 bg-primary/5 px-3 py-2">
+                        <GraduationCap className="h-4 w-4 shrink-0 text-primary" />
+                        <span className="text-sm font-medium">Course</span>
+                        <CheckCircle2 className="ml-auto h-4 w-4 shrink-0 text-primary" />
                       </div>
-                    ))}
+                    ) : (
+                      <Link href="/#pricing" className="flex items-center gap-3 rounded-md border px-3 py-2 opacity-50 transition-opacity hover:opacity-80">
+                        <GraduationCap className="h-4 w-4 shrink-0 text-muted-foreground" />
+                        <span className="text-sm text-muted-foreground">Course</span>
+                        <ShoppingCart className="ml-auto h-4 w-4 shrink-0 text-muted-foreground" />
+                      </Link>
+                    )}
+
+                    {/* Starter Kit */}
+                    {hasKit ? (
+                      <div className="flex items-center gap-3 rounded-md border border-primary/20 bg-primary/5 px-3 py-2">
+                        <Package className="h-4 w-4 shrink-0 text-primary" />
+                        <span className="text-sm font-medium">Starter Kit</span>
+                        <CheckCircle2 className="ml-auto h-4 w-4 shrink-0 text-primary" />
+                      </div>
+                    ) : (
+                      <Link href="/#pricing" className="flex items-center gap-3 rounded-md border px-3 py-2 opacity-50 transition-opacity hover:opacity-80">
+                        <Package className="h-4 w-4 shrink-0 text-muted-foreground" />
+                        <span className="text-sm text-muted-foreground">Starter Kit</span>
+                        <ShoppingCart className="ml-auto h-4 w-4 shrink-0 text-muted-foreground" />
+                      </Link>
+                    )}
+
+                    {/* AI Chat */}
+                    {hasAiChat ? (
+                      <div className="flex items-center gap-3 rounded-md border border-primary/20 bg-primary/5 px-3 py-2">
+                        <MessageCircle className="h-4 w-4 shrink-0 text-primary" />
+                        <span className="text-sm font-medium">AI Chat</span>
+                        <CheckCircle2 className="ml-auto h-4 w-4 shrink-0 text-primary" />
+                      </div>
+                    ) : (
+                      <Link href="/#pricing" className="flex items-center gap-3 rounded-md border px-3 py-2 opacity-50 transition-opacity hover:opacity-80">
+                        <MessageCircle className="h-4 w-4 shrink-0 text-muted-foreground" />
+                        <span className="text-sm text-muted-foreground">AI Chat</span>
+                        <ShoppingCart className="ml-auto h-4 w-4 shrink-0 text-muted-foreground" />
+                      </Link>
+                    )}
                   </div>
-                ) : (
-                  <p className="text-sm text-muted-foreground">No purchases yet.</p>
-                )}
+                </div>
                 <div className="mt-auto flex items-center justify-end gap-2 pt-4">
                   <ShareInvite />
                   <ContactFOADialog />
