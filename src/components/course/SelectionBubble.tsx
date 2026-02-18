@@ -132,7 +132,7 @@ export function SelectionBubble({ containerRef }: SelectionBubbleProps) {
     >
       <button
         onClick={handleAddToNotebook}
-        className="flex items-center gap-1.5 rounded-full bg-foreground px-3.5 py-2 text-background shadow-lg transition-colors hover:bg-foreground/90 active:scale-95"
+        className="flex items-center gap-1.5 rounded-full bg-accent px-3.5 py-2 text-white shadow-lg transition-colors hover:bg-accent/90 active:scale-95"
       >
         <NotebookPen className="h-3.5 w-3.5" />
         <span className="text-xs font-medium uppercase tracking-wide">
@@ -141,7 +141,7 @@ export function SelectionBubble({ containerRef }: SelectionBubbleProps) {
       </button>
       {/* Caret pointing down */}
       <div className="flex justify-center">
-        <div className="h-0 w-0 border-x-[6px] border-t-[6px] border-x-transparent border-t-foreground" />
+        <div className="h-0 w-0 border-x-[6px] border-t-[6px] border-x-transparent border-t-accent" />
       </div>
     </div>
   );

@@ -153,6 +153,15 @@ html {
 .prose-lesson {
   @apply max-w-none;
 }
+/* Custom text selection highlight — light terracotta */
+.prose-lesson ::selection {
+  background: hsl(16 55% 48% / 0.22);
+  color: inherit;
+}
+.prose-lesson ::-moz-selection {
+  background: hsl(16 55% 48% / 0.22);
+  color: inherit;
+}
 .prose-lesson h1 {
   @apply font-heading text-3xl font-bold tracking-tight mb-6;
 }
