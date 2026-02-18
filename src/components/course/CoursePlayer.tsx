@@ -104,11 +104,11 @@ export function CoursePlayer({
             <div
               className={
                 hasDownloads
-                  ? "flex flex-col gap-5 md:flex-row md:items-start md:justify-between"
+                  ? "flex flex-col gap-5 md:flex-row md:items-stretch md:justify-between"
                   : ""
               }
             >
-              <div className={hasDownloads ? "min-w-0 flex-1" : ""}>
+              <div className={cn("flex flex-col", hasDownloads && "min-w-0 flex-1")}>
                 {/* Module breadcrumb */}
                 <p className="mb-1 font-heading text-xs font-medium uppercase tracking-[0.15em] text-muted-foreground">
                   {currentModule.title}
@@ -116,37 +116,45 @@ export function CoursePlayer({
                 <h1 className="font-heading text-3xl font-bold uppercase tracking-tight md:text-4xl">
                   {lesson.title}
                 </h1>
-                <div className="mt-2 flex items-center gap-3 text-sm text-muted-foreground">
-                  {lesson.duration && <span>{lesson.duration}</span>}
-                  <span className="capitalize">{lesson.type}</span>
+
+                {/* Tags + completed indicator — single row */}
+                <div className="mt-auto flex flex-wrap items-center gap-2 pt-3">
+                  {lesson.duration && (
+                    <span className="rounded-full border border-foreground/20 px-2.5 py-0.5 text-xs text-muted-foreground">
+                      {lesson.duration}
+                    </span>
+                  )}
+                  <span className="rounded-full border border-foreground/20 px-2.5 py-0.5 text-xs capitalize text-muted-foreground">
+                    {lesson.type}
+                  </span>
                   {lesson.path !== "both" && (
-                    <span className="rounded bg-background/60 px-2 py-0.5 text-xs">
+                    <span className="rounded-full border border-foreground/20 px-2.5 py-0.5 text-xs text-muted-foreground">
                       {lesson.path === "drawer"
                         ? "Drawer Path"
                         : "Brief Builder Path"}
                     </span>
                   )}
-                </div>
 
-                {/* Completed indicator */}
-                <div className="mt-2.5 flex items-center gap-1.5 text-xs">
-                  {isCompleted ? (
-                    <>
-                      <Check className="h-3.5 w-3.5 text-brass" />
-                      <span className="font-medium text-brass">Completed</span>
-                    </>
-                  ) : (
-                    <>
-                      <Circle className="h-3.5 w-3.5 text-muted-foreground/50" />
-                      <span className="text-muted-foreground/50">Not completed</span>
-                    </>
-                  )}
+                  {/* Completed indicator */}
+                  <span className="flex items-center gap-1.5 text-xs">
+                    {isCompleted ? (
+                      <>
+                        <Check className="h-3.5 w-3.5 text-brass" />
+                        <span className="font-medium text-brass">Completed</span>
+                      </>
+                    ) : (
+                      <>
+                        <Circle className="h-3.5 w-3.5 text-muted-foreground/50" />
+                        <span className="text-muted-foreground/50">Not completed</span>
+                      </>
+                    )}
+                  </span>
                 </div>
               </div>
 
-              {/* Downloads card — top right inside header card */}
+              {/* Downloads card — top right inside header card, stretches to fill height */}
               {hasDownloads && (
-                <div className="w-full shrink-0 md:w-56">
+                <div className="flex w-full shrink-0 md:w-56">
                   <LessonDownloads
                     downloads={downloads}
                     moduleSlug={moduleSlug}

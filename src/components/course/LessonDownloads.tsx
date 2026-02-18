@@ -9,7 +9,7 @@ export function LessonDownloads({ downloads, moduleSlug }: LessonDownloadsProps)
   if (downloads.length === 0) return null;
 
   return (
-    <div className="group flex flex-col rounded-card bg-foreground p-4 text-background transition-all duration-300 hover:bg-transparent hover:text-foreground hover:ring-2 hover:ring-foreground">
+    <div className="group flex h-full w-full flex-col rounded-card bg-foreground p-4 text-background transition-all duration-300 hover:bg-transparent hover:text-foreground hover:ring-2 hover:ring-foreground">
       <p className="font-heading text-xs font-semibold uppercase tracking-[0.1em]">
         Downloads
       </p>
