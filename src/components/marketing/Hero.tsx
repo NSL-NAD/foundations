@@ -92,14 +92,14 @@ export function Hero() {
             {/* Card 1 — Accent (terracotta) */}
             <div className="flex flex-col rounded-card bg-accent p-3.5 text-white md:p-4">
               <span className="font-heading text-5xl font-bold leading-none md:text-6xl lg:text-7xl">
-                62
+                99
               </span>
               <div className="mt-auto pt-5">
                 <h3 className="font-heading text-sm font-semibold uppercase tracking-wider">
                   Lessons
                 </h3>
                 <p className="mt-2 text-xs leading-relaxed text-white/80">
-                  Comprehensive coverage across 10 modules, from fundamentals to
+                  Comprehensive coverage across 11 modules, from fundamentals to
                   final design.
                 </p>
               </div>

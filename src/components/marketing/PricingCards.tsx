@@ -13,7 +13,7 @@ const products = [
     originalPrice: 93,
     description: "Full digital course access",
     features: [
-      "62 lessons across 10 modules",
+      "99 lessons across 11 modules",
       "Two learning paths (Drawer & Brief Builder)",
       "34 downloadable PDFs & worksheets",
       "Lifetime access (founding students)",

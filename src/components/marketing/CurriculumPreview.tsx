@@ -58,18 +58,25 @@ const sections = [
     tag: "Sustainability",
   },
   {
-    title: "Module 6: Portfolio Project + AI Tools",
-    lessons: 15,
+    title: "Module 6: Portfolio Project",
+    lessons: 9,
     description:
-      "Bring it all together in a capstone project. Plus, explore AI tools that can help visualize your designs.",
+      "Bring it all together in a capstone project that showcases your design thinking.",
     tag: "Capstone",
   },
   {
     title: "Bonus Modules",
     lessons: 10,
     description:
-      "Universal design, zoning basics, storage design, room-specific tips, budget planning, and buildability.",
+      "Mood boards, presentation tips, hiring professionals, 3D modeling overview, and more.",
     tag: "Bonus",
+  },
+  {
+    title: "Bonus: AI for Architecture",
+    lessons: 10,
+    description:
+      "Use AI tools to visualize, refine, and present your dream home designs. Covers Rayon, Spacely AI, Nano Banana Pro, D5 Render, and more.",
+    tag: "AI Tools",
   },
   {
     title: "Resources & Completion",
@@ -89,7 +96,7 @@ export function CurriculumPreview() {
             What You&apos;ll Learn
           </h2>
           <p className="mt-4 text-muted-foreground">
-            62 lessons across 10 sections — from foundational concepts to your
+            99 lessons across 11 sections — from foundational concepts to your
             own capstone project.
           </p>
         </div>

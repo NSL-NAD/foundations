@@ -95,7 +95,7 @@ export async function sendWelcomeEmail({
         <div style="margin-top: 24px;">
           <h2 style="font-size: 18px;">What to expect</h2>
           <ul style="padding-left: 20px; line-height: 1.8;">
-            <li><strong>62 lessons</strong> across 10 modules</li>
+            <li><strong>99 lessons</strong> across 11 modules</li>
             <li><strong>Two learning paths</strong> — Drawer (hands-on sketching) and Brief Builder (written briefs)</li>
             <li><strong>34 downloadable resources</strong> — worksheets, templates, and guides</li>
             <li><strong>Go at your own pace</strong> — lifetime access, no deadlines</li>

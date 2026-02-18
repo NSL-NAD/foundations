@@ -1,6 +1,6 @@
 {
   "title": "Foundations of Architecture: Designing Your Dream Space",
-  "description": "A 62-lesson course teaching architectural fundamentals through two learning paths.",
+  "description": "A 99-lesson course teaching architectural fundamentals through two learning paths.",
   "modules": [
     {
       "slug": "welcome",
@@ -118,8 +118,8 @@
     },
     {
       "slug": "module-6",
-      "title": "Module 6: Portfolio Project + AI Tools",
-      "description": "Bring it all together in a capstone project. Explore AI tools for visualization.",
+      "title": "Module 6: Portfolio Project",
+      "description": "Bring it all together in a capstone project that showcases your design thinking.",
       "lessons": [
         { "slug": "portfolio-overview", "title": "Portfolio Overview", "type": "video", "duration": "8 min", "path": "both" },
         { "slug": "portfolio-vision", "title": "Step 1: Vision Statement", "type": "exercise", "duration": "15 min", "path": "both" },
@@ -128,12 +128,6 @@
         { "slug": "portfolio-elevations", "title": "Step 4: Elevations", "type": "exercise", "duration": "25 min", "path": "both" },
         { "slug": "portfolio-materials", "title": "Step 5: Materials Board", "type": "exercise", "duration": "20 min", "path": "both" },
         { "slug": "portfolio-environmental", "title": "Step 6: Environmental Diagram", "type": "exercise", "duration": "20 min", "path": "both" },
-        { "slug": "ai-tools-overview", "title": "AI Tools for Architecture", "type": "text", "duration": "15 min", "path": "both", "downloads": ["ai-prompting-cheat-sheet.pdf"] },
-        { "slug": "ai-rayon", "title": "AI Tool: Rayon (Floor Plans)", "type": "text", "duration": "10 min", "path": "both" },
-        { "slug": "ai-spacely", "title": "AI Tool: Spacely AI", "type": "text", "duration": "10 min", "path": "both" },
-        { "slug": "ai-nano-banana", "title": "AI Tool: Nano Banana Pro", "type": "text", "duration": "10 min", "path": "both" },
-        { "slug": "ai-d5-render", "title": "AI Tool: D5 Render", "type": "text", "duration": "10 min", "path": "both" },
-        { "slug": "ai-exercise", "title": "AI Visualization Exercise", "type": "exercise", "duration": "30 min", "path": "both" },
         { "slug": "brief-compilation", "title": "Brief Builder: Final Compilation", "type": "exercise", "duration": "30 min", "path": "brief-builder", "downloads": ["design-brief-template.pdf"] },
         { "slug": "module-6-checklist", "title": "Module 6 Checklist", "type": "checklist", "duration": "2 min", "path": "both" }
       ]
@@ -153,6 +147,23 @@
         { "slug": "bonus-3d-overview", "title": "3D Modeling Overview", "type": "text", "duration": "8 min", "path": "both" },
         { "slug": "bonus-sketchup", "title": "SketchUp Quick Start", "type": "text", "duration": "15 min", "path": "both" },
         { "slug": "bonus-3d-tools", "title": "Other 3D Tools", "type": "text", "duration": "10 min", "path": "both" }
+      ]
+    },
+    {
+      "slug": "bonus-ai",
+      "title": "Bonus: AI for Architecture",
+      "description": "Use AI tools to visualize, refine, and present your dream home designs.",
+      "lessons": [
+        { "slug": "ai-intro", "title": "AI as Your Design Partner", "type": "text", "duration": "8 min", "path": "both" },
+        { "slug": "ai-landscape", "title": "The AI Tool Landscape", "type": "text", "duration": "10 min", "path": "both" },
+        { "slug": "ai-rayon", "title": "Floor Plans: Rayon", "type": "text", "duration": "10 min", "path": "both" },
+        { "slug": "ai-spacely", "title": "Interior Visualization: Spacely AI", "type": "text", "duration": "10 min", "path": "both" },
+        { "slug": "ai-nano-banana", "title": "Concept Images: Nano Banana Pro", "type": "text", "duration": "12 min", "path": "both" },
+        { "slug": "ai-rendering-video", "title": "Rendering & Video: D5, Hunyuan, Kling", "type": "text", "duration": "12 min", "path": "both" },
+        { "slug": "ai-prompting", "title": "Prompting for Architecture", "type": "text", "duration": "10 min", "path": "both", "downloads": ["ai-prompting-cheat-sheet.pdf"] },
+        { "slug": "ai-workflow", "title": "Integrating AI Into Your Workflow", "type": "text", "duration": "8 min", "path": "both" },
+        { "slug": "ai-resources", "title": "AI Resources & Next Steps", "type": "text", "duration": "5 min", "path": "both" },
+        { "slug": "ai-exercise", "title": "Exercise: Visualize Your Dream Home", "type": "exercise", "duration": "40 min", "path": "both" }
       ]
     },
     {
