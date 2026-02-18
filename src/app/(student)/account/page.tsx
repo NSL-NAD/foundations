@@ -101,7 +101,7 @@ export default async function AccountPage() {
       {/* Row 1: Profile + Course Progress */}
       <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-3">
         {/* Profile — 2/3 width */}
-        <Card className="border-t-4 border-t-primary md:col-span-2">
+        <Card className="md:col-span-2">
           <CardHeader>
             <CardTitle>Profile</CardTitle>
           </CardHeader>
@@ -154,7 +154,7 @@ export default async function AccountPage() {
       {/* Row 2: Design Brief + Certificate + Course Review */}
       <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-3">
         {/* Design Brief — brass left accent */}
-        <Card className="border-l-4" style={{ borderLeftColor: "hsl(var(--brass))" }}>
+        <Card>
           <CardHeader>
             <CardTitle>Design Brief</CardTitle>
           </CardHeader>
