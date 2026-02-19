@@ -6,8 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
-import { Mail } from "lucide-react";
+import { ContactDialog } from "@/components/shared/ContactDialog";
 
 const faqs = [
   {
@@ -95,12 +94,9 @@ export function FAQ() {
             <p className="mt-2 text-sm text-muted-foreground">
               We&apos;re happy to help. Reach out and we&apos;ll get back to you soon.
             </p>
-            <Button asChild variant="outline" className="mt-4">
-              <a href="mailto:foundations@goodatscale.co">
-                <Mail className="mr-2 h-4 w-4" />
-                Contact Us
-              </a>
-            </Button>
+            <div className="mt-4">
+              <ContactDialog />
+            </div>
           </div>
         </div>
       </div>
