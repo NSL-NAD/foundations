@@ -8,6 +8,7 @@ import {
   Users,
   UserPlus,
   Package,
+  Star,
   ExternalLink,
   Pin,
   PinOff,
@@ -21,6 +22,7 @@ const adminNav = [
   { href: "/admin/students", label: "Students", icon: Users },
   { href: "/admin/new-students", label: "New Students", icon: UserPlus },
   { href: "/admin/orders", label: "Kit Orders", icon: Package },
+  { href: "/admin/reviews", label: "Reviews", icon: Star },
 ];
 
 interface AdminShellProps {
