@@ -5,13 +5,162 @@ const resend = new Resend(
 );
 
 const FROM_EMAIL =
-  "Foundations of Architecture <onboarding@resend.dev>";
+  "Foundations of Architecture <nic@goodatscale.co>";
+
+const REPLY_TO = "nic@goodatscale.co";
 
 const BASE_URL = () =>
   (
     process.env.NEXT_PUBLIC_URL ||
-    "https://foundations-of-architecture.vercel.app"
+    "https://foacourse.com"
   ).trim();
+
+/* ─── Brand constants ─── */
+const BRAND = {
+  foreground: "#1A1A1A",
+  primary: "#5A8299",
+  accent: "#BE5B34",
+  brass: "#C4A24C",
+  cardBg: "#F6F5F3",
+  white: "#FFFFFF",
+  muted: "#6B7280",
+  borderLight: "#E5E5E5",
+  fontStack:
+    "'Space Grotesk', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
+} as const;
+
+/* ─── Bulletproof CTA button (table-based for Outlook) ─── */
+function ctaButton(text: string, href: string): string {
+  return `
+    <table role="presentation" cellpadding="0" cellspacing="0" style="margin-top: 24px;">
+      <tr>
+        <td style="background-color: ${BRAND.accent}; border-radius: 6px;">
+          <a href="${href}" style="display: inline-block; padding: 14px 28px; font-family: ${BRAND.fontStack}; font-size: 15px; font-weight: 600; color: ${BRAND.white}; text-decoration: none;">
+            ${text}
+          </a>
+        </td>
+      </tr>
+    </table>`;
+}
+
+/* ─── Branded email layout wrapper ─── */
+function brandedEmailLayout({
+  preheader,
+  body,
+}: {
+  preheader?: string;
+  body: string;
+}): string {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Foundations of Architecture</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: ${BRAND.cardBg}; font-family: ${BRAND.fontStack};">
+  ${preheader ? `<div style="display: none; max-height: 0; overflow: hidden;">${preheader}</div>` : ""}
+
+  <!-- Outer wrapper for background color -->
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: ${BRAND.cardBg};">
+    <tr>
+      <td align="center" style="padding: 32px 16px;">
+
+        <!-- Inner card -->
+        <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width: 560px; width: 100%; background-color: ${BRAND.white}; border-radius: 8px; overflow: hidden;">
+
+          <!-- HEADER -->
+          <tr>
+            <td style="padding: 28px 32px 20px 32px;">
+              <table role="presentation" cellpadding="0" cellspacing="0">
+                <tr>
+                  <!-- FA Monogram -->
+                  <td style="width: 36px; height: 36px; border: 2px solid ${BRAND.foreground}; text-align: center; vertical-align: middle;">
+                    <span style="font-family: ${BRAND.fontStack}; font-size: 13px; font-weight: 600; letter-spacing: 0.15em; color: ${BRAND.foreground};">FA</span>
+                  </td>
+                  <td style="padding-left: 12px; vertical-align: middle;">
+                    <span style="font-family: ${BRAND.fontStack}; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.2em; color: ${BRAND.foreground}; line-height: 1.4; display: block;">Foundations of</span>
+                    <span style="font-family: ${BRAND.fontStack}; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.2em; color: ${BRAND.foreground}; line-height: 1.4; display: block;">Architecture</span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Brass divider -->
+          <tr>
+            <td style="padding: 0 32px;">
+              <div style="height: 0; border-bottom: 2px solid ${BRAND.brass};"></div>
+            </td>
+          </tr>
+
+          <!-- BODY -->
+          <tr>
+            <td style="padding: 28px 32px; font-family: ${BRAND.fontStack}; font-size: 16px; line-height: 1.6; color: ${BRAND.foreground};">
+              ${body}
+            </td>
+          </tr>
+
+          <!-- Footer divider -->
+          <tr>
+            <td style="padding: 0 32px;">
+              <div style="height: 0; border-bottom: 1px solid ${BRAND.borderLight};"></div>
+            </td>
+          </tr>
+
+          <!-- FOOTER -->
+          <tr>
+            <td style="padding: 20px 32px 28px 32px; font-family: ${BRAND.fontStack}; font-size: 13px; color: ${BRAND.muted}; line-height: 1.6;">
+              <p style="margin: 0 0 4px 0;">&copy; ${new Date().getFullYear()} Foundations of Architecture</p>
+              <p style="margin: 0;">Questions? Reply to this email and we'll help you out.</p>
+            </td>
+          </tr>
+
+        </table>
+
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+}
+
+/* ─── Email functions ─── */
+
+export async function sendWelcomeEmail({
+  email,
+  fullName,
+}: {
+  email: string;
+  fullName: string;
+}) {
+  const firstName = fullName.split(" ")[0] || "there";
+
+  await resend.emails.send({
+    from: FROM_EMAIL,
+    to: email,
+    replyTo: REPLY_TO,
+    subject: "Welcome to Foundations of Architecture!",
+    html: brandedEmailLayout({
+      preheader:
+        "Your account is ready. Start learning architecture fundamentals today.",
+      body: `
+        <h1 style="font-size: 24px; font-weight: 600; margin: 0 0 16px 0; color: ${BRAND.foreground};">Welcome, ${firstName}!</h1>
+        <p style="margin: 0 0 16px 0;">Your Foundations of Architecture account is ready. You're about to learn how to think like an architect and design your dream home.</p>
+
+        <h2 style="font-size: 17px; font-weight: 600; margin: 24px 0 12px 0; color: ${BRAND.primary};">What to expect</h2>
+        <ul style="padding-left: 20px; margin: 0 0 8px 0; line-height: 1.8;">
+          <li><strong>62 lessons</strong> across 10 modules</li>
+          <li><strong>Two learning paths</strong> &mdash; Drawer and Brief Builder</li>
+          <li><strong>34 downloadable resources</strong></li>
+          <li><strong>Lifetime access</strong> &mdash; no deadlines</li>
+        </ul>
+
+        ${ctaButton("Start Learning &rarr;", `${BASE_URL()}/dashboard`)}
+      `,
+    }),
+  });
+}
 
 export async function sendPurchaseConfirmation({
   email,
@@ -28,92 +177,48 @@ export async function sendPurchaseConfirmation({
     bundle: "Course + Starter Kit Bundle",
   };
 
+  const productLabel = productNames[productType] || productType;
+
+  const courseSection =
+    productType !== "kit"
+      ? `
+    <h2 style="font-size: 17px; font-weight: 600; margin: 24px 0 8px 0; color: ${BRAND.primary};">Get Started</h2>
+    <p style="margin: 0 0 4px 0;">Create your account to access your course:</p>
+    ${ctaButton("Create Account &rarr;", `${BASE_URL()}/signup`)}
+  `
+      : "";
+
+  const kitSection = ["kit", "bundle"].includes(productType)
+    ? `
+    <h2 style="font-size: 17px; font-weight: 600; margin: 24px 0 8px 0; color: ${BRAND.primary};">Your Starter Kit</h2>
+    <p style="margin: 0;">We'll ship your kit within 3&ndash;5 business days. You'll receive a tracking number once it ships.</p>
+  `
+    : "";
+
+  const receiptLink = receiptUrl
+    ? `<p style="margin-top: 24px;"><a href="${receiptUrl}" style="color: ${BRAND.primary}; text-decoration: underline;">View Receipt</a></p>`
+    : "";
+
   await resend.emails.send({
     from: FROM_EMAIL,
     to: email,
+    replyTo: REPLY_TO,
     subject: "Your FOA Purchase Confirmation",
-    html: `
-      <div style="max-width: 560px; margin: 0 auto; font-family: system-ui, sans-serif; color: #1a1a1a;">
-        <h1 style="font-size: 24px; margin-bottom: 16px;">Thank you for your purchase!</h1>
-        <p>You've purchased: <strong>${productNames[productType] || productType}</strong></p>
+    html: brandedEmailLayout({
+      preheader: `Thank you for purchasing ${productLabel}.`,
+      body: `
+        <h1 style="font-size: 24px; font-weight: 600; margin: 0 0 16px 0; color: ${BRAND.foreground};">Thank you for your purchase!</h1>
 
-        ${
-          productType !== "kit"
-            ? `
-          <div style="margin-top: 24px;">
-            <h2 style="font-size: 18px;">Get Started</h2>
-            <p>If you haven't already, create your account to access your course:</p>
-            <a href="${BASE_URL()}/signup"
-               style="display: inline-block; padding: 12px 24px; background: hsl(16, 55%, 42%); color: white; text-decoration: none; border-radius: 6px; margin-top: 8px;">
-              Create Account &rarr;
-            </a>
-          </div>
-        `
-            : ""
-        }
-
-        ${
-          ["kit", "bundle"].includes(productType)
-            ? `
-          <div style="margin-top: 24px;">
-            <h2 style="font-size: 18px;">Your Starter Kit</h2>
-            <p>We'll ship your kit within 3-5 business days. You'll receive a tracking number once it ships.</p>
-          </div>
-        `
-            : ""
-        }
-
-        ${receiptUrl ? `<p style="margin-top: 24px;"><a href="${receiptUrl}">View Receipt</a></p>` : ""}
-
-        <p style="margin-top: 32px; color: #666; font-size: 14px;">
-          Questions? Reply to this email and we'll help you out.
-        </p>
-      </div>
-    `,
-  });
-}
-
-export async function sendWelcomeEmail({
-  email,
-  fullName,
-}: {
-  email: string;
-  fullName: string;
-}) {
-  const firstName = fullName.split(" ")[0] || "there";
-
-  await resend.emails.send({
-    from: FROM_EMAIL,
-    to: email,
-    subject: "Welcome to Foundations of Architecture!",
-    html: `
-      <div style="max-width: 560px; margin: 0 auto; font-family: system-ui, sans-serif; color: #1a1a1a;">
-        <h1 style="font-size: 24px; margin-bottom: 16px;">Welcome, ${firstName}! 🏠</h1>
-
-        <p>Your Foundations of Architecture account is ready. You're about to learn how to think like an architect and design your dream home.</p>
-
-        <div style="margin-top: 24px;">
-          <h2 style="font-size: 18px;">What to expect</h2>
-          <ul style="padding-left: 20px; line-height: 1.8;">
-            <li><strong>99 lessons</strong> across 11 modules</li>
-            <li><strong>Two learning paths</strong> — Drawer (hands-on sketching) and Brief Builder (written briefs)</li>
-            <li><strong>34 downloadable resources</strong> — worksheets, templates, and guides</li>
-            <li><strong>Go at your own pace</strong> — lifetime access, no deadlines</li>
-          </ul>
+        <!-- Product highlight box -->
+        <div style="background-color: ${BRAND.cardBg}; border-radius: 6px; padding: 16px 20px; margin-bottom: 8px; border-left: 3px solid ${BRAND.brass};">
+          <p style="margin: 0; font-weight: 600;">${productLabel}</p>
         </div>
 
-        <div style="margin-top: 24px;">
-          <a href="${BASE_URL()}/dashboard"
-             style="display: inline-block; padding: 12px 24px; background: hsl(16, 55%, 42%); color: white; text-decoration: none; border-radius: 6px;">
-            Start Learning &rarr;
-          </a>
-        </div>
-
-        <p style="margin-top: 32px; color: #666; font-size: 14px;">
-          Need help getting started? Reply to this email — we're happy to help.
-        </p>
-      </div>
-    `,
+        ${courseSection}
+        ${kitSection}
+        ${receiptLink}
+      `,
+    }),
   });
 }
 
@@ -130,22 +235,25 @@ export async function sendContactEmail({
 }) {
   await resend.emails.send({
     from: FROM_EMAIL,
-    to: "foundations@goodatscale.co",
+    to: "nic@goodatscale.co",
     replyTo: email,
     subject: `[FOA Contact] ${subject}`,
-    html: `
-      <div style="max-width: 560px; margin: 0 auto; font-family: system-ui, sans-serif; color: #1a1a1a;">
-        <h1 style="font-size: 24px; margin-bottom: 16px;">New Message from ${name}</h1>
-        <p style="color: #666; font-size: 14px;">From: ${name} (${email})</p>
-        <p style="color: #666; font-size: 14px;">Subject: ${subject}</p>
-        <div style="margin-top: 16px; padding: 16px; background: #f5f5f5; border-radius: 6px;">
-          <p style="white-space: pre-wrap;">${message}</p>
+    html: brandedEmailLayout({
+      preheader: `New message from ${name}: ${subject}`,
+      body: `
+        <h1 style="font-size: 24px; font-weight: 600; margin: 0 0 16px 0; color: ${BRAND.foreground};">New Message from ${name}</h1>
+        <p style="margin: 0 0 4px 0; font-size: 14px; color: ${BRAND.muted};">From: ${name} (${email})</p>
+        <p style="margin: 0 0 16px 0; font-size: 14px; color: ${BRAND.muted};">Subject: ${subject}</p>
+
+        <div style="padding: 16px 20px; background-color: ${BRAND.cardBg}; border-radius: 6px; border-left: 3px solid ${BRAND.primary};">
+          <p style="margin: 0; white-space: pre-wrap; line-height: 1.6;">${message}</p>
         </div>
-        <p style="margin-top: 24px; color: #666; font-size: 14px;">
+
+        <p style="margin-top: 20px; font-size: 14px; color: ${BRAND.muted};">
           Reply directly to this email to respond to the student.
         </p>
-      </div>
-    `,
+      `,
+    }),
   });
 }
 
@@ -161,14 +269,24 @@ export async function sendKitShippedEmail({
   await resend.emails.send({
     from: FROM_EMAIL,
     to: email,
+    replyTo: REPLY_TO,
     subject: "Your Starter Kit Has Shipped!",
-    html: `
-      <div style="max-width: 560px; margin: 0 auto; font-family: system-ui, sans-serif; color: #1a1a1a;">
-        <h1 style="font-size: 24px; margin-bottom: 16px;">Your kit is on its way!</h1>
-        <p>Tracking number: <strong>${trackingNumber}</strong></p>
-        ${trackingUrl ? `<p><a href="${trackingUrl}" style="color: hsl(16, 55%, 42%);">Track Your Package</a></p>` : ""}
-        <p>Expected delivery: 3-7 business days</p>
-      </div>
-    `,
+    html: brandedEmailLayout({
+      preheader: "Your Architecture Starter Kit is on its way!",
+      body: `
+        <h1 style="font-size: 24px; font-weight: 600; margin: 0 0 16px 0; color: ${BRAND.foreground};">Your kit is on its way!</h1>
+        <p style="margin: 0 0 16px 0;">Great news &mdash; your Architecture Starter Kit has shipped and is heading to you.</p>
+
+        <!-- Tracking info box -->
+        <div style="background-color: ${BRAND.cardBg}; border-radius: 6px; padding: 16px 20px; border-left: 3px solid ${BRAND.brass};">
+          <p style="margin: 0 0 4px 0; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: ${BRAND.muted};">Tracking Number</p>
+          <p style="margin: 0; font-size: 16px; font-weight: 600; color: ${BRAND.foreground};">${trackingNumber}</p>
+        </div>
+
+        ${trackingUrl ? ctaButton("Track Your Package &rarr;", trackingUrl) : ""}
+
+        <p style="margin-top: 20px; color: ${BRAND.muted}; font-size: 14px;">Expected delivery: 3&ndash;7 business days</p>
+      `,
+    }),
   });
 }

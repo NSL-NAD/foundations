@@ -1,5 +1,5 @@
 import { createAdminClient } from "@/lib/supabase/admin";
-import { sendPurchaseConfirmation } from "@/lib/resend";
+import { sendPurchaseConfirmation, sendWelcomeEmail } from "@/lib/resend";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -96,7 +96,7 @@ export async function POST(req: NextRequest) {
     if (customerEmail) {
       const { data: existingUser } = await supabase
         .from("profiles")
-        .select("id")
+        .select("id, full_name")
         .eq("email", customerEmail)
         .single();
 
@@ -112,6 +112,18 @@ export async function POST(req: NextRequest) {
             .from("kit_orders")
             .update({ user_id: existingUser.id })
             .eq("purchase_id", purchase.id);
+        }
+
+        // Send welcome email for existing users on first course/bundle purchase
+        if (["course", "bundle"].includes(productType)) {
+          try {
+            await sendWelcomeEmail({
+              email: customerEmail,
+              fullName: existingUser.full_name || "",
+            });
+          } catch (emailError) {
+            console.error("Failed to send welcome email:", emailError);
+          }
         }
       }
 

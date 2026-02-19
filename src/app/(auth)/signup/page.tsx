@@ -60,20 +60,15 @@ export default function SignupPage() {
       return;
     }
 
-    // Link any existing purchases and send welcome email (non-blocking)
+    // Link any existing purchases (non-blocking)
+    // Welcome email is NOT sent here — it fires post-purchase only
+    // (from checkout success page or Stripe webhook)
     if (signUpData.user) {
-      Promise.all([
-        fetch("/api/auth/link-purchases", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ userId: signUpData.user.id, email }),
-        }),
-        fetch("/api/auth/welcome", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, fullName }),
-        }),
-      ]).catch(() => {});
+      fetch("/api/auth/link-purchases", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: signUpData.user.id, email }),
+      }).catch(() => {});
     }
 
     router.push("/course");
