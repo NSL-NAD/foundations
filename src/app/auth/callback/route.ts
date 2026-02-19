@@ -12,6 +12,7 @@ export async function GET(request: NextRequest) {
     if (!error) {
       return NextResponse.redirect(`${origin}${next}`);
     }
+    console.error("Auth callback code exchange failed:", error.message);
   }
 
   // Return the user to an error page with some instructions
