@@ -257,6 +257,47 @@ export async function sendContactEmail({
   });
 }
 
+export async function sendReviewNotification({
+  studentName,
+  studentEmail,
+  rating,
+  reviewText,
+}: {
+  studentName: string;
+  studentEmail: string;
+  rating: number;
+  reviewText: string;
+}) {
+  const stars = "\u2605".repeat(rating) + "\u2606".repeat(5 - rating);
+
+  await resend.emails.send({
+    from: FROM_EMAIL,
+    to: "nic@goodatscale.co",
+    replyTo: studentEmail,
+    subject: `[FOA Review] ${stars} from ${studentName}`,
+    html: brandedEmailLayout({
+      preheader: `New ${rating}-star review from ${studentName}`,
+      body: `
+        <h1 style="font-size: 24px; font-weight: 600; margin: 0 0 16px 0; color: ${BRAND.foreground};">New Course Review</h1>
+        <p style="margin: 0 0 4px 0; font-size: 14px; color: ${BRAND.muted};">From: ${studentName} (${studentEmail})</p>
+
+        <!-- Rating box -->
+        <div style="background-color: ${BRAND.cardBg}; border-radius: 6px; padding: 16px 20px; margin: 16px 0; border-left: 3px solid ${BRAND.brass};">
+          <p style="margin: 0 0 4px 0; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: ${BRAND.muted};">Rating</p>
+          <p style="margin: 0; font-size: 24px; letter-spacing: 2px;">${stars}</p>
+        </div>
+
+        ${reviewText ? `
+        <!-- Review text -->
+        <div style="padding: 16px 20px; background-color: ${BRAND.cardBg}; border-radius: 6px; border-left: 3px solid ${BRAND.primary};">
+          <p style="margin: 0; white-space: pre-wrap; line-height: 1.6;">${reviewText}</p>
+        </div>
+        ` : `<p style="margin: 0; font-size: 14px; color: ${BRAND.muted};">No written review provided.</p>`}
+      `,
+    }),
+  });
+}
+
 export async function sendKitShippedEmail({
   email,
   trackingNumber,

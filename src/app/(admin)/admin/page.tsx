@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { Button } from "@/components/ui/button";
-import { Users, DollarSign, Package, ArrowRight, UserPlus } from "lucide-react";
+import { Users, DollarSign, Package, ArrowRight, UserPlus, Star } from "lucide-react";
 import Link from "next/link";
 
 export const metadata = {
@@ -36,6 +36,17 @@ export default async function AdminPage() {
     .is("admin_viewed_at", null)
     .in("product_type", ["course", "bundle"])
     .eq("status", "completed");
+
+  // Recent reviews
+  const { data: reviews } = await supabase
+    .from("course_reviews")
+    .select("rating, review_text, created_at, profiles(full_name, email)")
+    .order("created_at", { ascending: false })
+    .limit(10);
+
+  const { count: totalReviews } = await supabase
+    .from("course_reviews")
+    .select("*", { count: "exact", head: true });
 
   return (
     <div className="p-6 md:p-10">
@@ -155,6 +166,75 @@ export default async function AdminPage() {
               ${(totalRevenue / 100).toFixed(2)}
             </div>
           </div>
+        </div>
+
+        {/* Row 3: Reviews */}
+        <div className="mt-4 rounded-card border bg-card p-5">
+          <div className="mb-4 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Star className="h-4 w-4 text-muted-foreground" />
+              <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                Student Reviews
+              </span>
+            </div>
+            <span className="text-xs text-muted-foreground">
+              {totalReviews || 0} total
+            </span>
+          </div>
+
+          {reviews && reviews.length > 0 ? (
+            <div className="space-y-3">
+              {reviews.map((review, i) => {
+                const profile = review.profiles as unknown as {
+                  full_name: string | null;
+                  email: string | null;
+                } | null;
+                return (
+                  <div
+                    key={i}
+                    className="rounded-md border bg-background p-4"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="flex">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <Star
+                              key={star}
+                              className={`h-3.5 w-3.5 ${
+                                star <= review.rating
+                                  ? "fill-primary text-primary"
+                                  : "text-muted-foreground/30"
+                              }`}
+                            />
+                          ))}
+                        </div>
+                        <span className="text-sm font-medium">
+                          {profile?.full_name || "Student"}
+                        </span>
+                      </div>
+                      <span className="text-xs text-muted-foreground">
+                        {new Date(review.created_at).toLocaleDateString()}
+                      </span>
+                    </div>
+                    {review.review_text && (
+                      <p className="mt-2 text-sm text-muted-foreground">
+                        {review.review_text}
+                      </p>
+                    )}
+                    {profile?.email && (
+                      <p className="mt-1 text-xs text-muted-foreground/70">
+                        {profile.email}
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <p className="text-sm text-muted-foreground">
+              No reviews yet.
+            </p>
+          )}
         </div>
       </div>
     </div>

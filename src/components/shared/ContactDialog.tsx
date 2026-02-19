@@ -95,15 +95,6 @@ export function ContactDialog({ trigger }: ContactDialogProps) {
               Thanks for reaching out. We&apos;ll get back to you as soon as
               possible.
             </p>
-            <p className="mt-4 text-sm text-muted-foreground">
-              You can also reach us directly at{" "}
-              <a
-                href="mailto:nic@goodatscale.co"
-                className="text-primary hover:underline"
-              >
-                nic@goodatscale.co
-              </a>
-            </p>
             <Button
               variant="outline"
               className="mt-6"

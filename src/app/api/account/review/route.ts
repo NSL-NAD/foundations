@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { sendReviewNotification } from "@/lib/resend";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -35,6 +36,25 @@ export async function POST(req: Request) {
       { error: "Failed to save review" },
       { status: 500 }
     );
+  }
+
+  // Send email notification (non-blocking)
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("email, full_name")
+    .eq("id", user.id)
+    .single();
+
+  try {
+    await sendReviewNotification({
+      studentName: profile?.full_name || "Student",
+      studentEmail: profile?.email || user.email || "",
+      rating,
+      reviewText: review_text || "",
+    });
+  } catch (emailError) {
+    console.error("Failed to send review notification:", emailError);
+    // Don't fail the request for email errors
   }
 
   return NextResponse.json({ success: true });
