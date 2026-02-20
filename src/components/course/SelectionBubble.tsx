@@ -208,7 +208,7 @@ export function SelectionBubble({ containerRef }: SelectionBubbleProps) {
       {tooltipVisible && (
         <div
           data-highlight-tooltip
-          className="highlight-tooltip visible"
+          className="fixed z-[60]"
           style={{
             left: tooltipPosition.x,
             top: tooltipPosition.y,
@@ -216,8 +216,15 @@ export function SelectionBubble({ containerRef }: SelectionBubbleProps) {
           onMouseLeave={() => setTooltipVisible(false)}
         >
           <button
-            onClick={handleViewNote}
-            className="flex items-center gap-1.5 rounded-full bg-foreground/85 px-3 py-1.5 text-background shadow-md transition-colors hover:bg-foreground active:scale-95"
+            onMouseDown={(e) => {
+              // Prevent the document mousedown handler from firing
+              e.stopPropagation();
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleViewNote();
+            }}
+            className="flex items-center gap-1.5 rounded-full bg-foreground/85 px-3 py-1.5 text-background shadow-md transition-colors hover:bg-foreground active:scale-95 cursor-pointer"
           >
             <Eye className="h-3 w-3" />
             <span className="text-[11px] font-medium">View Note</span>

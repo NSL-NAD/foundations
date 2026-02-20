@@ -394,19 +394,6 @@ html {
   background: hsl(16 55% 48% / 0.34);
 }
 
-/* "View Note" tooltip that appears on hover */
-.highlight-tooltip {
-  position: fixed;
-  z-index: 50;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.12s ease;
-}
-.highlight-tooltip.visible {
-  pointer-events: auto;
-  opacity: 1;
-}
-
 /* ── Tiptap rich text editor ─────────────────────────── */
 .tiptap-editor .ProseMirror {
   min-height: 300px;

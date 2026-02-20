@@ -39,8 +39,8 @@ export function NotebookEditor({
         placeholder: "Take notes on this lesson...",
       }),
     ],
-    content: content || "",
-    editable: !isLoading,
+    content: "",
+    editable: true,
     onUpdate: ({ editor }) => {
       setContent(editor.getHTML());
     },
@@ -48,13 +48,15 @@ export function NotebookEditor({
     immediatelyRender: false,
   });
 
-  // Sync content from DB into editor when it loads
+  // Sync content from DB into editor when loading finishes
   useEffect(() => {
     if (!editor || isLoading) return;
-    const currentHTML = editor.getHTML();
-    // Only update if content actually differs (avoid cursor jump)
-    if (content && content !== currentHTML && currentHTML === "<p></p>") {
-      editor.commands.setContent(content);
+    // Set content from DB once loaded (only if editor is still empty)
+    if (content) {
+      const currentText = editor.getText().trim();
+      if (!currentText) {
+        editor.commands.setContent(content);
+      }
     }
   }, [editor, content, isLoading]);
 
