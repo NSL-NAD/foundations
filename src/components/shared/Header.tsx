@@ -22,6 +22,7 @@ const publicLinks = [
 
 const studentLinks = [
   { href: "/course", label: "Course" },
+  { href: "/dashboard/notebook", label: "Notebook" },
   { href: "/account", label: "Account" },
 ];
 

@@ -11,7 +11,7 @@ import { getTotalLessons, getNextIncompleteLesson, getLessonPath } from "@/lib/c
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ProductCheckoutLink } from "@/components/account/ProductCheckoutLink";
-import { BookOpen, Award, Lock, ArrowRight, ClipboardList, CheckCircle2, GraduationCap, Package, MessageCircle } from "lucide-react";
+import { BookOpen, Award, Lock, ArrowRight, ClipboardList, CheckCircle2, GraduationCap, Package, MessageCircle, Download } from "lucide-react";
 
 export const metadata = {
   title: "Account",
@@ -228,34 +228,54 @@ export default async function AccountPage() {
       {/* Row 2: Design Brief + Certificate + Dream Home */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         {/* Design Brief */}
-        <div className="group flex flex-col rounded-card bg-foreground p-6 text-background transition-all duration-300 hover:bg-transparent hover:text-foreground hover:ring-2 hover:ring-foreground">
-          <ClipboardList className="h-6 w-6 text-background/50 transition-colors duration-300 group-hover:text-foreground/50" />
-          <p className="mt-2 font-heading text-sm font-semibold uppercase tracking-wide">
-            Design Brief
-          </p>
-          <p className="mt-1 text-xs text-background/70 transition-colors duration-300 group-hover:text-foreground/70">
-            {(briefResponseCount || 0) > 0
-              ? `${briefResponseCount} responses recorded — view your personalized brief`
-              : "Complete lessons to start building your personalized Design Brief"}
-          </p>
-          <div className="mt-auto pt-4">
-            <Button asChild size="sm" className="rounded-full border border-background bg-background px-6 text-xs font-medium uppercase tracking-wider text-foreground transition-all duration-300 hover:border-brass hover:bg-brass hover:text-white group-hover:border-foreground group-hover:bg-foreground group-hover:text-background group-hover:hover:border-brass group-hover:hover:bg-brass group-hover:hover:text-white">
-              <Link href={getLessonPath(continueLesson.moduleSlug, continueLesson.lessonSlug)}>
-                Continue Learning
-                <ArrowRight className="ml-2 h-3 w-3" />
-              </Link>
-            </Button>
+        {isComplete ? (
+          <div className="flex flex-col rounded-card bg-primary p-6 text-primary-foreground">
+            <ClipboardList className="h-6 w-6 text-primary-foreground/60" />
+            <p className="mt-2 font-heading text-sm font-semibold uppercase tracking-wide">
+              Design Brief
+            </p>
+            <p className="mt-1 text-xs text-primary-foreground/70">
+              {(briefResponseCount || 0) > 0
+                ? `${briefResponseCount} responses recorded — your personalized brief is ready`
+                : "Your Design Brief is ready for download"}
+            </p>
+            <div className="mt-auto pt-4">
+              <Button size="sm" className="w-full rounded-full bg-primary-foreground px-6 text-xs font-medium uppercase tracking-wider text-primary hover:bg-primary-foreground/90">
+                <Download className="mr-2 h-3 w-3" />
+                Download Design Brief
+              </Button>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="group flex flex-col rounded-card bg-foreground p-6 text-background transition-all duration-300 hover:bg-transparent hover:text-foreground hover:ring-2 hover:ring-foreground">
+            <ClipboardList className="h-6 w-6 text-background/50 transition-colors duration-300 group-hover:text-foreground/50" />
+            <p className="mt-2 font-heading text-sm font-semibold uppercase tracking-wide">
+              Design Brief
+            </p>
+            <p className="mt-1 text-xs text-background/70 transition-colors duration-300 group-hover:text-foreground/70">
+              {(briefResponseCount || 0) > 0
+                ? `${briefResponseCount} responses recorded — view your personalized brief`
+                : "Complete lessons to start building your personalized Design Brief"}
+            </p>
+            <div className="mt-auto pt-4">
+              <Button asChild size="sm" className="rounded-full border border-background bg-background px-6 text-xs font-medium uppercase tracking-wider text-foreground transition-all duration-300 hover:border-brass hover:bg-brass hover:text-white group-hover:border-foreground group-hover:bg-foreground group-hover:text-background group-hover:hover:border-brass group-hover:hover:bg-brass group-hover:hover:text-white">
+                <Link href={getLessonPath(continueLesson.moduleSlug, continueLesson.lessonSlug)}>
+                  Continue Learning
+                  <ArrowRight className="ml-2 h-3 w-3" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        )}
 
         {/* Certificate — always visible */}
         {isComplete ? (
-          <div className="flex flex-col rounded-card border border-primary/20 bg-primary/5 p-6">
-            <Award className="h-6 w-6 text-primary" />
+          <div className="flex flex-col rounded-card bg-accent p-6 text-accent-foreground">
+            <Award className="h-6 w-6 text-accent-foreground/60" />
             <p className="mt-2 font-heading text-sm font-semibold uppercase tracking-wide">
               Course Complete!
             </p>
-            <p className="mt-1 text-xs text-muted-foreground">
+            <p className="mt-1 text-xs text-accent-foreground/70">
               Download your certificate of completion
             </p>
             <div className="mt-auto pt-4">

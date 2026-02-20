@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, type RefObject } from "react";
-import { NotebookPen, Eye } from "lucide-react";
+import { NotebookPen } from "lucide-react";
 import { useToolsPanel } from "@/contexts/ToolsPanelContext";
 
 interface SelectionBubbleProps {
@@ -12,10 +12,6 @@ export function SelectionBubble({ containerRef }: SelectionBubbleProps) {
   const [visible, setVisible] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const { setPendingClip, open } = useToolsPanel();
-
-  // "View Note" tooltip state
-  const [tooltipVisible, setTooltipVisible] = useState(false);
-  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
 
   const hideBubble = useCallback(() => {
     setVisible(false);
@@ -46,12 +42,6 @@ export function SelectionBubble({ containerRef }: SelectionBubbleProps) {
     selection.removeAllRanges();
     setVisible(false);
   }, [setPendingClip, open]);
-
-  // Handle clicking "View Note" tooltip
-  const handleViewNote = useCallback(() => {
-    open("notebook");
-    setTooltipVisible(false);
-  }, [open]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -110,15 +100,14 @@ export function SelectionBubble({ containerRef }: SelectionBubbleProps) {
     }
 
     function handleMouseDown(e: MouseEvent) {
-      // If clicking inside the bubble or tooltip, don't hide
+      // If clicking inside the bubble, don't hide
       const target = e.target as HTMLElement;
-      if (target.closest("[data-selection-bubble]") || target.closest("[data-highlight-tooltip]")) return;
+      if (target.closest("[data-selection-bubble]")) return;
       setVisible(false);
     }
 
     function handleScroll() {
       setVisible(false);
-      setTooltipVisible(false);
     }
 
     function handleSelectionChange() {
@@ -128,42 +117,11 @@ export function SelectionBubble({ containerRef }: SelectionBubbleProps) {
       }
     }
 
-    // Hover over .notebook-highlight → show "View Note" tooltip
-    function handleMouseOver(e: MouseEvent) {
-      const target = e.target as HTMLElement;
-      const highlight = target.closest(".notebook-highlight") as HTMLElement | null;
-      if (!highlight) return;
-
-      const rect = highlight.getBoundingClientRect();
-      const tooltipWidth = 120;
-      const tooltipHeight = 36;
-
-      let tx = rect.left + rect.width / 2 - tooltipWidth / 2;
-      let ty = rect.top - tooltipHeight - 8;
-
-      tx = Math.max(8, Math.min(tx, window.innerWidth - tooltipWidth - 8));
-      if (ty < 8) {
-        ty = rect.bottom + 8;
-      }
-
-      setTooltipPosition({ x: tx, y: ty });
-      setTooltipVisible(true);
-    }
-
-    function handleMouseOut(e: MouseEvent) {
-      const target = e.relatedTarget as HTMLElement | null;
-      // If moving to the tooltip itself or another highlight, don't hide
-      if (target?.closest(".notebook-highlight") || target?.closest("[data-highlight-tooltip]")) return;
-      setTooltipVisible(false);
-    }
-
     container.addEventListener("mouseup", handleMouseUp);
     container.addEventListener("touchend", handleTouchEnd);
     document.addEventListener("mousedown", handleMouseDown);
     container.addEventListener("scroll", handleScroll, true);
     document.addEventListener("selectionchange", handleSelectionChange);
-    container.addEventListener("mouseover", handleMouseOver);
-    container.addEventListener("mouseout", handleMouseOut);
 
     return () => {
       container.removeEventListener("mouseup", handleMouseUp);
@@ -171,71 +129,34 @@ export function SelectionBubble({ containerRef }: SelectionBubbleProps) {
       document.removeEventListener("mousedown", handleMouseDown);
       container.removeEventListener("scroll", handleScroll, true);
       document.removeEventListener("selectionchange", handleSelectionChange);
-      container.removeEventListener("mouseover", handleMouseOver);
-      container.removeEventListener("mouseout", handleMouseOut);
     };
   }, [containerRef, hideBubble]);
 
-  return (
-    <>
-      {/* "Add to Notebook" selection bubble */}
-      {visible && (
-        <div
-          data-selection-bubble
-          className="fixed z-50 animate-in fade-in zoom-in-95 duration-150"
-          style={{
-            left: position.x,
-            top: position.y,
-          }}
-        >
-          <button
-            onClick={handleAddToNotebook}
-            className="flex items-center gap-1.5 rounded-full bg-accent px-3.5 py-2 text-white shadow-lg transition-colors hover:bg-accent/90 active:scale-95"
-          >
-            <NotebookPen className="h-3.5 w-3.5" />
-            <span className="text-xs font-medium uppercase tracking-wide">
-              Add to Notebook
-            </span>
-          </button>
-          {/* Caret pointing down */}
-          <div className="flex justify-center">
-            <div className="h-0 w-0 border-x-[6px] border-t-[6px] border-x-transparent border-t-accent" />
-          </div>
-        </div>
-      )}
+  if (!visible) return null;
 
-      {/* "View Note" tooltip on hover over highlights */}
-      {tooltipVisible && (
-        <div
-          data-highlight-tooltip
-          className="fixed z-[60]"
-          style={{
-            left: tooltipPosition.x,
-            top: tooltipPosition.y,
-          }}
-          onMouseLeave={() => setTooltipVisible(false)}
-        >
-          <button
-            onMouseDown={(e) => {
-              // Prevent the document mousedown handler from firing
-              e.stopPropagation();
-            }}
-            onClick={(e) => {
-              e.stopPropagation();
-              handleViewNote();
-            }}
-            className="flex items-center gap-1.5 rounded-full bg-foreground/85 px-3 py-1.5 text-background shadow-md transition-colors hover:bg-foreground active:scale-95 cursor-pointer"
-          >
-            <Eye className="h-3 w-3" />
-            <span className="text-[11px] font-medium">View Note</span>
-          </button>
-          {/* Caret pointing down */}
-          <div className="flex justify-center">
-            <div className="h-0 w-0 border-x-[5px] border-t-[5px] border-x-transparent border-t-foreground/85" />
-          </div>
-        </div>
-      )}
-    </>
+  return (
+    <div
+      data-selection-bubble
+      className="fixed z-50 animate-in fade-in zoom-in-95 duration-150"
+      style={{
+        left: position.x,
+        top: position.y,
+      }}
+    >
+      <button
+        onClick={handleAddToNotebook}
+        className="flex items-center gap-1.5 rounded-full bg-accent px-3.5 py-2 text-white shadow-lg transition-colors hover:bg-accent/90 active:scale-95"
+      >
+        <NotebookPen className="h-3.5 w-3.5" />
+        <span className="text-xs font-medium uppercase tracking-wide">
+          Add to Notebook
+        </span>
+      </button>
+      {/* Caret pointing down */}
+      <div className="flex justify-center">
+        <div className="h-0 w-0 border-x-[6px] border-t-[6px] border-x-transparent border-t-accent" />
+      </div>
+    </div>
   );
 }
 

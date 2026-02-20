@@ -99,7 +99,7 @@ export function ModuleSidebar({
       {/* Module list */}
       <nav className="flex-1 overflow-y-auto py-2">
         {modules.map((mod, modIndex) => {
-          const isExpanded = expandedModules.has(mod.slug);
+          const isModuleOpen = expandedModules.has(mod.slug);
           const moduleCompleted = mod.lessons.filter((l) =>
             completedLessons.includes(`${mod.slug}/${l.slug}`)
           ).length;
@@ -118,7 +118,7 @@ export function ModuleSidebar({
                   mod.slug === currentModuleSlug && "bg-white/10"
                 )}
               >
-                {/* Collapsed: module number */}
+                {/* Collapsed sidebar: module number */}
                 <span
                   className={cn(
                     "font-heading shrink-0 text-xs font-bold tracking-wider text-white/60 transition-opacity duration-200",
@@ -130,11 +130,11 @@ export function ModuleSidebar({
                   {moduleNumber}
                 </span>
 
-                {/* Expanded: chevron + full title */}
+                {/* Expanded sidebar: chevron + full title */}
                 <ChevronDown
                   className={cn(
                     "h-4 w-4 shrink-0 text-white/40 transition-transform duration-200",
-                    !isExpanded && "-rotate-90",
+                    !isModuleOpen && "-rotate-90",
                     isExpanded
                       ? "inline-flex"
                       : "hidden group-hover:inline-flex"
@@ -163,7 +163,7 @@ export function ModuleSidebar({
                 </div>
               </button>
 
-              {isExpanded && (
+              {isModuleOpen && (
                 <ul className="pb-1">
                   {mod.lessons.map((lesson) => {
                     const isActive =
@@ -182,10 +182,7 @@ export function ModuleSidebar({
                           className={cn(
                             "flex items-center gap-2 py-2 pl-10 pr-4 text-sm transition-colors hover:bg-white/5",
                             isActive && "bg-white/10 font-medium text-white",
-                            !isActive && "text-white/50",
-                            isExpanded
-                              ? "opacity-100"
-                              : "opacity-0 group-hover:opacity-100"
+                            !isActive && "text-white/50"
                           )}
                         >
                           {isLessonCompleted ? (

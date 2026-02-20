@@ -43,6 +43,15 @@ export function NotebookTab({ userId }: NotebookTabProps) {
           moduleSlug={moduleSlug}
           lessonSlug={lessonSlug}
         />
+        <div className="mt-4 border-t pt-4">
+          <Link
+            href="/dashboard/notebook"
+            className="flex items-center justify-center gap-2 rounded-md border px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+          >
+            <PenLine className="h-3.5 w-3.5" />
+            View All Notes
+          </Link>
+        </div>
       </div>
     </ScrollArea>
   );

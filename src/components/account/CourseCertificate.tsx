@@ -106,13 +106,13 @@ export function CourseCertificateButton({
   }
 
   return (
-    <Button onClick={handleDownload} disabled={downloading} size="sm" className="w-full">
+    <Button onClick={handleDownload} disabled={downloading} size="sm" className="w-full rounded-full bg-accent-foreground px-6 text-xs font-medium uppercase tracking-wider text-accent hover:bg-accent-foreground/90">
       {downloading ? (
-        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+        <Loader2 className="mr-2 h-3 w-3 animate-spin" />
       ) : (
-        <Download className="mr-2 h-4 w-4" />
+        <Download className="mr-2 h-3 w-3" />
       )}
-      Download PDF
+      Download Certificate
     </Button>
   );
 }
