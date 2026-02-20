@@ -181,12 +181,12 @@ export function NotebookFullView({
                         {/* Preview when collapsed */}
                         {!isEditing && (
                           <div
-                            className="cursor-pointer px-4 pb-3 text-xs text-muted-foreground line-clamp-2"
+                            className="tiptap-preview cursor-pointer px-4 pb-3 line-clamp-2"
                             onClick={() => setEditingNote(noteKey)}
-                          >
-                            {note.content.slice(0, 200)}
-                            {note.content.length > 200 && "..."}
-                          </div>
+                            dangerouslySetInnerHTML={{
+                              __html: stripHtmlPreview(note.content, 200),
+                            }}
+                          />
                         )}
                       </div>
                     );
@@ -219,4 +219,15 @@ export function NotebookFullView({
       )}
     </div>
   );
+}
+
+/**
+ * Extract a plain-text preview from HTML content, truncating to maxLen.
+ * Returns safe HTML (just text, no tags) for the preview.
+ */
+function stripHtmlPreview(html: string, maxLen: number): string {
+  // Strip HTML tags to get plain text
+  const text = html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+  if (text.length <= maxLen) return text;
+  return text.slice(0, maxLen) + "...";
 }

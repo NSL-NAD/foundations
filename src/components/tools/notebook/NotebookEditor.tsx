@@ -1,9 +1,13 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import Placeholder from "@tiptap/extension-placeholder";
 import { useNotebook } from "@/hooks/useNotebook";
 import { useToolsPanel } from "@/contexts/ToolsPanelContext";
-import { Loader2, Check } from "lucide-react";
+import { Loader2, Check, Bold, Italic, List, ListOrdered, Quote } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface NotebookEditorProps {
   userId: string;
@@ -22,30 +26,67 @@ export function NotebookEditor({
     lessonSlug,
   });
   const { pendingClip, clearPendingClip } = useToolsPanel();
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const editor = useEditor({
+    extensions: [
+      StarterKit.configure({
+        heading: false,
+        codeBlock: false,
+        code: false,
+        horizontalRule: false,
+      }),
+      Placeholder.configure({
+        placeholder: "Take notes on this lesson...",
+      }),
+    ],
+    content: content || "",
+    editable: !isLoading,
+    onUpdate: ({ editor }) => {
+      setContent(editor.getHTML());
+    },
+    // Suppress SSR mismatch warnings
+    immediatelyRender: false,
+  });
+
+  // Sync content from DB into editor when it loads
+  useEffect(() => {
+    if (!editor || isLoading) return;
+    const currentHTML = editor.getHTML();
+    // Only update if content actually differs (avoid cursor jump)
+    if (content && content !== currentHTML && currentHTML === "<p></p>") {
+      editor.commands.setContent(content);
+    }
+  }, [editor, content, isLoading]);
 
   // Consume pending clip from highlight-to-notebook feature
   useEffect(() => {
-    if (!pendingClip || isLoading) return;
+    if (!pendingClip || isLoading || !editor) return;
 
-    const currentContent = textareaRef.current?.value ?? content;
-    const separator = currentContent.trim() ? "\n\n---\n\n" : "";
-    const quotedClip = `> ${pendingClip.replace(/\n/g, "\n> ")}`;
-    const newContent = currentContent + separator + quotedClip + "\n\n";
-    setContent(newContent);
+    // Insert as a blockquote at the end
+    editor
+      .chain()
+      .focus("end")
+      .insertContent([
+        // Add a blank line before if there's existing content
+        ...(editor.getText().trim()
+          ? [{ type: "paragraph" as const }]
+          : []),
+        {
+          type: "blockquote" as const,
+          content: [
+            {
+              type: "paragraph" as const,
+              content: [{ type: "text" as const, text: pendingClip }],
+            },
+          ],
+        },
+        { type: "paragraph" as const },
+      ])
+      .run();
+
     clearPendingClip();
-
-    // Scroll textarea to bottom and place cursor at end
-    requestAnimationFrame(() => {
-      if (textareaRef.current) {
-        textareaRef.current.scrollTop = textareaRef.current.scrollHeight;
-        textareaRef.current.focus();
-        textareaRef.current.selectionStart = newContent.length;
-        textareaRef.current.selectionEnd = newContent.length;
-      }
-    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pendingClip, isLoading]);
+  }, [pendingClip, isLoading, editor]);
 
   return (
     <div className="flex flex-col gap-3">
@@ -67,19 +108,93 @@ export function NotebookEditor({
           ) : null}
         </div>
       </div>
-      <textarea
-        ref={textareaRef}
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        placeholder="Take notes on this lesson..."
-        disabled={isLoading}
-        className="min-h-[300px] w-full resize-y rounded-md border bg-background p-3 text-sm leading-relaxed placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:opacity-50"
-      />
-      {content.length > 0 && (
+
+      {/* Toolbar */}
+      {editor && (
+        <div className="flex items-center gap-0.5 rounded-t-md border border-b-0 bg-muted/50 px-2 py-1.5">
+          <ToolbarButton
+            onClick={() => editor.chain().focus().toggleBold().run()}
+            active={editor.isActive("bold")}
+            title="Bold"
+          >
+            <Bold className="h-3.5 w-3.5" />
+          </ToolbarButton>
+          <ToolbarButton
+            onClick={() => editor.chain().focus().toggleItalic().run()}
+            active={editor.isActive("italic")}
+            title="Italic"
+          >
+            <Italic className="h-3.5 w-3.5" />
+          </ToolbarButton>
+          <div className="mx-1 h-4 w-px bg-border" />
+          <ToolbarButton
+            onClick={() => editor.chain().focus().toggleBulletList().run()}
+            active={editor.isActive("bulletList")}
+            title="Bullet List"
+          >
+            <List className="h-3.5 w-3.5" />
+          </ToolbarButton>
+          <ToolbarButton
+            onClick={() => editor.chain().focus().toggleOrderedList().run()}
+            active={editor.isActive("orderedList")}
+            title="Ordered List"
+          >
+            <ListOrdered className="h-3.5 w-3.5" />
+          </ToolbarButton>
+          <div className="mx-1 h-4 w-px bg-border" />
+          <ToolbarButton
+            onClick={() => editor.chain().focus().toggleBlockquote().run()}
+            active={editor.isActive("blockquote")}
+            title="Blockquote"
+          >
+            <Quote className="h-3.5 w-3.5" />
+          </ToolbarButton>
+        </div>
+      )}
+
+      {/* Editor */}
+      <div
+        className={cn(
+          "tiptap-editor w-full resize-y rounded-md border bg-background focus-within:ring-2 focus-within:ring-primary/20",
+          editor ? "rounded-t-none border-t-0" : "",
+          isLoading && "opacity-50"
+        )}
+      >
+        <EditorContent editor={editor} />
+      </div>
+
+      {editor && editor.getText().length > 0 && (
         <p className="text-right text-xs text-muted-foreground">
-          {content.split(/\s+/).filter(Boolean).length} words
+          {editor.getText().split(/\s+/).filter(Boolean).length} words
         </p>
       )}
     </div>
+  );
+}
+
+/* Small toolbar button */
+function ToolbarButton({
+  onClick,
+  active,
+  title,
+  children,
+}: {
+  onClick: () => void;
+  active: boolean;
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      title={title}
+      className={cn(
+        "rounded p-1.5 transition-colors hover:bg-accent/15",
+        active && "bg-accent/15 text-accent"
+      )}
+    >
+      {children}
+    </button>
   );
 }
