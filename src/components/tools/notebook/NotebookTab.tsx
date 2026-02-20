@@ -43,10 +43,10 @@ export function NotebookTab({ userId }: NotebookTabProps) {
           moduleSlug={moduleSlug}
           lessonSlug={lessonSlug}
         />
-        <div className="mt-4 border-t pt-4">
+        <div className="mt-4 pt-2">
           <Link
             href="/dashboard/notebook"
-            className="flex items-center justify-center gap-2 rounded-md border px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            className="flex items-center justify-center gap-2 rounded-full border border-foreground/20 px-4 py-2 text-xs font-medium uppercase tracking-wider transition-colors hover:bg-foreground hover:text-background"
           >
             <PenLine className="h-3.5 w-3.5" />
             View All Notes
