@@ -383,15 +383,10 @@ html {
 }
 
 /* ── Notebook highlights ─────────────────────────────── */
-/* Persistent highlight on text that has been clipped to notebook */
-.notebook-highlight {
-  background: hsl(16 55% 48% / 0.22);
-  border-radius: 2px;
-  cursor: pointer;
-  transition: background 0.15s ease;
-}
-.notebook-highlight:hover {
-  background: hsl(16 55% 48% / 0.34);
+/* Persistent highlight via CSS Custom Highlight API (no DOM mutation) */
+::highlight(notebook-clips) {
+  background-color: hsl(16 55% 48% / 0.22);
+  color: inherit;
 }
 
 /* ── Tiptap rich text editor ─────────────────────────── */

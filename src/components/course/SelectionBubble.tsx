@@ -24,17 +24,13 @@ export function SelectionBubble({ containerRef }: SelectionBubbleProps) {
     const text = selection.toString().trim();
     if (!text) return;
 
-    // Wrap selected text in <mark> to persist highlight
+    // Persist highlight using CSS Custom Highlight API (no DOM mutation)
+    // This avoids React reconciliation errors from modifying React-managed DOM
     try {
-      const range = selection.getRangeAt(0);
-      const mark = document.createElement("mark");
-      mark.className = "notebook-highlight";
-      range.surroundContents(mark);
+      const range = selection.getRangeAt(0).cloneRange();
+      addHighlightRange(range);
     } catch {
-      // surroundContents can fail if selection spans multiple elements
-      // In that case, use a different approach: wrap each text node
-      const range = selection.getRangeAt(0);
-      highlightRange(range);
+      // Silently ignore — highlight is cosmetic only
     }
 
     setPendingClip(text);
@@ -161,37 +157,23 @@ export function SelectionBubble({ containerRef }: SelectionBubbleProps) {
 }
 
 /**
- * Highlight a range that spans multiple elements.
- * Walks through text nodes in the range and wraps each in a <mark>.
+ * Persist a highlight range using the CSS Custom Highlight API.
+ * This does NOT mutate the DOM — it registers ranges with the browser
+ * which are then styled via the ::highlight() CSS pseudo-element.
+ * Falls back gracefully (no highlight) in unsupported browsers.
  */
-function highlightRange(range: Range) {
-  const treeWalker = document.createTreeWalker(
-    range.commonAncestorContainer,
-    NodeFilter.SHOW_TEXT,
-    {
-      acceptNode(node) {
-        const nodeRange = document.createRange();
-        nodeRange.selectNodeContents(node);
-        return range.compareBoundaryPoints(Range.END_TO_START, nodeRange) < 0 &&
-          range.compareBoundaryPoints(Range.START_TO_END, nodeRange) > 0
-          ? NodeFilter.FILTER_ACCEPT
-          : NodeFilter.FILTER_REJECT;
-      },
-    }
-  );
+const HIGHLIGHT_NAME = "notebook-clips";
 
-  const textNodes: Text[] = [];
-  while (treeWalker.nextNode()) {
-    textNodes.push(treeWalker.currentNode as Text);
-  }
+function addHighlightRange(range: Range) {
+  // CSS Custom Highlight API — available in modern browsers
+  if (!("Highlight" in window) || !CSS.highlights) return;
 
-  for (const textNode of textNodes) {
-    const mark = document.createElement("mark");
-    mark.className = "notebook-highlight";
-    const parent = textNode.parentNode;
-    if (parent && !(parent as Element).closest?.(".notebook-highlight")) {
-      parent.insertBefore(mark, textNode);
-      mark.appendChild(textNode);
-    }
+  const existing = CSS.highlights.get(HIGHLIGHT_NAME);
+  if (existing) {
+    existing.add(range);
+  } else {
+    const highlight = new Highlight(range);
+    highlight.priority = 1;
+    CSS.highlights.set(HIGHLIGHT_NAME, highlight);
   }
 }
