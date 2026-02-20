@@ -40,13 +40,17 @@ export function LessonNavigation({
       if (res.ok) {
         const wasCompleting = !completed;
         setCompleted(!completed);
-        router.refresh();
 
-        // Auto-navigate to next lesson after marking complete
         if (wasCompleting && navigation.next) {
+          // Small delay to ensure DB write is fully committed before
+          // the next page's server query fetches completedLessons
+          await new Promise((resolve) => setTimeout(resolve, 300));
           router.push(
             `/course/${navigation.next.moduleSlug}/${navigation.next.lessonSlug}`
           );
+        } else {
+          // Toggling incomplete or no next lesson — just refresh current page
+          router.refresh();
         }
       }
     } finally {
