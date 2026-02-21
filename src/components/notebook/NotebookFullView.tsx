@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { NotebookEditor } from "@/components/tools/notebook/NotebookEditor";
+import { NotebookFileUpload } from "@/components/tools/notebook/NotebookFileUpload";
 import { Button } from "@/components/ui/button";
 import {
   ChevronDown,
@@ -80,12 +81,23 @@ export function NotebookFullView({
           <ArrowLeft className="h-3.5 w-3.5" />
           Course
         </Link>
-        <h1 className="text-3xl font-bold tracking-tight">My Notebook</h1>
-        <p className="mt-1 text-muted-foreground">
-          {totalNotes === 0
-            ? "Start taking notes in any lesson to see them here."
-            : `${totalNotes} note${totalNotes !== 1 ? "s" : ""} across your course`}
-        </p>
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">My Notebook</h1>
+            <p className="mt-1 text-muted-foreground">
+              {totalNotes === 0
+                ? "Start taking notes in any lesson to see them here."
+                : `${totalNotes} note${totalNotes !== 1 ? "s" : ""} across your course`}
+            </p>
+          </div>
+          {/* General upload — not tied to any lesson */}
+          <NotebookFileUpload
+            userId={userId}
+            moduleSlug={null}
+            lessonSlug={null}
+            compact={false}
+          />
+        </div>
       </div>
 
       {/* Empty state */}
@@ -167,7 +179,7 @@ export function NotebookFullView({
                           </Link>
                         </div>
 
-                        {/* Expanded editor */}
+                        {/* Expanded editor + files */}
                         {isEditing && (
                           <div className="border-t bg-muted/30 px-4 py-4">
                             <NotebookEditor
@@ -175,6 +187,14 @@ export function NotebookFullView({
                               moduleSlug={note.moduleSlug}
                               lessonSlug={note.lessonSlug}
                             />
+                            <div className="mt-4">
+                              <NotebookFileUpload
+                                userId={userId}
+                                moduleSlug={note.moduleSlug}
+                                lessonSlug={note.lessonSlug}
+                                compact={false}
+                              />
+                            </div>
                           </div>
                         )}
 

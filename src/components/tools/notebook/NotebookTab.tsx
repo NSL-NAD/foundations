@@ -2,6 +2,7 @@
 
 import { useToolsPanel } from "@/contexts/ToolsPanelContext";
 import { NotebookEditor } from "./NotebookEditor";
+import { NotebookFileUpload } from "./NotebookFileUpload";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { PenLine } from "lucide-react";
 import Link from "next/link";
@@ -43,7 +44,9 @@ export function NotebookTab({ userId }: NotebookTabProps) {
           moduleSlug={moduleSlug}
           lessonSlug={lessonSlug}
         />
-        <div className="mt-4 pt-2">
+
+        {/* Action buttons row */}
+        <div className="mt-4 flex items-center gap-2 pt-2">
           <Link
             href="/dashboard/notebook"
             className="flex items-center justify-center gap-2 rounded-full border border-foreground/20 px-4 py-2 text-xs font-medium uppercase tracking-wider transition-colors hover:bg-foreground hover:text-background"
@@ -51,6 +54,13 @@ export function NotebookTab({ userId }: NotebookTabProps) {
             <PenLine className="h-3.5 w-3.5" />
             View All Notes
           </Link>
+
+          <NotebookFileUpload
+            userId={userId}
+            moduleSlug={moduleSlug}
+            lessonSlug={lessonSlug}
+            compact
+          />
         </div>
       </div>
     </ScrollArea>

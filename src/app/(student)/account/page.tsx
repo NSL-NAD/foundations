@@ -7,11 +7,12 @@ import { DreamHomeUpload } from "@/components/account/DreamHomeUpload";
 import { CourseReview } from "@/components/account/CourseReview";
 import { ShareInvite } from "@/components/account/ShareInvite";
 import { ContactFOADialog } from "@/components/account/ContactFOADialog";
+import { DesignBriefWizard } from "@/components/account/DesignBriefWizard";
 import { getTotalLessons, getNextIncompleteLesson, getLessonPath } from "@/lib/course";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ProductCheckoutLink } from "@/components/account/ProductCheckoutLink";
-import { BookOpen, Award, Lock, ArrowRight, ClipboardList, CheckCircle2, GraduationCap, Package, MessageCircle, Download } from "lucide-react";
+import { BookOpen, Award, Lock, ArrowRight, ClipboardList, CheckCircle2, GraduationCap, Package, MessageCircle } from "lucide-react";
 
 export const metadata = {
   title: "Account",
@@ -91,6 +92,15 @@ export default async function AccountPage() {
     .from("design_brief_responses")
     .select("id", { count: "exact", head: true })
     .eq("user_id", user!.id);
+
+  // Check for previously generated briefs
+  const { data: existingBrief } = await supabase
+    .from("generated_briefs")
+    .select("id, title, created_at")
+    .eq("user_id", user!.id)
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
 
   // Existing course review
   const { data: existingReview } = await supabase
@@ -235,15 +245,18 @@ export default async function AccountPage() {
               Design Brief
             </p>
             <p className="mt-1 text-xs text-primary-foreground/70">
-              {(briefResponseCount || 0) > 0
-                ? `${briefResponseCount} responses recorded — your personalized brief is ready`
-                : "Your Design Brief is ready for download"}
+              {existingBrief
+                ? `Brief generated — create a new version or download again`
+                : (briefResponseCount || 0) > 0
+                  ? `${briefResponseCount} responses recorded — your personalized brief is ready`
+                  : "Your Design Brief is ready to create"}
             </p>
             <div className="mt-auto pt-4">
-              <Button size="sm" className="w-full rounded-full bg-primary-foreground px-6 text-xs font-medium uppercase tracking-wider text-primary hover:bg-primary-foreground/90">
-                <Download className="mr-2 h-3 w-3" />
-                Download Design Brief
-              </Button>
+              <DesignBriefWizard
+                studentName={profile?.full_name || "Student"}
+                briefResponseCount={briefResponseCount || 0}
+                existingBriefDate={existingBrief?.created_at || null}
+              />
             </div>
           </div>
         ) : (
