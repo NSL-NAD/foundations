@@ -262,21 +262,21 @@ html {
   @apply rounded-img my-8 shadow-sm ring-1 ring-foreground/5;
 }
 
-/* Image gallery — grid of 3-4 images per row */
+/* Image gallery — grid of 3 images per row */
 .prose-lesson .image-gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 0.5rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
 }
 .prose-lesson .image-gallery p {
-  margin: 0;
+  margin: 0 !important;
 }
 .prose-lesson .image-gallery img {
-  margin: 0;
+  margin: 0 !important;
   width: 100%;
-  height: 170px;
+  height: 180px;
   object-fit: cover;
   border-radius: 8px;
 }
@@ -329,17 +329,20 @@ html {
   @apply pl-0;
 }
 .prose-lesson li:has(input[type="checkbox"]) {
-  @apply flex flex-wrap items-baseline pl-0;
+  @apply pl-0;
+  list-style: none;
 }
 .prose-lesson li:has(input[type="checkbox"])::before {
   display: none;
 }
 .prose-lesson li:has(input[type="checkbox"]) p {
-  @apply mb-0 inline;
+  @apply mb-0;
 }
 .prose-lesson input[type="checkbox"] {
-  @apply mt-0.5 mr-2 h-4 w-4 shrink-0 cursor-default appearance-none rounded border-2 border-foreground/30 bg-transparent;
+  @apply mr-2 h-4 w-4 shrink-0 cursor-default appearance-none rounded border-2 border-foreground/30 bg-transparent;
   accent-color: hsl(var(--accent));
+  position: relative;
+  top: 2px;
 }
 .prose-lesson input[type="checkbox"]:checked {
   @apply border-accent bg-accent;
