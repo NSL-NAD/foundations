@@ -15,6 +15,12 @@ import path from "path";
 async function main() {
   console.log("Generating course PDFs...\n");
 
+  // Register brand fonts before rendering any PDFs
+  const { registerBrandFonts } = await import(
+    "../src/components/downloads/pdf-fonts"
+  );
+  registerBrandFonts();
+
   const { MaterialsChecklist } = await import(
     "../src/components/downloads/MaterialsChecklist"
   );

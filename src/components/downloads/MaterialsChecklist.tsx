@@ -21,10 +21,14 @@ const colors = {
   checkboxBorder: "#999999",
 };
 
+/* ── Brand Fonts ───────────────────────────────────────── */
+const heading = "SpaceGrotesk";  // Heading font (matches website)
+const body = "Syne";            // Body font (matches website)
+
 const s = StyleSheet.create({
   page: {
     padding: 50,
-    fontFamily: "Helvetica",
+    fontFamily: body,
     backgroundColor: colors.white,
   },
 
@@ -36,13 +40,15 @@ const s = StyleSheet.create({
     marginBottom: 6,
   },
   logo: {
-    fontFamily: "Helvetica-Bold",
+    fontFamily: heading,
+    fontWeight: 700,
     fontSize: 22,
     letterSpacing: 3,
     color: colors.primary,
   },
   schoolName: {
-    fontFamily: "Helvetica",
+    fontFamily: heading,
+    fontWeight: 400,
     fontSize: 8,
     letterSpacing: 4,
     textTransform: "uppercase",
@@ -61,7 +67,8 @@ const s = StyleSheet.create({
 
   /* ── Title ───────────────────────────────────────────── */
   title: {
-    fontFamily: "Helvetica-Bold",
+    fontFamily: heading,
+    fontWeight: 700,
     fontSize: 20,
     color: colors.dark,
     letterSpacing: 1.5,
@@ -69,7 +76,8 @@ const s = StyleSheet.create({
     marginBottom: 4,
   },
   subtitle: {
-    fontFamily: "Helvetica",
+    fontFamily: body,
+    fontWeight: 400,
     fontSize: 10,
     color: colors.muted,
     lineHeight: 1.6,
@@ -92,7 +100,8 @@ const s = StyleSheet.create({
     marginRight: 8,
   },
   sectionTitle: {
-    fontFamily: "Helvetica-Bold",
+    fontFamily: heading,
+    fontWeight: 600,
     fontSize: 11,
     color: colors.primary,
     letterSpacing: 1.5,
@@ -120,19 +129,22 @@ const s = StyleSheet.create({
     flex: 1,
   },
   itemLabel: {
-    fontFamily: "Helvetica-Bold",
+    fontFamily: body,
+    fontWeight: 600,
     fontSize: 10,
     color: colors.dark,
   },
   itemDesc: {
-    fontFamily: "Helvetica",
+    fontFamily: body,
+    fontWeight: 400,
     fontSize: 9,
     color: colors.body,
     lineHeight: 1.5,
     marginTop: 1,
   },
   itemOptional: {
-    fontFamily: "Helvetica-Oblique",
+    fontFamily: body,
+    fontWeight: 400,
     fontSize: 8,
     color: colors.muted,
     marginTop: 1,
@@ -148,7 +160,8 @@ const s = StyleSheet.create({
     minHeight: 80,
   },
   notesLabel: {
-    fontFamily: "Helvetica-Bold",
+    fontFamily: heading,
+    fontWeight: 600,
     fontSize: 8,
     letterSpacing: 2,
     textTransform: "uppercase",
@@ -173,13 +186,15 @@ const s = StyleSheet.create({
     alignItems: "center",
   },
   footerText: {
-    fontFamily: "Helvetica",
+    fontFamily: heading,
+    fontWeight: 400,
     fontSize: 7,
     color: colors.muted,
     letterSpacing: 1,
   },
   footerAccent: {
-    fontFamily: "Helvetica",
+    fontFamily: body,
+    fontWeight: 500,
     fontSize: 7,
     color: colors.accent,
   },
