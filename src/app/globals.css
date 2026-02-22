@@ -329,17 +329,16 @@ html {
   @apply pl-0;
 }
 .prose-lesson li:has(input[type="checkbox"]) {
-  @apply grid gap-3 pl-0;
-  grid-template-columns: auto 1fr;
+  @apply flex flex-wrap items-baseline pl-0;
 }
 .prose-lesson li:has(input[type="checkbox"])::before {
   display: none;
 }
 .prose-lesson li:has(input[type="checkbox"]) p {
-  @apply mb-0;
+  @apply mb-0 inline;
 }
 .prose-lesson input[type="checkbox"] {
-  @apply mt-1.5 h-4 w-4 shrink-0 cursor-default appearance-none rounded border-2 border-foreground/30 bg-transparent;
+  @apply mt-0.5 mr-2 h-4 w-4 shrink-0 cursor-default appearance-none rounded border-2 border-foreground/30 bg-transparent;
   accent-color: hsl(var(--accent));
 }
 .prose-lesson input[type="checkbox"]:checked {
