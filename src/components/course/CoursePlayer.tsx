@@ -114,7 +114,7 @@ export function CoursePlayer({
                   {currentModule.title}
                 </p>
                 <h1 className="font-heading text-3xl font-bold uppercase tracking-tight md:text-4xl">
-                  {lesson.title}
+                  {("shortTitle" in lesson && lesson.shortTitle) || lesson.title}
                 </h1>
 
                 {/* Tags + completed indicator — single row */}

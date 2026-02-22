@@ -5,27 +5,27 @@ import { colors, heading, bodyFont, common } from "./pdf-styles";
 const s = StyleSheet.create({
   ...common,
   promptGroup: {
-    marginBottom: 16,
+    marginBottom: 12,
   },
   promptLabel: {
     fontFamily: bodyFont,
     fontWeight: 600,
     fontSize: 10,
     color: colors.dark,
-    marginBottom: 4,
+    marginBottom: 3,
   },
   promptDesc: {
     fontFamily: bodyFont,
     fontWeight: 400,
     fontSize: 8,
     color: colors.muted,
-    marginBottom: 8,
+    marginBottom: 6,
     lineHeight: 1.5,
   },
   writeLine: {
     height: 1,
     backgroundColor: colors.border,
-    marginBottom: 18,
+    marginBottom: 15,
     opacity: 0.5,
   },
   writeArea: {
@@ -77,27 +77,27 @@ const reflectionPrompts: Prompt[] = [
   {
     question: "Where do you imagine yourself living?",
     hint: "City, suburb, countryside, coast — describe the setting and why it appeals to you.",
-    lines: 3,
+    lines: 2,
   },
   {
     question: "What feelings do you want your home to create?",
     hint: "Calm, energy, warmth, openness, safety, joy — list and describe.",
-    lines: 3,
+    lines: 2,
   },
   {
     question: "What features matter most to you?",
     hint: "Natural light, outdoor connection, a chef's kitchen, a quiet reading nook, etc.",
-    lines: 3,
+    lines: 2,
   },
   {
     question: "How much space do you need, and how do you use it day to day?",
     hint: "Think about your daily routines, work-from-home needs, and how rooms flow together.",
-    lines: 3,
+    lines: 2,
   },
   {
     question: "Who shares your space, and how does that shape what you need?",
     hint: "Partner, children, pets, roommates, frequent guests — how does each person affect your design?",
-    lines: 3,
+    lines: 2,
   },
 ];
 
@@ -105,17 +105,17 @@ const deeperPrompts: Prompt[] = [
   {
     question: "What materials do you love? What materials do you dislike?",
     hint: "Wood, stone, concrete, glass, metal, fabric, leather, ceramic — what do you want to touch every day?",
-    lines: 3,
+    lines: 2,
   },
   {
     question: "What colors inspire you? What colors feel wrong?",
     hint: "Think beyond paint chips: the colors of a forest floor, morning light on white walls, a terracotta pot.",
-    lines: 3,
+    lines: 2,
   },
   {
     question: "What existing spaces inspire your imagination?",
     hint: "Famous buildings, homes you've visited, hotels, restaurants, spaces from films or books.",
-    lines: 3,
+    lines: 2,
   },
 ];
 

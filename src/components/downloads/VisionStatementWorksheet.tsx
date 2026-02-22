@@ -124,12 +124,12 @@ function PromptBlock({ prompt }: { prompt: Prompt }) {
 }
 
 export function VisionStatementWorksheet() {
-  const draftLines = Array.from({ length: 14 });
+  const draftLines = Array.from({ length: 12 });
   const revisedLines = Array.from({ length: 22 });
 
   return (
     <Document>
-      {/* ── Page 1: Reflect + Values ─────────────────────── */}
+      {/* ── Page 1: Header + Step 1 Reflect ──────────────── */}
       <Page size="LETTER" style={s.page}>
         <View style={s.headerCard}>
           <View style={s.header}>
@@ -160,6 +160,16 @@ export function VisionStatementWorksheet() {
           ))}
         </View>
 
+        <View style={s.footer}>
+          <Text style={s.footerText}>
+            FOUNDATIONS OF ARCHITECTURE — VISION STATEMENT WORKSHEET
+          </Text>
+          <Text style={s.footerAccent}>foacourse.com</Text>
+        </View>
+      </Page>
+
+      {/* ── Page 2: Step 2 + Example + Step 3 Draft ──────── */}
+      <Page size="LETTER" style={s.page}>
         {/* Step 2: Values & Goals */}
         <View style={s.section}>
           <View style={s.sectionHeader}>
@@ -171,16 +181,6 @@ export function VisionStatementWorksheet() {
           ))}
         </View>
 
-        <View style={s.footer}>
-          <Text style={s.footerText}>
-            FOUNDATIONS OF ARCHITECTURE — VISION STATEMENT WORKSHEET
-          </Text>
-          <Text style={s.footerAccent}>foacourse.com</Text>
-        </View>
-      </Page>
-
-      {/* ── Page 2: Draft Statement ──────────────────────── */}
-      <Page size="LETTER" style={s.page}>
         {/* Example */}
         <View style={s.exampleBox}>
           <Text style={s.exampleLabel}>Example Vision Statement</Text>

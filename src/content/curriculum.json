@@ -17,10 +17,10 @@
       "title": "Kickoff: Dream Home Discovery",
       "description": "Define what home means to you and explore your vision for your dream space.",
       "lessons": [
-        { "slug": "workshop-intro", "title": "Workshop Introduction", "type": "video", "duration": "5 min", "path": "both", "downloads": ["dream-home-worksheet.pdf"] },
+        { "slug": "workshop-intro", "title": "Workshop Introduction", "shortTitle": "Workshop Intro", "type": "video", "duration": "5 min", "path": "both", "downloads": ["dream-home-worksheet.pdf"] },
         { "slug": "mood-board-exercise", "title": "Mood Board Exercise", "type": "exercise", "duration": "20 min", "path": "both", "downloads": ["mood-board-template.pdf"] },
-        { "slug": "vision-statement", "title": "Vision Statement Exercise", "type": "exercise", "duration": "20 min", "path": "both", "downloads": ["vision-statement-worksheet.pdf"] },
-        { "slug": "inspiration-questions", "title": "Inspiration Questions", "type": "exercise", "duration": "15 min", "path": "both", "downloads": ["dream-home-worksheet.pdf"] }
+        { "slug": "vision-statement", "title": "Vision Statement Exercise", "shortTitle": "Vision Statement", "type": "exercise", "duration": "20 min", "path": "both", "downloads": ["vision-statement-worksheet.pdf"] },
+        { "slug": "inspiration-questions", "title": "Inspiration Questions", "type": "exercise", "duration": "15 min", "path": "both" }
       ]
     },
     {
