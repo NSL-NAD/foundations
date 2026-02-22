@@ -23,7 +23,7 @@ export function DefinitionCard({ element, children }: DefinitionCardProps) {
 
       {/* Right card — bordered definition */}
       <div className="flex-1 rounded-card border border-foreground p-4 md:p-5">
-        <div className="text-[0.95rem] leading-relaxed text-foreground/90">
+        <div className="text-[0.95rem] leading-relaxed text-foreground/90 [&>p]:mb-0">
           {children}
         </div>
       </div>
