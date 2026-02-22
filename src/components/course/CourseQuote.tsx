@@ -16,12 +16,21 @@ export function CourseQuote({ children, attribution }: CourseQuoteProps) {
     <div className="my-12 flex flex-col items-center text-center">
       {/* Top brass accent line */}
       <div
-        className="mb-6 h-[2px] w-16"
+        className="mb-3 h-[2px] w-16"
         style={{
           background:
             "linear-gradient(to right, transparent, hsl(var(--brass)), transparent)",
         }}
       />
+
+      {/* Gold quotation mark */}
+      <span
+        className="mb-3 select-none font-heading text-4xl font-bold leading-none"
+        style={{ color: "hsl(var(--brass))" }}
+        aria-hidden="true"
+      >
+        {"\u201C"}
+      </span>
 
       {/* Quote text */}
       <div className="max-w-xl px-4">
