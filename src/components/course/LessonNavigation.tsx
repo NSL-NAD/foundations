@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -24,8 +24,15 @@ export function LessonNavigation({
   const [completed, setCompleted] = useState(isCompleted);
   const router = useRouter();
 
+  // Keep local state in sync with server prop when it changes
+  // (e.g. after navigation or router.refresh())
+  useEffect(() => {
+    setCompleted(isCompleted);
+  }, [isCompleted]);
+
   async function handleMarkComplete() {
     setLoading(true);
+    const newCompleted = !completed;
     try {
       const res = await fetch("/api/progress", {
         method: "POST",
@@ -33,23 +40,22 @@ export function LessonNavigation({
         body: JSON.stringify({
           lessonSlug,
           moduleSlug,
-          completed: !completed,
+          completed: newCompleted,
         }),
       });
 
       if (res.ok) {
-        const wasCompleting = !completed;
-        setCompleted(!completed);
+        setCompleted(newCompleted);
 
-        if (wasCompleting && navigation.next) {
-          // Small delay to ensure DB write is fully committed before
-          // the next page's server query fetches completedLessons
-          await new Promise((resolve) => setTimeout(resolve, 300));
+        if (newCompleted && navigation.next) {
+          // Refresh server data (sidebar progress) then navigate to next lesson
+          router.refresh();
+          await new Promise((resolve) => setTimeout(resolve, 400));
           router.push(
             `/course/${navigation.next.moduleSlug}/${navigation.next.lessonSlug}`
           );
         } else {
-          // Toggling incomplete or no next lesson — just refresh current page
+          // Toggling incomplete or no next lesson — refresh to update sidebar
           router.refresh();
         }
       }

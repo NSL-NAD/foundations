@@ -24,6 +24,15 @@ async function main() {
   const { MaterialsChecklist } = await import(
     "../src/components/downloads/MaterialsChecklist"
   );
+  const { DreamHomeWorksheet } = await import(
+    "../src/components/downloads/DreamHomeWorksheet"
+  );
+  const { MoodBoardTemplate } = await import(
+    "../src/components/downloads/MoodBoardTemplate"
+  );
+  const { VisionStatementWorksheet } = await import(
+    "../src/components/downloads/VisionStatementWorksheet"
+  );
 
   const pdfs: { component: React.ReactElement; dir: string; filename: string }[] = [
     {
@@ -31,8 +40,21 @@ async function main() {
       dir: "welcome",
       filename: "materials-checklist.pdf",
     },
-    // Add more PDFs here as they are created:
-    // { component: React.createElement(MoodBoardTemplate), dir: "kickoff", filename: "mood-board-template.pdf" },
+    {
+      component: React.createElement(DreamHomeWorksheet),
+      dir: "kickoff",
+      filename: "dream-home-worksheet.pdf",
+    },
+    {
+      component: React.createElement(MoodBoardTemplate),
+      dir: "kickoff",
+      filename: "mood-board-template.pdf",
+    },
+    {
+      component: React.createElement(VisionStatementWorksheet),
+      dir: "kickoff",
+      filename: "vision-statement-worksheet.pdf",
+    },
   ];
 
   const publicDir = path.join(process.cwd(), "public", "downloads");
