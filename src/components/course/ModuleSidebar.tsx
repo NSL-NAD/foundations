@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   ChevronDown,
   Check,
@@ -46,7 +46,15 @@ export function ModuleSidebar({
   const [expandedModules, setExpandedModules] = useState<Set<string>>(
     new Set([currentModuleSlug])
   );
-  const [pinned, setPinned] = useState(false);
+  const [pinned, setPinned] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return localStorage.getItem("course-sidebar-pinned") === "true";
+  });
+
+  // Persist pin state to localStorage so it survives navigation
+  useEffect(() => {
+    localStorage.setItem("course-sidebar-pinned", String(pinned));
+  }, [pinned]);
 
   // When forceExpanded (mobile sheet), treat as always pinned/expanded
   const isExpanded = forceExpanded || pinned;

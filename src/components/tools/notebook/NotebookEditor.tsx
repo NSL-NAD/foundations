@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
@@ -48,17 +48,27 @@ export function NotebookEditor({
     immediatelyRender: false,
   });
 
-  // Sync content from DB into editor when loading finishes
+  // Track current lesson to detect navigation changes
+  const lessonKeyRef = useRef(`${moduleSlug}/${lessonSlug}`);
+
+  // Sync content from DB into editor when lesson changes or loading finishes
   useEffect(() => {
     if (!editor || isLoading) return;
-    // Set content from DB once loaded (only if editor is still empty)
-    if (content) {
+    const newKey = `${moduleSlug}/${lessonSlug}`;
+    const lessonChanged = lessonKeyRef.current !== newKey;
+    lessonKeyRef.current = newKey;
+
+    if (lessonChanged) {
+      // Lesson navigation: always replace editor content with the new lesson's notes
+      editor.commands.setContent(content || "");
+    } else if (content) {
+      // Initial load: only set if editor is still empty
       const currentText = editor.getText().trim();
       if (!currentText) {
         editor.commands.setContent(content);
       }
     }
-  }, [editor, content, isLoading]);
+  }, [editor, content, isLoading, moduleSlug, lessonSlug]);
 
   // Consume pending clip from highlight-to-notebook feature
   useEffect(() => {
