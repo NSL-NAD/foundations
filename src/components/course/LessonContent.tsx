@@ -8,6 +8,7 @@ import { PlayCircle, Lightbulb, BookOpen } from "lucide-react";
 import type { CurriculumLesson } from "@/lib/course";
 import { DrawerPath, BriefPath } from "@/components/course/PathIndicator";
 import { DownloadAllButton } from "@/components/course/DownloadAllButton";
+import { CourseQuote } from "@/components/course/CourseQuote";
 import { StraightedgeLine } from "@/components/decorative/StraightedgeLine";
 
 /* ── MDX component overrides ─────────────────────────────── */
@@ -66,6 +67,7 @@ const mdxComponents = {
   DrawerPath,
   BriefPath,
   DownloadAllButton,
+  CourseQuote,
   hr: () => <StraightedgeLine showTicks className="my-14" />,
   blockquote: InsightBlockquote,
   p: SmartParagraph,

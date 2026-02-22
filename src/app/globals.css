@@ -305,14 +305,14 @@ html {
 }
 
 /* GFM Task-list checkboxes */
-.prose-lesson ul:has(> li > input[type="checkbox"]) {
+.prose-lesson ul:has(> li input[type="checkbox"]) {
   @apply pl-0;
 }
-.prose-lesson li:has(> input[type="checkbox"]) {
+.prose-lesson li:has(input[type="checkbox"]) {
   @apply grid gap-3 pl-0;
   grid-template-columns: auto 1fr;
 }
-.prose-lesson li:has(> input[type="checkbox"])::before {
+.prose-lesson li:has(input[type="checkbox"])::before {
   display: none;
 }
 .prose-lesson input[type="checkbox"] {

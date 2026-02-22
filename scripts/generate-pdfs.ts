@@ -33,6 +33,12 @@ async function main() {
   const { VisionStatementWorksheet } = await import(
     "../src/components/downloads/VisionStatementWorksheet"
   );
+  const { DesignPhilosophyWorksheet } = await import(
+    "../src/components/downloads/DesignPhilosophyWorksheet"
+  );
+  const { Module1CheatSheet } = await import(
+    "../src/components/downloads/Module1CheatSheet"
+  );
 
   const pdfs: { component: React.ReactElement; dir: string; filename: string }[] = [
     {
@@ -54,6 +60,16 @@ async function main() {
       component: React.createElement(VisionStatementWorksheet),
       dir: "kickoff",
       filename: "vision-statement-worksheet.pdf",
+    },
+    {
+      component: React.createElement(DesignPhilosophyWorksheet),
+      dir: "module-1",
+      filename: "design-philosophy-worksheet.pdf",
+    },
+    {
+      component: React.createElement(Module1CheatSheet),
+      dir: "module-1",
+      filename: "module-1-cheat-sheet.pdf",
     },
   ];
 

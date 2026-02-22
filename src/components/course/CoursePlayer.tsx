@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { ModuleSidebar } from "./ModuleSidebar";
 import { LessonContent } from "./LessonContent";
@@ -39,8 +39,26 @@ export function CoursePlayer({
 }: CoursePlayerProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
-  const isCompleted = completedLessons.includes(`${moduleSlug}/${lessonSlug}`);
   const { isOpen: toolsPanelOpen, setLessonContext } = useToolsPanel();
+
+  // Client-side optimistic state for completed lessons
+  const [localCompleted, setLocalCompleted] = useState<string[]>(completedLessons);
+
+  // Sync from server prop when it changes (e.g. on navigation)
+  useEffect(() => {
+    setLocalCompleted(completedLessons);
+  }, [completedLessons]);
+
+  const isCompleted = localCompleted.includes(`${moduleSlug}/${lessonSlug}`);
+
+  const handleToggleComplete = useCallback((lessonKey: string, completed: boolean) => {
+    setLocalCompleted(prev => {
+      if (completed) {
+        return prev.includes(lessonKey) ? prev : [...prev, lessonKey];
+      }
+      return prev.filter(k => k !== lessonKey);
+    });
+  }, []);
 
   // Extract downloads from lesson metadata
   const downloads =
@@ -62,7 +80,7 @@ export function CoursePlayer({
           modules={modules}
           currentModuleSlug={moduleSlug}
           currentLessonSlug={lessonSlug}
-          completedLessons={completedLessons}
+          completedLessons={localCompleted}
         />
       </aside>
 
@@ -82,7 +100,7 @@ export function CoursePlayer({
             modules={modules}
             currentModuleSlug={moduleSlug}
             currentLessonSlug={lessonSlug}
-            completedLessons={completedLessons}
+            completedLessons={localCompleted}
             onNavigate={() => setSidebarOpen(false)}
             forceExpanded
           />
@@ -215,6 +233,7 @@ export function CoursePlayer({
               moduleSlug={moduleSlug}
               lessonSlug={lessonSlug}
               isCompleted={isCompleted}
+              onToggleComplete={handleToggleComplete}
             />
           </div>
         </div>

@@ -12,6 +12,7 @@ interface LessonNavigationProps {
   moduleSlug: string;
   lessonSlug: string;
   isCompleted: boolean;
+  onToggleComplete: (lessonKey: string, completed: boolean) => void;
 }
 
 export function LessonNavigation({
@@ -19,13 +20,13 @@ export function LessonNavigation({
   moduleSlug,
   lessonSlug,
   isCompleted,
+  onToggleComplete,
 }: LessonNavigationProps) {
   const [loading, setLoading] = useState(false);
   const [completed, setCompleted] = useState(isCompleted);
   const router = useRouter();
 
   // Keep local state in sync with server prop when it changes
-  // (e.g. after navigation or router.refresh())
   useEffect(() => {
     setCompleted(isCompleted);
   }, [isCompleted]);
@@ -33,6 +34,12 @@ export function LessonNavigation({
   async function handleMarkComplete() {
     setLoading(true);
     const newCompleted = !completed;
+    const lessonKey = `${moduleSlug}/${lessonSlug}`;
+
+    // Optimistic update — sidebar + header update immediately
+    setCompleted(newCompleted);
+    onToggleComplete(lessonKey, newCompleted);
+
     try {
       const res = await fetch("/api/progress", {
         method: "POST",
@@ -45,20 +52,24 @@ export function LessonNavigation({
       });
 
       if (res.ok) {
-        setCompleted(newCompleted);
-
         if (newCompleted && navigation.next) {
-          // Refresh server data (sidebar progress) then navigate to next lesson
-          router.refresh();
-          await new Promise((resolve) => setTimeout(resolve, 400));
+          // Navigate to next lesson — no delay needed, sidebar already updated
           router.push(
             `/course/${navigation.next.moduleSlug}/${navigation.next.lessonSlug}`
           );
         } else {
-          // Toggling incomplete or no next lesson — refresh to update sidebar
+          // Toggling incomplete or no next lesson — refresh server data
           router.refresh();
         }
+      } else {
+        // Revert on failure
+        setCompleted(!newCompleted);
+        onToggleComplete(lessonKey, !newCompleted);
       }
+    } catch {
+      // Revert on error
+      setCompleted(!newCompleted);
+      onToggleComplete(lessonKey, !newCompleted);
     } finally {
       setLoading(false);
     }
