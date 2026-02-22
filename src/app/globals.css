@@ -271,7 +271,7 @@ html {
   margin-bottom: 1.5rem;
 }
 .prose-lesson .image-gallery p {
-  margin: 0 !important;
+  display: contents;
 }
 .prose-lesson .image-gallery img {
   margin: 0 !important;
