@@ -16,6 +16,7 @@ const colors = {
   body: "#333333",
   muted: "#666666",
   light: "#F5F3EE",       // Warm cream
+  card: "#EDEBE4",        // Warm tan card bg  ~hsl(40, 14%, 93%)
   white: "#FFFFFF",
   border: "#D4D0C8",
   checkboxBorder: "#999999",
@@ -32,12 +33,19 @@ const s = StyleSheet.create({
     backgroundColor: colors.white,
   },
 
-  /* ── Header ──────────────────────────────────────────── */
+  /* ── Header Card ─────────────────────────────────────── */
+  headerCard: {
+    backgroundColor: colors.card,
+    borderRadius: 8,
+    padding: 24,
+    paddingBottom: 20,
+    marginBottom: 24,
+  },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-end",
-    marginBottom: 6,
+    marginBottom: 16,
   },
   logo: {
     fontFamily: heading,
@@ -54,15 +62,11 @@ const s = StyleSheet.create({
     textTransform: "uppercase",
     color: colors.muted,
   },
-  headerBar: {
-    height: 3,
-    backgroundColor: colors.primary,
-    marginBottom: 4,
-  },
-  accentBar: {
+  headerDivider: {
     height: 1,
-    backgroundColor: colors.accent,
-    marginBottom: 24,
+    backgroundColor: colors.border,
+    marginBottom: 16,
+    opacity: 0.6,
   },
 
   /* ── Title ───────────────────────────────────────────── */
@@ -81,12 +85,11 @@ const s = StyleSheet.create({
     fontSize: 10,
     color: colors.muted,
     lineHeight: 1.6,
-    marginBottom: 24,
   },
 
   /* ── Sections ────────────────────────────────────────── */
   section: {
-    marginBottom: 18,
+    marginBottom: 14,
   },
   sectionHeader: {
     flexDirection: "row",
@@ -112,7 +115,7 @@ const s = StyleSheet.create({
   checkItem: {
     flexDirection: "row",
     alignItems: "flex-start",
-    marginBottom: 6,
+    marginBottom: 5,
     paddingLeft: 11,
   },
   checkbox: {
@@ -150,29 +153,42 @@ const s = StyleSheet.create({
     marginTop: 1,
   },
 
-  /* ── Notes Section ───────────────────────────────────── */
-  notesBox: {
-    marginTop: 14,
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: 4,
-    padding: 14,
-    minHeight: 80,
+  /* ── Notes Page ──────────────────────────────────────── */
+  notesPage: {
+    padding: 50,
+    fontFamily: body,
+    backgroundColor: colors.white,
   },
-  notesLabel: {
+  notesHeaderCard: {
+    backgroundColor: colors.card,
+    borderRadius: 8,
+    padding: 20,
+    marginBottom: 24,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  notesTitle: {
     fontFamily: heading,
-    fontWeight: 600,
-    fontSize: 8,
-    letterSpacing: 2,
+    fontWeight: 700,
+    fontSize: 16,
+    color: colors.dark,
+    letterSpacing: 1.5,
     textTransform: "uppercase",
+  },
+  notesSubtitle: {
+    fontFamily: body,
+    fontWeight: 400,
+    fontSize: 9,
     color: colors.muted,
-    marginBottom: 6,
+  },
+  notesArea: {
   },
   notesLine: {
     height: 1,
     backgroundColor: colors.border,
-    marginBottom: 16,
-    opacity: 0.5,
+    marginBottom: 24,
+    opacity: 0.4,
   },
 
   /* ── Footer ──────────────────────────────────────────── */
@@ -292,24 +308,27 @@ function CheckItem({ item }: { item: ChecklistItem }) {
 }
 
 export function MaterialsChecklist() {
+  /* Generate enough lines to fill the notes page */
+  const noteLines = Array.from({ length: 22 });
+
   return (
     <Document>
+      {/* ── Page 1: Checklist ─────────────────────────────── */}
       <Page size="LETTER" style={s.page}>
-        {/* Header */}
-        <View style={s.header}>
-          <Text style={s.logo}>FA</Text>
-          <Text style={s.schoolName}>Foundations of Architecture</Text>
+        {/* Header Card */}
+        <View style={s.headerCard}>
+          <View style={s.header}>
+            <Text style={s.logo}>FA</Text>
+            <Text style={s.schoolName}>Foundations of Architecture</Text>
+          </View>
+          <View style={s.headerDivider} />
+          <Text style={s.title}>Materials Checklist</Text>
+          <Text style={s.subtitle}>
+            Everything you need for the course. Most items are common art
+            supplies you may already have at home. Optional items are marked —
+            skip them if you prefer to keep things simple.
+          </Text>
         </View>
-        <View style={s.headerBar} />
-        <View style={s.accentBar} />
-
-        {/* Title */}
-        <Text style={s.title}>Materials Checklist</Text>
-        <Text style={s.subtitle}>
-          Everything you need for the course. Most items are common art supplies
-          you may already have at home. Optional items are marked — skip them if
-          you prefer to keep things simple.
-        </Text>
 
         {/* Sections */}
         {sections.map((section) => (
@@ -324,12 +343,26 @@ export function MaterialsChecklist() {
           </View>
         ))}
 
-        {/* Notes */}
-        <View style={s.notesBox}>
-          <Text style={s.notesLabel}>Notes</Text>
-          <View style={s.notesLine} />
-          <View style={s.notesLine} />
-          <View style={s.notesLine} />
+        {/* Footer */}
+        <View style={s.footer}>
+          <Text style={s.footerText}>
+            FOUNDATIONS OF ARCHITECTURE — MATERIALS CHECKLIST
+          </Text>
+          <Text style={s.footerAccent}>foacourse.com</Text>
+        </View>
+      </Page>
+
+      {/* ── Page 2: Notes ─────────────────────────────────── */}
+      <Page size="LETTER" style={s.notesPage}>
+        <View style={s.notesHeaderCard}>
+          <Text style={s.notesTitle}>Notes</Text>
+          <Text style={s.notesSubtitle}>foacourse.com</Text>
+        </View>
+
+        <View style={s.notesArea}>
+          {noteLines.map((_, i) => (
+            <View key={i} style={s.notesLine} />
+          ))}
         </View>
 
         {/* Footer */}
@@ -337,7 +370,7 @@ export function MaterialsChecklist() {
           <Text style={s.footerText}>
             FOUNDATIONS OF ARCHITECTURE — MATERIALS CHECKLIST
           </Text>
-          <Text style={s.footerAccent}>foacourse.com</Text>
+          <Text style={s.footerAccent}>Page 2</Text>
         </View>
       </Page>
     </Document>
