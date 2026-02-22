@@ -40,6 +40,7 @@ export function NotebookTab({ userId }: NotebookTabProps) {
     <ScrollArea className="h-full">
       <div className="p-4">
         <NotebookEditor
+          key={`${moduleSlug}/${lessonSlug}`}
           userId={userId}
           moduleSlug={moduleSlug}
           lessonSlug={lessonSlug}
