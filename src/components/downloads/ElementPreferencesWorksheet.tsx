@@ -43,14 +43,14 @@ const s = StyleSheet.create({
   elementBox: {
     backgroundColor: colors.card,
     borderRadius: 8,
-    padding: 16,
-    marginBottom: 12,
+    padding: 12,
+    marginBottom: 8,
   },
   elementBoxHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 10,
+    marginBottom: 6,
   },
   elementBoxTitle: {
     fontFamily: heading,
@@ -79,11 +79,11 @@ const s = StyleSheet.create({
   fieldLine: {
     height: 1,
     backgroundColor: colors.border,
-    marginBottom: 14,
+    marginBottom: 10,
     opacity: 0.5,
   },
   promptBlock: {
-    marginBottom: 12,
+    marginBottom: 8,
   },
 });
 
@@ -180,7 +180,7 @@ export function ElementPreferencesWorksheet() {
               Step 2: Describe Your Elements
             </Text>
           </View>
-          <Text style={{ ...s.subtitle, marginBottom: 16 }}>
+          <Text style={{ ...s.subtitle, marginBottom: 10 }}>
             For each of your three chosen elements, describe a space that
             demonstrates it at its best.
           </Text>

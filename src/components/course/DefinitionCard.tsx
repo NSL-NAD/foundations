@@ -7,10 +7,10 @@ interface DefinitionCardProps {
 
 export function DefinitionCard({ element, children }: DefinitionCardProps) {
   return (
-    <div className="not-prose my-10 flex flex-col gap-4 md:flex-row md:items-stretch">
+    <div className="not-prose my-6 flex flex-col gap-3 md:flex-row md:items-stretch">
       {/* Left card — terracotta label */}
       <div
-        className="flex flex-col justify-center rounded-card px-5 py-4 md:w-44 md:shrink-0 md:py-6"
+        className="flex flex-col justify-between rounded-card px-4 py-3 md:w-44 md:shrink-0 md:py-4"
         style={{ background: "hsl(var(--accent))" }}
       >
         <span className="font-heading text-xs font-semibold uppercase tracking-[0.15em] text-white/80">
@@ -22,7 +22,7 @@ export function DefinitionCard({ element, children }: DefinitionCardProps) {
       </div>
 
       {/* Right card — bordered definition */}
-      <div className="flex-1 rounded-card border border-foreground p-5 md:p-6">
+      <div className="flex-1 rounded-card border border-foreground p-4 md:p-5">
         <div className="text-[0.95rem] leading-relaxed text-foreground/90">
           {children}
         </div>

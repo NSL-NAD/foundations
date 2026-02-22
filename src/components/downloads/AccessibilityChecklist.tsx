@@ -7,7 +7,7 @@ const s = StyleSheet.create({
   checkRow: {
     flexDirection: "row",
     alignItems: "flex-start",
-    marginBottom: 10,
+    marginBottom: 7,
   },
   checkbox: {
     width: 12,
@@ -194,7 +194,7 @@ export function AccessibilityChecklist() {
         ))}
 
         {/* Visitability minimum */}
-        <View style={{ ...s.section, marginTop: 8 }}>
+        <View style={s.section}>
           <View style={s.sectionHeader}>
             <View style={s.sectionAccent} />
             <Text style={s.sectionTitle}>The {'"'}Visitability{'"'} Minimum</Text>
