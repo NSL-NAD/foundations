@@ -9,6 +9,7 @@ import type { CurriculumLesson } from "@/lib/course";
 import { DrawerPath, BriefPath } from "@/components/course/PathIndicator";
 import { DownloadAllButton } from "@/components/course/DownloadAllButton";
 import { CourseQuote } from "@/components/course/CourseQuote";
+import { DefinitionCard } from "@/components/course/DefinitionCard";
 import { StraightedgeLine } from "@/components/decorative/StraightedgeLine";
 
 /* ── MDX component overrides ─────────────────────────────── */
@@ -68,15 +69,31 @@ const mdxComponents = {
   BriefPath,
   DownloadAllButton,
   CourseQuote,
+  DefinitionCard,
   hr: () => <StraightedgeLine showTicks className="my-14" />,
   blockquote: InsightBlockquote,
   p: SmartParagraph,
+};
+
+/* ── Video thumbnail mapping ────────────────────────────── */
+
+const videoThumbnails: Record<string, string> = {
+  "welcome/course-overview": "/images/thumbnails/residential-home.jpg",
+  "kickoff/workshop-intro": "/images/thumbnails/design-workspace.jpg",
+  "module-1/what-is-architecture": "/images/thumbnails/building-facade.jpg",
+  "module-2/elements-intro": "/images/thumbnails/architectural-detail.jpg",
+  "module-3/drawing-tools": "/images/thumbnails/floor-plan.jpg",
+  "module-4/materials-overview": "/images/thumbnails/material-textures.jpg",
+  "module-5/environmental-intro": "/images/thumbnails/sustainable-home.jpg",
+  "module-6/portfolio-overview": "/images/thumbnails/architectural-mockup.jpg",
+  "resources/closing-remarks": "/images/thumbnails/inspiring-architecture.jpg",
 };
 
 interface LessonContentProps {
   mdxSource: MDXRemoteSerializeResult | null;
   lesson: CurriculumLesson;
   moduleSlug: string;
+  lessonSlug: string;
 }
 
 /**
@@ -132,15 +149,31 @@ function IntroWrapper({ children }: { children?: ReactNode }) {
   );
 }
 
-export function LessonContent({ mdxSource, lesson }: LessonContentProps) {
+export function LessonContent({ mdxSource, lesson, moduleSlug, lessonSlug }: LessonContentProps) {
+  const thumbnailSrc = videoThumbnails[`${moduleSlug}/${lessonSlug}`];
+
   return (
     <div>
       {/* Video placeholder for video lessons */}
       {lesson.type === "video" && (
-        <div className="mb-8 flex aspect-video items-center justify-center rounded-card bg-[#171C24] ring-1 ring-brass/20">
-          <div className="text-center">
-            <PlayCircle className="mx-auto h-12 w-12 text-white/50" />
-            <p className="mt-2 text-sm text-white/50">
+        <div className="relative mb-8 flex aspect-video items-center justify-center overflow-hidden rounded-card ring-1 ring-brass/20">
+          {/* Background image or fallback */}
+          {thumbnailSrc ? (
+            <>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={thumbnailSrc}
+                alt=""
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+              <div className="absolute inset-0 bg-[#171C24]/60" />
+            </>
+          ) : (
+            <div className="absolute inset-0 bg-[#171C24]" />
+          )}
+          <div className="relative text-center">
+            <PlayCircle className="mx-auto h-12 w-12 text-white/70" />
+            <p className="mt-2 text-sm text-white/70">
               Video content coming soon
             </p>
           </div>

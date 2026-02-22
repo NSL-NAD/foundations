@@ -44,9 +44,12 @@ export function CoursePlayer({
   // Client-side optimistic state for completed lessons
   const [localCompleted, setLocalCompleted] = useState<string[]>(completedLessons);
 
-  // Sync from server prop when it changes (e.g. on navigation)
+  // Merge server data with local state — never drop optimistic completions
   useEffect(() => {
-    setLocalCompleted(completedLessons);
+    setLocalCompleted(prev => {
+      const merged = new Set([...prev, ...completedLessons]);
+      return Array.from(merged);
+    });
   }, [completedLessons]);
 
   const isCompleted = localCompleted.includes(`${moduleSlug}/${lessonSlug}`);
@@ -223,6 +226,7 @@ export function CoursePlayer({
               mdxSource={mdxSource}
               lesson={lesson}
               moduleSlug={moduleSlug}
+              lessonSlug={lessonSlug}
             />
           </div>
 

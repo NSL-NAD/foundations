@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import {
   ChevronDown,
   Check,
@@ -56,6 +56,23 @@ export function ModuleSidebar({
     localStorage.setItem("course-sidebar-pinned", String(pinned));
   }, [pinned]);
 
+  // Persist sidebar scroll position across navigations
+  const navRef = useRef<HTMLElement>(null);
+
+  const handleLessonClick = useCallback(() => {
+    if (navRef.current) {
+      sessionStorage.setItem("sidebar-scroll", String(navRef.current.scrollTop));
+    }
+    onNavigate?.();
+  }, [onNavigate]);
+
+  useEffect(() => {
+    const saved = sessionStorage.getItem("sidebar-scroll");
+    if (saved && navRef.current) {
+      navRef.current.scrollTop = parseInt(saved, 10);
+    }
+  }, [currentLessonSlug]);
+
   // When forceExpanded (mobile sheet), treat as always pinned/expanded
   const isExpanded = forceExpanded || pinned;
 
@@ -105,7 +122,7 @@ export function ModuleSidebar({
       </div>
 
       {/* Module list */}
-      <nav className="flex-1 overflow-y-auto py-2">
+      <nav ref={navRef} className="flex-1 overflow-y-auto py-2">
         {modules.map((mod, modIndex) => {
           const isModuleOpen = expandedModules.has(mod.slug);
           const moduleCompleted = mod.lessons.filter((l) =>
@@ -186,7 +203,7 @@ export function ModuleSidebar({
                       <li key={lesson.slug}>
                         <Link
                           href={`/course/${mod.slug}/${lesson.slug}`}
-                          onClick={onNavigate}
+                          onClick={handleLessonClick}
                           className={cn(
                             "flex items-center gap-2 py-2 pl-10 pr-4 text-sm transition-colors hover:bg-white/5",
                             isActive && "bg-white/10 font-medium text-white",

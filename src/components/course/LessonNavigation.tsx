@@ -53,10 +53,12 @@ export function LessonNavigation({
 
       if (res.ok) {
         if (newCompleted && navigation.next) {
-          // Navigate to next lesson — no delay needed, sidebar already updated
+          // Navigate to next lesson — sidebar already updated optimistically
           router.push(
             `/course/${navigation.next.moduleSlug}/${navigation.next.lessonSlug}`
           );
+          // Force revalidation so server data catches up with optimistic state
+          router.refresh();
         } else {
           // Toggling incomplete or no next lesson — refresh server data
           router.refresh();

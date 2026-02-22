@@ -39,6 +39,15 @@ async function main() {
   const { Module1CheatSheet } = await import(
     "../src/components/downloads/Module1CheatSheet"
   );
+  const { Module2CheatSheet } = await import(
+    "../src/components/downloads/Module2CheatSheet"
+  );
+  const { AccessibilityChecklist } = await import(
+    "../src/components/downloads/AccessibilityChecklist"
+  );
+  const { ElementPreferencesWorksheet } = await import(
+    "../src/components/downloads/ElementPreferencesWorksheet"
+  );
 
   const pdfs: { component: React.ReactElement; dir: string; filename: string }[] = [
     {
@@ -70,6 +79,21 @@ async function main() {
       component: React.createElement(Module1CheatSheet),
       dir: "module-1",
       filename: "module-1-cheat-sheet.pdf",
+    },
+    {
+      component: React.createElement(Module2CheatSheet),
+      dir: "module-2",
+      filename: "module-2-cheat-sheet.pdf",
+    },
+    {
+      component: React.createElement(AccessibilityChecklist),
+      dir: "module-2",
+      filename: "accessibility-checklist.pdf",
+    },
+    {
+      component: React.createElement(ElementPreferencesWorksheet),
+      dir: "module-2",
+      filename: "element-preferences-worksheet.pdf",
     },
   ];
 

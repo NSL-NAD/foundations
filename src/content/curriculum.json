@@ -53,6 +53,7 @@
         { "slug": "element-context", "title": "Context and Site", "type": "text", "duration": "8 min", "path": "both" },
         { "slug": "element-structure", "title": "Structure and Tectonics", "type": "text", "duration": "8 min", "path": "both" },
         { "slug": "element-transitions", "title": "Transitions", "type": "text", "duration": "6 min", "path": "both" },
+        { "slug": "element-color", "title": "Color", "type": "text", "duration": "8 min", "path": "both" },
         { "slug": "element-universal-design", "title": "Universal Design", "type": "text", "duration": "10 min", "path": "both", "downloads": ["accessibility-checklist.pdf"] },
         { "slug": "element-preferences", "title": "Element Preferences", "type": "exercise", "duration": "20 min", "path": "both", "downloads": ["element-preferences-worksheet.pdf"] },
         { "slug": "module-2-checklist", "title": "Module 2 Checklist", "type": "checklist", "duration": "2 min", "path": "both", "downloads": ["module-2-cheat-sheet.pdf"] }
