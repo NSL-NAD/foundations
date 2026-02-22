@@ -1,6 +1,6 @@
 {
   "title": "Foundations of Architecture: Designing Your Dream Space",
-  "description": "A 99-lesson course teaching architectural fundamentals through hands-on design of your dream space.",
+  "description": "A 98-lesson course teaching architectural fundamentals through hands-on design of your dream space.",
   "modules": [
     {
       "slug": "welcome",
@@ -9,7 +9,6 @@
       "lessons": [
         { "slug": "course-overview", "title": "Course Overview", "type": "video", "duration": "5 min", "path": "both" },
         { "slug": "how-to-use", "title": "How to Use This Course", "type": "text", "duration": "3 min", "path": "both" },
-        { "slug": "choose-path", "title": "Choose Your Path", "type": "text", "duration": "5 min", "path": "both", "downloads": ["path-comparison-guide.pdf"] },
         { "slug": "materials-needed", "title": "Materials You'll Need", "type": "text", "duration": "3 min", "path": "both", "downloads": ["materials-checklist.pdf"] }
       ]
     },

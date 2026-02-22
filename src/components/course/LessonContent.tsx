@@ -7,6 +7,7 @@ import type { ReactNode, ReactElement } from "react";
 import { PlayCircle, Lightbulb, BookOpen } from "lucide-react";
 import type { CurriculumLesson } from "@/lib/course";
 import { DrawerPath, BriefPath } from "@/components/course/PathIndicator";
+import { DownloadAllButton } from "@/components/course/DownloadAllButton";
 import { StraightedgeLine } from "@/components/decorative/StraightedgeLine";
 
 /* ── MDX component overrides ─────────────────────────────── */
@@ -64,6 +65,7 @@ function SmartParagraph({ children }: { children?: ReactNode }) {
 const mdxComponents = {
   DrawerPath,
   BriefPath,
+  DownloadAllButton,
   hr: () => <StraightedgeLine showTicks className="my-14" />,
   blockquote: InsightBlockquote,
   p: SmartParagraph,
