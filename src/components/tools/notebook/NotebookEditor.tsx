@@ -48,25 +48,21 @@ export function NotebookEditor({
     immediatelyRender: false,
   });
 
-  // Track current lesson to detect navigation changes
-  const lessonKeyRef = useRef(`${moduleSlug}/${lessonSlug}`);
+  // Track which lesson the editor last loaded content for
+  const loadedKeyRef = useRef("");
 
   // Sync content from DB into editor when lesson changes or loading finishes
   useEffect(() => {
     if (!editor || isLoading) return;
     const newKey = `${moduleSlug}/${lessonSlug}`;
-    const lessonChanged = lessonKeyRef.current !== newKey;
-    lessonKeyRef.current = newKey;
 
-    if (lessonChanged) {
-      // Lesson navigation: always replace editor content with the new lesson's notes
+    if (loadedKeyRef.current !== newKey) {
+      // Different lesson than what's in the editor: always replace content
       editor.commands.setContent(content || "");
-    } else if (content) {
-      // Initial load: only set if editor is still empty
-      const currentText = editor.getText().trim();
-      if (!currentText) {
-        editor.commands.setContent(content);
-      }
+      loadedKeyRef.current = newKey;
+    } else if (content && !editor.getText().trim()) {
+      // Same lesson, initial load: only set if editor is still empty
+      editor.commands.setContent(content);
     }
   }, [editor, content, isLoading, moduleSlug, lessonSlug]);
 
