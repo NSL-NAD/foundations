@@ -97,10 +97,10 @@ export function GenerateDesignBriefButton({
           </span>
         </div>
 
-        {/* Heading + description — border-l-0 and pl-0 override .prose-lesson h3 */}
-        <h3 className="mb-1 border-l-0 pl-0 font-heading text-lg font-semibold">
+        {/* Use <p> instead of <h3> to avoid .prose-lesson h3 brass border */}
+        <p className="mb-1 font-heading text-lg font-semibold">
           Generate Your Design Brief
-        </h3>
+        </p>
         <p className="mb-5 max-w-md text-sm text-primary-foreground/70">
           {briefResponseCount > 0
             ? `${briefResponseCount} notebook response${briefResponseCount !== 1 ? "s" : ""} found. Your personalized Design Brief is ready to generate.`
