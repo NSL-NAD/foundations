@@ -111,10 +111,11 @@ const STEPS: WizardStep[] = [
 /* -- Gradient orb background for AI-forward feel -- */
 function WizardGradientBg({ children }: { children: ReactNode }) {
   return (
-    <div className="relative overflow-hidden">
-      <div className="pointer-events-none absolute -top-20 -left-20 h-64 w-64 rounded-full bg-[#5F7F96]/15 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-16 -right-16 h-56 w-56 rounded-full bg-[#B8593B]/12 blur-3xl" />
-      <div className="pointer-events-none absolute top-1/2 left-1/2 h-48 w-48 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#C4A44E]/10 blur-3xl" />
+    <div className="relative">
+      {/* Orbs positioned to fill the entire dialog — overflow is clipped by DialogContent */}
+      <div className="pointer-events-none absolute -top-32 -left-32 h-[22rem] w-[22rem] rounded-full bg-[#5F7F96]/20 blur-[80px]" />
+      <div className="pointer-events-none absolute -bottom-28 -right-28 h-80 w-80 rounded-full bg-[#B8593B]/15 blur-[70px]" />
+      <div className="pointer-events-none absolute -top-10 right-12 h-64 w-64 rounded-full bg-[#C4A44E]/12 blur-[60px]" />
       <div className="relative">{children}</div>
     </div>
   );
@@ -264,7 +265,7 @@ export function DesignBriefWizard({
               : "Create Design Brief")}
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className="max-w-2xl overflow-hidden">
         <WizardGradientBg>
         {/* Step: Color Palette */}
         {step === "palette" && (
