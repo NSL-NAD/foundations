@@ -8,7 +8,7 @@ import { LessonNavigation } from "./LessonNavigation";
 import { LessonDownloads } from "./LessonDownloads";
 import { SelectionBubble } from "./SelectionBubble";
 import { Button } from "@/components/ui/button";
-import { Menu, Check, Circle, ArrowLeft, ArrowRight } from "lucide-react";
+import { Menu, Check, Circle, ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useToolsPanel } from "@/contexts/ToolsPanelContext";
 import { cn } from "@/lib/utils";
@@ -155,6 +155,24 @@ export function CoursePlayer({
                         : "Brief Builder Path"}
                     </span>
                   )}
+
+                  {/* External links (tool websites, YouTube channels) */}
+                  {"links" in lesson &&
+                    Array.isArray(lesson.links) &&
+                    (lesson.links as { label: string; url: string }[]).map(
+                      (link) => (
+                        <a
+                          key={link.url}
+                          href={link.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 rounded-full border border-foreground/20 px-2.5 py-0.5 text-xs text-muted-foreground transition-colors hover:border-brass hover:text-brass"
+                        >
+                          {link.label}
+                          <ExternalLink className="h-2.5 w-2.5" />
+                        </a>
+                      )
+                    )}
 
                   {/* Completed indicator */}
                   <span className="flex items-center gap-1.5 text-xs">
