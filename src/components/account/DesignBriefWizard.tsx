@@ -113,9 +113,9 @@ function WizardGradientBg({ children }: { children: ReactNode }) {
   return (
     <div className="relative">
       {/* Orbs positioned to fill the entire dialog — overflow is clipped by DialogContent */}
-      <div className="pointer-events-none absolute -top-32 -left-32 h-[22rem] w-[22rem] rounded-full bg-[#5F7F96]/20 blur-[80px]" />
-      <div className="pointer-events-none absolute -bottom-28 -right-28 h-80 w-80 rounded-full bg-[#B8593B]/15 blur-[70px]" />
-      <div className="pointer-events-none absolute -top-10 right-12 h-64 w-64 rounded-full bg-[#C4A44E]/12 blur-[60px]" />
+      <div className="pointer-events-none absolute -top-32 -left-32 h-[22rem] w-[22rem] rounded-full bg-[#5F7F96]/30 blur-[80px]" />
+      <div className="pointer-events-none absolute -bottom-28 -right-28 h-80 w-80 rounded-full bg-[#B8593B]/25 blur-[70px]" />
+      <div className="pointer-events-none absolute -top-10 right-12 h-64 w-64 rounded-full bg-[#C4A44E]/20 blur-[60px]" />
       <div className="relative">{children}</div>
     </div>
   );
