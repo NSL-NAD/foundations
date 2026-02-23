@@ -67,6 +67,20 @@ function SmartParagraph({ children }: { children?: ReactNode }) {
   return <p>{children}</p>;
 }
 
+function ExternalLink(props: React.AnchorHTMLAttributes<HTMLAnchorElement>) {
+  const { href, children, ...rest } = props;
+  const isExternal = href && (href.startsWith("http://") || href.startsWith("https://"));
+  return (
+    <a
+      href={href}
+      {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      {...rest}
+    >
+      {children}
+    </a>
+  );
+}
+
 const mdxComponents = {
   DrawerPath,
   BriefPath,
@@ -79,6 +93,7 @@ const mdxComponents = {
   hr: () => <StraightedgeLine showTicks className="my-14" />,
   blockquote: InsightBlockquote,
   p: SmartParagraph,
+  a: ExternalLink,
 };
 
 /* ── Video thumbnail mapping ────────────────────────────── */
