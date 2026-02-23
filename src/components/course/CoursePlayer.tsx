@@ -13,6 +13,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useToolsPanel } from "@/contexts/ToolsPanelContext";
 import { cn } from "@/lib/utils";
 import type { CurriculumModule, CurriculumLesson } from "@/lib/course";
+import { getTotalLessons } from "@/lib/course";
 import type { LessonNavigation as LessonNav } from "@/types/course";
 import type { MDXRemoteSerializeResult } from "next-mdx-remote";
 
@@ -53,6 +54,7 @@ export function CoursePlayer({
   }, [completedLessons]);
 
   const isCompleted = localCompleted.includes(`${moduleSlug}/${lessonSlug}`);
+  const totalLessons = getTotalLessons();
 
   const handleToggleComplete = useCallback((lessonKey: string, completed: boolean) => {
     setLocalCompleted(prev => {
@@ -256,6 +258,8 @@ export function CoursePlayer({
               lessonSlug={lessonSlug}
               isCompleted={isCompleted}
               onToggleComplete={handleToggleComplete}
+              completedLessons={localCompleted}
+              totalLessons={totalLessons}
             />
           </div>
         </div>

@@ -37,6 +37,7 @@
     "@tiptap/starter-kit": "^3.20.0",
     "ai": "^6.0.86",
     "archiver": "^7.0.1",
+    "canvas-confetti": "^1.9.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
@@ -60,6 +61,7 @@
   },
   "devDependencies": {
     "@types/archiver": "^7.0.0",
+    "@types/canvas-confetti": "^1.9.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

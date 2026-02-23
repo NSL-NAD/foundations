@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, Check, Loader2 } from "lucide-react";
+import { CelebrationModal } from "@/components/course/CelebrationModal";
 import type { LessonNavigation as LessonNav } from "@/types/course";
 
 interface LessonNavigationProps {
@@ -13,6 +14,8 @@ interface LessonNavigationProps {
   lessonSlug: string;
   isCompleted: boolean;
   onToggleComplete: (lessonKey: string, completed: boolean) => void;
+  completedLessons: string[];
+  totalLessons: number;
 }
 
 export function LessonNavigation({
@@ -21,9 +24,12 @@ export function LessonNavigation({
   lessonSlug,
   isCompleted,
   onToggleComplete,
+  completedLessons,
+  totalLessons,
 }: LessonNavigationProps) {
   const [loading, setLoading] = useState(false);
   const [completed, setCompleted] = useState(isCompleted);
+  const [showCelebration, setShowCelebration] = useState(false);
   const router = useRouter();
 
   // Keep local state in sync with server prop when it changes
@@ -52,7 +58,17 @@ export function LessonNavigation({
       });
 
       if (res.ok) {
-        if (newCompleted && navigation.next) {
+        // Check if this is the certificate lesson and ALL lessons are now complete
+        const isCertificateLesson =
+          moduleSlug === "resources" && lessonSlug === "certificate";
+        const allNowComplete =
+          newCompleted && completedLessons.length + 1 >= totalLessons;
+
+        if (isCertificateLesson && allNowComplete) {
+          // Show celebration modal instead of navigating
+          router.refresh();
+          setShowCelebration(true);
+        } else if (newCompleted && navigation.next) {
           // Navigate to next lesson — sidebar already updated optimistically
           router.push(
             `/course/${navigation.next.moduleSlug}/${navigation.next.lessonSlug}`
@@ -182,6 +198,12 @@ export function LessonNavigation({
           <div className="min-w-[120px]" />
         )}
       </div>
+
+      {/* Celebration modal — shown when student completes the entire course */}
+      <CelebrationModal
+        open={showCelebration}
+        onOpenChange={setShowCelebration}
+      />
     </>
   );
 }
