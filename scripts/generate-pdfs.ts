@@ -99,6 +99,9 @@ async function main() {
   const { Module6CheatSheet } = await import(
     "../src/components/downloads/Module6CheatSheet"
   );
+  const { AIPromptingCheatSheet } = await import(
+    "../src/components/downloads/AIPromptingCheatSheet"
+  );
 
   const pdfs: { component: React.ReactElement; dir: string; filename: string }[] = [
     {
@@ -230,6 +233,11 @@ async function main() {
       component: React.createElement(Module6CheatSheet),
       dir: "module-6",
       filename: "module-6-cheat-sheet.pdf",
+    },
+    {
+      component: React.createElement(AIPromptingCheatSheet),
+      dir: "bonus-ai",
+      filename: "ai-prompting-cheat-sheet.pdf",
     },
   ];
 
