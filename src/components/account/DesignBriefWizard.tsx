@@ -113,10 +113,10 @@ function WizardGradientBg({ children }: { children: ReactNode }) {
   return (
     <div className="relative">
       {/* Primary orbs — darker, anchored near corners */}
-      <div className="pointer-events-none absolute -top-32 -left-32 h-[22rem] w-[22rem] rounded-full bg-[#5F7F96]/50 blur-[80px]" />
-      <div className="pointer-events-none absolute -bottom-28 -right-28 h-80 w-80 rounded-full bg-[#B8593B]/45 blur-[70px]" />
-      <div className="pointer-events-none absolute -top-10 right-8 h-64 w-64 rounded-full bg-[#C4A44E]/35 blur-[60px]" />
-      <div className="pointer-events-none absolute bottom-4 left-1/4 h-72 w-72 rounded-full bg-[#6B3FA0]/25 blur-[75px]" />
+      <div className="pointer-events-none absolute -top-32 -left-32 h-[22rem] w-[22rem] rounded-full bg-[#5F7F96]/55 blur-[80px]" />
+      <div className="pointer-events-none absolute -bottom-28 -right-28 h-80 w-80 rounded-full bg-[#B8593B]/50 blur-[70px]" />
+      <div className="pointer-events-none absolute -top-10 right-8 h-64 w-64 rounded-full bg-[#C4A44E]/40 blur-[60px]" />
+      <div className="pointer-events-none absolute bottom-4 left-1/4 h-72 w-72 rounded-full bg-[#6B3FA0]/30 blur-[75px]" />
       {/* Secondary orbs — softer, offset to blend midfield */}
       <div className="pointer-events-none absolute top-16 -left-16 h-64 w-64 rounded-full bg-[#5F7F96]/25 blur-[90px]" />
       <div className="pointer-events-none absolute -bottom-10 right-16 h-56 w-56 rounded-full bg-[#B8593B]/20 blur-[80px]" />

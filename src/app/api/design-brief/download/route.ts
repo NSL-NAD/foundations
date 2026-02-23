@@ -74,8 +74,8 @@ export async function POST(req: NextRequest) {
     }
 
     if (format === "pdf") {
-      // Dynamic import to avoid SSR issues with @react-pdf/renderer
-      const { pdf } = await import("@react-pdf/renderer");
+      // Dynamic import — use renderToBuffer for server-side PDF generation
+      const { renderToBuffer } = await import("@react-pdf/renderer");
       const { DesignBriefDocument } = await import(
         "@/components/account/DesignBriefDocument"
       );
@@ -93,10 +93,9 @@ export async function POST(req: NextRequest) {
       });
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const blob = await pdf(doc as any).toBlob();
-      const arrayBuffer = await blob.arrayBuffer();
+      const buffer = await renderToBuffer(doc as any);
 
-      return new Response(arrayBuffer, {
+      return new Response(new Uint8Array(buffer), {
         headers: {
           "Content-Type": "application/pdf",
           "Content-Disposition": `attachment; filename="${safeName}.pdf"`,

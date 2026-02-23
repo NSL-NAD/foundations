@@ -216,6 +216,16 @@ export async function generateDesignBriefDocx({
   // Build Document
   // ============================================
   const doc = new Document({
+    styles: {
+      default: {
+        document: {
+          run: {
+            font: "Calibri",
+            size: 22,
+          },
+        },
+      },
+    },
     sections: [
       {
         properties: {
