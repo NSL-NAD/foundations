@@ -150,7 +150,7 @@
     },
     {
       "slug": "bonus-ai",
-      "title": "Bonus: AI for Architecture",
+      "title": "Bonus Module: AI for Architecture",
       "description": "Use AI tools to visualize, refine, and present your dream home designs.",
       "lessons": [
         { "slug": "ai-intro", "title": "AI as Your Design Partner", "type": "text", "duration": "8 min", "path": "both" },
@@ -162,7 +162,8 @@
         { "slug": "ai-prompting", "title": "Prompting for Architecture", "type": "text", "duration": "10 min", "path": "both", "downloads": ["ai-prompting-cheat-sheet.pdf"] },
         { "slug": "ai-workflow", "title": "Integrating AI Into Your Workflow", "type": "text", "duration": "8 min", "path": "both" },
         { "slug": "ai-resources", "title": "AI Resources & Next Steps", "type": "text", "duration": "5 min", "path": "both" },
-        { "slug": "ai-exercise", "title": "Exercise: Visualize Your Dream Home", "type": "exercise", "duration": "40 min", "path": "both" }
+        { "slug": "ai-exercise", "title": "Exercise: Visualize Your Dream Home", "type": "exercise", "duration": "40 min", "path": "both" },
+        { "slug": "bonus-ai-checklist", "title": "Bonus Module AI Checklist", "type": "checklist", "duration": "2 min", "path": "both", "downloads": ["bonus-ai-cheat-sheet.pdf"] }
       ]
     },
     {
