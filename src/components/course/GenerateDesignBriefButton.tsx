@@ -17,17 +17,28 @@ export function GenerateDesignBriefButton({
 }) {
   const [loading, setLoading] = useState(true);
   const [studentName, setStudentName] = useState("Student");
-  const [briefResponseCount, setBriefResponseCount] = useState(0);
+  const [notebookEntryCount, setNotebookEntryCount] = useState(0);
+  const [uploadCount, setUploadCount] = useState(0);
 
   useEffect(() => {
     async function loadData() {
       try {
-        // Fetch brief responses count
-        const briefRes = await fetch("/api/design-brief");
-        if (briefRes.ok) {
-          const briefData = await briefRes.json();
-          const responses = briefData.responses || [];
-          setBriefResponseCount(responses.length);
+        // Fetch notebook entries count (notes with actual content)
+        const notesRes = await fetch("/api/notebook/all");
+        if (notesRes.ok) {
+          const notesData = await notesRes.json();
+          const notes = (notesData.notes || []).filter(
+            (n: { content?: string }) =>
+              n.content && n.content.replace(/<[^>]*>/g, "").trim().length > 0
+          );
+          setNotebookEntryCount(notes.length);
+        }
+
+        // Fetch uploaded files count
+        const filesRes = await fetch("/api/notebook/files");
+        if (filesRes.ok) {
+          const filesData = await filesRes.json();
+          setUploadCount((filesData.files || []).length);
         }
 
         // Fetch profile name from account data
@@ -48,6 +59,8 @@ export function GenerateDesignBriefButton({
     loadData();
   }, []);
 
+  const totalContent = notebookEntryCount + uploadCount;
+
   /* -------------------------------------------------- */
   /* Compact pill button for notebook header             */
   /* -------------------------------------------------- */
@@ -57,7 +70,8 @@ export function GenerateDesignBriefButton({
     return (
       <DesignBriefWizard
         studentName={studentName}
-        briefResponseCount={briefResponseCount}
+        notebookEntryCount={notebookEntryCount}
+        uploadCount={uploadCount}
         existingBriefDate={null}
         triggerClassName="inline-flex items-center gap-2 rounded-full border border-foreground/20 px-4 py-2 text-xs font-medium uppercase tracking-wider transition-colors hover:bg-foreground hover:text-background"
         triggerLabel="Generate Brief"
@@ -75,6 +89,26 @@ export function GenerateDesignBriefButton({
         <span className="text-sm text-muted-foreground">Loading...</span>
       </div>
     );
+  }
+
+  // Build description text based on what the student has
+  let description: string;
+  if (totalContent > 0) {
+    const parts: string[] = [];
+    if (notebookEntryCount > 0) {
+      parts.push(
+        `${notebookEntryCount} notebook ${notebookEntryCount === 1 ? "entry" : "entries"}`
+      );
+    }
+    if (uploadCount > 0) {
+      parts.push(
+        `${uploadCount} ${uploadCount === 1 ? "upload" : "uploads"}`
+      );
+    }
+    description = `${parts.join(" and ")} found. Your personalized Design Brief is ready to generate.`;
+  } else {
+    description =
+      "Customize your palette, typography, and title, then let us compile your notes into a professional Design Brief.";
   }
 
   return (
@@ -102,15 +136,14 @@ export function GenerateDesignBriefButton({
           Generate Your Design Brief
         </p>
         <p className="mb-5 max-w-md text-sm text-primary-foreground/70">
-          {briefResponseCount > 0
-            ? `${briefResponseCount} notebook response${briefResponseCount !== 1 ? "s" : ""} found. Your personalized Design Brief is ready to generate.`
-            : "Customize your palette, typography, and title, then let us compile your notes into a professional Design Brief."}
+          {description}
         </p>
 
         {/* Wizard trigger — brass hover */}
         <DesignBriefWizard
           studentName={studentName}
-          briefResponseCount={briefResponseCount}
+          notebookEntryCount={notebookEntryCount}
+          uploadCount={uploadCount}
           existingBriefDate={null}
           triggerClassName="inline-flex items-center gap-2 rounded-full border border-primary-foreground/30 bg-primary-foreground px-6 py-2.5 text-xs font-medium uppercase tracking-wider text-primary transition-colors hover:border-[#C4A44E] hover:bg-[#C4A44E] hover:text-white"
         />

@@ -88,9 +88,14 @@ export default async function AccountPage() {
         });
   }
 
-  // Design brief responses
-  const { count: briefResponseCount } = await supabase
-    .from("design_brief_responses")
+  // Notebook entries & uploads count (for Design Brief card)
+  const { count: notebookEntryCount } = await supabase
+    .from("notebook_entries")
+    .select("id", { count: "exact", head: true })
+    .eq("user_id", user!.id);
+
+  const { count: uploadCount } = await supabase
+    .from("notebook_files")
     .select("id", { count: "exact", head: true })
     .eq("user_id", user!.id);
 
@@ -248,14 +253,15 @@ export default async function AccountPage() {
             <p className="mt-1 text-xs text-primary-foreground/70">
               {existingBrief
                 ? `Brief generated — create a new version or download again`
-                : (briefResponseCount || 0) > 0
-                  ? `${briefResponseCount} responses recorded — your personalized brief is ready`
+                : (notebookEntryCount || 0) > 0
+                  ? `${notebookEntryCount} notebook ${(notebookEntryCount || 0) === 1 ? "entry" : "entries"}${(uploadCount || 0) > 0 ? ` and ${uploadCount} ${(uploadCount || 0) === 1 ? "upload" : "uploads"}` : ""} — your personalized brief is ready`
                   : "Your Design Brief is ready to create"}
             </p>
             <div className="mt-auto pt-4">
               <DesignBriefWizard
                 studentName={profile?.full_name || "Student"}
-                briefResponseCount={briefResponseCount || 0}
+                notebookEntryCount={notebookEntryCount || 0}
+                uploadCount={uploadCount || 0}
                 existingBriefDate={existingBrief?.created_at || null}
               />
             </div>
@@ -267,8 +273,8 @@ export default async function AccountPage() {
               Design Brief
             </p>
             <p className="mt-1 text-xs text-background/70 transition-colors duration-300 group-hover:text-foreground/70">
-              {(briefResponseCount || 0) > 0
-                ? `${briefResponseCount} responses recorded — complete Module 6 to unlock`
+              {(notebookEntryCount || 0) > 0
+                ? `${notebookEntryCount} notebook ${(notebookEntryCount || 0) === 1 ? "entry" : "entries"} — complete Module 6 to unlock`
                 : "Complete Module 6: Portfolio Project to unlock your Design Brief"}
             </p>
             <div className="mt-auto pt-4">

@@ -42,7 +42,8 @@ interface BriefSection {
 
 interface DesignBriefWizardProps {
   studentName: string;
-  briefResponseCount: number;
+  notebookEntryCount: number;
+  uploadCount: number;
   existingBriefDate?: string | null;
   triggerClassName?: string;
   triggerLabel?: string;
@@ -129,7 +130,8 @@ function WizardGradientBg({ children }: { children: ReactNode }) {
 
 export function DesignBriefWizard({
   studentName,
-  briefResponseCount,
+  notebookEntryCount,
+  uploadCount,
   existingBriefDate,
   triggerClassName,
   triggerLabel,
@@ -505,8 +507,9 @@ export function DesignBriefWizard({
                     </p>
                   )}
                   <p>
-                    <span className="text-muted-foreground">Responses:</span>{" "}
-                    {briefResponseCount} design brief responses
+                    <span className="text-muted-foreground">Notebook:</span>{" "}
+                    {notebookEntryCount} {notebookEntryCount === 1 ? "entry" : "entries"}
+                    {uploadCount > 0 && `, ${uploadCount} ${uploadCount === 1 ? "upload" : "uploads"}`}
                   </p>
                 </div>
               </div>
