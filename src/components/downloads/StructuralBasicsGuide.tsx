@@ -14,8 +14,8 @@ const s = StyleSheet.create({
   vocabCard: {
     backgroundColor: colors.card,
     borderRadius: 6,
-    padding: 10,
-    marginBottom: 6,
+    padding: 8,
+    marginBottom: 5,
   },
   vocabTerm: {
     fontFamily: heading,
@@ -34,7 +34,7 @@ const s = StyleSheet.create({
   },
   spanRow: {
     flexDirection: "row",
-    marginBottom: 6,
+    marginBottom: 4,
     paddingLeft: 4,
   },
   spanRange: {
@@ -56,8 +56,8 @@ const s = StyleSheet.create({
   foundationCard: {
     backgroundColor: colors.card,
     borderRadius: 6,
-    padding: 10,
-    marginBottom: 6,
+    padding: 8,
+    marginBottom: 5,
   },
   foundationName: {
     fontFamily: heading,
@@ -88,7 +88,7 @@ const s = StyleSheet.create({
   checkRow: {
     flexDirection: "row",
     alignItems: "flex-start",
-    marginBottom: 5,
+    marginBottom: 4,
   },
   checkbox: {
     width: 11,
@@ -106,27 +106,6 @@ const s = StyleSheet.create({
     fontSize: 8.5,
     color: colors.dark,
     flex: 1,
-    lineHeight: 1.5,
-  },
-  issueCard: {
-    backgroundColor: colors.card,
-    borderRadius: 6,
-    padding: 10,
-    marginBottom: 6,
-  },
-  issueName: {
-    fontFamily: heading,
-    fontWeight: 700,
-    fontSize: 9,
-    color: colors.primary,
-    letterSpacing: 0.5,
-    marginBottom: 2,
-  },
-  issueDesc: {
-    fontFamily: bodyFont,
-    fontWeight: 400,
-    fontSize: 7.5,
-    color: colors.body,
     lineHeight: 1.5,
   },
 });
@@ -201,25 +180,6 @@ const engineerChecklist = [
   "Multi-story construction or unusual roof loads",
   "Uncertain soil conditions or steep building sites",
   "Rooftop decks, green roofs, or heavy mechanical equipment",
-];
-
-const commonIssues = [
-  {
-    name: "Wall of Windows",
-    desc: "Large expanses of glass eliminate shear wall capacity. Requires steel moment frames or engineered solutions to resist lateral loads.",
-  },
-  {
-    name: "Cantilevers",
-    desc: "Overhanging floors or balconies require back-span support at least 2x the cantilever distance. Material and connection design is critical.",
-  },
-  {
-    name: "Open Floor Plans",
-    desc: "Removing interior walls shifts loads to fewer points. Hidden beams, steel columns, or engineered headers must replace the removed support.",
-  },
-  {
-    name: "Rooftop Decks",
-    desc: "Additional dead load and live load on the roof structure. Requires waterproofing, drainage, and structural capacity verification.",
-  },
 ];
 
 /* -- Component ------------------------------------------- */
@@ -322,50 +282,26 @@ export function StructuralBasicsGuide() {
           </View>
         </View>
 
-        <View style={s.footer}>
-          <Text style={s.footerText}>
-            FOUNDATIONS OF ARCHITECTURE - STRUCTURAL BASICS GUIDE
-          </Text>
-          <Text style={s.footerAccent}>foacourse.com</Text>
-        </View>
-      </Page>
-
-      {/* -- Page 2: Engineer checklist & Common Issues -- */}
-      <Page size="LETTER" style={s.page}>
         {/* When to Consult an Engineer */}
         <View style={s.section}>
           <View style={s.sectionHeader}>
             <View style={s.sectionAccent} />
             <Text style={s.sectionTitle}>When to Consult an Engineer</Text>
           </View>
-          {engineerChecklist.map((item) => (
-            <View key={item} style={s.checkRow}>
-              <View style={s.checkbox} />
-              <Text style={s.checkLabel}>{item}</Text>
-            </View>
-          ))}
-        </View>
-
-        {/* Common Structural Issues */}
-        <View style={s.section}>
-          <View style={s.sectionHeader}>
-            <View style={s.sectionAccent} />
-            <Text style={s.sectionTitle}>Common Structural Issues</Text>
-          </View>
           <View style={s.twoCol}>
             <View style={s.col}>
-              {commonIssues.slice(0, 2).map((issue) => (
-                <View key={issue.name} style={s.issueCard}>
-                  <Text style={s.issueName}>{issue.name}</Text>
-                  <Text style={s.issueDesc}>{issue.desc}</Text>
+              {engineerChecklist.slice(0, 4).map((item) => (
+                <View key={item} style={s.checkRow}>
+                  <View style={s.checkbox} />
+                  <Text style={s.checkLabel}>{item}</Text>
                 </View>
               ))}
             </View>
             <View style={s.col}>
-              {commonIssues.slice(2).map((issue) => (
-                <View key={issue.name} style={s.issueCard}>
-                  <Text style={s.issueName}>{issue.name}</Text>
-                  <Text style={s.issueDesc}>{issue.desc}</Text>
+              {engineerChecklist.slice(4).map((item) => (
+                <View key={item} style={s.checkRow}>
+                  <View style={s.checkbox} />
+                  <Text style={s.checkLabel}>{item}</Text>
                 </View>
               ))}
             </View>
@@ -376,7 +312,7 @@ export function StructuralBasicsGuide() {
           <Text style={s.footerText}>
             FOUNDATIONS OF ARCHITECTURE - STRUCTURAL BASICS GUIDE
           </Text>
-          <Text style={s.footerAccent}>Page 2</Text>
+          <Text style={s.footerAccent}>foacourse.com</Text>
         </View>
       </Page>
     </Document>

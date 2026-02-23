@@ -16,8 +16,8 @@ const s = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.border,
     borderRadius: 6,
-    padding: 10,
-    marginBottom: 10,
+    padding: 8,
+    marginBottom: 8,
   },
   roomBlockRow: {
     flexDirection: "row",
@@ -83,12 +83,12 @@ const s = StyleSheet.create({
     height: 1,
     backgroundColor: colors.border,
     opacity: 0.5,
-    marginBottom: 10,
+    marginBottom: 8,
   },
   totalsRow: {
     flexDirection: "row",
-    gap: 14,
-    marginBottom: 10,
+    gap: 10,
+    marginBottom: 6,
   },
   totalField: {
     flex: 1,
@@ -104,19 +104,6 @@ const s = StyleSheet.create({
     height: 1,
     backgroundColor: colors.border,
     opacity: 0.5,
-  },
-  totalHint: {
-    fontFamily: bodyFont,
-    fontWeight: 400,
-    fontSize: 7,
-    color: colors.muted,
-    marginTop: 2,
-  },
-  notesLine: {
-    height: 1,
-    backgroundColor: colors.border,
-    opacity: 0.4,
-    marginBottom: 20,
   },
 });
 
@@ -232,23 +219,14 @@ export function RoomProgramWorksheet() {
         </View>
       </Page>
 
-      {/* -- Page 2: Rooms 5-8 -- */}
+      {/* -- Page 2: Rooms 5-8 + Totals -- */}
       <Page size="LETTER" style={s.page}>
         {[5, 6, 7, 8].map((i) => (
           <RoomEntryBlock key={i} index={i} />
         ))}
 
-        <View style={s.footer}>
-          <Text style={s.footerText}>
-            FOUNDATIONS OF ARCHITECTURE - ROOM PROGRAM WORKSHEET
-          </Text>
-          <Text style={s.footerAccent}>Page 2</Text>
-        </View>
-      </Page>
-
-      {/* -- Page 3: Totals + Notes -- */}
-      <Page size="LETTER" style={s.page}>
-        <View style={s.section}>
+        {/* Totals */}
+        <View style={{ ...s.section, marginTop: 4 }}>
           <View style={s.sectionHeader}>
             <View style={s.sectionAccent} />
             <Text style={s.sectionTitle}>Totals</Text>
@@ -258,45 +236,27 @@ export function RoomProgramWorksheet() {
             <View style={s.totalField}>
               <Text style={s.totalLabel}>Room Total (sf)</Text>
               <View style={s.totalLine} />
-              <Text style={s.totalHint}>Sum of all room square footages above</Text>
             </View>
             <View style={s.totalField}>
-              <Text style={s.totalLabel}>Circulation (15-20%) (sf)</Text>
+              <Text style={s.totalLabel}>Circulation (15-20%)</Text>
               <View style={s.totalLine} />
-              <Text style={s.totalHint}>Hallways, stairs, and transition spaces</Text>
             </View>
-          </View>
-
-          <View style={s.totalsRow}>
             <View style={s.totalField}>
               <Text style={s.totalLabel}>Grand Total (sf)</Text>
               <View style={s.totalLine} />
-              <Text style={s.totalHint}>Room total + circulation = target home size</Text>
             </View>
             <View style={s.totalField}>
               <Text style={s.totalLabel}>Budget Target (sf)</Text>
               <View style={s.totalLine} />
-              <Text style={s.totalHint}>Based on your budget and cost per sf</Text>
             </View>
           </View>
-        </View>
-
-        {/* Notes */}
-        <View style={s.section}>
-          <View style={s.sectionHeader}>
-            <View style={s.sectionAccent} />
-            <Text style={s.sectionTitle}>Notes</Text>
-          </View>
-          {Array.from({ length: 6 }).map((_, i) => (
-            <View key={i} style={s.notesLine} />
-          ))}
         </View>
 
         <View style={s.footer}>
           <Text style={s.footerText}>
             FOUNDATIONS OF ARCHITECTURE - ROOM PROGRAM WORKSHEET
           </Text>
-          <Text style={s.footerAccent}>Page 3</Text>
+          <Text style={s.footerAccent}>Page 2</Text>
         </View>
       </Page>
     </Document>

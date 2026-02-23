@@ -14,8 +14,8 @@ const s = StyleSheet.create({
   entryCard: {
     backgroundColor: colors.card,
     borderRadius: 6,
-    padding: 8,
-    marginBottom: 5,
+    padding: 6,
+    marginBottom: 4,
   },
   entryName: {
     fontFamily: heading,
@@ -35,7 +35,7 @@ const s = StyleSheet.create({
   lineWeightRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 6,
+    marginBottom: 4,
     paddingLeft: 4,
   },
   lineVisual: {
@@ -78,7 +78,7 @@ const s = StyleSheet.create({
   },
   sizeRow: {
     flexDirection: "row",
-    marginBottom: 3,
+    marginBottom: 2,
     paddingLeft: 4,
   },
   sizeRoom: {
@@ -120,8 +120,8 @@ const s = StyleSheet.create({
   formulaCard: {
     backgroundColor: colors.card,
     borderRadius: 6,
-    padding: 8,
-    marginBottom: 5,
+    padding: 6,
+    marginBottom: 4,
   },
   formulaName: {
     fontFamily: heading,
@@ -140,7 +140,7 @@ const s = StyleSheet.create({
   checkRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 5,
+    marginBottom: 4,
   },
   checkbox: {
     width: 10,
