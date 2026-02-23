@@ -14,8 +14,8 @@ const s = StyleSheet.create({
   vocabCard: {
     backgroundColor: colors.card,
     borderRadius: 6,
-    padding: 8,
-    marginBottom: 5,
+    padding: 7,
+    marginBottom: 4,
   },
   vocabTerm: {
     fontFamily: heading,
@@ -34,7 +34,7 @@ const s = StyleSheet.create({
   },
   spanRow: {
     flexDirection: "row",
-    marginBottom: 4,
+    marginBottom: 3,
     paddingLeft: 4,
   },
   spanRange: {
@@ -56,8 +56,8 @@ const s = StyleSheet.create({
   foundationCard: {
     backgroundColor: colors.card,
     borderRadius: 6,
-    padding: 8,
-    marginBottom: 5,
+    padding: 7,
+    marginBottom: 4,
   },
   foundationName: {
     fontFamily: heading,
@@ -203,8 +203,8 @@ export function StructuralBasicsGuide() {
         </View>
 
         {/* Key Vocabulary */}
-        <View style={s.section}>
-          <View style={s.sectionHeader}>
+        <View style={{ marginBottom: 8 }}>
+          <View style={{ ...s.sectionHeader, marginBottom: 6 }}>
             <View style={s.sectionAccent} />
             <Text style={s.sectionTitle}>Key Vocabulary</Text>
           </View>
@@ -229,8 +229,8 @@ export function StructuralBasicsGuide() {
         </View>
 
         {/* Span Guidelines */}
-        <View style={s.section}>
-          <View style={s.sectionHeader}>
+        <View style={{ marginBottom: 8 }}>
+          <View style={{ ...s.sectionHeader, marginBottom: 6 }}>
             <View style={s.sectionAccent} />
             <Text style={s.sectionTitle}>Span Guidelines</Text>
           </View>
@@ -243,8 +243,8 @@ export function StructuralBasicsGuide() {
         </View>
 
         {/* Foundation Types */}
-        <View style={s.section}>
-          <View style={s.sectionHeader}>
+        <View style={{ marginBottom: 0 }}>
+          <View style={{ ...s.sectionHeader, marginBottom: 6 }}>
             <View style={s.sectionAccent} />
             <Text style={s.sectionTitle}>Foundation Types</Text>
           </View>

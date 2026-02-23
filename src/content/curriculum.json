@@ -65,18 +65,18 @@
       "description": "Master floor plans, elevations, sections, and site plans.",
       "lessons": [
         { "slug": "drawing-tools", "title": "Drawing Tools & Setup", "type": "video", "duration": "8 min", "path": "both" },
-        { "slug": "line-weights", "title": "Line Weights & Conventions", "type": "text", "duration": "8 min", "path": "both", "downloads": ["line-weight-reference.pdf"] },
+        { "slug": "line-weights", "title": "Line Weights & Conventions", "shortTitle": "Line Weights+", "type": "text", "duration": "8 min", "path": "both", "downloads": ["line-weight-reference.pdf"] },
         { "slug": "site-plans", "title": "Site Plans", "type": "exercise", "duration": "15 min", "path": "both", "downloads": ["site-plan-grid.pdf"] },
         { "slug": "floor-plans", "title": "Floor Plans", "type": "exercise", "duration": "20 min", "path": "both", "downloads": ["floor-plan-grid.pdf"] },
         { "slug": "elevations", "title": "Elevations", "type": "exercise", "duration": "15 min", "path": "both" },
         { "slug": "sections", "title": "Sections", "type": "exercise", "duration": "15 min", "path": "both" },
         { "slug": "flow-circulation", "title": "Flow and Circulation", "type": "text", "duration": "10 min", "path": "both" },
         { "slug": "storage-design", "title": "Storage Design", "type": "text", "duration": "10 min", "path": "both", "downloads": ["storage-inventory-checklist.pdf"] },
-        { "slug": "buildability", "title": "Buildability & Engineering", "type": "text", "duration": "15 min", "path": "both", "downloads": ["structural-basics-guide.pdf"] },
+        { "slug": "buildability", "title": "Buildability & Engineering", "shortTitle": "Buildability", "type": "text", "duration": "15 min", "path": "both", "downloads": ["structural-basics-guide.pdf"] },
         { "slug": "zoning-codes", "title": "Zoning & Code Basics", "type": "text", "duration": "12 min", "path": "both", "downloads": ["zoning-checklist.pdf"] },
         { "slug": "room-specific", "title": "Room-Specific Design", "type": "text", "duration": "15 min", "path": "both", "downloads": ["room-planning-guide.pdf"] },
         { "slug": "budget-design", "title": "Budget Checkpoint: Design", "type": "text", "duration": "5 min", "path": "both" },
-        { "slug": "space-requirements", "title": "Space Requirements Doc", "type": "exercise", "duration": "25 min", "path": "both", "downloads": ["room-program-worksheet.pdf"] },
+        { "slug": "space-requirements", "title": "Space Requirements Doc", "shortTitle": "Space Requirements", "type": "exercise", "duration": "25 min", "path": "both", "downloads": ["room-program-worksheet.pdf"] },
         { "slug": "module-3-checklist", "title": "Module 3 Checklist", "type": "checklist", "duration": "2 min", "path": "both", "downloads": ["module-3-cheat-sheet.pdf"] }
       ]
     },
