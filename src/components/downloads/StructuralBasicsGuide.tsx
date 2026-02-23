@@ -282,37 +282,34 @@ export function StructuralBasicsGuide() {
           </View>
         </View>
 
-        {/* When to Consult an Engineer */}
+        <View style={s.footer}>
+          <Text style={s.footerText}>
+            FOUNDATIONS OF ARCHITECTURE - STRUCTURAL BASICS GUIDE
+          </Text>
+          <Text style={s.footerAccent}>foacourse.com</Text>
+        </View>
+      </Page>
+
+      {/* -- Page 2: Engineer Checklist -- */}
+      <Page size="LETTER" style={s.page}>
         <View style={s.section}>
           <View style={s.sectionHeader}>
             <View style={s.sectionAccent} />
             <Text style={s.sectionTitle}>When to Consult an Engineer</Text>
           </View>
-          <View style={s.twoCol}>
-            <View style={s.col}>
-              {engineerChecklist.slice(0, 4).map((item) => (
-                <View key={item} style={s.checkRow}>
-                  <View style={s.checkbox} />
-                  <Text style={s.checkLabel}>{item}</Text>
-                </View>
-              ))}
+          {engineerChecklist.map((item) => (
+            <View key={item} style={s.checkRow}>
+              <View style={s.checkbox} />
+              <Text style={s.checkLabel}>{item}</Text>
             </View>
-            <View style={s.col}>
-              {engineerChecklist.slice(4).map((item) => (
-                <View key={item} style={s.checkRow}>
-                  <View style={s.checkbox} />
-                  <Text style={s.checkLabel}>{item}</Text>
-                </View>
-              ))}
-            </View>
-          </View>
+          ))}
         </View>
 
         <View style={s.footer}>
           <Text style={s.footerText}>
             FOUNDATIONS OF ARCHITECTURE - STRUCTURAL BASICS GUIDE
           </Text>
-          <Text style={s.footerAccent}>foacourse.com</Text>
+          <Text style={s.footerAccent}>Page 2</Text>
         </View>
       </Page>
     </Document>

@@ -7,35 +7,35 @@ const s = StyleSheet.create({
   instructionText: {
     fontFamily: bodyFont,
     fontWeight: 400,
-    fontSize: 8.5,
+    fontSize: 8,
     color: colors.body,
-    lineHeight: 1.6,
-    marginBottom: 14,
+    lineHeight: 1.5,
+    marginBottom: 8,
   },
   roomBlock: {
     borderWidth: 1,
     borderColor: colors.border,
-    borderRadius: 6,
-    padding: 8,
-    marginBottom: 8,
+    borderRadius: 5,
+    padding: 6,
+    marginBottom: 6,
   },
   roomBlockRow: {
     flexDirection: "row",
-    gap: 10,
-    marginBottom: 4,
+    gap: 8,
+    marginBottom: 3,
   },
   roomFieldGroup: {
     flex: 1,
   },
   roomFieldFull: {
-    marginBottom: 4,
+    marginBottom: 2,
   },
   fieldLabel: {
     fontFamily: bodyFont,
     fontWeight: 600,
-    fontSize: 8,
+    fontSize: 7.5,
     color: colors.dark,
-    marginBottom: 4,
+    marginBottom: 3,
   },
   fieldLine: {
     height: 1,
@@ -45,24 +45,24 @@ const s = StyleSheet.create({
   zoneRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 12,
-    marginBottom: 4,
+    gap: 10,
+    marginBottom: 3,
   },
   zoneLabel: {
     fontFamily: bodyFont,
     fontWeight: 600,
-    fontSize: 8,
+    fontSize: 7.5,
     color: colors.dark,
-    marginRight: 4,
+    marginRight: 2,
   },
   zoneOption: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 4,
+    gap: 3,
   },
   miniCheckbox: {
-    width: 8,
-    height: 8,
+    width: 7,
+    height: 7,
     borderWidth: 1,
     borderColor: colors.checkboxBorder,
     borderRadius: 1,
@@ -70,20 +70,20 @@ const s = StyleSheet.create({
   miniLabel: {
     fontFamily: bodyFont,
     fontWeight: 400,
-    fontSize: 7.5,
+    fontSize: 7,
     color: colors.body,
   },
   priorityRow: {
     flexDirection: "row",
     alignItems: "center",
     gap: 10,
-    marginBottom: 4,
+    marginBottom: 3,
   },
   reqLine: {
     height: 1,
     backgroundColor: colors.border,
     opacity: 0.5,
-    marginBottom: 8,
+    marginBottom: 6,
   },
   totalsRow: {
     flexDirection: "row",
@@ -96,9 +96,9 @@ const s = StyleSheet.create({
   totalLabel: {
     fontFamily: bodyFont,
     fontWeight: 600,
-    fontSize: 9,
+    fontSize: 8,
     color: colors.dark,
-    marginBottom: 6,
+    marginBottom: 5,
   },
   totalLine: {
     height: 1,
@@ -112,7 +112,7 @@ const s = StyleSheet.create({
 function RoomEntryBlock({ index }: { index: number }) {
   return (
     <View style={s.roomBlock}>
-      {/* Room Name row */}
+      {/* Room Name + Square Footage */}
       <View style={s.roomBlockRow}>
         <View style={s.roomFieldGroup}>
           <Text style={s.fieldLabel}>Room {index} - Name</Text>
@@ -124,20 +124,37 @@ function RoomEntryBlock({ index }: { index: number }) {
         </View>
       </View>
 
-      {/* Zone */}
-      <View style={s.zoneRow}>
-        <Text style={s.zoneLabel}>Zone:</Text>
-        <View style={s.zoneOption}>
-          <View style={s.miniCheckbox} />
-          <Text style={s.miniLabel}>Public</Text>
+      {/* Zone + Priority on same row */}
+      <View style={{ flexDirection: "row", gap: 20, marginBottom: 3 }}>
+        <View style={s.zoneRow}>
+          <Text style={s.zoneLabel}>Zone:</Text>
+          <View style={s.zoneOption}>
+            <View style={s.miniCheckbox} />
+            <Text style={s.miniLabel}>Public</Text>
+          </View>
+          <View style={s.zoneOption}>
+            <View style={s.miniCheckbox} />
+            <Text style={s.miniLabel}>Private</Text>
+          </View>
+          <View style={s.zoneOption}>
+            <View style={s.miniCheckbox} />
+            <Text style={s.miniLabel}>Service</Text>
+          </View>
         </View>
-        <View style={s.zoneOption}>
-          <View style={s.miniCheckbox} />
-          <Text style={s.miniLabel}>Private</Text>
-        </View>
-        <View style={s.zoneOption}>
-          <View style={s.miniCheckbox} />
-          <Text style={s.miniLabel}>Service</Text>
+        <View style={s.priorityRow}>
+          <Text style={s.zoneLabel}>Priority:</Text>
+          <View style={s.zoneOption}>
+            <View style={s.miniCheckbox} />
+            <Text style={s.miniLabel}>Must Have</Text>
+          </View>
+          <View style={s.zoneOption}>
+            <View style={s.miniCheckbox} />
+            <Text style={s.miniLabel}>Want</Text>
+          </View>
+          <View style={s.zoneOption}>
+            <View style={s.miniCheckbox} />
+            <Text style={s.miniLabel}>Nice to Have</Text>
+          </View>
         </View>
       </View>
 
@@ -153,27 +170,9 @@ function RoomEntryBlock({ index }: { index: number }) {
         </View>
       </View>
 
-      {/* Priority */}
-      <View style={s.priorityRow}>
-        <Text style={s.zoneLabel}>Priority:</Text>
-        <View style={s.zoneOption}>
-          <View style={s.miniCheckbox} />
-          <Text style={s.miniLabel}>Must Have</Text>
-        </View>
-        <View style={s.zoneOption}>
-          <View style={s.miniCheckbox} />
-          <Text style={s.miniLabel}>Want</Text>
-        </View>
-        <View style={s.zoneOption}>
-          <View style={s.miniCheckbox} />
-          <Text style={s.miniLabel}>Nice to Have</Text>
-        </View>
-      </View>
-
-      {/* Special Requirements */}
+      {/* Special Requirements — single line */}
       <View style={s.roomFieldFull}>
         <Text style={s.fieldLabel}>Special Requirements</Text>
-        <View style={s.reqLine} />
         <View style={s.reqLine} />
       </View>
     </View>

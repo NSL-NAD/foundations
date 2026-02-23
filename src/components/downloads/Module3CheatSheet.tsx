@@ -228,8 +228,8 @@ export function Module3CheatSheet() {
           {/* Left column */}
           <View style={s.col}>
             {/* Line Weights */}
-            <View style={s.section}>
-              <View style={s.sectionHeader}>
+            <View style={{ marginBottom: 8 }}>
+              <View style={{ ...s.sectionHeader, marginBottom: 5 }}>
                 <View style={s.sectionAccent} />
                 <Text style={s.sectionTitle}>Line Weights</Text>
               </View>
@@ -247,8 +247,8 @@ export function Module3CheatSheet() {
             </View>
 
             {/* Common Symbols */}
-            <View style={s.section}>
-              <View style={s.sectionHeader}>
+            <View style={{ marginBottom: 8 }}>
+              <View style={{ ...s.sectionHeader, marginBottom: 5 }}>
                 <View style={s.sectionAccent} />
                 <Text style={s.sectionTitle}>Common Symbols</Text>
               </View>
@@ -261,8 +261,8 @@ export function Module3CheatSheet() {
             </View>
 
             {/* Key Formulas */}
-            <View style={s.section}>
-              <View style={s.sectionHeader}>
+            <View style={{ marginBottom: 0 }}>
+              <View style={{ ...s.sectionHeader, marginBottom: 5 }}>
                 <View style={s.sectionAccent} />
                 <Text style={s.sectionTitle}>Key Formulas</Text>
               </View>
@@ -278,8 +278,8 @@ export function Module3CheatSheet() {
           {/* Right column */}
           <View style={s.col}>
             {/* Room Size Quick Reference */}
-            <View style={s.section}>
-              <View style={s.sectionHeader}>
+            <View style={{ marginBottom: 8 }}>
+              <View style={{ ...s.sectionHeader, marginBottom: 5 }}>
                 <View style={s.sectionAccent} />
                 <Text style={s.sectionTitle}>Room Size Quick Reference</Text>
               </View>
@@ -298,8 +298,8 @@ export function Module3CheatSheet() {
             </View>
 
             {/* Drawing Checklist */}
-            <View style={s.section}>
-              <View style={s.sectionHeader}>
+            <View style={{ marginBottom: 0 }}>
+              <View style={{ ...s.sectionHeader, marginBottom: 5 }}>
                 <View style={s.sectionAccent} />
                 <Text style={s.sectionTitle}>Drawing Checklist</Text>
               </View>
