@@ -145,9 +145,7 @@
         { "slug": "bonus-glossary", "title": "Architecture Terms Glossary", "type": "text", "duration": "5 min", "path": "both", "downloads": ["architecture-glossary.pdf"] },
         { "slug": "bonus-hiring", "title": "Hiring Tips", "type": "text", "duration": "12 min", "path": "both", "downloads": ["contractor-qa-sheet.pdf"] },
         { "slug": "bonus-timeline", "title": "What to Expect (Timeline)", "type": "text", "duration": "8 min", "path": "both" },
-        { "slug": "bonus-3d-overview", "title": "3D Modeling Overview", "type": "text", "duration": "8 min", "path": "both" },
-        { "slug": "bonus-sketchup", "title": "SketchUp Quick Start", "type": "text", "duration": "15 min", "path": "both" },
-        { "slug": "bonus-3d-tools", "title": "Other 3D Tools", "type": "text", "duration": "10 min", "path": "both" }
+        { "slug": "bonus-3d-overview", "title": "3D Modeling Overview", "type": "text", "duration": "8 min", "path": "both" }
       ]
     },
     {
