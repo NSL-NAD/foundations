@@ -75,6 +75,24 @@ async function main() {
   const { Module3CheatSheet } = await import(
     "../src/components/downloads/Module3CheatSheet"
   );
+  const { MaterialCostGuide } = await import(
+    "../src/components/downloads/MaterialCostGuide"
+  );
+  const { MaterialsSelectionMatrix } = await import(
+    "../src/components/downloads/MaterialsSelectionMatrix"
+  );
+  const { Module4CheatSheet } = await import(
+    "../src/components/downloads/Module4CheatSheet"
+  );
+  const { SunPathDiagram } = await import(
+    "../src/components/downloads/SunPathDiagram"
+  );
+  const { SustainabilityPrioritiesScorecard } = await import(
+    "../src/components/downloads/SustainabilityPrioritiesScorecard"
+  );
+  const { Module5CheatSheet } = await import(
+    "../src/components/downloads/Module5CheatSheet"
+  );
 
   const pdfs: { component: React.ReactElement; dir: string; filename: string }[] = [
     {
@@ -166,6 +184,36 @@ async function main() {
       component: React.createElement(Module3CheatSheet),
       dir: "module-3",
       filename: "module-3-cheat-sheet.pdf",
+    },
+    {
+      component: React.createElement(MaterialCostGuide),
+      dir: "module-4",
+      filename: "material-cost-guide.pdf",
+    },
+    {
+      component: React.createElement(MaterialsSelectionMatrix),
+      dir: "module-4",
+      filename: "materials-selection-matrix.pdf",
+    },
+    {
+      component: React.createElement(Module4CheatSheet),
+      dir: "module-4",
+      filename: "module-4-cheat-sheet.pdf",
+    },
+    {
+      component: React.createElement(SunPathDiagram),
+      dir: "module-5",
+      filename: "sun-path-diagram.pdf",
+    },
+    {
+      component: React.createElement(SustainabilityPrioritiesScorecard),
+      dir: "module-5",
+      filename: "sustainability-priorities-scorecard.pdf",
+    },
+    {
+      component: React.createElement(Module5CheatSheet),
+      dir: "module-5",
+      filename: "module-5-cheat-sheet.pdf",
     },
   ];
 
