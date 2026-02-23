@@ -1,5 +1,4 @@
-"use client";
-
+import React from "react";
 import {
   Document,
   Page,
@@ -9,56 +8,65 @@ import {
 } from "@react-pdf/renderer";
 
 // ============================================
-// Color Palette Definitions
+// Brand Constants (matches pdf-styles.ts)
+// ============================================
+const brand = {
+  primary: "#5F7F96",   // Slate blue
+  accent: "#B8593B",    // Terracotta
+  brass: "#C4A44E",     // Brass/gold
+  dark: "#1a1a1a",
+  body: "#333333",
+  muted: "#666666",
+  light: "#F5F3EE",     // Warm cream
+  card: "#EDEBE4",      // Warm tan card bg
+  white: "#FFFFFF",
+  border: "#D4D0C8",
+};
+
+const heading = "SpaceGrotesk";
+const bodyFont = "Syne";
+
+// ============================================
+// Color Palette Accents (user-selected)
 // ============================================
 const PALETTES = {
   classic: {
-    primary: "hsl(204, 25%, 47%)",   // Slate blue
-    accent: "hsl(16, 55%, 48%)",     // Terracotta
-    heading: "#1a1a1a",
-    body: "#333333",
-    muted: "#666666",
-    bg: "#FFFFFF",
-    sectionBg: "#f8f9fa",
+    primary: brand.primary,
+    accent: brand.accent,
+    sectionBg: "#EFF2F5",   // Light slate
   },
   warm: {
-    primary: "hsl(16, 55%, 48%)",    // Terracotta
-    accent: "hsl(42, 60%, 55%)",     // Warm gold/brass
-    heading: "#2c1810",
-    body: "#3d2b1f",
-    muted: "#7a6a5e",
-    bg: "#FFFDF9",
-    sectionBg: "#fef7f0",
+    primary: brand.accent,
+    accent: brand.brass,
+    sectionBg: "#FBF5EE",   // Warm cream
   },
   modern: {
-    primary: "#1a1a1a",              // Near black
-    accent: "hsl(204, 25%, 47%)",    // Slate blue
-    heading: "#000000",
-    body: "#2d2d2d",
-    muted: "#666666",
-    bg: "#FFFFFF",
-    sectionBg: "#f5f5f5",
+    primary: brand.dark,
+    accent: brand.primary,
+    sectionBg: "#F3F3F3",   // Cool grey
   },
 };
 
 // ============================================
-// Font Style Definitions
+// Font Style Definitions (user-selected)
+// The heading font always uses SpaceGrotesk (brand)
+// The body font varies based on selection
 // ============================================
 const FONTS = {
   serif: {
-    heading: "Times-Bold",
     body: "Times-Roman",
-    accent: "Times-Italic",
+    bodyBold: "Times-Bold",
+    bodyItalic: "Times-Italic",
   },
   clean: {
-    heading: "Helvetica-Bold",
-    body: "Helvetica",
-    accent: "Helvetica-Oblique",
+    body: bodyFont,
+    bodyBold: bodyFont,
+    bodyItalic: bodyFont,
   },
   minimal: {
-    heading: "Courier-Bold",
     body: "Courier",
-    accent: "Courier-Oblique",
+    bodyBold: "Courier-Bold",
+    bodyItalic: "Courier-Oblique",
   },
 };
 
@@ -81,113 +89,305 @@ export interface DesignBriefDocumentProps {
 }
 
 function createStyles(palette: ColorPalette, fontStyle: FontStyle) {
-  const colors = PALETTES[palette] || PALETTES.classic;
+  const pal = PALETTES[palette] || PALETTES.classic;
   const fonts = FONTS[fontStyle] || FONTS.clean;
 
   return StyleSheet.create({
-    // Cover page
+    // ── Cover Page ──────────────────────────────
     coverPage: {
       padding: 60,
       fontFamily: fonts.body,
-      backgroundColor: colors.bg,
+      backgroundColor: brand.white,
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
       alignItems: "center",
       height: "100%",
     },
+    coverHeaderCard: {
+      backgroundColor: brand.card,
+      borderRadius: 8,
+      padding: 24,
+      paddingBottom: 20,
+      marginBottom: 40,
+      width: "100%",
+      alignItems: "center",
+    },
     coverLogo: {
-      fontSize: 36,
-      fontFamily: fonts.heading,
-      color: colors.primary,
-      letterSpacing: 6,
-      marginBottom: 8,
+      fontFamily: heading,
+      fontWeight: 700,
+      fontSize: 32,
+      letterSpacing: 4,
+      color: pal.primary,
+      marginBottom: 6,
     },
     coverSchool: {
-      fontSize: 11,
-      color: colors.primary,
-      letterSpacing: 6,
+      fontFamily: heading,
+      fontWeight: 400,
+      fontSize: 8,
+      letterSpacing: 5,
       textTransform: "uppercase",
-      marginBottom: 48,
+      color: brand.muted,
+      marginBottom: 16,
     },
     coverDivider: {
-      width: 100,
+      width: 80,
       height: 2,
-      backgroundColor: colors.accent,
-      marginBottom: 40,
+      backgroundColor: pal.accent,
+      marginBottom: 16,
+    },
+    coverLabel: {
+      fontFamily: heading,
+      fontWeight: 600,
+      fontSize: 7,
+      letterSpacing: 3,
+      textTransform: "uppercase",
+      color: brand.muted,
+      marginBottom: 8,
     },
     coverTitle: {
-      fontSize: 28,
-      fontFamily: fonts.heading,
-      color: colors.heading,
+      fontSize: 26,
+      fontFamily: heading,
+      fontWeight: 700,
+      color: brand.dark,
       textAlign: "center",
-      marginBottom: 16,
-      maxWidth: 400,
+      marginBottom: 20,
+      maxWidth: 380,
     },
-    coverSubtitle: {
-      fontSize: 13,
-      fontFamily: fonts.accent,
-      color: colors.muted,
-      textAlign: "center",
-      marginBottom: 40,
+    coverMetaCard: {
+      backgroundColor: pal.sectionBg,
+      borderRadius: 6,
+      paddingVertical: 12,
+      paddingHorizontal: 20,
+      flexDirection: "row",
+      justifyContent: "center",
+      gap: 32,
     },
-    coverMeta: {
+    coverMetaGroup: {
+      alignItems: "center",
+    },
+    coverMetaLabel: {
+      fontFamily: heading,
+      fontWeight: 600,
+      fontSize: 6,
+      letterSpacing: 2,
+      textTransform: "uppercase",
+      color: brand.muted,
+      marginBottom: 3,
+    },
+    coverMetaValue: {
+      fontFamily: fonts.body,
       fontSize: 10,
-      color: colors.muted,
-      letterSpacing: 1,
+      color: brand.body,
+    },
+    coverFooter: {
+      position: "absolute",
+      bottom: 40,
+      left: 60,
+      right: 60,
+      alignItems: "center",
+    },
+    coverFooterText: {
+      fontFamily: heading,
+      fontWeight: 400,
+      fontSize: 7,
+      letterSpacing: 2,
+      color: brand.muted,
     },
 
-    // Content pages
+    // ── Content Pages ───────────────────────────
     contentPage: {
-      padding: 60,
-      paddingTop: 50,
-      paddingBottom: 60,
+      padding: 50,
+      paddingBottom: 70,
       fontFamily: fonts.body,
-      backgroundColor: colors.bg,
+      backgroundColor: brand.white,
     },
-    pageHeader: {
+
+    // Page header bar
+    pageHeaderBar: {
       flexDirection: "row",
       justifyContent: "space-between",
       alignItems: "center",
-      borderBottomWidth: 1,
-      borderBottomColor: colors.accent,
       paddingBottom: 10,
-      marginBottom: 30,
+      borderBottomWidth: 1,
+      borderBottomColor: brand.border,
+      marginBottom: 28,
     },
-    pageHeaderText: {
-      fontSize: 8,
-      color: colors.muted,
+    pageHeaderLeft: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 8,
+    },
+    pageHeaderLogo: {
+      fontFamily: heading,
+      fontWeight: 700,
+      fontSize: 14,
+      letterSpacing: 2,
+      color: pal.primary,
+    },
+    pageHeaderDivider: {
+      width: 1,
+      height: 12,
+      backgroundColor: brand.border,
+    },
+    pageHeaderTitle: {
+      fontFamily: heading,
+      fontWeight: 400,
+      fontSize: 7,
       letterSpacing: 2,
       textTransform: "uppercase",
+      color: brand.muted,
+    },
+    pageHeaderRight: {
+      fontFamily: heading,
+      fontWeight: 400,
+      fontSize: 7,
+      letterSpacing: 1,
+      color: brand.muted,
+    },
+
+    // Section card
+    sectionCard: {
+      backgroundColor: pal.sectionBg,
+      borderRadius: 8,
+      padding: 24,
+      paddingTop: 20,
+      marginBottom: 16,
+    },
+    sectionHeader: {
+      flexDirection: "row",
+      alignItems: "center",
+      marginBottom: 14,
+    },
+    sectionAccent: {
+      width: 3,
+      height: 16,
+      backgroundColor: pal.accent,
+      marginRight: 10,
+      borderRadius: 2,
+    },
+    sectionNumber: {
+      fontFamily: heading,
+      fontWeight: 400,
+      fontSize: 7,
+      letterSpacing: 2,
+      color: brand.muted,
+      textTransform: "uppercase",
+      marginRight: 8,
     },
     sectionTitle: {
-      fontSize: 18,
-      fontFamily: fonts.heading,
-      color: colors.primary,
-      marginBottom: 16,
+      fontFamily: heading,
+      fontWeight: 700,
+      fontSize: 14,
+      color: pal.primary,
       letterSpacing: 1,
+      textTransform: "uppercase",
+    },
+    sectionDivider: {
+      height: 1,
+      backgroundColor: brand.border,
+      opacity: 0.5,
+      marginBottom: 14,
     },
     sectionContent: {
-      fontSize: 11,
-      color: colors.body,
-      lineHeight: 1.7,
-      textAlign: "justify",
+      fontFamily: fonts.body,
+      fontWeight: 400,
+      fontSize: 10,
+      color: brand.body,
+      lineHeight: 1.8,
     },
     paragraph: {
-      marginBottom: 10,
+      marginBottom: 8,
     },
+
+    // Footer
     footer: {
       position: "absolute",
-      bottom: 30,
-      left: 60,
-      right: 60,
+      bottom: 28,
+      left: 50,
+      right: 50,
       flexDirection: "row",
       justifyContent: "space-between",
       alignItems: "center",
     },
     footerText: {
+      fontFamily: heading,
+      fontWeight: 400,
+      fontSize: 7,
+      color: brand.muted,
+      letterSpacing: 1,
+    },
+    footerAccent: {
+      fontFamily: bodyFont,
+      fontWeight: 500,
+      fontSize: 7,
+      color: pal.accent,
+    },
+
+    // Table of Contents
+    tocPage: {
+      padding: 50,
+      paddingBottom: 70,
+      fontFamily: fonts.body,
+      backgroundColor: brand.white,
+    },
+    tocHeaderCard: {
+      backgroundColor: brand.card,
+      borderRadius: 8,
+      padding: 20,
+      marginBottom: 28,
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+    },
+    tocTitle: {
+      fontFamily: heading,
+      fontWeight: 700,
+      fontSize: 16,
+      color: brand.dark,
+      letterSpacing: 1.5,
+      textTransform: "uppercase",
+    },
+    tocSubtitle: {
+      fontFamily: bodyFont,
+      fontWeight: 400,
+      fontSize: 9,
+      color: brand.muted,
+    },
+    tocItem: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      paddingVertical: 8,
+      paddingHorizontal: 4,
+      borderBottomWidth: 1,
+      borderBottomColor: brand.border,
+      borderBottomStyle: "dotted",
+    },
+    tocItemLeft: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 10,
+    },
+    tocItemNumber: {
+      fontFamily: heading,
+      fontWeight: 600,
       fontSize: 8,
-      color: colors.muted,
+      color: pal.accent,
+      width: 18,
+    },
+    tocItemTitle: {
+      fontFamily: heading,
+      fontWeight: 500,
+      fontSize: 10,
+      color: brand.dark,
+      letterSpacing: 0.5,
+    },
+    tocItemPage: {
+      fontFamily: heading,
+      fontWeight: 400,
+      fontSize: 8,
+      color: brand.muted,
     },
   });
 }
@@ -203,52 +403,119 @@ export function DesignBriefDocument({
 }: DesignBriefDocumentProps) {
   const palette = (colorPalette in PALETTES ? colorPalette : "classic") as ColorPalette;
   const font = (fontStyle in FONTS ? fontStyle : "clean") as FontStyle;
-  const styles = createStyles(palette, font);
+  const s = createStyles(palette, font);
 
+  // Group sections into pages — up to 2 short sections per page, or 1 long one
+  // For now, keep it simple: one section per page for clarity
   return (
     <Document>
-      {/* Cover Page */}
-      <Page size="A4" style={styles.coverPage}>
-        <Text style={styles.coverLogo}>FA</Text>
-        <Text style={styles.coverSchool}>Foundations of Architecture</Text>
-        <View style={styles.coverDivider} />
-        <Text style={styles.coverTitle}>{briefTitle}</Text>
-        {firmName && (
-          <Text style={styles.coverSubtitle}>Prepared for {firmName}</Text>
-        )}
-        <Text style={styles.coverSubtitle}>
-          {studentName}
-        </Text>
-        <Text style={styles.coverMeta}>{generatedDate}</Text>
+      {/* ── Cover Page ─────────────────────────────── */}
+      <Page size="LETTER" style={s.coverPage}>
+        <View style={s.coverHeaderCard}>
+          <Text style={s.coverLogo}>FA</Text>
+          <Text style={s.coverSchool}>Foundations of Architecture</Text>
+          <View style={s.coverDivider} />
+          <Text style={s.coverLabel}>Design Brief</Text>
+        </View>
+
+        <Text style={s.coverTitle}>{briefTitle}</Text>
+
+        <View style={s.coverMetaCard}>
+          <View style={s.coverMetaGroup}>
+            <Text style={s.coverMetaLabel}>Prepared By</Text>
+            <Text style={s.coverMetaValue}>{studentName}</Text>
+          </View>
+          {firmName ? (
+            <View style={s.coverMetaGroup}>
+              <Text style={s.coverMetaLabel}>Prepared For</Text>
+              <Text style={s.coverMetaValue}>{firmName}</Text>
+            </View>
+          ) : null}
+          <View style={s.coverMetaGroup}>
+            <Text style={s.coverMetaLabel}>Date</Text>
+            <Text style={s.coverMetaValue}>{generatedDate}</Text>
+          </View>
+          <View style={s.coverMetaGroup}>
+            <Text style={s.coverMetaLabel}>Sections</Text>
+            <Text style={s.coverMetaValue}>{sections.length}</Text>
+          </View>
+        </View>
+
+        <View style={s.coverFooter}>
+          <Text style={s.coverFooterText}>foacourse.com</Text>
+        </View>
       </Page>
 
-      {/* Content Pages — one section per page */}
+      {/* ── Table of Contents ──────────────────────── */}
+      <Page size="LETTER" style={s.tocPage}>
+        <View style={s.tocHeaderCard}>
+          <Text style={s.tocTitle}>Contents</Text>
+          <Text style={s.tocSubtitle}>{sections.length} sections</Text>
+        </View>
+
+        {sections.map((section, i) => (
+          <View key={i} style={s.tocItem}>
+            <View style={s.tocItemLeft}>
+              <Text style={s.tocItemNumber}>
+                {String(i + 1).padStart(2, "0")}
+              </Text>
+              <Text style={s.tocItemTitle}>{section.title}</Text>
+            </View>
+            <Text style={s.tocItemPage}>{i + 3}</Text>
+          </View>
+        ))}
+
+        <View style={s.footer} fixed>
+          <Text style={s.footerText}>
+            FOUNDATIONS OF ARCHITECTURE — DESIGN BRIEF
+          </Text>
+          <Text style={s.footerAccent}>Page 2</Text>
+        </View>
+      </Page>
+
+      {/* ── Content Pages ──────────────────────────── */}
       {sections.map((section, i) => (
-        <Page key={i} size="A4" style={styles.contentPage}>
-          {/* Page header */}
-          <View style={styles.pageHeader}>
-            <Text style={styles.pageHeaderText}>{briefTitle}</Text>
-            <Text style={styles.pageHeaderText}>
+        <Page key={i} size="LETTER" style={s.contentPage}>
+          {/* Page header bar */}
+          <View style={s.pageHeaderBar}>
+            <View style={s.pageHeaderLeft}>
+              <Text style={s.pageHeaderLogo}>FA</Text>
+              <View style={s.pageHeaderDivider} />
+              <Text style={s.pageHeaderTitle}>{briefTitle}</Text>
+            </View>
+            <Text style={s.pageHeaderRight}>
               Section {i + 1} of {sections.length}
             </Text>
           </View>
 
-          {/* Section content */}
-          <Text style={styles.sectionTitle}>{section.title}</Text>
-          {section.content.split("\n\n").map((paragraph, pi) => (
-            <View key={pi} style={styles.paragraph}>
-              <Text style={styles.sectionContent}>
-                {paragraph.replace(/\n/g, " ").trim()}
+          {/* Section content in a card */}
+          <View style={s.sectionCard}>
+            <View style={s.sectionHeader}>
+              <View style={s.sectionAccent} />
+              <Text style={s.sectionNumber}>
+                {String(i + 1).padStart(2, "0")}
               </Text>
+              <Text style={s.sectionTitle}>{section.title}</Text>
             </View>
-          ))}
+            <View style={s.sectionDivider} />
+
+            {section.content.split("\n\n").map((paragraph, pi) => {
+              const trimmed = paragraph.replace(/\n/g, " ").trim();
+              if (!trimmed) return null;
+              return (
+                <View key={pi} style={s.paragraph}>
+                  <Text style={s.sectionContent}>{trimmed}</Text>
+                </View>
+              );
+            })}
+          </View>
 
           {/* Footer */}
-          <View style={styles.footer} fixed>
-            <Text style={styles.footerText}>
-              Foundations of Architecture — Design Brief
+          <View style={s.footer} fixed>
+            <Text style={s.footerText}>
+              FOUNDATIONS OF ARCHITECTURE — DESIGN BRIEF
             </Text>
-            <Text style={styles.footerText}>Page {i + 2}</Text>
+            <Text style={s.footerAccent}>Page {i + 3}</Text>
           </View>
         </Page>
       ))}

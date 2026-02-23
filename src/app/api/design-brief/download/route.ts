@@ -74,11 +74,23 @@ export async function POST(req: NextRequest) {
     }
 
     if (format === "pdf") {
+      // Register brand fonts before rendering
+      const { registerBrandFonts } = await import(
+        "@/components/downloads/pdf-fonts"
+      );
+      registerBrandFonts();
+
       // Dynamic import — use renderToBuffer for server-side PDF generation
       const { renderToBuffer } = await import("@react-pdf/renderer");
-      const { DesignBriefDocument } = await import(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const briefMod: any = await import(
         "@/components/account/DesignBriefDocument"
       );
+      // Handle CJS/ESM interop: named export may be nested under default
+      const DesignBriefDocument =
+        briefMod.DesignBriefDocument ??
+        briefMod.default?.DesignBriefDocument ??
+        briefMod.default;
       const React = await import("react");
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
