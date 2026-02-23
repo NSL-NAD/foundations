@@ -48,6 +48,33 @@ async function main() {
   const { ElementPreferencesWorksheet } = await import(
     "../src/components/downloads/ElementPreferencesWorksheet"
   );
+  const { LineWeightReference } = await import(
+    "../src/components/downloads/LineWeightReference"
+  );
+  const { SitePlanGrid } = await import(
+    "../src/components/downloads/SitePlanGrid"
+  );
+  const { FloorPlanGrid } = await import(
+    "../src/components/downloads/FloorPlanGrid"
+  );
+  const { StorageInventoryChecklist } = await import(
+    "../src/components/downloads/StorageInventoryChecklist"
+  );
+  const { StructuralBasicsGuide } = await import(
+    "../src/components/downloads/StructuralBasicsGuide"
+  );
+  const { ZoningChecklist } = await import(
+    "../src/components/downloads/ZoningChecklist"
+  );
+  const { RoomPlanningGuide } = await import(
+    "../src/components/downloads/RoomPlanningGuide"
+  );
+  const { RoomProgramWorksheet } = await import(
+    "../src/components/downloads/RoomProgramWorksheet"
+  );
+  const { Module3CheatSheet } = await import(
+    "../src/components/downloads/Module3CheatSheet"
+  );
 
   const pdfs: { component: React.ReactElement; dir: string; filename: string }[] = [
     {
@@ -94,6 +121,51 @@ async function main() {
       component: React.createElement(ElementPreferencesWorksheet),
       dir: "module-2",
       filename: "element-preferences-worksheet.pdf",
+    },
+    {
+      component: React.createElement(LineWeightReference),
+      dir: "module-3",
+      filename: "line-weight-reference.pdf",
+    },
+    {
+      component: React.createElement(SitePlanGrid),
+      dir: "module-3",
+      filename: "site-plan-grid.pdf",
+    },
+    {
+      component: React.createElement(FloorPlanGrid),
+      dir: "module-3",
+      filename: "floor-plan-grid.pdf",
+    },
+    {
+      component: React.createElement(StorageInventoryChecklist),
+      dir: "module-3",
+      filename: "storage-inventory-checklist.pdf",
+    },
+    {
+      component: React.createElement(StructuralBasicsGuide),
+      dir: "module-3",
+      filename: "structural-basics-guide.pdf",
+    },
+    {
+      component: React.createElement(ZoningChecklist),
+      dir: "module-3",
+      filename: "zoning-checklist.pdf",
+    },
+    {
+      component: React.createElement(RoomPlanningGuide),
+      dir: "module-3",
+      filename: "room-planning-guide.pdf",
+    },
+    {
+      component: React.createElement(RoomProgramWorksheet),
+      dir: "module-3",
+      filename: "room-program-worksheet.pdf",
+    },
+    {
+      component: React.createElement(Module3CheatSheet),
+      dir: "module-3",
+      filename: "module-3-cheat-sheet.pdf",
     },
   ];
 

@@ -65,7 +65,7 @@
       "description": "Master floor plans, elevations, sections, and site plans.",
       "lessons": [
         { "slug": "drawing-tools", "title": "Drawing Tools & Setup", "type": "video", "duration": "8 min", "path": "both" },
-        { "slug": "line-weights", "title": "Line Weights & Conventions", "type": "text", "duration": "8 min", "path": "both", "downloads": ["line-weight-reference.pdf"] },
+        { "slug": "line-weights", "title": "Line Weights+", "type": "text", "duration": "8 min", "path": "both", "downloads": ["line-weight-reference.pdf"] },
         { "slug": "site-plans", "title": "Site Plans", "type": "exercise", "duration": "15 min", "path": "both", "downloads": ["site-plan-grid.pdf"] },
         { "slug": "floor-plans", "title": "Floor Plans", "type": "exercise", "duration": "20 min", "path": "both", "downloads": ["floor-plan-grid.pdf"] },
         { "slug": "elevations", "title": "Elevations", "type": "exercise", "duration": "15 min", "path": "both" },

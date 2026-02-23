@@ -10,6 +10,8 @@ import { DrawerPath, BriefPath } from "@/components/course/PathIndicator";
 import { DownloadAllButton } from "@/components/course/DownloadAllButton";
 import { CourseQuote } from "@/components/course/CourseQuote";
 import { DefinitionCard } from "@/components/course/DefinitionCard";
+import { ToolCard } from "@/components/course/ToolCard";
+import { StarterKitButton } from "@/components/course/StarterKitButton";
 import { StraightedgeLine } from "@/components/decorative/StraightedgeLine";
 
 /* ── MDX component overrides ─────────────────────────────── */
@@ -70,6 +72,8 @@ const mdxComponents = {
   DownloadAllButton,
   CourseQuote,
   DefinitionCard,
+  ToolCard,
+  StarterKitButton,
   hr: () => <StraightedgeLine showTicks className="my-14" />,
   blockquote: InsightBlockquote,
   p: SmartParagraph,
