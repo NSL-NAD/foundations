@@ -120,6 +120,7 @@ export async function generateDesignBriefDocx({
             italics: true,
             size: 24,
             color: "666666",
+            font: "Calibri",
           }),
         ],
       })
@@ -137,6 +138,7 @@ export async function generateDesignBriefDocx({
           italics: true,
           size: 24,
           color: "666666",
+          font: "Calibri",
         }),
       ],
     })
@@ -152,6 +154,7 @@ export async function generateDesignBriefDocx({
           text: generatedDate,
           size: 18,
           color: "999999",
+          font: "Calibri",
         }),
       ],
     })
@@ -201,6 +204,7 @@ export async function generateDesignBriefDocx({
               text: trimmed,
               size: 22,
               color: "333333",
+              font: "Calibri",
             }),
           ],
         })

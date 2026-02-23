@@ -25,6 +25,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import type { ReactNode } from "react";
 
 type WizardStep =
   | "palette"
@@ -43,6 +44,8 @@ interface DesignBriefWizardProps {
   studentName: string;
   briefResponseCount: number;
   existingBriefDate?: string | null;
+  triggerClassName?: string;
+  triggerLabel?: string;
 }
 
 // ============================================
@@ -105,10 +108,24 @@ const STEPS: WizardStep[] = [
   "complete",
 ];
 
+/* -- Gradient orb background for AI-forward feel -- */
+function WizardGradientBg({ children }: { children: ReactNode }) {
+  return (
+    <div className="relative overflow-hidden">
+      <div className="pointer-events-none absolute -top-20 -left-20 h-64 w-64 rounded-full bg-[#5F7F96]/15 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-16 -right-16 h-56 w-56 rounded-full bg-[#B8593B]/12 blur-3xl" />
+      <div className="pointer-events-none absolute top-1/2 left-1/2 h-48 w-48 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#C4A44E]/10 blur-3xl" />
+      <div className="relative">{children}</div>
+    </div>
+  );
+}
+
 export function DesignBriefWizard({
   studentName,
   briefResponseCount,
   existingBriefDate,
+  triggerClassName,
+  triggerLabel,
 }: DesignBriefWizardProps) {
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<WizardStep>("palette");
@@ -235,13 +252,20 @@ export function DesignBriefWizard({
       <DialogTrigger asChild>
         <Button
           size="sm"
-          className="w-full rounded-full bg-primary-foreground px-6 text-xs font-medium uppercase tracking-wider text-primary hover:bg-primary-foreground/90"
+          className={
+            triggerClassName ||
+            "w-full rounded-full bg-primary-foreground px-6 text-xs font-medium uppercase tracking-wider text-primary hover:bg-primary-foreground/90"
+          }
         >
           <Sparkles className="mr-2 h-3 w-3" />
-          {existingBriefDate ? "Regenerate Design Brief" : "Create Design Brief"}
+          {triggerLabel ||
+            (existingBriefDate
+              ? "Regenerate Design Brief"
+              : "Create Design Brief")}
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-2xl">
+        <WizardGradientBg>
         {/* Step: Color Palette */}
         {step === "palette" && (
           <>
@@ -317,7 +341,7 @@ export function DesignBriefWizard({
                 >
                   <div
                     className={cn(
-                      "flex h-12 w-24 items-center justify-center rounded bg-muted text-lg",
+                      "flex h-14 w-36 items-center justify-center whitespace-nowrap rounded-lg bg-muted px-3 text-lg",
                       option.fontClass
                     )}
                   >
@@ -555,6 +579,7 @@ export function DesignBriefWizard({
             ))}
           </div>
         )}
+        </WizardGradientBg>
       </DialogContent>
     </Dialog>
   );

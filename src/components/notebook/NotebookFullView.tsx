@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { NotebookEditor } from "@/components/tools/notebook/NotebookEditor";
 import { NotebookFileUpload } from "@/components/tools/notebook/NotebookFileUpload";
+import { GenerateDesignBriefButton } from "@/components/course/GenerateDesignBriefButton";
 import { Button } from "@/components/ui/button";
 import {
   ChevronDown,
@@ -90,13 +91,16 @@ export function NotebookFullView({
                 : `${totalNotes} note${totalNotes !== 1 ? "s" : ""} across your course`}
             </p>
           </div>
-          {/* General upload — not tied to any lesson */}
-          <NotebookFileUpload
-            userId={userId}
-            moduleSlug={null}
-            lessonSlug={null}
-            compact={false}
-          />
+          {/* Actions: Generate brief + upload files */}
+          <div className="flex items-center gap-2">
+            <GenerateDesignBriefButton variant="button" />
+            <NotebookFileUpload
+              userId={userId}
+              moduleSlug={null}
+              lessonSlug={null}
+              compact={false}
+            />
+          </div>
         </div>
       </div>
 
