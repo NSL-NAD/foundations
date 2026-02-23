@@ -105,6 +105,9 @@ async function main() {
   const { BonusAICheatSheet } = await import(
     "../src/components/downloads/BonusAICheatSheet"
   );
+  const { RecommendedReadingList } = await import(
+    "../src/components/downloads/RecommendedReadingList"
+  );
 
   const pdfs: { component: React.ReactElement; dir: string; filename: string }[] = [
     {
@@ -246,6 +249,11 @@ async function main() {
       component: React.createElement(BonusAICheatSheet),
       dir: "bonus-ai",
       filename: "bonus-ai-cheat-sheet.pdf",
+    },
+    {
+      component: React.createElement(RecommendedReadingList),
+      dir: "resources",
+      filename: "recommended-reading-list.pdf",
     },
   ];
 
