@@ -158,11 +158,11 @@
         { "slug": "ai-rayon", "title": "Floor Plans: Rayon", "type": "text", "duration": "10 min", "path": "both", "links": [{ "label": "Rayon", "url": "https://www.rayon.design/" }, { "label": "YouTube", "url": "https://www.youtube.com/@rayon.design" }] },
         { "slug": "ai-spacely", "title": "Interior Visualization: Spacely AI", "type": "text", "duration": "10 min", "path": "both", "links": [{ "label": "Spacely AI", "url": "https://www.spacely.ai/" }] },
         { "slug": "ai-nano-banana", "title": "Concept Images: Nano Banana Pro", "type": "text", "duration": "12 min", "path": "both", "links": [{ "label": "Google AI Studio", "url": "https://aistudio.google.com/" }] },
-        { "slug": "ai-rendering-video", "title": "Rendering & Video: D5, Hunyuan, Kling", "type": "text", "duration": "12 min", "path": "both", "links": [{ "label": "D5 Render", "url": "https://www.d5render.com/" }, { "label": "YouTube", "url": "https://www.youtube.com/@D5Render" }, { "label": "Hunyuan 3D", "url": "https://hy-3d.com/" }, { "label": "Kling AI", "url": "https://klingai.com/" }] },
-        { "slug": "ai-prompting", "title": "Prompting for Architecture", "type": "text", "duration": "10 min", "path": "both", "downloads": ["ai-prompting-cheat-sheet.pdf"] },
+        { "slug": "ai-rendering-video", "title": "Rendering & Video: D5, Hunyuan, Kling", "shortTitle": "D5, Hunyuan, Kling", "type": "text", "duration": "12 min", "path": "both", "links": [{ "label": "D5 Render", "url": "https://www.d5render.com/" }, { "label": "YouTube", "url": "https://www.youtube.com/@D5Render" }, { "label": "Hunyuan 3D", "url": "https://hy-3d.com/" }, { "label": "Kling AI", "url": "https://klingai.com/" }] },
+        { "slug": "ai-prompting", "title": "Prompting for Architecture", "shortTitle": "Prompting", "type": "text", "duration": "10 min", "path": "both", "downloads": ["ai-prompting-cheat-sheet.pdf"] },
         { "slug": "ai-workflow", "title": "Integrating AI Into Your Workflow", "type": "text", "duration": "8 min", "path": "both" },
         { "slug": "ai-resources", "title": "AI Resources & Next Steps", "type": "text", "duration": "5 min", "path": "both", "links": [{ "label": "Rayon", "url": "https://www.rayon.design/" }, { "label": "Spacely AI", "url": "https://www.spacely.ai/" }, { "label": "AI Studio", "url": "https://aistudio.google.com/" }, { "label": "D5 Render", "url": "https://www.d5render.com/" }] },
-        { "slug": "ai-exercise", "title": "Exercise: Visualize Your Dream Home", "type": "exercise", "duration": "40 min", "path": "both" },
+        { "slug": "ai-exercise", "title": "Exercise: Visualize Your Dream Home", "shortTitle": "Visualize Your Dream Home", "type": "exercise", "duration": "40 min", "path": "both" },
         { "slug": "bonus-ai-checklist", "title": "Bonus Module AI Checklist", "type": "checklist", "duration": "2 min", "path": "both", "downloads": ["bonus-ai-cheat-sheet.pdf"] }
       ]
     },
