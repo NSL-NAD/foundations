@@ -326,11 +326,11 @@ export function AIPromptingCheatSheet() {
       {/* ── Page 2: Example + Mistakes + Tips ────────── */}
       <Page size="LETTER" style={s.page}>
         {/* Example Prompt */}
-        <View style={{ ...s.sectionHeader, marginBottom: 8 }}>
+        <View style={{ ...s.sectionHeader, marginBottom: 6 }}>
           <View style={s.sectionAccent} />
           <Text style={s.sectionTitle}>Example Prompt</Text>
         </View>
-        <View style={s.exampleBox}>
+        <View style={{ ...s.exampleBox, padding: 8, marginBottom: 8 }}>
           <Text style={s.exampleLabel}>Complete Prompt</Text>
           <Text style={s.exampleText}>
             &quot;A two-story contemporary beach house with floor-to-ceiling glazing and white stucco exterior. Natural oak decking wraps around the front facade. Shot at golden hour with warm side lighting. Eye-level perspective from the garden looking at the main entrance. Lush coastal landscaping with ornamental grasses. Photorealistic render, 16:9 aspect ratio.&quot;
@@ -338,82 +338,82 @@ export function AIPromptingCheatSheet() {
         </View>
 
         {/* Prompt Anatomy */}
-        <View style={{ ...s.sectionHeader, marginBottom: 8 }}>
+        <View style={{ ...s.sectionHeader, marginBottom: 6 }}>
           <View style={s.sectionAccent} />
           <Text style={s.sectionTitle}>Prompt Anatomy</Text>
         </View>
         <View style={s.twoCol}>
           <View style={s.col}>
-            <View style={s.entryCard}>
+            <View style={{ ...s.entryCard, padding: 5, marginBottom: 3 }}>
               <Text style={s.entryName}>Subject</Text>
               <Text style={s.entryDesc}>Two-story contemporary beach house</Text>
             </View>
-            <View style={s.entryCard}>
+            <View style={{ ...s.entryCard, padding: 5, marginBottom: 3 }}>
               <Text style={s.entryName}>Style</Text>
               <Text style={s.entryDesc}>Contemporary, floor-to-ceiling glazing</Text>
             </View>
-            <View style={s.entryCard}>
+            <View style={{ ...s.entryCard, padding: 5, marginBottom: 3 }}>
               <Text style={s.entryName}>Materials</Text>
               <Text style={s.entryDesc}>White stucco, natural oak decking</Text>
             </View>
-            <View style={s.entryCard}>
+            <View style={{ ...s.entryCard, padding: 5, marginBottom: 3 }}>
               <Text style={s.entryName}>Lighting</Text>
               <Text style={s.entryDesc}>Golden hour, warm side lighting</Text>
             </View>
           </View>
           <View style={s.col}>
-            <View style={s.entryCard}>
+            <View style={{ ...s.entryCard, padding: 5, marginBottom: 3 }}>
               <Text style={s.entryName}>Camera</Text>
               <Text style={s.entryDesc}>Eye-level from garden, looking at entrance</Text>
             </View>
-            <View style={s.entryCard}>
+            <View style={{ ...s.entryCard, padding: 5, marginBottom: 3 }}>
               <Text style={s.entryName}>Atmosphere</Text>
               <Text style={s.entryDesc}>Lush coastal landscaping, ornamental grasses</Text>
             </View>
-            <View style={s.entryCard}>
+            <View style={{ ...s.entryCard, padding: 5, marginBottom: 3 }}>
               <Text style={s.entryName}>Technical</Text>
               <Text style={s.entryDesc}>Photorealistic render, 16:9 aspect ratio</Text>
             </View>
           </View>
         </View>
 
-        {/* Common Mistakes */}
-        <View style={{ marginTop: 10 }}>
-          <View style={{ ...s.sectionHeader, marginBottom: 8 }}>
-            <View style={s.sectionAccent} />
-            <Text style={s.sectionTitle}>Common Mistakes to Avoid</Text>
-          </View>
-          {mistakes.map((m) => (
-            <View key={m.title} style={s.tipCard}>
-              <Text style={s.tipTitle}>{m.title}</Text>
-              <Text style={s.tipText}>{m.fix}</Text>
+        {/* Common Mistakes + Pro Tips — side by side */}
+        <View style={{ ...s.twoCol, marginTop: 8 }}>
+          <View style={s.col}>
+            <View style={{ ...s.sectionHeader, marginBottom: 6 }}>
+              <View style={s.sectionAccent} />
+              <Text style={s.sectionTitle}>Common Mistakes</Text>
             </View>
-          ))}
-        </View>
-
-        {/* Pro Tips */}
-        <View style={{ marginTop: 10 }}>
-          <View style={{ ...s.sectionHeader, marginBottom: 8 }}>
-            <View style={s.sectionAccent} />
-            <Text style={s.sectionTitle}>Pro Tips</Text>
+            {mistakes.map((m) => (
+              <View key={m.title} style={{ ...s.tipCard, padding: 6, marginBottom: 3 }}>
+                <Text style={s.tipTitle}>{m.title}</Text>
+                <Text style={s.tipText}>{m.fix}</Text>
+              </View>
+            ))}
           </View>
-          <View style={s.tipCard}>
-            <Text style={s.tipTitle}>Iterate, Don&apos;t Overload</Text>
-            <Text style={s.tipText}>
-              Start with the big picture (form, style, mood) and refine details in follow-up prompts. Multiple rounds produce better results than one massive prompt.
-            </Text>
-          </View>
-          <View style={s.tipCard}>
-            <Text style={s.tipTitle}>Use Your Course Vocabulary</Text>
-            <Text style={s.tipText}>
-              The material names, lighting terms, and spatial concepts from Modules 2-5 are exactly the language AI tools respond to best. Your coursework is your prompting toolkit.
-            </Text>
-          </View>
-          <View style={s.tipCard}>
-            <Text style={s.tipTitle}>Save What Works</Text>
-            <Text style={s.tipText}>
-              When you get a good result, save the exact prompt. Small variations on proven prompts are more reliable than starting from scratch each time.
-            </Text>
+          <View style={s.col}>
+            <View style={{ ...s.sectionHeader, marginBottom: 6 }}>
+              <View style={s.sectionAccent} />
+              <Text style={s.sectionTitle}>Pro Tips</Text>
+            </View>
+            <View style={{ ...s.tipCard, padding: 6, marginBottom: 3 }}>
+              <Text style={s.tipTitle}>Iterate, Don&apos;t Overload</Text>
+              <Text style={s.tipText}>
+                Start with big moves (form, style, mood) and refine in follow-up prompts. Multiple rounds beat one massive prompt.
+              </Text>
+            </View>
+            <View style={{ ...s.tipCard, padding: 6, marginBottom: 3 }}>
+              <Text style={s.tipTitle}>Use Your Course Vocabulary</Text>
+              <Text style={s.tipText}>
+                Material names, lighting terms, and spatial concepts from Modules 2-5 are exactly the language AI tools respond to best.
+              </Text>
+            </View>
+            <View style={{ ...s.tipCard, padding: 6, marginBottom: 3 }}>
+              <Text style={s.tipTitle}>Save What Works</Text>
+              <Text style={s.tipText}>
+                When you get a good result, save the exact prompt. Small variations on proven prompts beat starting from scratch.
+              </Text>
+            </View>
           </View>
         </View>
 
