@@ -93,6 +93,12 @@ async function main() {
   const { Module5CheatSheet } = await import(
     "../src/components/downloads/Module5CheatSheet"
   );
+  const { DesignBriefTemplate } = await import(
+    "../src/components/downloads/DesignBriefTemplate"
+  );
+  const { Module6CheatSheet } = await import(
+    "../src/components/downloads/Module6CheatSheet"
+  );
 
   const pdfs: { component: React.ReactElement; dir: string; filename: string }[] = [
     {
@@ -214,6 +220,16 @@ async function main() {
       component: React.createElement(Module5CheatSheet),
       dir: "module-5",
       filename: "module-5-cheat-sheet.pdf",
+    },
+    {
+      component: React.createElement(DesignBriefTemplate),
+      dir: "module-6",
+      filename: "design-brief-template.pdf",
+    },
+    {
+      component: React.createElement(Module6CheatSheet),
+      dir: "module-6",
+      filename: "module-6-cheat-sheet.pdf",
     },
   ];
 
