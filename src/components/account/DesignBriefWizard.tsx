@@ -112,11 +112,16 @@ const STEPS: WizardStep[] = [
 function WizardGradientBg({ children }: { children: ReactNode }) {
   return (
     <div className="relative">
-      {/* Orbs positioned to fill the entire dialog — overflow is clipped by DialogContent */}
-      <div className="pointer-events-none absolute -top-32 -left-32 h-[22rem] w-[22rem] rounded-full bg-[#5F7F96]/40 blur-[80px]" />
-      <div className="pointer-events-none absolute -bottom-28 -right-28 h-80 w-80 rounded-full bg-[#B8593B]/35 blur-[70px]" />
-      <div className="pointer-events-none absolute -top-10 right-12 h-64 w-64 rounded-full bg-[#C4A44E]/30 blur-[60px]" />
-      <div className="pointer-events-none absolute bottom-8 left-1/4 h-72 w-72 rounded-full bg-[#6B3FA0]/20 blur-[75px]" />
+      {/* Primary orbs — darker, anchored near corners */}
+      <div className="pointer-events-none absolute -top-32 -left-32 h-[22rem] w-[22rem] rounded-full bg-[#5F7F96]/50 blur-[80px]" />
+      <div className="pointer-events-none absolute -bottom-28 -right-28 h-80 w-80 rounded-full bg-[#B8593B]/45 blur-[70px]" />
+      <div className="pointer-events-none absolute -top-10 right-8 h-64 w-64 rounded-full bg-[#C4A44E]/35 blur-[60px]" />
+      <div className="pointer-events-none absolute bottom-4 left-1/4 h-72 w-72 rounded-full bg-[#6B3FA0]/25 blur-[75px]" />
+      {/* Secondary orbs — softer, offset to blend midfield */}
+      <div className="pointer-events-none absolute top-16 -left-16 h-64 w-64 rounded-full bg-[#5F7F96]/25 blur-[90px]" />
+      <div className="pointer-events-none absolute -bottom-10 right-16 h-56 w-56 rounded-full bg-[#B8593B]/20 blur-[80px]" />
+      <div className="pointer-events-none absolute top-1/3 right-1/4 h-48 w-48 rounded-full bg-[#C4A44E]/15 blur-[70px]" />
+      <div className="pointer-events-none absolute -bottom-16 left-8 h-60 w-60 rounded-full bg-[#6B3FA0]/15 blur-[80px]" />
       <div className="relative">{children}</div>
     </div>
   );

@@ -78,34 +78,43 @@ export function GenerateDesignBriefButton({
   }
 
   return (
-    <div className="not-prose my-8 rounded-card bg-primary p-6 text-primary-foreground">
-      {/* Top row: icon left, label right */}
-      <div className="mb-4 flex items-center justify-between">
-        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-foreground/15">
-          <ClipboardList className="h-4.5 w-4.5 text-primary-foreground" />
+    <div className="not-prose relative my-8 overflow-hidden rounded-card bg-primary p-6 text-primary-foreground">
+      {/* Gradient orbs — same AI-forward palette as wizard */}
+      <div className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-[#5F7F96]/35 blur-[60px]" />
+      <div className="pointer-events-none absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-[#B8593B]/30 blur-[55px]" />
+      <div className="pointer-events-none absolute -top-8 right-8 h-48 w-48 rounded-full bg-[#C4A44E]/25 blur-[50px]" />
+      <div className="pointer-events-none absolute bottom-4 left-1/3 h-56 w-56 rounded-full bg-[#6B3FA0]/15 blur-[55px]" />
+
+      {/* Content */}
+      <div className="relative">
+        {/* Top row: icon left, label right */}
+        <div className="mb-4 flex items-center justify-between">
+          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-foreground/15">
+            <ClipboardList className="h-4.5 w-4.5 text-primary-foreground" />
+          </div>
+          <span className="text-xs font-medium uppercase tracking-widest text-primary-foreground/60">
+            Design Brief
+          </span>
         </div>
-        <span className="text-xs font-medium uppercase tracking-widest text-primary-foreground/60">
-          Design Brief
-        </span>
+
+        {/* Heading + description — border-l-0 and pl-0 override .prose-lesson h3 */}
+        <h3 className="mb-1 border-l-0 pl-0 font-heading text-lg font-semibold">
+          Generate Your Design Brief
+        </h3>
+        <p className="mb-5 max-w-md text-sm text-primary-foreground/70">
+          {briefResponseCount > 0
+            ? `${briefResponseCount} notebook response${briefResponseCount !== 1 ? "s" : ""} found. Your personalized Design Brief is ready to generate.`
+            : "Customize your palette, typography, and title, then let us compile your notes into a professional Design Brief."}
+        </p>
+
+        {/* Wizard trigger — brass hover */}
+        <DesignBriefWizard
+          studentName={studentName}
+          briefResponseCount={briefResponseCount}
+          existingBriefDate={null}
+          triggerClassName="inline-flex items-center gap-2 rounded-full border border-primary-foreground/30 bg-primary-foreground px-6 py-2.5 text-xs font-medium uppercase tracking-wider text-primary transition-colors hover:border-[#C4A44E] hover:bg-[#C4A44E] hover:text-white"
+        />
       </div>
-
-      {/* Heading + description */}
-      <h3 className="mb-1 font-heading text-lg font-semibold">
-        Generate Your Design Brief
-      </h3>
-      <p className="mb-5 max-w-md text-sm text-primary-foreground/70">
-        {briefResponseCount > 0
-          ? `${briefResponseCount} notebook response${briefResponseCount !== 1 ? "s" : ""} found. Your personalized Design Brief is ready to generate.`
-          : "Customize your palette, typography, and title, then let us compile your notes into a professional Design Brief."}
-      </p>
-
-      {/* Wizard trigger — brass hover */}
-      <DesignBriefWizard
-        studentName={studentName}
-        briefResponseCount={briefResponseCount}
-        existingBriefDate={null}
-        triggerClassName="inline-flex items-center gap-2 rounded-full border border-primary-foreground/30 bg-primary-foreground px-6 py-2.5 text-xs font-medium uppercase tracking-wider text-primary transition-colors hover:border-[#C4A44E] hover:bg-[#C4A44E] hover:text-white"
-      />
     </div>
   );
 }
