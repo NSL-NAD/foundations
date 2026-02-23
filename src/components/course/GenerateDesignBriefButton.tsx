@@ -98,7 +98,7 @@ export function GenerateDesignBriefButton({
         </div>
 
         {/* Use <p> instead of <h3> to avoid .prose-lesson h3 brass border */}
-        <p className="mb-1 font-heading text-lg font-semibold">
+        <p className="mb-1 font-heading text-lg font-semibold text-white">
           Generate Your Design Brief
         </p>
         <p className="mb-5 max-w-md text-sm text-primary-foreground/70">

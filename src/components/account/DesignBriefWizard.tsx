@@ -214,35 +214,85 @@ export function DesignBriefWizard({
   async function handleDownload(format: "pdf" | "docx") {
     setDownloading(format);
     try {
-      const res = await fetch("/api/design-brief/download", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          format,
-          briefTitle,
-          firmName: firmName || undefined,
-          colorPalette,
-          fontStyle,
-          sections,
-          studentName,
-          generatedDate: new Date().toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          }),
-        }),
+      const safeName = briefTitle
+        .replace(/[^a-zA-Z0-9-_ ]/g, "")
+        .replace(/\s+/g, "-");
+      const generatedDate = new Date().toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
       });
 
-      if (!res.ok) throw new Error("Download failed");
+      if (format === "pdf") {
+        // Generate PDF client-side (same approach as Course Certificate)
+        const { pdf, Font } = await import("@react-pdf/renderer");
+        const { DesignBriefDocument } = await import("./DesignBriefDocument");
 
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      const safeName = briefTitle.replace(/[^a-zA-Z0-9-_ ]/g, "").replace(/\s+/g, "-");
-      link.download = `${safeName}.${format}`;
-      link.click();
-      URL.revokeObjectURL(url);
+        // Register brand fonts from public directory
+        Font.register({
+          family: "SpaceGrotesk",
+          fonts: [
+            { src: "/fonts/SpaceGrotesk-Regular.ttf", fontWeight: 400 },
+            { src: "/fonts/SpaceGrotesk-Medium.ttf", fontWeight: 500 },
+            { src: "/fonts/SpaceGrotesk-SemiBold.ttf", fontWeight: 600 },
+            { src: "/fonts/SpaceGrotesk-Bold.ttf", fontWeight: 700 },
+          ],
+        });
+        Font.register({
+          family: "Syne",
+          fonts: [
+            { src: "/fonts/Syne-Regular.ttf", fontWeight: 400 },
+            { src: "/fonts/Syne-Medium.ttf", fontWeight: 500 },
+            { src: "/fonts/Syne-SemiBold.ttf", fontWeight: 600 },
+            { src: "/fonts/Syne-Bold.ttf", fontWeight: 700 },
+          ],
+        });
+
+        const blob = await pdf(
+          <DesignBriefDocument
+            briefTitle={briefTitle}
+            firmName={firmName || undefined}
+            colorPalette={colorPalette as "classic" | "warm" | "modern"}
+            fontStyle={fontStyle as "serif" | "clean" | "minimal"}
+            sections={sections}
+            studentName={studentName}
+            generatedDate={generatedDate}
+          />
+        ).toBlob();
+
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `${safeName}.pdf`;
+        link.click();
+        URL.revokeObjectURL(url);
+      } else {
+        // DOCX still generated server-side (uses docx library not available client-side)
+        const res = await fetch("/api/design-brief/download", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            format,
+            briefTitle,
+            firmName: firmName || undefined,
+            colorPalette,
+            fontStyle,
+            sections,
+            studentName,
+            generatedDate,
+          }),
+        });
+
+        if (!res.ok) throw new Error("Download failed");
+
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `${safeName}.docx`;
+        link.click();
+        URL.revokeObjectURL(url);
+      }
     } catch (err) {
       console.error("Download error:", err);
       setError(`Failed to download ${format.toUpperCase()}. Please try again.`);
