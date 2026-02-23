@@ -8,7 +8,7 @@ import { CourseReview } from "@/components/account/CourseReview";
 import { ShareInvite } from "@/components/account/ShareInvite";
 import { ContactFOADialog } from "@/components/account/ContactFOADialog";
 import { DesignBriefWizard } from "@/components/account/DesignBriefWizard";
-import { getTotalLessons, getNextIncompleteLesson, getLessonPath } from "@/lib/course";
+import { getTotalLessons, getNextIncompleteLesson, getLessonPath, isModuleComplete } from "@/lib/course";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ProductCheckoutLink } from "@/components/account/ProductCheckoutLink";
@@ -60,6 +60,7 @@ export default async function AccountPage() {
   const overallPercent =
     totalLessons > 0 ? Math.round((completed / totalLessons) * 100) : 0;
   const isComplete = completed >= totalLessons && totalLessons > 0;
+  const isBriefReady = isModuleComplete("module-6", completedSet);
   const continueLesson = getNextIncompleteLesson(completedSet);
 
   // Last completion date (for certificate)
@@ -237,8 +238,8 @@ export default async function AccountPage() {
 
       {/* Row 2: Design Brief + Certificate + Dream Home */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        {/* Design Brief */}
-        {isComplete ? (
+        {/* Design Brief — unlocked after Module 6 completion */}
+        {isBriefReady ? (
           <div className="flex flex-col rounded-card bg-primary p-6 text-primary-foreground">
             <ClipboardList className="h-6 w-6 text-primary-foreground/60" />
             <p className="mt-2 font-heading text-sm font-semibold uppercase tracking-wide">
@@ -267,8 +268,8 @@ export default async function AccountPage() {
             </p>
             <p className="mt-1 text-xs text-background/70 transition-colors duration-300 group-hover:text-foreground/70">
               {(briefResponseCount || 0) > 0
-                ? `${briefResponseCount} responses recorded — view your personalized brief`
-                : "Complete lessons to start building your personalized Design Brief"}
+                ? `${briefResponseCount} responses recorded — complete Module 6 to unlock`
+                : "Complete Module 6: Portfolio Project to unlock your Design Brief"}
             </p>
             <div className="mt-auto pt-4">
               <Button asChild size="sm" className="rounded-full border border-background bg-background px-6 text-xs font-medium uppercase tracking-wider text-foreground transition-all duration-300 hover:border-brass hover:bg-brass hover:text-white group-hover:border-foreground group-hover:bg-foreground group-hover:text-background group-hover:hover:border-brass group-hover:hover:bg-brass group-hover:hover:text-white">

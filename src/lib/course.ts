@@ -120,3 +120,18 @@ export function getNextIncompleteLesson(
 export function getLessonPath(moduleSlug: string, lessonSlug: string): string {
   return `/course/${moduleSlug}/${lessonSlug}`;
 }
+
+/**
+ * Check whether every lesson in a given module has been completed.
+ * Keys should be in "moduleSlug/lessonSlug" format.
+ */
+export function isModuleComplete(
+  moduleSlug: string,
+  completedSet: Set<string>
+): boolean {
+  const mod = getModule(moduleSlug);
+  if (!mod) return false;
+  return mod.lessons.every((l) =>
+    completedSet.has(`${moduleSlug}/${l.slug}`)
+  );
+}

@@ -134,9 +134,10 @@
     },
     {
       "slug": "bonus",
-      "title": "Bonus Modules",
+      "title": "Bonus Lessons",
       "description": "Extra content including mood board deep dive, working with professionals, and intro to 3D modeling.",
       "lessons": [
+        { "slug": "course-checkin", "title": "Course Check-in", "type": "text", "duration": "5 min", "path": "both" },
         { "slug": "bonus-mood-board", "title": "Mood Board Deep Dive", "type": "text", "duration": "10 min", "path": "both" },
         { "slug": "bonus-day-in-life", "title": "Day in the Life Narrative", "type": "exercise", "duration": "15 min", "path": "both" },
         { "slug": "bonus-presentation", "title": "Presentation Tips", "type": "text", "duration": "10 min", "path": "both" },
