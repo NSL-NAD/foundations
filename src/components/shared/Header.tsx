@@ -8,10 +8,13 @@ import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Logo } from "./Logo";
+import { toast } from "sonner";
+import type { AccessTier } from "@/lib/access";
 
 interface HeaderProps {
   user?: { email: string; full_name?: string | null } | null;
   isAdmin?: boolean;
+  accessTier?: AccessTier;
 }
 
 const publicLinks = [
@@ -26,10 +29,34 @@ const studentLinks = [
   { href: "/account", label: "Account" },
 ];
 
-export function Header({ user, isAdmin }: HeaderProps) {
+export function Header({ user, isAdmin, accessTier }: HeaderProps) {
   const [open, setOpen] = useState(false);
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
   const pathname = usePathname();
   const { theme, setTheme } = useTheme();
+
+  const isTrial = accessTier === "trial";
+
+  async function handlePurchase() {
+    setCheckoutLoading(true);
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ productType: "course", email: user?.email }),
+      });
+      const data = await res.json();
+      if (data.checkoutUrl) {
+        window.location.href = data.checkoutUrl;
+      } else {
+        toast.error("Something went wrong. Please try again.");
+        setCheckoutLoading(false);
+      }
+    } catch {
+      toast.error("Something went wrong. Please try again.");
+      setCheckoutLoading(false);
+    }
+  }
 
   const links = user ? studentLinks : publicLinks;
 
@@ -66,11 +93,22 @@ export function Header({ user, isAdmin }: HeaderProps) {
         {/* Desktop CTA */}
         <div className="hidden items-center gap-3 md:flex">
           {user ? (
-            <form action="/api/auth/signout" method="POST">
-              <Button variant="ghost" size="sm" type="submit">
-                Sign Out
-              </Button>
-            </form>
+            <>
+              {isTrial && (
+                <Button
+                  size="sm"
+                  onClick={handlePurchase}
+                  disabled={checkoutLoading}
+                >
+                  {checkoutLoading ? "Redirecting..." : "Purchase Full Course"}
+                </Button>
+              )}
+              <form action="/api/auth/signout" method="POST">
+                <Button variant="ghost" size="sm" type="submit">
+                  Sign Out
+                </Button>
+              </form>
+            </>
           ) : (
             <>
               <Button variant="ghost" size="sm" asChild>
@@ -136,11 +174,31 @@ export function Header({ user, isAdmin }: HeaderProps) {
               </button>
 
               {user ? (
-                <form action="/api/auth/signout" method="POST">
-                  <Button variant="outline" className="w-full" type="submit">
-                    Sign Out
-                  </Button>
-                </form>
+                <div className="flex flex-col gap-3">
+                  {isTrial && (
+                    <Button
+                      className="w-full"
+                      onClick={() => {
+                        setOpen(false);
+                        handlePurchase();
+                      }}
+                      disabled={checkoutLoading}
+                    >
+                      {checkoutLoading
+                        ? "Redirecting..."
+                        : "Purchase Full Course"}
+                    </Button>
+                  )}
+                  <form action="/api/auth/signout" method="POST">
+                    <Button
+                      variant="outline"
+                      className="w-full"
+                      type="submit"
+                    >
+                      Sign Out
+                    </Button>
+                  </form>
+                </div>
               ) : (
                 <div className="flex flex-col gap-3">
                   <Button variant="outline" asChild className="w-full">

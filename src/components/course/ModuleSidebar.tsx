@@ -13,9 +13,12 @@ import {
   Download,
   Pin,
   PinOff,
+  Lock,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Progress } from "@/components/ui/progress";
+import { isModuleAccessible } from "@/lib/access";
+import type { AccessTier } from "@/lib/access";
 import type { CurriculumModule } from "@/lib/course";
 
 interface ModuleSidebarProps {
@@ -25,6 +28,7 @@ interface ModuleSidebarProps {
   completedLessons: string[];
   onNavigate?: () => void;
   forceExpanded?: boolean;
+  accessTier?: AccessTier;
 }
 
 const typeIcons: Record<string, typeof FileText> = {
@@ -42,7 +46,9 @@ export function ModuleSidebar({
   completedLessons,
   onNavigate,
   forceExpanded = false,
+  accessTier,
 }: ModuleSidebarProps) {
+  const isTrial = accessTier === "trial";
   const router = useRouter();
   const [expandedModules, setExpandedModules] = useState<Set<string>>(
     new Set([currentModuleSlug])
@@ -125,6 +131,7 @@ export function ModuleSidebar({
       {/* Module list */}
       <nav ref={navRef} className="flex-1 overflow-y-auto py-2">
         {modules.map((mod, modIndex) => {
+          const accessible = isModuleAccessible(mod.slug, accessTier ?? "full");
           const isModuleOpen = expandedModules.has(mod.slug);
           const moduleCompleted = mod.lessons.filter((l) =>
             completedLessons.includes(`${mod.slug}/${l.slug}`)
@@ -141,7 +148,8 @@ export function ModuleSidebar({
                 onClick={() => toggleModule(mod.slug)}
                 className={cn(
                   "flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm transition-colors hover:bg-white/5",
-                  mod.slug === currentModuleSlug && "bg-white/10"
+                  mod.slug === currentModuleSlug && "bg-white/10",
+                  !accessible && "opacity-50"
                 )}
               >
                 {/* Collapsed sidebar: module number */}
@@ -177,15 +185,22 @@ export function ModuleSidebar({
                   <p className="truncate font-medium text-white/90">
                     {mod.title}
                   </p>
-                  <div className="mt-1 flex items-center gap-2">
-                    <Progress
-                      value={modulePercent}
-                      className="h-1 flex-1 bg-white/10 [&>div]:bg-brass"
-                    />
-                    <span className="whitespace-nowrap text-xs text-white/40">
-                      {moduleCompleted}/{mod.lessons.length}
-                    </span>
-                  </div>
+                  {accessible ? (
+                    <div className="mt-1 flex items-center gap-2">
+                      <Progress
+                        value={modulePercent}
+                        className="h-1 flex-1 bg-white/10 [&>div]:bg-brass"
+                      />
+                      <span className="whitespace-nowrap text-xs text-white/40">
+                        {moduleCompleted}/{mod.lessons.length}
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="mt-1 flex items-center gap-1.5">
+                      <Lock className="h-3 w-3 text-white/30" />
+                      <span className="text-xs text-white/30">Locked</span>
+                    </div>
+                  )}
                 </div>
               </button>
 
@@ -199,6 +214,18 @@ export function ModuleSidebar({
                       `${mod.slug}/${lesson.slug}`
                     );
                     const Icon = typeIcons[lesson.type] || FileText;
+
+                    // Locked lesson — visible but not clickable
+                    if (!accessible) {
+                      return (
+                        <li key={lesson.slug}>
+                          <div className="flex cursor-not-allowed items-center gap-2 py-2 pl-10 pr-4 text-sm text-white/25">
+                            <Lock className="h-3.5 w-3.5 shrink-0" />
+                            <span className="truncate">{lesson.title}</span>
+                          </div>
+                        </li>
+                      );
+                    }
 
                     return (
                       <li key={lesson.slug}>
@@ -240,6 +267,32 @@ export function ModuleSidebar({
           );
         })}
       </nav>
+
+      {/* Upgrade CTA for trial users */}
+      {isTrial && (
+        <div
+          className={cn(
+            "border-t border-white/10 p-3 transition-opacity duration-200",
+            isExpanded ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+          )}
+        >
+          <div
+            role="button"
+            tabIndex={0}
+            onClick={() => router.push("/#pricing")}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                router.push("/#pricing");
+              }
+            }}
+            className="flex w-full cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-xs text-brass transition-colors hover:bg-white/5"
+          >
+            <Lock className="h-3 w-3 shrink-0" />
+            <span className="whitespace-nowrap">Upgrade to Full Course</span>
+          </div>
+        </div>
+      )}
 
       {/* Pin button — hidden on mobile (forceExpanded) */}
       {!forceExpanded && (

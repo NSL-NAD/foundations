@@ -3,6 +3,8 @@ import { createClient } from "@/lib/supabase/server";
 import { Header } from "@/components/shared/Header";
 import { StudentTools } from "@/components/shared/StudentTools";
 import { ToolsPanelProvider } from "@/contexts/ToolsPanelContext";
+import { AccessTierProvider } from "@/contexts/AccessTierContext";
+import type { AccessTier } from "@/lib/access";
 
 export default async function StudentLayout({
   children,
@@ -18,12 +20,13 @@ export default async function StudentLayout({
     redirect("/login");
   }
 
-  // Check course access
-  const { data: hasAccess } = await supabase.rpc("has_course_access", {
+  // Get access tier: 'full', 'trial', or null
+  const { data: tier } = (await supabase.rpc("get_course_access_tier", {
     p_user_id: user.id,
-  });
+  })) as { data: AccessTier };
 
-  if (!hasAccess) {
+  // No access at all (shouldn't happen for authenticated users, but safeguard)
+  if (!tier) {
     redirect("/#pricing");
   }
 
@@ -34,15 +37,22 @@ export default async function StudentLayout({
     .single();
 
   return (
-    <ToolsPanelProvider>
-      <Header
-        user={profile ? { email: profile.email, full_name: profile.full_name } : null}
-        isAdmin={profile?.role === "admin"}
-      />
-      <main id="main-content" className="min-h-[calc(100dvh-4rem)]">
-        {children}
-      </main>
-      <StudentTools userId={user.id} email={profile?.email || ""} />
-    </ToolsPanelProvider>
+    <AccessTierProvider tier={tier}>
+      <ToolsPanelProvider>
+        <Header
+          user={
+            profile
+              ? { email: profile.email, full_name: profile.full_name }
+              : null
+          }
+          isAdmin={profile?.role === "admin"}
+          accessTier={tier}
+        />
+        <main id="main-content" className="min-h-[calc(100dvh-4rem)]">
+          {children}
+        </main>
+        <StudentTools userId={user.id} email={profile?.email || ""} />
+      </ToolsPanelProvider>
+    </AccessTierProvider>
   );
 }

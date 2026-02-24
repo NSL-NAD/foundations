@@ -2,10 +2,11 @@ import { createClient } from "@/lib/supabase/server";
 import { getModules, getNextIncompleteLesson, getLessonPath } from "@/lib/course";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Check, PlayCircle, FileText, PenTool, ListChecks, PenLine, MessageCircle, BookOpen, ClipboardList, Award } from "lucide-react";
+import { ArrowRight, Check, PlayCircle, FileText, PenTool, ListChecks, PenLine, MessageCircle, BookOpen, ClipboardList, Award, Lock } from "lucide-react";
 import Link from "next/link";
 import { DashboardChatButton } from "@/components/dashboard/DashboardChatButton";
 import { CourseReview } from "@/components/account/CourseReview";
+import { isModuleAccessible, type AccessTier } from "@/lib/access";
 
 export const metadata = {
   title: "Course Overview",
@@ -23,6 +24,12 @@ export default async function CoursePage() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
+  // Get access tier
+  const { data: tier } = (await supabase.rpc("get_course_access_tier", {
+    p_user_id: user!.id,
+  })) as { data: AccessTier };
+  const isTrial = tier === "trial";
 
   const { data: progressRecords } = await supabase
     .from("lesson_progress")
@@ -137,9 +144,27 @@ export default async function CoursePage() {
         </div>
       </div>
 
+      {/* Trial upgrade banner */}
+      {isTrial && (
+        <div className="mb-6 flex flex-col items-start gap-4 rounded-card border border-accent/30 bg-accent/5 p-5 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h3 className="font-heading text-sm font-semibold uppercase tracking-wide">
+              Free Trial — Welcome &amp; Orientation
+            </h3>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Unlock all 11 modules and 99 lessons with the full course.
+            </p>
+          </div>
+          <Button asChild className="shrink-0">
+            <Link href="/#pricing">Upgrade Now</Link>
+          </Button>
+        </div>
+      )}
+
       {/* Modules — 2-col on md */}
       <div className="grid gap-4 md:grid-cols-2">
         {modules.map((mod, modIdx) => {
+          const accessible = isModuleAccessible(mod.slug, tier);
           const moduleCompleted = mod.lessons.filter((l) =>
             completedSet.has(`${mod.slug}/${l.slug}`)
           ).length;
@@ -149,7 +174,12 @@ export default async function CoursePage() {
               : 0;
 
           return (
-            <div key={mod.slug} className="rounded-card border bg-card">
+            <div
+              key={mod.slug}
+              className={`rounded-card border bg-card ${
+                !accessible ? "opacity-60" : ""
+              }`}
+            >
               {/* Module header */}
               <div className="border-b p-5">
                 <div className="flex items-start justify-between gap-3">
@@ -166,11 +196,17 @@ export default async function CoursePage() {
                       </p>
                     </div>
                   </div>
-                  <span className="shrink-0 font-heading text-2xl font-bold text-accent/40">
-                    {modulePercent}%
-                  </span>
+                  {accessible ? (
+                    <span className="shrink-0 font-heading text-2xl font-bold text-accent/40">
+                      {modulePercent}%
+                    </span>
+                  ) : (
+                    <Lock className="h-5 w-5 shrink-0 text-muted-foreground/50" />
+                  )}
                 </div>
-                <Progress value={modulePercent} className="mt-3 h-1.5" />
+                {accessible && (
+                  <Progress value={modulePercent} className="mt-3 h-1.5" />
+                )}
               </div>
 
               {/* Lesson list — show ~5 rows, scroll the rest */}
@@ -182,6 +218,24 @@ export default async function CoursePage() {
                     );
                     const Icon = typeIcons[lesson.type] || FileText;
                     const isLast = lessonIdx === mod.lessons.length - 1;
+
+                    if (!accessible) {
+                      return (
+                        <li key={lesson.slug}>
+                          <div
+                            className={`flex cursor-not-allowed items-center gap-3 px-5 py-2.5 text-sm text-muted-foreground/50 ${
+                              isLast ? "rounded-b-card" : ""
+                            }`}
+                          >
+                            <Lock className="h-4 w-4 shrink-0" />
+                            <span>{lesson.title}</span>
+                            <span className="ml-auto shrink-0 text-xs">
+                              {lesson.duration}
+                            </span>
+                          </div>
+                        </li>
+                      );
+                    }
 
                     return (
                       <li key={lesson.slug}>

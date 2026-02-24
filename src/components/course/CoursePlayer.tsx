@@ -16,6 +16,7 @@ import type { CurriculumModule, CurriculumLesson } from "@/lib/course";
 import { getTotalLessons } from "@/lib/course";
 import type { LessonNavigation as LessonNav } from "@/types/course";
 import type { MDXRemoteSerializeResult } from "next-mdx-remote";
+import type { AccessTier } from "@/lib/access";
 
 interface CoursePlayerProps {
   moduleSlug: string;
@@ -26,6 +27,7 @@ interface CoursePlayerProps {
   navigation: LessonNav;
   completedLessons: string[];
   mdxSource: MDXRemoteSerializeResult | null;
+  accessTier?: AccessTier;
 }
 
 export function CoursePlayer({
@@ -37,6 +39,7 @@ export function CoursePlayer({
   navigation,
   completedLessons,
   mdxSource,
+  accessTier,
 }: CoursePlayerProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -86,6 +89,7 @@ export function CoursePlayer({
           currentModuleSlug={moduleSlug}
           currentLessonSlug={lessonSlug}
           completedLessons={localCompleted}
+          accessTier={accessTier}
         />
       </aside>
 
@@ -108,6 +112,7 @@ export function CoursePlayer({
             completedLessons={localCompleted}
             onNavigate={() => setSidebarOpen(false)}
             forceExpanded
+            accessTier={accessTier}
           />
         </SheetContent>
       </Sheet>

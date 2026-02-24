@@ -7,6 +7,10 @@ import path from "path";
 import { serialize } from "next-mdx-remote/serialize";
 import type { MDXRemoteSerializeResult } from "next-mdx-remote";
 import remarkGfm from "remark-gfm";
+import { isLessonAccessible, type AccessTier } from "@/lib/access";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { Lock } from "lucide-react";
 
 // remark-gfm v3 has a type mismatch with next-mdx-remote's unified version
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -39,11 +43,41 @@ export default async function LessonPage({ params }: LessonPageProps) {
   const navigation = getLessonNavigation(moduleSlug, lessonSlug);
   const modules = getModules();
 
-  // Get user progress
+  // Get user and access tier
   const supabase = createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
+  const { data: tier } = (await supabase.rpc("get_course_access_tier", {
+    p_user_id: user!.id,
+  })) as { data: AccessTier };
+
+  // Block trial users from locked modules
+  if (!isLessonAccessible(moduleSlug, tier)) {
+    return (
+      <div className="flex min-h-[60vh] items-center justify-center p-8">
+        <div className="text-center">
+          <Lock className="mx-auto h-12 w-12 text-muted-foreground/50" />
+          <h1 className="mt-4 font-heading text-2xl font-bold uppercase">
+            Module Locked
+          </h1>
+          <p className="mt-2 text-muted-foreground">
+            This lesson is part of the full course. Upgrade to unlock all
+            modules.
+          </p>
+          <div className="mt-6 flex justify-center gap-3">
+            <Button asChild variant="outline">
+              <Link href="/course">Back to Course</Link>
+            </Button>
+            <Button asChild>
+              <Link href="/#pricing">Upgrade Now</Link>
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const { data: progressRecords } = await supabase
     .from("lesson_progress")
@@ -86,6 +120,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
       navigation={navigation}
       completedLessons={Array.from(completedLessons)}
       mdxSource={serializedMdx}
+      accessTier={tier}
     />
   );
 }
