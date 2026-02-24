@@ -9,7 +9,7 @@ export const PRODUCTS = {
   course: {
     priceId: process.env.STRIPE_PRICE_COURSE!,
     name: "Foundations of Architecture Course",
-    description: "99 lessons, two learning paths, 34 downloadable resources",
+    description: "100 lessons, two learning paths, 31 downloadable resources",
   },
   kit: {
     priceId: process.env.STRIPE_PRICE_KIT!,

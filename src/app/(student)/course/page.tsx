@@ -152,7 +152,7 @@ export default async function CoursePage() {
               Free Trial
             </h3>
             <p className="mt-1 text-sm text-muted-foreground">
-              Unlock all 11 modules and 99 lessons with the full course.
+              Unlock all 11 modules and 100 lessons with the full course.
             </p>
           </div>
           <Button asChild className="shrink-0">

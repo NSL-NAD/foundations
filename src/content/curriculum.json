@@ -1,6 +1,6 @@
 {
   "title": "Foundations of Architecture: Designing Your Dream Space",
-  "description": "A 98-lesson course teaching architectural fundamentals through hands-on design of your dream space.",
+  "description": "A 100-lesson course teaching architectural fundamentals through hands-on design of your dream space.",
   "modules": [
     {
       "slug": "welcome",
@@ -32,6 +32,7 @@
         { "slug": "vitruvian-principles", "title": "Vitruvian Principles", "type": "text", "duration": "10 min", "path": "both" },
         { "slug": "beyond-vitruvius", "title": "Beyond Vitruvius", "type": "text", "duration": "8 min", "path": "both" },
         { "slug": "masters", "title": "Inspiration from the Masters", "type": "text", "duration": "12 min", "path": "both" },
+        { "slug": "great-designs-take-time", "title": "Great Designs Take Time", "type": "text", "duration": "8 min", "path": "both" },
         { "slug": "design-philosophy", "title": "Your Design Philosophy", "shortTitle": "Design Philosophy", "type": "exercise", "duration": "15 min", "path": "both", "downloads": ["design-philosophy-worksheet.pdf"] },
         { "slug": "module-1-checklist", "title": "Module 1 Checklist", "type": "checklist", "duration": "2 min", "path": "both", "downloads": ["module-1-cheat-sheet.pdf"] }
       ]
