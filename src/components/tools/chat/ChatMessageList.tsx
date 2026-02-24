@@ -16,6 +16,7 @@ function getTextContent(message: UIMessage): string {
 interface ChatMessageListProps {
   messages: UIMessage[];
   isLoading: boolean;
+  hasLessonContext?: boolean;
   suggestions?: string[];
   onSuggestionClick?: (text: string) => void;
 }
@@ -23,6 +24,7 @@ interface ChatMessageListProps {
 export function ChatMessageList({
   messages,
   isLoading,
+  hasLessonContext,
   suggestions,
   onSuggestionClick,
 }: ChatMessageListProps) {
@@ -33,8 +35,6 @@ export function ChatMessageList({
   }, [messages, isLoading]);
 
   if (messages.length === 0 && !isLoading) {
-    const hasLessonContext = !suggestions || suggestions.length === 0;
-
     return (
       <div className="flex h-full flex-col items-center justify-center gap-3 p-6 text-center">
         <div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted">
@@ -49,7 +49,7 @@ export function ChatMessageList({
           </p>
         </div>
 
-        {/* Suggestion chips — shown when no lesson context */}
+        {/* Suggestion chips */}
         {suggestions && suggestions.length > 0 && onSuggestionClick && (
           <div className="mt-2 flex flex-col gap-2 w-full max-w-[280px]">
             {suggestions.map((suggestion) => (

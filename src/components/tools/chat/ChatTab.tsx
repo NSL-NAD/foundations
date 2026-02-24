@@ -13,6 +13,12 @@ const DASHBOARD_SUGGESTIONS = [
   "Help me review what I've learned so far",
 ];
 
+const LESSON_SUGGESTIONS = [
+  "Can you explain the key concepts from this lesson?",
+  "How do I use the notebook feature to take notes?",
+  "What does the concept of 'form' mean in architecture?",
+];
+
 interface ChatTabProps {
   userId: string;
   email?: string;
@@ -39,9 +45,9 @@ export function ChatTab({ userId, email }: ChatTabProps) {
     lessonSlug,
   });
 
-  // Show suggestions only when no lesson context (Dashboard / Course index)
+  // Show contextual suggestions based on whether the student is in a lesson
   const suggestions = useMemo(
-    () => (!moduleSlug ? DASHBOARD_SUGGESTIONS : undefined),
+    () => (moduleSlug ? LESSON_SUGGESTIONS : DASHBOARD_SUGGESTIONS),
     [moduleSlug]
   );
 
@@ -66,6 +72,7 @@ export function ChatTab({ userId, email }: ChatTabProps) {
         <ChatMessageList
           messages={messages}
           isLoading={isLoading}
+          hasLessonContext={!!moduleSlug}
           suggestions={suggestions}
           onSuggestionClick={sendText}
         />
