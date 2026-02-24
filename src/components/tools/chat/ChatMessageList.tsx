@@ -29,10 +29,20 @@ export function ChatMessageList({
   onSuggestionClick,
 }: ChatMessageListProps) {
   const bottomRef = useRef<HTMLDivElement>(null);
+  const prevMessageCountRef = useRef(0);
 
+  // Only auto-scroll when a new user message is sent — NOT during streaming.
+  // This lets the user read from the top of the response while it's being generated.
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, isLoading]);
+    const prevCount = prevMessageCountRef.current;
+    const currentCount = messages.length;
+    prevMessageCountRef.current = currentCount;
+
+    // Scroll when a new message is added (user just sent a message)
+    if (currentCount > prevCount && prevCount > 0) {
+      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages.length]);
 
   if (messages.length === 0 && !isLoading) {
     return (
