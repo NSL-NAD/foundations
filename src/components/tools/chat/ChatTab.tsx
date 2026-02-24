@@ -73,7 +73,7 @@ export function ChatTab({ userId, email }: ChatTabProps) {
 
       {error && (
         <div className="shrink-0 px-4 py-2 text-xs text-destructive">
-          Something went wrong. Please try again.
+          {error.message || "Something went wrong. Please try again."}
         </div>
       )}
 

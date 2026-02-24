@@ -10,9 +10,14 @@ import {
 // Allow up to 60 seconds for AI generation
 export const maxDuration = 60;
 
-const anthropic = createAnthropic({
-  apiKey: (process.env.ANTHROPIC_API_KEY || "").trim(),
-});
+/* Use FOA_ANTHROPIC_API_KEY first, fall back to ANTHROPIC_API_KEY. */
+function getAnthropicApiKey(): string {
+  return (
+    process.env.FOA_ANTHROPIC_API_KEY?.trim() ||
+    process.env.ANTHROPIC_API_KEY?.trim() ||
+    ""
+  );
+}
 
 /**
  * POST /api/design-brief/generate
@@ -125,6 +130,18 @@ export async function POST(req: NextRequest) {
     });
 
     // 6. Call Anthropic
+    const apiKey = getAnthropicApiKey();
+    if (!apiKey) {
+      return NextResponse.json(
+        { error: "AI service not configured" },
+        { status: 503 }
+      );
+    }
+    const anthropic = createAnthropic({
+      apiKey,
+      baseURL: "https://api.anthropic.com/v1",
+    });
+
     const result = await generateText({
       model: anthropic("claude-sonnet-4-20250514"),
       system: DESIGN_BRIEF_SYSTEM_PROMPT,
