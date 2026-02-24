@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef, useCallback } from "react";
 import {
   ChevronDown,
@@ -43,6 +43,7 @@ export function ModuleSidebar({
   onNavigate,
   forceExpanded = false,
 }: ModuleSidebarProps) {
+  const router = useRouter();
   const [expandedModules, setExpandedModules] = useState<Set<string>>(
     new Set([currentModuleSlug])
   );
@@ -201,11 +202,22 @@ export function ModuleSidebar({
 
                     return (
                       <li key={lesson.slug}>
-                        <Link
-                          href={`/course/${mod.slug}/${lesson.slug}`}
-                          onClick={handleLessonClick}
+                        <div
+                          role="button"
+                          tabIndex={0}
+                          onClick={() => {
+                            handleLessonClick();
+                            router.push(`/course/${mod.slug}/${lesson.slug}`);
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              e.preventDefault();
+                              handleLessonClick();
+                              router.push(`/course/${mod.slug}/${lesson.slug}`);
+                            }
+                          }}
                           className={cn(
-                            "flex items-center gap-2 py-2 pl-10 pr-4 text-sm transition-colors hover:bg-white/5",
+                            "flex cursor-pointer items-center gap-2 py-2 pl-10 pr-4 text-sm transition-colors hover:bg-white/5",
                             isActive && "bg-white/10 font-medium text-white",
                             !isActive && "text-white/50"
                           )}
@@ -218,7 +230,7 @@ export function ModuleSidebar({
                             <Icon className="h-3.5 w-3.5 shrink-0 text-white/30" />
                           )}
                           <span className="truncate">{lesson.title}</span>
-                        </Link>
+                        </div>
                       </li>
                     );
                   })}
