@@ -15,7 +15,7 @@ const products = [
     features: [
       "100 lessons across 11 modules",
       "Two learning paths (Drawer & Brief Builder)",
-      "34 downloadable PDFs & worksheets",
+      "31 downloadable PDFs & worksheets",
       "Lifetime access (founding students)",
       "All future updates included",
     ],

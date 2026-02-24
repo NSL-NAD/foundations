@@ -24,7 +24,7 @@ const sections = [
   },
   {
     title: "Module 1: Architecture as an Idea",
-    lessons: 6,
+    lessons: 7,
     description:
       "Discover how architecture shapes daily life. Explore what makes a space feel like home and the ideas behind great design.",
     tag: "Foundations",

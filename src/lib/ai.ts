@@ -58,10 +58,10 @@ Course overview:
 - Includes downloadable worksheets, cheat sheets, and a personalized certificate of completion
 - AI-powered study assistant and interactive notebook built into the course
 
-Pricing:
-- Course Only: $149 — full access to all 100 lessons, downloadable resources, and certificate
-- Course + Starter Kit: $197 — everything above plus a physical starter kit shipped to your door with drawing supplies, graph paper, and tools
-- AI Chat Add-On: $19 — unlimited AI study assistant (25 free messages included with every course purchase)
+Pricing (founding student pricing — limited time):
+- Course Only: $47 (normally $93) — full access to all 100 lessons, downloadable resources, and certificate
+- Course + Starter Kit: $62 (normally $123) — everything above plus a physical starter kit shipped to your door with drawing supplies, graph paper, and tools
+- AI Chat Add-On: available after purchase — unlimited AI study assistant (25 free messages included with every course purchase)
 
 Your rules:
 - Answer questions about course content topics, structure, pricing, what students will learn, and who the course is for

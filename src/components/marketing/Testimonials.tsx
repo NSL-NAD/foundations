@@ -3,7 +3,7 @@ const testimonials = [
     name: "Natasha P.",
     role: "Founding Student",
     quote:
-      "Awesome course! I learnt so much and enjoyed every minute.",
+      "Awesome course! I learned so much and enjoyed every minute.",
   },
   {
     name: "Nic D.",
