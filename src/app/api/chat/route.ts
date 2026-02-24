@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { buildSystemPrompt } from "@/lib/ai";
 import { NextRequest } from "next/server";
-import { streamText } from "ai";
+import { streamText, convertToModelMessages, type UIMessage } from "ai";
 import { createAnthropic } from "@ai-sdk/anthropic";
 
 const FREE_MESSAGE_LIMIT = 25;
@@ -171,10 +171,15 @@ export async function POST(req: NextRequest) {
       lessonTitle,
     });
 
+    // Convert UIMessages (from @ai-sdk/react useChat) to ModelMessages (for streamText)
+    const modelMessages = await convertToModelMessages(
+      messages as UIMessage[]
+    );
+
     const result = streamText({
       model: anthropic("claude-sonnet-4-20250514"),
       system: systemPrompt,
-      messages,
+      messages: modelMessages,
       maxOutputTokens: 1024,
       async onFinish({ text }) {
         // Persist assistant response for history
