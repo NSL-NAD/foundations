@@ -2,20 +2,42 @@
 
 import {
   Document,
+  Font,
   Page,
   View,
   Text,
   StyleSheet,
 } from "@react-pdf/renderer";
 
+/* ── Register brand fonts (client-side, from public dir) ── */
+Font.register({
+  family: "SpaceGrotesk",
+  fonts: [
+    { src: "/fonts/SpaceGrotesk-Regular.ttf", fontWeight: 400 },
+    { src: "/fonts/SpaceGrotesk-Medium.ttf", fontWeight: 500 },
+    { src: "/fonts/SpaceGrotesk-SemiBold.ttf", fontWeight: 600 },
+    { src: "/fonts/SpaceGrotesk-Bold.ttf", fontWeight: 700 },
+  ],
+});
+Font.register({
+  family: "Syne",
+  fonts: [
+    { src: "/fonts/Syne-Regular.ttf", fontWeight: 400 },
+    { src: "/fonts/Syne-Medium.ttf", fontWeight: 500 },
+    { src: "/fonts/Syne-SemiBold.ttf", fontWeight: 600 },
+    { src: "/fonts/Syne-Bold.ttf", fontWeight: 700 },
+  ],
+});
+
 const styles = StyleSheet.create({
   page: {
     padding: 60,
-    fontFamily: "Helvetica",
+    fontFamily: "Syne",
     backgroundColor: "#FFFFFF",
   },
   border: {
     border: "2px solid hsl(204, 25%, 47%)",
+    borderRadius: 12,
     padding: 40,
     height: "100%",
     display: "flex",
@@ -25,13 +47,16 @@ const styles = StyleSheet.create({
   },
   logo: {
     fontSize: 28,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: "SpaceGrotesk",
+    fontWeight: 700,
     color: "hsl(204, 25%, 47%)",
     letterSpacing: 4,
     marginBottom: 8,
   },
   schoolName: {
     fontSize: 11,
+    fontFamily: "SpaceGrotesk",
+    fontWeight: 400,
     color: "hsl(204, 25%, 47%)",
     letterSpacing: 6,
     textTransform: "uppercase",
@@ -45,7 +70,8 @@ const styles = StyleSheet.create({
   },
   certificateTitle: {
     fontSize: 26,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: "SpaceGrotesk",
+    fontWeight: 700,
     color: "#1a1a1a",
     letterSpacing: 3,
     textTransform: "uppercase",
@@ -53,12 +79,15 @@ const styles = StyleSheet.create({
   },
   studentName: {
     fontSize: 32,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: "SpaceGrotesk",
+    fontWeight: 700,
     color: "hsl(204, 25%, 47%)",
     marginBottom: 20,
   },
   body: {
     fontSize: 12,
+    fontFamily: "Syne",
+    fontWeight: 400,
     color: "#444",
     textAlign: "center",
     lineHeight: 1.6,
@@ -67,12 +96,15 @@ const styles = StyleSheet.create({
   },
   courseName: {
     fontSize: 14,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: "SpaceGrotesk",
+    fontWeight: 600,
     color: "#1a1a1a",
     marginBottom: 32,
   },
   date: {
     fontSize: 11,
+    fontFamily: "Syne",
+    fontWeight: 400,
     color: "#666",
     letterSpacing: 1,
   },
