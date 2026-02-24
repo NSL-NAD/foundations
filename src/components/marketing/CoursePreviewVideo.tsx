@@ -3,7 +3,14 @@
 import { useRef, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Compass, Highlighter } from "lucide-react";
+import {
+  ArrowRight,
+  Compass,
+  Highlighter,
+  MessageSquareText,
+  Monitor,
+  Timer,
+} from "lucide-react";
 
 const features = [
   {
@@ -12,7 +19,19 @@ const features = [
   },
   {
     icon: Highlighter,
-    text: "Highlight content to add to your Course Notebook",
+    text: "Highlight content to easily add to your Course Notebook",
+  },
+  {
+    icon: MessageSquareText,
+    text: "Chat with our Architecture Assistant AI",
+  },
+  {
+    icon: Monitor,
+    text: "Access your course on desktop or mobile",
+  },
+  {
+    icon: Timer,
+    text: "Your pace, your learning style",
   },
 ];
 
@@ -30,21 +49,21 @@ export function CoursePreviewVideo() {
         <div className="flex flex-col gap-10 lg:flex-row lg:items-stretch lg:gap-6">
           {/* Left side — value props + CTA card */}
           <div className="lg:w-[33%] lg:shrink-0">
-            <div className="group flex h-full flex-col rounded-card border border-white/20 px-7 py-8 transition-colors duration-300 hover:border-brass/30 hover:bg-brass/5 sm:px-8 sm:py-10">
-              <p className="font-heading text-xs font-medium uppercase tracking-[0.3em] text-white/50">
+            <div className="group flex h-full flex-col rounded-card border border-white px-7 py-8 transition-colors duration-300 hover:border-surface hover:bg-surface sm:px-8 sm:py-10">
+              <p className="font-heading text-xs font-medium uppercase tracking-[0.3em] text-white/50 transition-colors duration-300 group-hover:text-foreground/50">
                 Course Platform
               </p>
-              <h2 className="mt-3 font-heading text-2xl font-bold uppercase tracking-tight text-white md:text-3xl">
+              <h2 className="mt-3 font-heading text-2xl font-bold uppercase tracking-tight text-white transition-colors duration-300 group-hover:text-foreground md:text-3xl">
                 Built for Learning
               </h2>
 
               <div className="mt-8 space-y-5">
                 {features.map((feature) => (
                   <div key={feature.text} className="flex items-start gap-3">
-                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brass/15">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brass/15 transition-colors duration-300 group-hover:bg-brass/20">
                       <feature.icon className="h-4 w-4 text-brass" />
                     </div>
-                    <p className="pt-1 text-sm leading-relaxed text-white/70">
+                    <p className="pt-1 text-sm leading-relaxed text-white/70 transition-colors duration-300 group-hover:text-foreground/70">
                       {feature.text}
                     </p>
                   </div>
@@ -52,14 +71,14 @@ export function CoursePreviewVideo() {
               </div>
 
               <div className="mt-auto pt-10">
-                <p className="text-base font-medium text-white/70">
+                <p className="text-base font-medium text-white/70 transition-colors duration-300 group-hover:text-foreground/70">
                   Trial the course for free
                 </p>
                 <Button
                   asChild
                   variant="outline"
                   size="sm"
-                  className="mt-4 rounded-full border-white bg-white px-5 text-xs font-medium uppercase tracking-wider text-black hover:border-brass hover:bg-brass hover:text-white"
+                  className="mt-4 rounded-full border-white bg-white px-5 text-xs font-medium uppercase tracking-wider text-black transition-colors duration-300 group-hover:border-foreground group-hover:bg-foreground group-hover:text-white hover:!border-brass hover:!bg-brass hover:!text-white"
                 >
                   <Link href="/signup">
                     Enroll Now
@@ -73,7 +92,7 @@ export function CoursePreviewVideo() {
           {/* Right side — video, bleeds to right edge on desktop */}
           <div className="lg:flex-1">
             {/* Mobile: rounded all sides; Desktop: rounded-left only, bleeds right */}
-            <div className="h-full overflow-hidden rounded-card border border-white/20 lg:rounded-r-none lg:border-r-0">
+            <div className="h-full overflow-hidden rounded-card border border-white lg:rounded-r-none lg:border-r-0">
               <video
                 ref={videoRef}
                 autoPlay
