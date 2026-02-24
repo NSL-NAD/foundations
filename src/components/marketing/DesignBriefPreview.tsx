@@ -39,8 +39,22 @@ export function DesignBriefPreview() {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    // Ensure video plays on mount (some browsers block autoplay)
-    videoRef.current?.play().catch(() => {});
+    const video = videoRef.current;
+    if (!video) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    observer.observe(video);
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -53,7 +67,6 @@ export function DesignBriefPreview() {
             <div className="h-full overflow-hidden rounded-card border border-white lg:rounded-l-none lg:border-l-0">
               <video
                 ref={videoRef}
-                autoPlay
                 loop
                 muted
                 playsInline
