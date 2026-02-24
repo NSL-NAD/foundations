@@ -17,25 +17,25 @@ const values = [
     href: "#curriculum",
   },
   {
-    icon: PenTool,
-    number: "02",
-    title: "Choose Your Path",
-    description:
-      "Drawer path for hands-on sketching, or Brief Builder path for creating a detailed written plan.",
-    href: "#curriculum",
-  },
-  {
     icon: MessageSquare,
-    number: "03",
+    number: "02",
     title: "Speak the Language",
     description:
       "Gain the vocabulary and confidence to communicate your vision to architects, contractors, and designers.",
     href: "#curriculum",
   },
   {
+    icon: PenTool,
+    number: "03",
+    title: "Create a Design Brief",
+    description:
+      "Follow the Drawer path for hands-on sketching or the Brief Builder path for written planning — both produce a brief you can hand to your architect.",
+    href: "#curriculum",
+  },
+  {
     icon: Home,
     number: "04",
-    title: "Design Your Dream Home",
+    title: "Design Your Dream Home or Space",
     description:
       "Bring it all together in a capstone project — from concept to a complete design you can share with professionals.",
     href: "#curriculum",
