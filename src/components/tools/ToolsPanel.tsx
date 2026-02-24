@@ -17,7 +17,16 @@ export function ToolsPanel({
   userId: string;
   email?: string;
 }) {
-  const { isOpen, activeTab, close } = useToolsPanel();
+  const { isOpen, activeTab, close, moduleSlug, lessonSlug, setActiveTab } =
+    useToolsPanel();
+  const isInLesson = !!moduleSlug && !!lessonSlug;
+
+  // Auto-switch to chat when notebook tab isn't available (not in a lesson)
+  useEffect(() => {
+    if (!isInLesson && activeTab === "notebook") {
+      setActiveTab("chat");
+    }
+  }, [isInLesson, activeTab, setActiveTab]);
 
   // Track if we're on mobile (below lg breakpoint = 1024px)
   const [isMobile, setIsMobile] = useState(false);
@@ -57,7 +66,7 @@ export function ToolsPanel({
         </Button>
       </div>
       <div className="min-h-0 flex-1 overflow-hidden">
-        {activeTab === "notebook" ? (
+        {activeTab === "notebook" && isInLesson ? (
           <NotebookTab userId={userId} />
         ) : (
           <ChatTab userId={userId} email={email} />

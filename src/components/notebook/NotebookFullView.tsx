@@ -123,27 +123,34 @@ export function NotebookFullView({
       {/* Modules with notes */}
       {modulesWithNotes.length > 0 && (
         <div className="space-y-3">
-          {modulesWithNotes.map((mod) => (
+          {modulesWithNotes.map((mod) => {
+            const modIdx = notesByModule.indexOf(mod);
+            return (
             <div key={mod.slug} className="rounded-lg border bg-card">
               {/* Module header */}
               <button
                 onClick={() => toggleModule(mod.slug)}
                 className={cn(
-                  "flex w-full items-center justify-between p-4 text-left hover:bg-accent/50",
+                  "flex w-full items-center justify-between gap-3 p-4 text-left hover:bg-accent/50",
                   expandedModules.has(mod.slug) ? "rounded-t-lg" : "rounded-lg"
                 )}
               >
-                <div>
-                  <h2 className="font-medium">{mod.title}</h2>
-                  <p className="text-xs text-muted-foreground">
-                    {mod.notes.length} note
-                    {mod.notes.length !== 1 ? "s" : ""}
-                  </p>
+                <div className="flex items-center gap-3">
+                  <span className="shrink-0 font-heading text-2xl font-bold text-primary/50">
+                    {String(modIdx + 1).padStart(2, "0")}
+                  </span>
+                  <div>
+                    <h2 className="font-medium">{mod.title}</h2>
+                    <p className="text-xs text-muted-foreground">
+                      {mod.notes.length} note
+                      {mod.notes.length !== 1 ? "s" : ""}
+                    </p>
+                  </div>
                 </div>
                 {expandedModules.has(mod.slug) ? (
-                  <Minus className="h-4 w-4 text-muted-foreground" />
+                  <Minus className="h-4 w-4 shrink-0 text-muted-foreground" />
                 ) : (
-                  <Plus className="h-4 w-4 text-muted-foreground" />
+                  <Plus className="h-4 w-4 shrink-0 text-muted-foreground" />
                 )}
               </button>
 
@@ -216,7 +223,8 @@ export function NotebookFullView({
                 </div>
               )}
             </div>
-          ))}
+            );
+          })}
         </div>
       )}
 
@@ -227,15 +235,20 @@ export function NotebookFullView({
             No notes yet
           </p>
           <div className="space-y-1">
-            {modulesWithoutNotes.map((mod) => (
-              <div
-                key={mod.slug}
-                className="flex items-center gap-3 rounded-lg border border-dashed px-4 py-3 text-sm text-muted-foreground"
-              >
-                <PenLine className="h-3.5 w-3.5" />
-                {mod.title}
-              </div>
-            ))}
+            {modulesWithoutNotes.map((mod) => {
+              const modIdx = notesByModule.indexOf(mod);
+              return (
+                <div
+                  key={mod.slug}
+                  className="flex items-center gap-3 rounded-lg border border-dashed px-4 py-3 text-sm text-muted-foreground"
+                >
+                  <span className="shrink-0 font-heading text-lg font-bold text-primary/30">
+                    {String(modIdx + 1).padStart(2, "0")}
+                  </span>
+                  {mod.title}
+                </div>
+              );
+            })}
           </div>
         </div>
       )}

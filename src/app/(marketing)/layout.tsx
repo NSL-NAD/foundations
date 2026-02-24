@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { Header } from "@/components/shared/Header";
 import { Footer } from "@/components/shared/Footer";
+import { PublicChatFAB } from "@/components/shared/PublicChatFAB";
 
 export default async function MarketingLayout({
   children,
@@ -30,6 +31,7 @@ export default async function MarketingLayout({
       />
       <main id="main-content">{children}</main>
       <Footer />
+      <PublicChatFAB />
     </>
   );
 }

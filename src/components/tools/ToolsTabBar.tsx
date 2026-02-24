@@ -4,13 +4,17 @@ import { useToolsPanel, type ToolsTab } from "@/contexts/ToolsPanelContext";
 import { PenLine, MessageCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const tabs: { id: ToolsTab; label: string; icon: typeof PenLine }[] = [
+const allTabs: { id: ToolsTab; label: string; icon: typeof PenLine }[] = [
   { id: "notebook", label: "Notebook", icon: PenLine },
   { id: "chat", label: "AI Chat", icon: MessageCircle },
 ];
 
 export function ToolsTabBar() {
-  const { activeTab, setActiveTab } = useToolsPanel();
+  const { activeTab, setActiveTab, moduleSlug, lessonSlug } = useToolsPanel();
+  const isInLesson = !!moduleSlug && !!lessonSlug;
+
+  // Only show the notebook tab when inside a lesson
+  const tabs = isInLesson ? allTabs : allTabs.filter((t) => t.id !== "notebook");
 
   return (
     <div className="flex border-b bg-card">
