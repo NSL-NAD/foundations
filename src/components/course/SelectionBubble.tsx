@@ -6,9 +6,10 @@ import { useToolsPanel } from "@/contexts/ToolsPanelContext";
 
 interface SelectionBubbleProps {
   containerRef: RefObject<HTMLDivElement | null>;
+  onSaveHighlight?: (text: string, prefix: string, suffix: string) => void;
 }
 
-export function SelectionBubble({ containerRef }: SelectionBubbleProps) {
+export function SelectionBubble({ containerRef, onSaveHighlight }: SelectionBubbleProps) {
   const [visible, setVisible] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const { setPendingClip, open } = useToolsPanel();
@@ -29,6 +30,13 @@ export function SelectionBubble({ containerRef }: SelectionBubbleProps) {
     try {
       const range = selection.getRangeAt(0).cloneRange();
       addHighlightRange(range);
+
+      // Extract prefix/suffix context for disambiguation on restore
+      if (onSaveHighlight) {
+        const prefix = extractContext(range, "before", 30);
+        const suffix = extractContext(range, "after", 30);
+        onSaveHighlight(text, prefix, suffix);
+      }
     } catch {
       // Silently ignore — highlight is cosmetic only
     }
@@ -37,7 +45,7 @@ export function SelectionBubble({ containerRef }: SelectionBubbleProps) {
     open("notebook");
     selection.removeAllRanges();
     setVisible(false);
-  }, [setPendingClip, open]);
+  }, [setPendingClip, open, onSaveHighlight]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -154,6 +162,44 @@ export function SelectionBubble({ containerRef }: SelectionBubbleProps) {
       </div>
     </div>
   );
+}
+
+/**
+ * Extract text context before or after a Range for disambiguation on restore.
+ * Walks sibling text nodes to gather surrounding characters.
+ */
+function extractContext(
+  range: Range,
+  direction: "before" | "after",
+  charCount: number
+): string {
+  try {
+    // Use the range's container to get surrounding text
+    const container = range.commonAncestorContainer;
+    const parent =
+      container.nodeType === Node.TEXT_NODE
+        ? container.parentElement
+        : (container as HTMLElement);
+    if (!parent) return "";
+
+    // Get the full text content of a reasonable ancestor
+    const ancestor = parent.closest("p, li, h1, h2, h3, h4, h5, h6, td, blockquote, div") || parent;
+    const fullText = ancestor.textContent || "";
+    const selectedText = range.toString();
+
+    // Find the selection within the ancestor text
+    const idx = fullText.indexOf(selectedText);
+    if (idx === -1) return "";
+
+    if (direction === "before") {
+      return fullText.slice(Math.max(0, idx - charCount), idx);
+    } else {
+      const afterStart = idx + selectedText.length;
+      return fullText.slice(afterStart, afterStart + charCount);
+    }
+  } catch {
+    return "";
+  }
 }
 
 /**

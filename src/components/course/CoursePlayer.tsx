@@ -11,6 +11,8 @@ import { Button } from "@/components/ui/button";
 import { Menu, Check, Circle, ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useToolsPanel } from "@/contexts/ToolsPanelContext";
+import { useHighlights } from "@/hooks/useHighlights";
+import { restoreHighlights, clearHighlights } from "@/lib/highlight-restore";
 import { cn } from "@/lib/utils";
 import type { CurriculumModule, CurriculumLesson } from "@/lib/course";
 import { getTotalLessons } from "@/lib/course";
@@ -67,6 +69,42 @@ export function CoursePlayer({
       return prev.filter(k => k !== lessonKey);
     });
   }, []);
+
+  // Persistent highlights — fetch from DB and restore on content render
+  const {
+    highlights,
+    isLoading: highlightsLoading,
+    saveHighlight,
+  } = useHighlights(moduleSlug, lessonSlug);
+
+  // Stable callback for SelectionBubble — fire-and-forget save
+  const handleSaveHighlight = useCallback(
+    (text: string, prefix: string, suffix: string) => {
+      saveHighlight(text, prefix, suffix);
+    },
+    [saveHighlight]
+  );
+
+  // Restore highlights once content is rendered and highlights are loaded
+  useEffect(() => {
+    if (highlightsLoading || !highlights.length) return;
+    const container = contentRef.current;
+    if (!container) return;
+
+    // Small delay to ensure MDX content has hydrated
+    const timer = setTimeout(() => {
+      restoreHighlights(container, highlights);
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [highlights, highlightsLoading, mdxSource]);
+
+  // Clear highlights when navigating away from a lesson
+  useEffect(() => {
+    return () => {
+      clearHighlights();
+    };
+  }, [moduleSlug, lessonSlug]);
 
   // Extract downloads from lesson metadata
   const downloads =
@@ -125,7 +163,7 @@ export function CoursePlayer({
         )}
       >
         {/* Selection-to-Notebook bubble (position: fixed, renders above selection) */}
-        <SelectionBubble containerRef={contentRef} />
+        <SelectionBubble containerRef={contentRef} onSaveHighlight={handleSaveHighlight} />
         <div className="mx-auto max-w-3xl px-6 py-8 pb-24 md:px-8 lg:pb-8">
           {/* Section header card */}
           <div className="rounded-card bg-card p-5 md:p-6">
