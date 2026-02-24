@@ -25,8 +25,9 @@ export function FinalCTA() {
             <div className="mt-10 md:mt-12">
               <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
                 For less than a single hour of an architect&apos;s time, gain the
-                knowledge to design with confidence. Join the founding class
-                today.
+                knowledge to design with confidence. Your completed design brief
+                could save your architect hours of work — potentially hundreds
+                of dollars. Join the founding class today.
               </p>
 
               <div className="mt-6">
@@ -93,7 +94,7 @@ export function FinalCTA() {
                   Founding
                 </h3>
                 <p className="mt-1.5 text-xs leading-relaxed text-white/80">
-                  Exclusive pricing for the first 1,000 students.
+                  Exclusive founding student pricing.
                 </p>
               </div>
             </div>

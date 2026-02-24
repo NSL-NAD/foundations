@@ -51,8 +51,9 @@ export function ValueProposition() {
             Why This Course Exists
           </h2>
           <p className="mt-4 text-muted-foreground">
-            Architecture shapes every moment of your life at home. You deserve to
-            understand it.
+            Whether it&apos;s your dream home, a creative space, an office, or any
+            building that inspires you — architecture shapes every moment. You
+            deserve to understand it.
           </p>
         </div>
 

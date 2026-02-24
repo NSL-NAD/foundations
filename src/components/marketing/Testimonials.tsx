@@ -1,21 +1,15 @@
 const testimonials = [
   {
-    name: "Coming Soon",
+    name: "Natasha P.",
     role: "Founding Student",
     quote:
-      "Testimonials from founding students will appear here. Be among the first 1,000 to enroll and shape this course.",
+      "Awesome course! I learnt so much and enjoyed every minute.",
   },
   {
-    name: "Coming Soon",
+    name: "Nic D.",
     role: "Founding Student",
     quote:
-      "As a founding student, you'll get lifetime access to all current and future content — including updates based on your feedback.",
-  },
-  {
-    name: "Coming Soon",
-    role: "Founding Student",
-    quote:
-      "Join the founding class and help build the community around learning architecture for everyday life.",
+      "This course is incredible already — the layout is amazing. Very impressed.",
   },
 ];
 
@@ -23,7 +17,7 @@ export function Testimonials() {
   return (
     <section className="bg-surface py-20 md:py-28">
       <div className="container">
-        <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-2 lg:grid-cols-3">
           {/* Terracotta header card */}
           <div className="flex flex-col justify-between rounded-card bg-accent p-5 text-white md:min-h-[420px]">
             <div>
@@ -31,7 +25,7 @@ export function Testimonials() {
                 Founding Students
               </p>
               <h2 className="mt-3 font-heading text-2xl font-bold uppercase tracking-tight md:text-3xl">
-                Join the First 1,000
+                Join the Founding Class
               </h2>
             </div>
             <p className="mt-6 text-sm leading-relaxed text-white/80">

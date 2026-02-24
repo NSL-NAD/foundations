@@ -2,6 +2,7 @@ import { Hero } from "@/components/marketing/Hero";
 import { ValueProposition } from "@/components/marketing/ValueProposition";
 import { CoursePreviewVideo } from "@/components/marketing/CoursePreviewVideo";
 import { PathComparison } from "@/components/marketing/PathComparison";
+import { DesignBriefPreview } from "@/components/marketing/DesignBriefPreview";
 import { CurriculumPreview } from "@/components/marketing/CurriculumPreview";
 import { InstructorSection } from "@/components/marketing/InstructorSection";
 import { Testimonials } from "@/components/marketing/Testimonials";
@@ -23,6 +24,9 @@ export default function HomePage() {
       </FadeInSection>
       <FadeInSection>
         <PathComparison />
+      </FadeInSection>
+      <FadeInSection>
+        <DesignBriefPreview />
       </FadeInSection>
       <FadeInSection>
         <CurriculumPreview />

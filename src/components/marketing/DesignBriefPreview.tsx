@@ -5,37 +5,37 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
   ArrowRight,
-  Compass,
-  Highlighter,
-  MessageSquareText,
-  Monitor,
-  Timer,
+  BookOpen,
+  Upload,
+  Palette,
+  Download,
+  Share2,
 } from "lucide-react";
 
 const features = [
   {
-    icon: Compass,
-    text: "Easy to navigate course platform",
+    icon: BookOpen,
+    text: "Add Notes to your Course Notebook",
   },
   {
-    icon: Highlighter,
-    text: "Easily highlight content into your Course Notebook",
+    icon: Upload,
+    text: "Upload Files",
   },
   {
-    icon: MessageSquareText,
-    text: "Chat with our Architecture Assistant AI",
+    icon: Palette,
+    text: "Select your style",
   },
   {
-    icon: Monitor,
-    text: "Access your course on desktop or mobile",
+    icon: Download,
+    text: "Download your custom brief",
   },
   {
-    icon: Timer,
-    text: "Your pace, your learning style",
+    icon: Share2,
+    text: "Share with your architect",
   },
 ];
 
-export function CoursePreviewVideo() {
+export function DesignBriefPreview() {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -45,16 +45,37 @@ export function CoursePreviewVideo() {
 
   return (
     <section className="relative overflow-hidden bg-[#171C24] py-16 md:py-24">
-      <div className="mx-auto max-w-[1600px] px-4 sm:px-6 lg:pl-8 lg:pr-0">
+      <div className="mx-auto max-w-[1600px] px-4 sm:px-6 lg:pl-0 lg:pr-8">
         <div className="flex flex-col gap-10 lg:flex-row lg:items-stretch lg:gap-6">
-          {/* Left side — value props + CTA card */}
+          {/* Left side — video, bleeds to left edge on desktop */}
+          <div className="lg:flex-1">
+            {/* Mobile: rounded all sides; Desktop: rounded-right only, bleeds left */}
+            <div className="h-full overflow-hidden rounded-card border border-white lg:rounded-l-none lg:border-l-0">
+              <video
+                ref={videoRef}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="h-full w-full object-cover"
+                poster=""
+              >
+                <source
+                  src="/videos/design-brief-preview.mp4"
+                  type="video/mp4"
+                />
+              </video>
+            </div>
+          </div>
+
+          {/* Right side — feature card */}
           <div className="lg:w-[33%] lg:shrink-0">
             <div className="group flex h-full flex-col rounded-card border border-white px-7 py-8 transition-colors duration-300 hover:border-surface hover:bg-surface sm:px-8 sm:py-10">
               <p className="font-heading text-xs font-medium uppercase tracking-[0.3em] text-white/50 transition-colors duration-300 group-hover:text-foreground/50">
-                Course Platform
+                Feature Highlight
               </p>
               <h2 className="mt-3 font-heading text-2xl font-bold uppercase tracking-tight text-white transition-colors duration-300 group-hover:text-foreground md:text-3xl">
-                Built for Learning
+                Custom Design Brief
               </h2>
 
               <div className="mt-8 space-y-5">
@@ -72,7 +93,7 @@ export function CoursePreviewVideo() {
 
               <div className="mt-auto pt-10">
                 <p className="text-base font-medium text-white/70 transition-colors duration-300 group-hover:text-foreground/70">
-                  Trial the course for free
+                  Limited free trials
                 </p>
                 <Button
                   asChild
@@ -86,27 +107,6 @@ export function CoursePreviewVideo() {
                   </Link>
                 </Button>
               </div>
-            </div>
-          </div>
-
-          {/* Right side — video, bleeds to right edge on desktop */}
-          <div className="lg:flex-1">
-            {/* Mobile: rounded all sides; Desktop: rounded-left only, bleeds right */}
-            <div className="h-full overflow-hidden rounded-card border border-white lg:rounded-r-none lg:border-r-0">
-              <video
-                ref={videoRef}
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="h-full w-full object-cover"
-                poster=""
-              >
-                <source
-                  src="/videos/course-preview.mp4"
-                  type="video/mp4"
-                />
-              </video>
             </div>
           </div>
         </div>

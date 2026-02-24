@@ -10,7 +10,7 @@ import {
 const sections = [
   {
     title: "Welcome & Orientation",
-    lessons: 4,
+    lessons: 3,
     description:
       "Meet your instructor, set up your workspace, choose your learning path, and get ready for the journey.",
     tag: "Getting Started",
@@ -31,7 +31,7 @@ const sections = [
   },
   {
     title: "Module 2: Definitions of Architecture",
-    lessons: 15,
+    lessons: 16,
     description:
       "Learn the essential vocabulary — space planning, circulation, scale, proportion, light, views, and more.",
     tag: "Core Theory",
@@ -59,21 +59,21 @@ const sections = [
   },
   {
     title: "Module 6: Portfolio Project",
-    lessons: 9,
+    lessons: 11,
     description:
       "Bring it all together in a capstone project that showcases your design thinking.",
     tag: "Capstone",
   },
   {
-    title: "Bonus Modules",
-    lessons: 10,
+    title: "Bonus Lessons",
+    lessons: 7,
     description:
       "Mood boards, presentation tips, hiring professionals, 3D modeling overview, and more.",
     tag: "Bonus",
   },
   {
     title: "Bonus: AI for Architecture",
-    lessons: 10,
+    lessons: 11,
     description:
       "Use AI tools to visualize, refine, and present your dream home designs. Covers Rayon, Spacely AI, Nano Banana Pro, D5 Render, and more.",
     tag: "AI Tools",

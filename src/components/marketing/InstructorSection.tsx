@@ -21,7 +21,7 @@ export function InstructorSection() {
             <div className="absolute bottom-6 left-6 right-6">
               <div className="rounded-[1.25rem] border-[1.5px] border-white p-5 md:p-6">
                 <p className="font-heading text-xl font-light uppercase leading-snug text-white md:text-2xl">
-                  Creating the course I wish existed when I started.
+                  I created the course I wish existed when I started.
                 </p>
               </div>
             </div>
@@ -60,9 +60,9 @@ export function InstructorSection() {
 
             <div className="mt-10 grid grid-cols-3 gap-4">
               {[
-                { value: "10", label: "Modules" },
+                { value: "11", label: "Modules" },
                 { value: "34", label: "Resources" },
-                { value: "62", label: "Lessons" },
+                { value: "99", label: "Lessons" },
               ].map((stat) => (
                 <div
                   key={stat.label}

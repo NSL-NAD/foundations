@@ -18,7 +18,7 @@ export function ValueBanner() {
                 Starting at $47
               </h3>
               <p className="mt-2 text-sm text-background/60 transition-colors duration-300 group-hover:text-foreground/60">
-                Course only · First 1,000 students
+                Course only · Founding students
               </p>
             </div>
             <div className="mt-6">

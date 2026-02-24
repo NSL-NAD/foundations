@@ -22,7 +22,7 @@ const faqs = [
   {
     question: "How long do I have access to the course?",
     answer:
-      "Founding students (the first 1,000 enrollments) receive lifetime access to all current and future course content. This includes any new modules, updates, and resources added over time.",
+      "Founding students receive lifetime access to all current and future course content. This includes any new modules, updates, and resources added over time.",
   },
   {
     question: "What's included in the Architecture Starter Kit?",

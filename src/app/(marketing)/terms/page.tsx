@@ -19,7 +19,7 @@ export default function TermsPage() {
         <h2>2. Course Access</h2>
         <p>
           Upon purchase, you receive a personal, non-transferable license to
-          access the course content. Founding students (first 1,000 enrollments)
+          access the course content. Founding students
           receive lifetime access to all current and future course content.
         </p>
 
