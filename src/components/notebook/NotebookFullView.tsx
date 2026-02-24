@@ -7,8 +7,8 @@ import { NotebookFileUpload } from "@/components/tools/notebook/NotebookFileUplo
 import { GenerateDesignBriefButton } from "@/components/course/GenerateDesignBriefButton";
 import { Button } from "@/components/ui/button";
 import {
-  ChevronDown,
-  ChevronRight,
+  Plus,
+  Minus,
   ExternalLink,
   PenLine,
   ArrowLeft,
@@ -133,20 +133,18 @@ export function NotebookFullView({
                   expandedModules.has(mod.slug) ? "rounded-t-lg" : "rounded-lg"
                 )}
               >
-                <div className="flex items-center gap-3">
-                  {expandedModules.has(mod.slug) ? (
-                    <ChevronDown className="h-4 w-4 text-muted-foreground" />
-                  ) : (
-                    <ChevronRight className="h-4 w-4 text-muted-foreground" />
-                  )}
-                  <div>
-                    <h2 className="font-medium">{mod.title}</h2>
-                    <p className="text-xs text-muted-foreground">
-                      {mod.notes.length} note
-                      {mod.notes.length !== 1 ? "s" : ""}
-                    </p>
-                  </div>
+                <div>
+                  <h2 className="font-medium">{mod.title}</h2>
+                  <p className="text-xs text-muted-foreground">
+                    {mod.notes.length} note
+                    {mod.notes.length !== 1 ? "s" : ""}
+                  </p>
                 </div>
+                {expandedModules.has(mod.slug) ? (
+                  <Minus className="h-4 w-4 text-muted-foreground" />
+                ) : (
+                  <Plus className="h-4 w-4 text-muted-foreground" />
+                )}
               </button>
 
               {/* Notes list */}
