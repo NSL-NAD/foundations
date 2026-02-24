@@ -6,7 +6,7 @@ import { ArrowRight, Check, PlayCircle, FileText, PenTool, ListChecks, PenLine, 
 import Link from "next/link";
 import { DashboardChatButton } from "@/components/dashboard/DashboardChatButton";
 import { CourseReview } from "@/components/account/CourseReview";
-import { isModuleAccessible, type AccessTier } from "@/lib/access";
+import { isModuleAccessible, isLessonAccessible, moduleHasTrialLessons, type AccessTier } from "@/lib/access";
 
 export const metadata = {
   title: "Course Overview",
@@ -149,7 +149,7 @@ export default async function CoursePage() {
         <div className="mb-6 flex flex-col items-start gap-4 rounded-card border border-accent/30 bg-accent/5 p-5 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h3 className="font-heading text-sm font-semibold uppercase tracking-wide">
-              Free Trial — Welcome &amp; Orientation
+              Free Trial
             </h3>
             <p className="mt-1 text-sm text-muted-foreground">
               Unlock all 11 modules and 99 lessons with the full course.
@@ -165,6 +165,7 @@ export default async function CoursePage() {
       <div className="grid gap-4 md:grid-cols-2">
         {modules.map((mod, modIdx) => {
           const accessible = isModuleAccessible(mod.slug, tier);
+          const hasTrialLesson = !accessible && moduleHasTrialLessons(mod.slug);
           const moduleCompleted = mod.lessons.filter((l) =>
             completedSet.has(`${mod.slug}/${l.slug}`)
           ).length;
@@ -177,7 +178,7 @@ export default async function CoursePage() {
             <div
               key={mod.slug}
               className={`rounded-card border bg-card ${
-                !accessible ? "opacity-60" : ""
+                !accessible && !hasTrialLesson ? "opacity-60" : ""
               }`}
             >
               {/* Module header */}
@@ -200,6 +201,10 @@ export default async function CoursePage() {
                     <span className="shrink-0 font-heading text-2xl font-bold text-accent/40">
                       {modulePercent}%
                     </span>
+                  ) : hasTrialLesson ? (
+                    <span className="shrink-0 rounded-full border border-primary/20 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-primary/60">
+                      Preview
+                    </span>
                   ) : (
                     <Lock className="h-5 w-5 shrink-0 text-muted-foreground/50" />
                   )}
@@ -218,8 +223,13 @@ export default async function CoursePage() {
                     );
                     const Icon = typeIcons[lesson.type] || FileText;
                     const isLast = lessonIdx === mod.lessons.length - 1;
+                    const lessonAccessible = isLessonAccessible(
+                      mod.slug,
+                      tier,
+                      lesson.slug
+                    );
 
-                    if (!accessible) {
+                    if (!lessonAccessible) {
                       return (
                         <li key={lesson.slug}>
                           <div

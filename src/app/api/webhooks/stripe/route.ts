@@ -71,9 +71,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // If kit or bundle, create kit order
+    // If kit, kit_upsell, or bundle, create kit order
     const shippingInfo = session.collected_information?.shipping_details;
-    if (["kit", "bundle"].includes(productType) && shippingInfo) {
+    if (["kit", "kit_upsell", "bundle"].includes(productType) && shippingInfo) {
       const shipping = shippingInfo;
       await supabase.from("kit_orders").insert({
         purchase_id: purchase.id,
@@ -107,7 +107,7 @@ export async function POST(req: NextRequest) {
           .eq("id", purchase.id);
 
         // Also link kit order
-        if (["kit", "bundle"].includes(productType)) {
+        if (["kit", "kit_upsell", "bundle"].includes(productType)) {
           await supabase
             .from("kit_orders")
             .update({ user_id: existingUser.id })

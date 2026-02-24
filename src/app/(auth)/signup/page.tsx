@@ -60,14 +60,19 @@ export default function SignupPage() {
       return;
     }
 
-    // Link any existing purchases (non-blocking)
-    // Welcome email is NOT sent here — it fires post-purchase only
-    // (from checkout success page or Stripe webhook)
     if (signUpData.user) {
+      // Link any existing purchases (non-blocking)
       fetch("/api/auth/link-purchases", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId: signUpData.user.id, email }),
+      }).catch(() => {});
+
+      // Send trial welcome email + admin notification (non-blocking)
+      fetch("/api/auth/trial-welcome", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, fullName }),
       }).catch(() => {});
     }
 
@@ -80,7 +85,8 @@ export default function SignupPage() {
       <CardHeader className="text-center">
         <CardTitle className="text-2xl">Create your account</CardTitle>
         <CardDescription>
-          Already purchased? Create your account to access the course.
+          Create your free account to start learning. Get instant access to the
+          Welcome &amp; Orientation module.
         </CardDescription>
       </CardHeader>
       <form onSubmit={handleSubmit}>

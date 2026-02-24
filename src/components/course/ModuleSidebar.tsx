@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Progress } from "@/components/ui/progress";
-import { isModuleAccessible } from "@/lib/access";
+import { isModuleAccessible, isLessonAccessible, moduleHasTrialLessons } from "@/lib/access";
 import type { AccessTier } from "@/lib/access";
 import type { CurriculumModule } from "@/lib/course";
 
@@ -132,6 +132,7 @@ export function ModuleSidebar({
       <nav ref={navRef} className="flex-1 overflow-y-auto py-2">
         {modules.map((mod, modIndex) => {
           const accessible = isModuleAccessible(mod.slug, accessTier ?? "full");
+          const hasTrialLesson = !accessible && moduleHasTrialLessons(mod.slug);
           const isModuleOpen = expandedModules.has(mod.slug);
           const moduleCompleted = mod.lessons.filter((l) =>
             completedLessons.includes(`${mod.slug}/${l.slug}`)
@@ -149,7 +150,7 @@ export function ModuleSidebar({
                 className={cn(
                   "flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm transition-colors hover:bg-white/5",
                   mod.slug === currentModuleSlug && "bg-white/10",
-                  !accessible && "opacity-50"
+                  !accessible && !hasTrialLesson && "opacity-50"
                 )}
               >
                 {/* Collapsed sidebar: module number */}
@@ -195,6 +196,11 @@ export function ModuleSidebar({
                         {moduleCompleted}/{mod.lessons.length}
                       </span>
                     </div>
+                  ) : hasTrialLesson ? (
+                    <div className="mt-1 flex items-center gap-1.5">
+                      <Lock className="h-3 w-3 text-white/30" />
+                      <span className="text-xs text-white/30">Preview available</span>
+                    </div>
                   ) : (
                     <div className="mt-1 flex items-center gap-1.5">
                       <Lock className="h-3 w-3 text-white/30" />
@@ -214,9 +220,14 @@ export function ModuleSidebar({
                       `${mod.slug}/${lesson.slug}`
                     );
                     const Icon = typeIcons[lesson.type] || FileText;
+                    const lessonAccessible = isLessonAccessible(
+                      mod.slug,
+                      accessTier ?? "full",
+                      lesson.slug
+                    );
 
                     // Locked lesson — visible but not clickable
-                    if (!accessible) {
+                    if (!lessonAccessible) {
                       return (
                         <li key={lesson.slug}>
                           <div className="flex cursor-not-allowed items-center gap-2 py-2 pl-10 pr-4 text-sm text-white/25">

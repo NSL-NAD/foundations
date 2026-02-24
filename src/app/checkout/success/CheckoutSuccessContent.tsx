@@ -21,6 +21,7 @@ import { Logo } from "@/components/shared/Logo";
 export function CheckoutSuccessContent() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
+  const courseSessionParam = searchParams.get("cs"); // original course session from upsell flow
   const [loading, setLoading] = useState(false);
   const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
@@ -30,20 +31,49 @@ export function CheckoutSuccessContent() {
     email: string;
     productType: string;
   } | null>(null);
+  // If we came through the upsell flow, we know a course was purchased
+  const [cameFromUpsell, setCameFromUpsell] = useState(false);
   const supabase = createClient();
 
   useEffect(() => {
-    if (sessionId) {
-      fetch(`/api/checkout/session?session_id=${sessionId}`)
+    // Determine which session to fetch — prefer the course session from upsell flow
+    const fetchSessionId = courseSessionParam || sessionId;
+    if (fetchSessionId && fetchSessionId !== "skip") {
+      fetch(`/api/checkout/session?session_id=${fetchSessionId}`)
         .then((res) => res.json())
         .then((data) => {
           if (data.email) {
-            setSessionData(data);
+            // If we have a course session param, override productType to "course"
+            // so account creation is shown
+            if (courseSessionParam) {
+              setCameFromUpsell(true);
+              setSessionData({ email: data.email, productType: "course" });
+            } else {
+              setSessionData(data);
+            }
           }
         })
         .catch(console.error);
     }
-  }, [sessionId]);
+  }, [sessionId, courseSessionParam]);
+
+  // Check if user is already authenticated (e.g. trial user upgrading)
+  const [existingUser, setExistingUser] = useState(false);
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user) {
+        setExistingUser(true);
+        // Link any new purchases to existing user
+        if (sessionData?.email) {
+          fetch("/api/auth/link-purchases", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ userId: user.id, email: sessionData.email }),
+          }).catch(() => {});
+        }
+      }
+    });
+  }, [sessionData]);
 
   async function handleCreateAccount(e: React.FormEvent) {
     e.preventDefault();
@@ -104,25 +134,36 @@ export function CheckoutSuccessContent() {
     setLoading(false);
   }
 
-  // For ai_chat purchases, auto-redirect back to course (user already has account)
+  // Auto-redirect for existing users (trial upgrade) or ai_chat purchases
   useEffect(() => {
-    if (sessionData?.productType === "ai_chat") {
+    const isCourse =
+      sessionData?.productType === "course" ||
+      sessionData?.productType === "bundle";
+    const shouldRedirect =
+      sessionData?.productType === "ai_chat" ||
+      sessionData?.productType === "ai_chat_upsell" ||
+      (existingUser && isCourse);
+
+    if (shouldRedirect) {
       const timer = setTimeout(() => {
         window.location.href = "/course";
       }, 2000);
       return () => clearTimeout(timer);
     }
-  }, [sessionData]);
+  }, [sessionData, existingUser]);
 
   const productNames: Record<string, string> = {
     course: "Foundations of Architecture Course",
     kit: "Architecture Starter Kit",
     bundle: "Course + Starter Kit Bundle",
     ai_chat: "AI Chat — Unlimited Access",
+    kit_upsell: "Architecture Starter Kit",
+    ai_chat_upsell: "AI Chat — Unlimited Access",
   };
 
   const includesKit =
     sessionData?.productType === "kit" ||
+    sessionData?.productType === "kit_upsell" ||
     sessionData?.productType === "bundle";
   const includesCourse =
     sessionData?.productType === "course" ||
@@ -140,9 +181,11 @@ export function CheckoutSuccessContent() {
           </div>
           <CardTitle className="text-2xl">Thank you!</CardTitle>
           <CardDescription>
-            {sessionData
-              ? `You've purchased ${productNames[sessionData.productType] || "your course"}`
-              : "Your purchase was successful"}
+            {cameFromUpsell
+              ? "Your purchases are confirmed!"
+              : sessionData
+                ? `You've purchased ${productNames[sessionData.productType] || "your course"}`
+                : "Your purchase was successful"}
           </CardDescription>
         </CardHeader>
 
@@ -170,7 +213,16 @@ export function CheckoutSuccessContent() {
             </div>
           )}
 
-          {includesCourse && !accountCreated && (
+          {includesCourse && existingUser && !accountCreated && (
+            <div className="text-center">
+              <p className="text-sm text-muted-foreground">
+                Your course has been upgraded! Redirecting...
+              </p>
+              <Loader2 className="mx-auto mt-3 h-5 w-5 animate-spin text-primary" />
+            </div>
+          )}
+
+          {includesCourse && !existingUser && !accountCreated && (
             <form onSubmit={handleCreateAccount} className="space-y-4">
               <div>
                 <p className="mb-3 text-sm text-muted-foreground">

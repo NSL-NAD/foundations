@@ -53,8 +53,8 @@ export default async function LessonPage({ params }: LessonPageProps) {
     p_user_id: user!.id,
   })) as { data: AccessTier };
 
-  // Block trial users from locked modules
-  if (!isLessonAccessible(moduleSlug, tier)) {
+  // Block trial users from locked lessons
+  if (!isLessonAccessible(moduleSlug, tier, lessonSlug)) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center p-8">
         <div className="text-center">

@@ -175,12 +175,16 @@ export async function sendPurchaseConfirmation({
     course: "Foundations of Architecture Course",
     kit: "Architecture Starter Kit",
     bundle: "Course + Starter Kit Bundle",
+    ai_chat: "AI Chat — Unlimited Access",
+    kit_upsell: "Architecture Starter Kit (10% Off)",
+    ai_chat_upsell: "AI Chat — Unlimited Access (10% Off)",
   };
 
   const productLabel = productNames[productType] || productType;
 
+  // Only show "Create Account" CTA for course/bundle (not kit-only or chat-only purchases)
   const courseSection =
-    productType !== "kit"
+    ["course", "bundle"].includes(productType)
       ? `
     <h2 style="font-size: 17px; font-weight: 600; margin: 24px 0 8px 0; color: ${BRAND.primary};">Get Started</h2>
     <p style="margin: 0 0 4px 0;">Create your account to access your course:</p>
@@ -188,7 +192,7 @@ export async function sendPurchaseConfirmation({
   `
       : "";
 
-  const kitSection = ["kit", "bundle"].includes(productType)
+  const kitSection = ["kit", "bundle", "kit_upsell"].includes(productType)
     ? `
     <h2 style="font-size: 17px; font-weight: 600; margin: 24px 0 8px 0; color: ${BRAND.primary};">Your Starter Kit</h2>
     <p style="margin: 0;">We'll ship your kit within 3&ndash;5 business days. You'll receive a tracking number once it ships.</p>
@@ -293,6 +297,79 @@ export async function sendReviewNotification({
           <p style="margin: 0; white-space: pre-wrap; line-height: 1.6;">${reviewText}</p>
         </div>
         ` : `<p style="margin: 0; font-size: 14px; color: ${BRAND.muted};">No written review provided.</p>`}
+      `,
+    }),
+  });
+}
+
+export async function sendTrialWelcomeEmail({
+  email,
+  fullName,
+}: {
+  email: string;
+  fullName: string;
+}) {
+  const firstName = fullName.split(" ")[0] || "there";
+
+  await resend.emails.send({
+    from: FROM_EMAIL,
+    to: email,
+    replyTo: REPLY_TO,
+    subject: "Welcome to Foundations of Architecture — Your Free Trial",
+    html: brandedEmailLayout({
+      preheader:
+        "Start learning with free access to the Welcome & Orientation module.",
+      body: `
+        <h1 style="font-size: 24px; font-weight: 600; margin: 0 0 16px 0; color: ${BRAND.foreground};">Welcome, ${firstName}!</h1>
+        <p style="margin: 0 0 16px 0;">Your free trial account is ready. You now have access to the <strong>Welcome &amp; Orientation</strong> module plus a preview of the <strong>Workshop Introduction</strong> &mdash; enough to explore the course platform and start your architecture journey.</p>
+
+        <h2 style="font-size: 17px; font-weight: 600; margin: 24px 0 12px 0; color: ${BRAND.primary};">What&rsquo;s included in your trial</h2>
+        <ul style="padding-left: 20px; margin: 0 0 8px 0; line-height: 1.8;">
+          <li>Full access to <strong>Welcome &amp; Orientation</strong> (3 lessons)</li>
+          <li><strong>Workshop Introduction</strong> preview from the Kickoff module</li>
+          <li>Course Notebook to save your highlights</li>
+          <li>Experience the full course platform</li>
+        </ul>
+
+        <h2 style="font-size: 17px; font-weight: 600; margin: 24px 0 12px 0; color: ${BRAND.primary};">Ready for more?</h2>
+        <p style="margin: 0 0 4px 0;">Upgrade anytime to unlock all 10 modules, 62 lessons, and 34 downloadable resources.</p>
+
+        ${ctaButton("Start Learning &rarr;", `${BASE_URL()}/course`)}
+      `,
+    }),
+  });
+}
+
+export async function sendTrialSignupAdminNotification({
+  email,
+  fullName,
+}: {
+  email: string;
+  fullName: string;
+}) {
+  await resend.emails.send({
+    from: FROM_EMAIL,
+    to: "nic@goodatscale.co",
+    replyTo: email,
+    subject: `[FOA Trial] New signup: ${fullName}`,
+    html: brandedEmailLayout({
+      preheader: `${fullName} (${email}) just signed up for a free trial.`,
+      body: `
+        <h1 style="font-size: 24px; font-weight: 600; margin: 0 0 16px 0; color: ${BRAND.foreground};">New Trial Signup</h1>
+
+        <div style="background-color: ${BRAND.cardBg}; border-radius: 6px; padding: 16px 20px; border-left: 3px solid ${BRAND.brass};">
+          <p style="margin: 0 0 4px 0; font-size: 14px; color: ${BRAND.muted};">Name</p>
+          <p style="margin: 0 0 12px 0; font-weight: 600;">${fullName}</p>
+          <p style="margin: 0 0 4px 0; font-size: 14px; color: ${BRAND.muted};">Email</p>
+          <p style="margin: 0; font-weight: 600;">${email}</p>
+        </div>
+
+        <p style="margin-top: 16px; font-size: 14px; color: ${BRAND.muted};">
+          This user has access to the Welcome &amp; Orientation module.
+          They can upgrade to the full course at any time.
+        </p>
+
+        ${ctaButton("View Admin Dashboard &rarr;", `${BASE_URL()}/admin`)}
       `,
     }),
   });

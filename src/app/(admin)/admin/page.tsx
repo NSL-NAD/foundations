@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { Button } from "@/components/ui/button";
-import { Users, DollarSign, Package, ArrowRight, UserPlus, Star } from "lucide-react";
+import { Users, DollarSign, Package, ArrowRight, UserPlus, Star, UserCheck } from "lucide-react";
 import Link from "next/link";
 
 export const metadata = {
@@ -36,6 +36,11 @@ export default async function AdminPage() {
     .is("admin_viewed_at", null)
     .in("product_type", ["course", "bundle"])
     .eq("status", "completed");
+
+  // Trial users count
+  const { data: trialUsersCount } = (await supabase.rpc(
+    "get_trial_users_count"
+  )) as { data: number };
 
   // Recent reviews
   const { data: reviews } = await supabase
@@ -154,7 +159,27 @@ export default async function AdminPage() {
             <ArrowRight className="mt-4 h-4 w-4 text-white/70 transition-transform group-hover:translate-x-1" />
           </Link>
 
-          {/* Total Revenue — stat */}
+          {/* Trial Users — stat */}
+          <div className="col-span-2 flex flex-col justify-between rounded-card border bg-card p-5 md:col-span-1 md:min-h-[140px]">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                Trial Users
+              </span>
+              <UserCheck className="h-4 w-4 text-muted-foreground" />
+            </div>
+            <div>
+              <div className="mt-4 font-heading text-3xl font-bold">
+                {trialUsersCount || 0}
+              </div>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Free trial (not yet purchased)
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Row 3: Total Revenue */}
+        <div className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-3">
           <div className="col-span-2 flex flex-col justify-between rounded-card border bg-card p-5 md:col-span-1 md:min-h-[140px]">
             <div className="flex items-center justify-between">
               <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
