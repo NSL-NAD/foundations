@@ -1,5 +1,6 @@
 import { Hero } from "@/components/marketing/Hero";
 import { ValueProposition } from "@/components/marketing/ValueProposition";
+import { CoursePreviewVideo } from "@/components/marketing/CoursePreviewVideo";
 import { PathComparison } from "@/components/marketing/PathComparison";
 import { CurriculumPreview } from "@/components/marketing/CurriculumPreview";
 import { InstructorSection } from "@/components/marketing/InstructorSection";
@@ -16,6 +17,9 @@ export default function HomePage() {
       <Hero />
       <FadeInSection>
         <ValueProposition />
+      </FadeInSection>
+      <FadeInSection>
+        <CoursePreviewVideo />
       </FadeInSection>
       <FadeInSection>
         <PathComparison />
