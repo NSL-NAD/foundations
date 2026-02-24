@@ -22,6 +22,9 @@ export function ValueBanner() {
               </p>
             </div>
             <div className="mt-6">
+              <p className="mb-3 text-sm text-background/60 transition-colors duration-300 group-hover:text-foreground/60">
+                Save hours of your architect&apos;s time
+              </p>
               <Button
                 asChild
                 variant="outline"

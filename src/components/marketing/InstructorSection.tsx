@@ -61,7 +61,7 @@ export function InstructorSection() {
             <div className="mt-10 grid grid-cols-3 gap-4">
               {[
                 { value: "11", label: "Modules" },
-                { value: "34", label: "Resources" },
+                { value: "31", label: "Resources" },
                 { value: "99", label: "Lessons" },
               ].map((stat) => (
                 <div
