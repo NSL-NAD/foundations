@@ -9,7 +9,7 @@ export function ValueBanner() {
       <div className="container">
         <div className="grid gap-4 md:grid-cols-3">
           {/* Left card — 2/3 width: Founder pricing */}
-          <div className="group relative flex flex-col justify-between rounded-card bg-foreground p-8 text-background transition-all duration-300 hover:bg-transparent hover:text-foreground hover:ring-2 hover:ring-foreground md:col-span-2 md:p-10">
+          <div className="group relative flex flex-col justify-between rounded-card bg-foreground p-4 text-background transition-all duration-300 hover:bg-transparent hover:text-foreground hover:ring-2 hover:ring-foreground md:col-span-2 md:p-5">
             <div>
               <p className="font-heading text-xs font-medium uppercase tracking-[0.3em] text-background/60 transition-colors duration-300 group-hover:text-foreground/60">
                 Founder Pricing — 50% Off
@@ -21,15 +21,15 @@ export function ValueBanner() {
                 Course only · Founding students
               </p>
             </div>
-            <div className="mt-6">
-              <p className="mb-3 text-sm text-background/60 transition-colors duration-300 group-hover:text-foreground/60">
+            <div className="mt-auto pt-6">
+              <p className="text-base font-medium text-background/70 transition-colors duration-300 group-hover:text-foreground/70">
                 Save hours of your architect&apos;s time
               </p>
               <Button
                 asChild
                 variant="outline"
                 size="sm"
-                className="shrink-0 rounded-full border-background bg-background px-6 text-xs font-medium uppercase tracking-wider text-foreground transition-all duration-300 hover:bg-brass hover:text-white hover:border-brass group-hover:border-foreground group-hover:bg-foreground group-hover:text-background group-hover:hover:bg-brass group-hover:hover:border-brass group-hover:hover:text-white"
+                className="mt-4 shrink-0 rounded-full border-background bg-background px-6 text-xs font-medium uppercase tracking-wider text-foreground transition-all duration-300 hover:bg-brass hover:text-white hover:border-brass group-hover:border-foreground group-hover:bg-foreground group-hover:text-background group-hover:hover:bg-brass group-hover:hover:border-brass group-hover:hover:text-white"
               >
                 <Link href="#pricing">
                   Enroll Now
@@ -40,7 +40,7 @@ export function ValueBanner() {
           </div>
 
           {/* Right card — 1/3 width: Value highlight */}
-          <div className="flex flex-col justify-between rounded-card bg-accent p-8 text-accent-foreground md:p-10">
+          <div className="flex flex-col justify-between rounded-card bg-accent p-4 text-accent-foreground md:p-5">
             <div>
               <p className="font-heading text-xs font-medium uppercase tracking-[0.3em] text-accent-foreground/50">
                 Total Value
