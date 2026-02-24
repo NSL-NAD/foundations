@@ -46,7 +46,7 @@ export function PathComparison() {
           <p className="mt-4 text-muted-foreground">
             Whether you prefer to sketch or write, there&apos;s a path designed
             for you. Switch anytime — both are included. Both result in a
-            detailed Design Brief that you can hand-off to your architect or
+            detailed Design Brief that you can hand off to your architect or
             designer.
           </p>
         </div>
@@ -58,7 +58,7 @@ export function PathComparison() {
               className={`rounded-card border border-white/15 p-5 md:p-6 ${path.bgClass}`}
             >
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/15">
-                <path.icon className="h-6 w-6" />
+                <path.icon className="h-6 w-6" aria-hidden="true" />
               </div>
               <h3 className="mt-6 font-heading text-2xl font-semibold uppercase">
                 {path.title}
@@ -75,7 +75,7 @@ export function PathComparison() {
                     key={feature}
                     className="flex items-start gap-2.5 text-sm"
                   >
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 opacity-70" />
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 opacity-70" aria-hidden="true" />
                     <span>{feature}</span>
                   </li>
                 ))}

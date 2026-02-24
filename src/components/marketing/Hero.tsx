@@ -2,12 +2,20 @@
 
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { IMAGES } from "@/lib/images";
 
 export function Hero() {
+  const prefersReducedMotion = useReducedMotion();
+  const fadeUp = prefersReducedMotion
+    ? {}
+    : { initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 } };
+  const fadeUpStats = prefersReducedMotion
+    ? {}
+    : { initial: { opacity: 0, y: 15 }, animate: { opacity: 1, y: 0 } };
+
   return (
     <section className="bg-background">
       <div className="container pt-6 pb-3 md:pt-8 md:pb-4">
@@ -15,8 +23,7 @@ export function Hero() {
         <div className="grid gap-3 md:grid-cols-2 md:grid-rows-[1fr_auto]">
           {/* ── Top-left: Main headline card ── */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            {...fadeUp}
             transition={{ duration: 0.6 }}
             className="flex flex-col justify-between rounded-card bg-card p-2 md:p-3 lg:p-4"
           >
@@ -30,18 +37,18 @@ export function Hero() {
 
             <div className="mt-10 md:mt-12">
               <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
-                A beginner-friendly course that teaches you the architectural
-                fundamentals to confidently plan, communicate, and design your
-                ideal living space or dream home — no degree required.
+                A beginner-friendly online course that teaches homeowners the
+                architectural fundamentals to confidently plan, communicate, and
+                design your ideal living space or dream home — no degree
+                required.
               </p>
             </div>
           </motion.div>
 
           {/* ── Top-right: Hero image + quote overlay ── */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            {...fadeUp}
+            transition={{ duration: 0.6, delay: prefersReducedMotion ? 0 : 0.1 }}
             className="relative row-span-2 overflow-hidden rounded-card bg-black"
           >
             <Image
@@ -74,7 +81,7 @@ export function Hero() {
                   >
                     <Link href="#pricing">
                       Enroll Now — $47
-                      <ArrowRight className="ml-1.5 h-3 w-3" />
+                      <ArrowRight className="ml-1.5 h-3 w-3" aria-hidden="true" />
                     </Link>
                   </Button>
                 </div>
@@ -84,9 +91,8 @@ export function Hero() {
 
           {/* ── Bottom-left: Two feature cards ── */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            {...fadeUp}
+            transition={{ duration: 0.6, delay: prefersReducedMotion ? 0 : 0.2 }}
             className="grid grid-cols-2 gap-3"
           >
             {/* Card 1 — Accent (terracotta) */}
@@ -95,9 +101,9 @@ export function Hero() {
                 100
               </span>
               <div className="mt-auto pt-5">
-                <h3 className="font-heading text-sm font-semibold uppercase tracking-wider">
+                <p className="font-heading text-sm font-semibold uppercase tracking-wider">
                   Lessons
-                </h3>
+                </p>
                 <p className="mt-2 text-xs leading-relaxed text-white/80">
                   Comprehensive coverage across 11 modules, from fundamentals to
                   final design.
@@ -111,9 +117,9 @@ export function Hero() {
                 02
               </span>
               <div className="mt-auto pt-5">
-                <h3 className="font-heading text-sm font-semibold uppercase tracking-wider">
+                <p className="font-heading text-sm font-semibold uppercase tracking-wider">
                   Paths
-                </h3>
+                </p>
                 <p className="mt-2 text-xs leading-relaxed text-white/80">
                   Choose the Drawer path for hands-on sketching or Brief Builder
                   for digital planning.
@@ -125,9 +131,8 @@ export function Hero() {
 
         {/* Stats bar */}
         <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
+          {...fadeUpStats}
+          transition={{ duration: 0.5, delay: prefersReducedMotion ? 0 : 0.4 }}
           className="mt-5 flex items-center justify-center border-t border-foreground/8 pt-5"
         >
           <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-1 text-xs uppercase tracking-[0.2em] text-muted-foreground">

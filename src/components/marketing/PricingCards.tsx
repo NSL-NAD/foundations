@@ -125,6 +125,7 @@ export function PricingCards() {
                 <div className="mt-6">
                   {product.originalPrice && (
                     <span className="mr-2 text-lg text-muted-foreground line-through">
+                      <span className="sr-only">Original price: </span>
                       ${product.originalPrice}
                     </span>
                   )}
@@ -141,7 +142,7 @@ export function PricingCards() {
                     key={feature}
                     className="flex items-start gap-2.5 text-sm"
                   >
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
                     <span>{feature}</span>
                   </li>
                 ))}
@@ -161,6 +162,7 @@ export function PricingCards() {
                 variant={product.highlighted ? "default" : "outline"}
                 onClick={() => handleCheckout(product.key)}
                 disabled={loading !== null}
+                aria-live="polite"
               >
                 {loading === product.key
                   ? "Redirecting..."
@@ -173,11 +175,11 @@ export function PricingCards() {
         {/* Trust signals */}
         <div className="mx-auto mt-10 flex max-w-lg items-center justify-center gap-8 text-xs uppercase tracking-wider text-muted-foreground">
           <div className="flex items-center gap-2">
-            <ShieldCheck className="h-4 w-4" />
+            <ShieldCheck className="h-4 w-4" aria-hidden="true" />
             <span>30-day guarantee</span>
           </div>
           <div className="flex items-center gap-2">
-            <ShieldCheck className="h-4 w-4" />
+            <ShieldCheck className="h-4 w-4" aria-hidden="true" />
             <span>Secure checkout</span>
           </div>
         </div>

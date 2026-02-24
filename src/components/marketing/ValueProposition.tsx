@@ -64,7 +64,7 @@ export function ValueProposition() {
               className="group flex flex-col rounded-card border bg-card p-5 transition-colors hover:border-[#171C24]/50"
             >
               <div className="flex h-11 w-11 items-center justify-center rounded-full bg-accent/10">
-                <item.icon className="h-5 w-5 text-accent" />
+                <item.icon className="h-5 w-5 text-accent" aria-hidden="true" />
               </div>
               <p className="mt-6 font-heading text-4xl font-bold text-primary/20">
                 {item.number}
@@ -80,7 +80,7 @@ export function ValueProposition() {
                 className="mt-6 inline-flex items-center gap-2 self-start rounded-full border border-foreground/20 px-5 py-2 text-xs font-medium uppercase tracking-wider transition-colors hover:bg-foreground hover:text-background"
               >
                 Learn More
-                <ArrowRight className="h-3.5 w-3.5" />
+                <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
               </Link>
             </div>
           ))}

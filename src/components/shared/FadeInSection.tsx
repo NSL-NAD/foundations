@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import type { ReactNode } from "react";
 
 interface FadeInSectionProps {
@@ -14,12 +14,14 @@ export function FadeInSection({
   className = "",
   delay = 0,
 }: FadeInSectionProps) {
+  const prefersReducedMotion = useReducedMotion();
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={prefersReducedMotion ? {} : { opacity: 0, y: 24 }}
+      whileInView={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.5, delay, ease: "easeOut" }}
+      transition={prefersReducedMotion ? {} : { duration: 0.5, delay, ease: "easeOut" }}
       className={className}
     >
       {children}

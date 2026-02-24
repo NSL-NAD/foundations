@@ -75,7 +75,7 @@ export function CoursePreviewVideo() {
                 {features.map((feature) => (
                   <div key={feature.text} className="flex items-start gap-3">
                     <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brass/15 transition-colors duration-300 group-hover:bg-brass/20">
-                      <feature.icon className="h-4 w-4 text-brass" />
+                      <feature.icon className="h-4 w-4 text-brass" aria-hidden="true" />
                     </div>
                     <p className="pt-1 text-sm leading-relaxed text-white/70 transition-colors duration-300 group-hover:text-foreground/70">
                       {feature.text}
@@ -96,7 +96,7 @@ export function CoursePreviewVideo() {
                 >
                   <Link href="/signup">
                     Enroll Now
-                    <ArrowRight className="ml-1.5 h-3 w-3" />
+                    <ArrowRight className="ml-1.5 h-3 w-3" aria-hidden="true" />
                   </Link>
                 </Button>
               </div>
@@ -113,7 +113,7 @@ export function CoursePreviewVideo() {
                 muted
                 playsInline
                 className="h-full w-full object-cover"
-                poster=""
+                aria-label="Preview of the Foundations of Architecture course platform"
               >
                 <source
                   src="/videos/course-preview.mp4"

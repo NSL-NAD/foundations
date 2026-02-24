@@ -43,9 +43,12 @@ export default function RefundPage() {
 
         <h2>How to Request a Refund</h2>
         <p>
-          To request a refund, please contact us via email with your order
-          details. We&apos;ll process your request promptly and confirm once
-          the refund has been initiated.
+          To request a refund, please contact us at{" "}
+          <a href="mailto:foacourse@goodatscale.co" className="text-foreground underline">
+            foacourse@goodatscale.co
+          </a>{" "}
+          with your order details. We&apos;ll process your request promptly and
+          confirm once the refund has been initiated.
         </p>
 
         <h2>Exceptions</h2>

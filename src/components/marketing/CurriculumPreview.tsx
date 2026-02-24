@@ -54,7 +54,7 @@ const sections = [
     title: "Module 5: Environmental Design",
     lessons: 10,
     description:
-      "Understand passive design, climate response, sustainability principles, and designing with nature.",
+      "Understand passive design, climate response, sustainable home design principles, and designing with nature.",
     tag: "Sustainability",
   },
   {

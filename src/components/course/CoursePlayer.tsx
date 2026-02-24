@@ -121,7 +121,7 @@ export function CoursePlayer({
   return (
     <div className="flex h-[calc(100dvh-4rem)] overflow-hidden">
       {/* Desktop Sidebar */}
-      <aside className="hidden flex-shrink-0 overflow-y-auto lg:block">
+      <aside aria-label="Course navigation" className="hidden flex-shrink-0 overflow-y-auto lg:block">
         <ModuleSidebar
           modules={modules}
           currentModuleSlug={moduleSlug}
@@ -137,9 +137,10 @@ export function CoursePlayer({
           <Button
             variant="outline"
             size="icon"
+            aria-label="Open course navigation"
             className="fixed bottom-4 left-4 z-40 h-12 w-12 rounded-full border bg-card/90 backdrop-blur shadow-md lg:hidden"
           >
-            <Menu className="h-5 w-5" />
+            <Menu className="h-5 w-5" aria-hidden="true" />
           </Button>
         </SheetTrigger>
         <SheetContent side="left" className="w-80 border-r-0 bg-[#171C24] p-0 [&>button:first-child]:z-50 [&>button:first-child]:right-3 [&>button:first-child]:top-3 [&>button:first-child]:pointer-events-auto [&>button:first-child]:h-8 [&>button:first-child]:w-8 [&>button:first-child]:bg-transparent [&>button:first-child]:text-white/60 [&>button:first-child]:hover:text-white [&>button:first-child]:hover:bg-white/10 [&>button:first-child]:rounded-md [&>button:first-child]:border-0 [&>button:first-child]:ring-0 [&>button:first-child]:ring-offset-0 [&>button:first-child]:focus:ring-0 [&>button:first-child]:focus:ring-offset-0 [&>button:first-child]:focus:outline-none [&>button:first-child]:data-[state=open]:bg-transparent">
@@ -214,7 +215,7 @@ export function CoursePlayer({
                           className="inline-flex items-center gap-1 rounded-full border border-foreground/20 px-2.5 py-0.5 text-xs text-muted-foreground transition-colors hover:border-brass hover:text-brass"
                         >
                           {link.label}
-                          <ExternalLink className="h-2.5 w-2.5" />
+                          <ExternalLink className="h-2.5 w-2.5" aria-hidden="true" />
                         </a>
                       )
                     )}
@@ -223,12 +224,12 @@ export function CoursePlayer({
                   <span className="flex items-center gap-1.5 text-xs">
                     {isCompleted ? (
                       <>
-                        <Check className="h-3.5 w-3.5 text-brass" />
+                        <Check className="h-3.5 w-3.5 text-brass" aria-hidden="true" />
                         <span className="font-medium text-brass">Completed</span>
                       </>
                     ) : (
                       <>
-                        <Circle className="h-3.5 w-3.5 text-muted-foreground/50" />
+                        <Circle className="h-3.5 w-3.5 text-muted-foreground/50" aria-hidden="true" />
                         <span className="text-muted-foreground/50">Not completed</span>
                       </>
                     )}
@@ -255,7 +256,7 @@ export function CoursePlayer({
                 href={`/course/${navigation.previous.moduleSlug}/${navigation.previous.lessonSlug}`}
                 className="flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-foreground"
               >
-                <ArrowLeft className="h-3 w-3" />
+                <ArrowLeft className="h-3 w-3" aria-hidden="true" />
                 <span className="hidden sm:inline max-w-[150px] truncate">
                   {navigation.previous.title}
                 </span>
@@ -276,7 +277,7 @@ export function CoursePlayer({
                   {navigation.next.title}
                 </span>
                 <span className="sm:hidden">Next</span>
-                <ArrowRight className="h-3 w-3" />
+                <ArrowRight className="h-3 w-3" aria-hidden="true" />
               </Link>
             ) : (
               <div />

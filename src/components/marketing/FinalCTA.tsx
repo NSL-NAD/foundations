@@ -39,7 +39,7 @@ export function FinalCTA() {
                 >
                   <Link href="#pricing">
                     Enroll Now — $47
-                    <ArrowRight className="ml-1.5 h-3 w-3" />
+                    <ArrowRight className="ml-1.5 h-3 w-3" aria-hidden="true" />
                   </Link>
                 </Button>
               </div>
@@ -75,7 +75,7 @@ export function FinalCTA() {
           <div className="grid grid-cols-3 gap-3">
             {/* Card 1 — Terracotta */}
             <div className="flex flex-col justify-between rounded-card bg-accent p-3.5 text-white md:p-4">
-              <ShieldCheck className="h-5 w-5 text-white/70" />
+              <ShieldCheck className="h-5 w-5 text-white/70" aria-hidden="true" />
               <div className="mt-5">
                 <h3 className="font-heading text-sm font-semibold uppercase tracking-wider">
                   30-Day
@@ -88,7 +88,7 @@ export function FinalCTA() {
 
             {/* Card 2 — Slate Blue */}
             <div className="flex flex-col justify-between rounded-card bg-primary p-3.5 text-white md:p-4">
-              <Star className="h-5 w-5 text-white/70" />
+              <Star className="h-5 w-5 text-white/70" aria-hidden="true" />
               <div className="mt-5">
                 <h3 className="font-heading text-sm font-semibold uppercase tracking-wider">
                   Founding
@@ -101,7 +101,7 @@ export function FinalCTA() {
 
             {/* Card 3 — Dark Navy */}
             <div className="flex flex-col justify-between rounded-card bg-[#171C24] p-3.5 text-white md:p-4">
-              <Clock className="h-5 w-5 text-white/70" />
+              <Clock className="h-5 w-5 text-white/70" aria-hidden="true" />
               <div className="mt-5">
                 <h3 className="font-heading text-sm font-semibold uppercase tracking-wider">
                   Lifetime

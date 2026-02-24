@@ -26,7 +26,7 @@ export function Footer() {
           </div>
 
           {/* Links */}
-          <nav className="flex flex-wrap gap-x-8 gap-y-3">
+          <nav aria-label="Footer navigation" className="flex flex-wrap gap-x-8 gap-y-3">
             {footerLinks.map((link) => (
               <Link
                 key={link.href}
@@ -41,16 +41,16 @@ export function Footer() {
 
         <div className="mt-12 flex items-center justify-between border-t border-white/10 pt-8">
           <div className="flex flex-col gap-1">
-            <p className="text-xs text-white/40">
+            <p className="text-xs text-white/60">
               &copy; {new Date().getFullYear()} Foundations of Architecture. All rights reserved.
             </p>
-            <p className="text-[11px] text-white/25">
+            <p className="text-[11px] text-white/50">
               Powered by{" "}
               <a
                 href="https://www.goodatscale.studio"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-white/40 transition-colors"
+                className="hover:text-white/70 transition-colors"
               >
                 GAS Studio
               </a>
