@@ -98,7 +98,7 @@ export function Hero() {
             {/* Card 1 — Accent (terracotta) */}
             <div className="flex flex-col rounded-card bg-accent p-3.5 text-white md:p-4">
               <span className="font-heading text-5xl font-bold leading-none md:text-6xl lg:text-7xl">
-                100
+                106
               </span>
               <div className="mt-auto pt-5">
                 <p className="font-heading text-sm font-semibold uppercase tracking-wider">
