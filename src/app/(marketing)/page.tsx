@@ -19,7 +19,7 @@ const siteUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:3007";
 export const metadata: Metadata = {
   title: "Foundations of Architecture | Online Course — Design Your Dream Home",
   description:
-    "A self-paced online architecture course for homeowners. Learn residential design fundamentals — floor plans, elevations, materials, and more. 100 lessons, two learning paths, 31 downloadable resources. No degree required.",
+    "A self-paced online architecture course for homeowners. Learn residential design fundamentals — floor plans, elevations, materials, and more. 106 lessons, two learning paths, 31 downloadable resources. No degree required.",
   alternates: {
     canonical: siteUrl,
   },
@@ -123,7 +123,7 @@ const productSchema = {
   "@type": "Product",
   name: "Foundations of Architecture — Online Course",
   description:
-    "A beginner-friendly online course teaching residential architecture fundamentals. 100 lessons, two learning paths, and 31 downloadable resources.",
+    "A beginner-friendly online course teaching residential architecture fundamentals. 106 lessons, two learning paths, and 31 downloadable resources.",
   brand: {
     "@type": "Brand",
     name: "Foundations of Architecture",

@@ -45,7 +45,7 @@ const sections = [
   },
   {
     title: "Module 4: Materiality & Systems",
-    lessons: 12,
+    lessons: 18,
     description:
       "Explore building materials, structural systems, and how homes are actually put together.",
     tag: "Technical",
@@ -96,7 +96,7 @@ export function CurriculumPreview() {
             What You&apos;ll Learn
           </h2>
           <p className="mt-4 text-muted-foreground">
-            100 lessons across 11 modules — from foundational concepts to your
+            106 lessons across 11 modules — from foundational concepts to your
             own capstone project.
           </p>
         </div>

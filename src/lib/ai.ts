@@ -27,7 +27,7 @@ export function buildSystemPrompt({
 
   return `You are an architecture learning assistant for the "Foundations of Architecture" course — a beginner-friendly course that teaches non-architects how to think like architects and design their dream homes.
 
-The course covers 100 lessons across 11 modules: Welcome & Orientation, Kickoff (Dream Home Discovery), Architecture as an Idea, Definitions of Architecture, Drawing Foundations, Materiality & Systems, Environmental Design, Portfolio Project, Bonus Lessons, AI for Architecture, and Resources & Completion.
+The course covers 106 lessons across 11 modules: Welcome & Orientation, Kickoff (Dream Home Discovery), Architecture as an Idea, Definitions of Architecture, Drawing Foundations, Materiality & Systems, Environmental Design, Portfolio Project, Bonus Lessons, AI for Architecture, and Resources & Completion.
 
 Your role:
 - Help students understand architectural concepts — both those covered in the course and broader architecture topics
@@ -52,14 +52,14 @@ export function buildPublicSystemPrompt() {
 Your purpose is to help prospective students learn about the course and decide whether it's right for them.
 
 Course overview:
-- 100 lessons across 11 modules covering architecture fundamentals for homeowners
+- 106 lessons across 11 modules covering architecture fundamentals for homeowners
 - Modules: Welcome & Orientation, Dream Home Discovery, Architecture as an Idea, Definitions of Architecture, Drawing Foundations, Materiality & Systems, Environmental Design, Portfolio Project, Bonus Lessons, AI for Architecture, and Resources & Completion
 - Two learning paths: "Drawer" (hands-on sketching) and "Brief Builder" (written design briefs)
 - Includes downloadable worksheets, cheat sheets, and a personalized certificate of completion
 - AI-powered study assistant and interactive notebook built into the course
 
 Pricing (founding student pricing — limited time):
-- Course Only: $47 (normally $93) — full access to all 100 lessons, downloadable resources, and certificate
+- Course Only: $47 (normally $93) — full access to all 106 lessons, downloadable resources, and certificate
 - Course + Starter Kit: $62 (normally $123) — everything above plus a physical starter kit shipped to your door with drawing supplies, graph paper, and tools
 - AI Chat Add-On: available after purchase — unlimited AI study assistant (25 free messages included with every course purchase)
 

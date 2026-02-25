@@ -1,6 +1,6 @@
 {
   "title": "Foundations of Architecture: Designing Your Dream Space",
-  "description": "A 100-lesson course teaching architectural fundamentals through hands-on design of your dream space.",
+  "description": "A 106-lesson course teaching architectural fundamentals through hands-on design of your dream space.",
   "modules": [
     {
       "slug": "welcome",
@@ -92,6 +92,12 @@
         { "slug": "material-steel", "title": "Steel", "type": "text", "duration": "6 min", "path": "both" },
         { "slug": "material-glass", "title": "Glass", "type": "text", "duration": "6 min", "path": "both" },
         { "slug": "material-stone-brick", "title": "Stone & Brick", "type": "text", "duration": "6 min", "path": "both" },
+        { "slug": "material-timber", "title": "Timber & Engineered Wood", "type": "text", "duration": "8 min", "path": "both" },
+        { "slug": "material-copper-brass", "title": "Copper & Brass", "type": "text", "duration": "6 min", "path": "both" },
+        { "slug": "material-tile", "title": "Tile", "type": "text", "duration": "6 min", "path": "both" },
+        { "slug": "material-plaster-stucco", "title": "Plaster & Stucco", "type": "text", "duration": "6 min", "path": "both" },
+        { "slug": "material-shou-sugi-ban", "title": "Shou Sugi Ban", "type": "text", "duration": "5 min", "path": "both" },
+        { "slug": "material-composites", "title": "Composite & Engineered Materials", "type": "text", "duration": "6 min", "path": "both" },
         { "slug": "sustainable-materials", "title": "Sustainable Materials", "type": "text", "duration": "10 min", "path": "both" },
         { "slug": "building-systems", "title": "Building Systems Integration", "type": "text", "duration": "12 min", "path": "both" },
         { "slug": "construction-finishing", "title": "Construction & Finishing", "type": "text", "duration": "10 min", "path": "both" },

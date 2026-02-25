@@ -25,7 +25,7 @@ const websiteSchema = {
   name: "Foundations of Architecture",
   url: siteUrl,
   description:
-    "A self-paced online course that teaches architecture fundamentals for homeowners. 100 lessons, two learning paths, 31 downloadable resources.",
+    "A self-paced online course that teaches architecture fundamentals for homeowners. 106 lessons, two learning paths, 31 downloadable resources.",
 };
 
 const spaceGrotesk = Space_Grotesk({
@@ -51,14 +51,14 @@ export const metadata: Metadata = {
     template: "%s | Foundations of Architecture",
   },
   description:
-    "Learn architecture fundamentals with this self-paced online course. 100 lessons, two learning paths, 31 downloadable resources. Design your dream home — no degree required.",
+    "Learn architecture fundamentals with this self-paced online course. 106 lessons, two learning paths, 31 downloadable resources. Design your dream home — no degree required.",
   metadataBase: new URL(siteUrl),
   openGraph: {
     type: "website",
     siteName: "Foundations of Architecture",
     title: "Foundations of Architecture | Design Your Dream Home",
     description:
-      "A beginner-friendly online course teaching residential architecture fundamentals. 100 lessons, two learning paths, 31 downloadable resources.",
+      "A beginner-friendly online course teaching residential architecture fundamentals. 106 lessons, two learning paths, 31 downloadable resources.",
   },
   twitter: {
     card: "summary_large_image",
