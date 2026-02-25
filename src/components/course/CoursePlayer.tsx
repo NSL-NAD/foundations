@@ -30,6 +30,7 @@ interface CoursePlayerProps {
   completedLessons: string[];
   mdxSource: MDXRemoteSerializeResult | null;
   accessTier?: AccessTier;
+  userEmail?: string;
 }
 
 export function CoursePlayer({
@@ -42,6 +43,7 @@ export function CoursePlayer({
   completedLessons,
   mdxSource,
   accessTier,
+  userEmail,
 }: CoursePlayerProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -128,6 +130,7 @@ export function CoursePlayer({
           currentLessonSlug={lessonSlug}
           completedLessons={localCompleted}
           accessTier={accessTier}
+          email={userEmail}
         />
       </aside>
 
@@ -152,6 +155,7 @@ export function CoursePlayer({
             onNavigate={() => setSidebarOpen(false)}
             forceExpanded
             accessTier={accessTier}
+            email={userEmail}
           />
         </SheetContent>
       </Sheet>

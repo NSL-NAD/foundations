@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ClipboardList, Loader2 } from "lucide-react";
+import { ClipboardList, Loader2, Lock } from "lucide-react";
 import { DesignBriefWizard } from "@/components/account/DesignBriefWizard";
 
 /**
@@ -19,10 +19,18 @@ export function GenerateDesignBriefButton({
   const [studentName, setStudentName] = useState("Student");
   const [notebookEntryCount, setNotebookEntryCount] = useState(0);
   const [uploadCount, setUploadCount] = useState(0);
+  const [module6Complete, setModule6Complete] = useState(false);
 
   useEffect(() => {
     async function loadData() {
       try {
+        // Check Module 6 completion first
+        const progressRes = await fetch("/api/user/progress");
+        if (progressRes.ok) {
+          const progressData = await progressRes.json();
+          setModule6Complete(progressData.module6Complete);
+        }
+
         // Fetch notebook entries count (notes with actual content)
         const notesRes = await fetch("/api/notebook/all");
         if (notesRes.ok) {
@@ -66,6 +74,7 @@ export function GenerateDesignBriefButton({
   /* -------------------------------------------------- */
   if (variant === "button") {
     if (loading) return null; // Don't show a loader in the header
+    if (!module6Complete) return null; // Hide until Module 6 is complete
 
     return (
       <DesignBriefWizard
@@ -87,6 +96,23 @@ export function GenerateDesignBriefButton({
       <div className="not-prose flex items-center justify-center rounded-card border border-foreground/10 bg-card p-6">
         <Loader2 className="mr-2 h-4 w-4 animate-spin text-muted-foreground" />
         <span className="text-sm text-muted-foreground">Loading...</span>
+      </div>
+    );
+  }
+
+  // Module 6 not complete — show locked message
+  if (!module6Complete) {
+    return (
+      <div className="not-prose flex items-center gap-3 rounded-card border border-foreground/10 bg-card p-6">
+        <Lock className="h-5 w-5 shrink-0 text-muted-foreground/50" />
+        <div>
+          <p className="font-heading text-sm font-semibold uppercase">
+            Design Brief Locked
+          </p>
+          <p className="mt-0.5 text-xs text-muted-foreground">
+            Complete Module 6: Portfolio Project to unlock your personalized Design Brief.
+          </p>
+        </div>
       </div>
     );
   }

@@ -14,6 +14,7 @@ import {
   Pin,
   PinOff,
   Lock,
+  Loader2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Progress } from "@/components/ui/progress";
@@ -29,6 +30,7 @@ interface ModuleSidebarProps {
   onNavigate?: () => void;
   forceExpanded?: boolean;
   accessTier?: AccessTier;
+  email?: string;
 }
 
 const typeIcons: Record<string, typeof FileText> = {
@@ -47,9 +49,11 @@ export function ModuleSidebar({
   onNavigate,
   forceExpanded = false,
   accessTier,
+  email,
 }: ModuleSidebarProps) {
   const isTrial = accessTier === "trial";
   const router = useRouter();
+  const [upgradeLoading, setUpgradeLoading] = useState(false);
   const [expandedModules, setExpandedModules] = useState<Set<string>>(
     new Set([currentModuleSlug])
   );
@@ -290,17 +294,57 @@ export function ModuleSidebar({
           <div
             role="button"
             tabIndex={0}
-            onClick={() => router.push("/#pricing")}
-            onKeyDown={(e) => {
+            onClick={async () => {
+              if (upgradeLoading) return;
+              setUpgradeLoading(true);
+              try {
+                const res = await fetch("/api/checkout", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ productType: "course", email }),
+                });
+                const data = await res.json();
+                if (data.checkoutUrl) {
+                  window.location.href = data.checkoutUrl;
+                } else {
+                  setUpgradeLoading(false);
+                }
+              } catch {
+                setUpgradeLoading(false);
+              }
+            }}
+            onKeyDown={async (e) => {
               if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
-                router.push("/#pricing");
+                if (upgradeLoading) return;
+                setUpgradeLoading(true);
+                try {
+                  const res = await fetch("/api/checkout", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ productType: "course", email }),
+                  });
+                  const data = await res.json();
+                  if (data.checkoutUrl) {
+                    window.location.href = data.checkoutUrl;
+                  } else {
+                    setUpgradeLoading(false);
+                  }
+                } catch {
+                  setUpgradeLoading(false);
+                }
               }
             }}
             className="flex w-full cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-xs text-brass transition-colors hover:bg-white/5"
           >
-            <Lock className="h-3 w-3 shrink-0" />
-            <span className="whitespace-nowrap">Upgrade to Full Course</span>
+            {upgradeLoading ? (
+              <Loader2 className="h-3 w-3 shrink-0 animate-spin" />
+            ) : (
+              <Lock className="h-3 w-3 shrink-0" />
+            )}
+            <span className="whitespace-nowrap">
+              {upgradeLoading ? "Redirecting..." : "Upgrade to Full Course"}
+            </span>
           </div>
         </div>
       )}

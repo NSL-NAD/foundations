@@ -12,11 +12,13 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 interface ProductCheckoutLinkProps {
   productType: string;
   label: string;
+  email?: string;
 }
 
 export function ProductCheckoutLink({
   productType,
   label,
+  email,
 }: ProductCheckoutLinkProps) {
   const Icon = iconMap[productType] || ShoppingCart;
   const [loading, setLoading] = useState(false);
@@ -27,7 +29,7 @@ export function ProductCheckoutLink({
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ productType }),
+        body: JSON.stringify({ productType, email }),
       });
 
       const data = await res.json();

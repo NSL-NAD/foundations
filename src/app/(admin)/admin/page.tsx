@@ -159,23 +159,28 @@ export default async function AdminPage() {
             <ArrowRight className="mt-4 h-4 w-4 text-white/70 transition-transform group-hover:translate-x-1" />
           </Link>
 
-          {/* Trial Users — stat */}
-          <div className="col-span-2 flex flex-col justify-between rounded-card border bg-card p-5 md:col-span-1 md:min-h-[140px]">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                Trial Users
-              </span>
-              <UserCheck className="h-4 w-4 text-muted-foreground" />
-            </div>
-            <div>
-              <div className="mt-4 font-heading text-3xl font-bold">
-                {trialUsersCount || 0}
+          {/* Trial Users — clickable stat */}
+          <Link
+            href="/admin/trial-users"
+            className="group col-span-2 md:col-span-1"
+          >
+            <div className="flex h-full flex-col justify-between rounded-card border bg-card p-5 transition-shadow hover:shadow-md md:min-h-[140px]">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                  Trial Users
+                </span>
+                <UserCheck className="h-4 w-4 text-muted-foreground" />
               </div>
-              <p className="mt-1 text-xs text-muted-foreground">
-                Free trial (not yet purchased)
-              </p>
+              <div>
+                <div className="mt-4 font-heading text-3xl font-bold">
+                  {trialUsersCount || 0}
+                </div>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Click to view trial users
+                </p>
+              </div>
             </div>
-          </div>
+          </Link>
         </div>
 
         {/* Row 3: Total Revenue */}

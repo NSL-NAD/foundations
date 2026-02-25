@@ -7,11 +7,13 @@ import {
   LayoutDashboard,
   Users,
   UserPlus,
+  UserCheck,
   Package,
   Star,
   ExternalLink,
   Pin,
   PinOff,
+  LogOut,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/shared/ThemeToggle";
@@ -21,6 +23,7 @@ const adminNav = [
   { href: "/admin", label: "Overview", icon: LayoutDashboard },
   { href: "/admin/students", label: "Students", icon: Users },
   { href: "/admin/new-students", label: "New Students", icon: UserPlus },
+  { href: "/admin/trial-users", label: "Trial Users", icon: UserCheck },
   { href: "/admin/orders", label: "Kit Orders", icon: Package },
   { href: "/admin/reviews", label: "Reviews", icon: Star },
 ];
@@ -139,6 +142,20 @@ export function AdminShell({ children }: AdminShellProps) {
                 <Pin className="h-4 w-4" />
               )}
             </Button>
+            <form action="/api/auth/signout" method="POST">
+              <Button
+                variant="ghost"
+                size="icon"
+                type="submit"
+                aria-label="Sign out"
+                className={cn(
+                  "text-white/50 hover:bg-white/10 hover:text-white transition-opacity duration-200",
+                  pinned ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+                )}
+              >
+                <LogOut className="h-4 w-4" />
+              </Button>
+            </form>
           </div>
         </div>
       </aside>
@@ -161,8 +178,19 @@ export function AdminShell({ children }: AdminShellProps) {
             </Link>
           );
         })}
-        <div className="ml-auto">
+        <div className="ml-auto flex items-center gap-1">
           <ThemeToggle />
+          <form action="/api/auth/signout" method="POST">
+            <Button
+              variant="ghost"
+              size="icon"
+              type="submit"
+              aria-label="Sign out"
+              className="text-white/50 hover:bg-white/10 hover:text-white"
+            >
+              <LogOut className="h-3.5 w-3.5" />
+            </Button>
+          </form>
         </div>
       </div>
 

@@ -1,5 +1,5 @@
 import { createAdminClient } from "@/lib/supabase/admin";
-import { sendPurchaseConfirmation, sendWelcomeEmail } from "@/lib/resend";
+import { sendPurchaseConfirmation, sendWelcomeEmail, sendPurchaseAdminNotification } from "@/lib/resend";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -94,11 +94,27 @@ export async function POST(req: NextRequest) {
     const customerEmail =
       session.customer_details?.email || session.customer_email;
     if (customerEmail) {
-      const { data: existingUser } = await supabase
+      // Try exact match first, then case-insensitive fallback
+      let { data: existingUser } = await supabase
         .from("profiles")
         .select("id, full_name")
         .eq("email", customerEmail)
         .single();
+
+      if (!existingUser) {
+        const { data: ilikeUser } = await supabase
+          .from("profiles")
+          .select("id, full_name")
+          .ilike("email", customerEmail)
+          .single();
+        existingUser = ilikeUser;
+      }
+
+      if (!existingUser) {
+        console.warn(
+          `Webhook: no profile found for email "${customerEmail}". Purchase ${purchase.id} created without user link.`
+        );
+      }
 
       if (existingUser) {
         await supabase
@@ -114,12 +130,13 @@ export async function POST(req: NextRequest) {
             .eq("purchase_id", purchase.id);
         }
 
-        // Send welcome email for existing users on first course/bundle purchase
+        // Send welcome/upgrade email for existing users on first course/bundle purchase
         if (["course", "bundle"].includes(productType)) {
           try {
             await sendWelcomeEmail({
               email: customerEmail,
               fullName: existingUser.full_name || "",
+              isUpgrade: true,
             });
           } catch (emailError) {
             console.error("Failed to send welcome email:", emailError);
@@ -135,7 +152,19 @@ export async function POST(req: NextRequest) {
         });
       } catch (emailError) {
         console.error("Failed to send confirmation email:", emailError);
-        // Don't fail the webhook for email errors
+      }
+
+      // Send admin notification for every purchase
+      try {
+        await sendPurchaseAdminNotification({
+          email: customerEmail,
+          fullName: existingUser?.full_name || "",
+          productType,
+          amountCents: session.amount_total || 0,
+          isUpgrade: !!existingUser,
+        });
+      } catch (emailError) {
+        console.error("Failed to send admin notification:", emailError);
       }
     }
   }

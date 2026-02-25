@@ -130,33 +130,50 @@ function brandedEmailLayout({
 export async function sendWelcomeEmail({
   email,
   fullName,
+  isUpgrade = false,
 }: {
   email: string;
   fullName: string;
+  isUpgrade?: boolean;
 }) {
   const firstName = fullName.split(" ")[0] || "there";
+
+  const subject = isUpgrade
+    ? "Your Full Course is Unlocked!"
+    : "Welcome to Foundations of Architecture!";
+
+  const preheader = isUpgrade
+    ? "Congratulations! All 11 modules and 106 lessons are now unlocked."
+    : "Your account is ready. Start learning architecture fundamentals today.";
+
+  const heading = isUpgrade
+    ? `Congratulations, ${firstName}!`
+    : `Welcome, ${firstName}!`;
+
+  const intro = isUpgrade
+    ? "Your full course access is now active. All 11 modules and 106 lessons are unlocked &mdash; let&rsquo;s pick up where you left off."
+    : "Your Foundations of Architecture account is ready. You&rsquo;re about to learn how to think like an architect and design your dream home.";
 
   await resend.emails.send({
     from: FROM_EMAIL,
     to: email,
     replyTo: REPLY_TO,
-    subject: "Welcome to Foundations of Architecture!",
+    subject,
     html: brandedEmailLayout({
-      preheader:
-        "Your account is ready. Start learning architecture fundamentals today.",
+      preheader,
       body: `
-        <h1 style="font-size: 24px; font-weight: 600; margin: 0 0 16px 0; color: ${BRAND.foreground};">Welcome, ${firstName}!</h1>
-        <p style="margin: 0 0 16px 0;">Your Foundations of Architecture account is ready. You're about to learn how to think like an architect and design your dream home.</p>
+        <h1 style="font-size: 24px; font-weight: 600; margin: 0 0 16px 0; color: ${BRAND.foreground};">${heading}</h1>
+        <p style="margin: 0 0 16px 0;">${intro}</p>
 
         <h2 style="font-size: 17px; font-weight: 600; margin: 24px 0 12px 0; color: ${BRAND.primary};">What to expect</h2>
         <ul style="padding-left: 20px; margin: 0 0 8px 0; line-height: 1.8;">
-          <li><strong>62 lessons</strong> across 10 modules</li>
+          <li><strong>106 lessons</strong> across 11 modules</li>
           <li><strong>Two learning paths</strong> &mdash; Drawer and Brief Builder</li>
-          <li><strong>34 downloadable resources</strong></li>
+          <li><strong>31 downloadable PDFs &amp; worksheets</strong></li>
           <li><strong>Lifetime access</strong> &mdash; no deadlines</li>
         </ul>
 
-        ${ctaButton("Start Learning &rarr;", `${BASE_URL()}/dashboard`)}
+        ${ctaButton(isUpgrade ? "Continue Learning &rarr;" : "Start Learning &rarr;", `${BASE_URL()}/course`)}
       `,
     }),
   });
@@ -331,10 +348,12 @@ export async function sendTrialWelcomeEmail({
           <li>Experience the full course platform</li>
         </ul>
 
-        <h2 style="font-size: 17px; font-weight: 600; margin: 24px 0 12px 0; color: ${BRAND.primary};">Ready for more?</h2>
-        <p style="margin: 0 0 4px 0;">Upgrade anytime to unlock all 10 modules, 62 lessons, and 34 downloadable resources.</p>
-
         ${ctaButton("Start Learning &rarr;", `${BASE_URL()}/course`)}
+
+        <h2 style="font-size: 17px; font-weight: 600; margin: 32px 0 12px 0; color: ${BRAND.primary};">Ready for more?</h2>
+        <p style="margin: 0 0 4px 0;">Upgrade anytime to unlock all 11 modules, 106 lessons, and 31 downloadable resources.</p>
+
+        ${ctaButton("Purchase Full Course &rarr;", `${BASE_URL()}/#pricing`)}
       `,
     }),
   });
@@ -368,6 +387,58 @@ export async function sendTrialSignupAdminNotification({
           This user has access to the Welcome &amp; Orientation module.
           They can upgrade to the full course at any time.
         </p>
+
+        ${ctaButton("View Admin Dashboard &rarr;", `${BASE_URL()}/admin`)}
+      `,
+    }),
+  });
+}
+
+export async function sendPurchaseAdminNotification({
+  email,
+  fullName,
+  productType,
+  amountCents,
+  isUpgrade = false,
+}: {
+  email: string;
+  fullName: string;
+  productType: string;
+  amountCents: number;
+  isUpgrade?: boolean;
+}) {
+  const productNames: Record<string, string> = {
+    course: "Course Only",
+    kit: "Starter Kit",
+    bundle: "Course + Starter Kit",
+    ai_chat: "AI Chat",
+    kit_upsell: "Starter Kit (Upsell)",
+    ai_chat_upsell: "AI Chat (Upsell)",
+  };
+  const productLabel = productNames[productType] || productType;
+  const amount = (amountCents / 100).toFixed(2);
+  const upgradeTag = isUpgrade ? " (Trial → Full)" : "";
+
+  await resend.emails.send({
+    from: FROM_EMAIL,
+    to: "nic@goodatscale.co",
+    replyTo: email || REPLY_TO,
+    subject: `[FOA Order] ${productLabel}${upgradeTag} — $${amount} from ${fullName || email}`,
+    html: brandedEmailLayout({
+      preheader: `${fullName || email} purchased ${productLabel} for $${amount}.`,
+      body: `
+        <h1 style="font-size: 24px; font-weight: 600; margin: 0 0 16px 0; color: ${BRAND.foreground};">New Purchase${isUpgrade ? " (Upgrade)" : ""}</h1>
+
+        <div style="background-color: ${BRAND.cardBg}; border-radius: 6px; padding: 16px 20px; border-left: 3px solid ${BRAND.brass};">
+          <p style="margin: 0 0 4px 0; font-size: 14px; color: ${BRAND.muted};">Customer</p>
+          <p style="margin: 0 0 12px 0; font-weight: 600;">${fullName || "N/A"} (${email})</p>
+          <p style="margin: 0 0 4px 0; font-size: 14px; color: ${BRAND.muted};">Product</p>
+          <p style="margin: 0 0 12px 0; font-weight: 600;">${productLabel}</p>
+          <p style="margin: 0 0 4px 0; font-size: 14px; color: ${BRAND.muted};">Amount</p>
+          <p style="margin: 0; font-weight: 600;">$${amount} USD</p>
+        </div>
+
+        ${isUpgrade ? `<p style="margin-top: 16px; font-size: 14px; color: ${BRAND.accent}; font-weight: 600;">This student upgraded from a free trial.</p>` : ""}
 
         ${ctaButton("View Admin Dashboard &rarr;", `${BASE_URL()}/admin`)}
       `,

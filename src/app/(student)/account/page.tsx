@@ -41,8 +41,8 @@ export default async function AccountPage() {
     purchases?.filter((p) => p.status === "completed").map((p) => p.product_type) || []
   );
   const hasCourse = purchasedTypes.has("course") || purchasedTypes.has("bundle");
-  const hasKit = purchasedTypes.has("kit") || purchasedTypes.has("bundle");
-  const hasAiChat = purchasedTypes.has("ai_chat");
+  const hasKit = purchasedTypes.has("kit") || purchasedTypes.has("bundle") || purchasedTypes.has("kit_upsell");
+  const hasAiChat = purchasedTypes.has("ai_chat") || purchasedTypes.has("ai_chat_upsell");
 
   // Course progress (fetch slugs to determine next incomplete lesson)
   const { data: progressRecords } = await supabase
@@ -178,7 +178,7 @@ export default async function AccountPage() {
                         <CheckCircle2 className="ml-auto h-4 w-4 shrink-0 text-primary" />
                       </div>
                     ) : (
-                      <ProductCheckoutLink productType="course" label="Course" />
+                      <ProductCheckoutLink productType="course" label="Course" email={profile?.email} />
                     )}
 
                     {/* Starter Kit */}
@@ -189,7 +189,7 @@ export default async function AccountPage() {
                         <CheckCircle2 className="ml-auto h-4 w-4 shrink-0 text-primary" />
                       </div>
                     ) : (
-                      <ProductCheckoutLink productType="kit" label="Starter Kit" />
+                      <ProductCheckoutLink productType="kit" label="Starter Kit" email={profile?.email} />
                     )}
 
                     {/* AI Chat */}
@@ -200,7 +200,7 @@ export default async function AccountPage() {
                         <CheckCircle2 className="ml-auto h-4 w-4 shrink-0 text-primary" />
                       </div>
                     ) : (
-                      <ProductCheckoutLink productType="ai_chat" label="AI Chat" />
+                      <ProductCheckoutLink productType="ai_chat" label="AI Chat" email={profile?.email} />
                     )}
                   </div>
                 </div>

@@ -53,6 +53,12 @@ export default async function LessonPage({ params }: LessonPageProps) {
     p_user_id: user!.id,
   })) as { data: AccessTier };
 
+  const { data: userProfile } = await supabase
+    .from("profiles")
+    .select("email")
+    .eq("id", user!.id)
+    .single();
+
   // Block trial users from locked lessons
   if (!isLessonAccessible(moduleSlug, tier, lessonSlug)) {
     return (
@@ -121,6 +127,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
       completedLessons={Array.from(completedLessons)}
       mdxSource={serializedMdx}
       accessTier={tier}
+      userEmail={userProfile?.email}
     />
   );
 }
