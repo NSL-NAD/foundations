@@ -1,9 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Check, ShieldCheck } from "lucide-react";
+import { Check, ShieldCheck, ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import Link from "next/link";
 
 const products = [
   {
@@ -182,6 +183,24 @@ export function PricingCards() {
             <ShieldCheck className="h-4 w-4" aria-hidden="true" />
             <span>Secure checkout</span>
           </div>
+        </div>
+
+        {/* Trial CTA */}
+        <div className="mx-auto mt-12 max-w-md text-center">
+          <p className="text-sm text-muted-foreground">
+            Want to trial first?
+          </p>
+          <Button
+            asChild
+            variant="outline"
+            size="sm"
+            className="mt-3 rounded-full border-foreground/20 px-6 text-xs font-medium uppercase tracking-wider hover:bg-brass hover:text-white hover:border-brass"
+          >
+            <Link href="/signup">
+              Free Trial
+              <ArrowRight className="ml-1.5 h-3 w-3" aria-hidden="true" />
+            </Link>
+          </Button>
         </div>
       </div>
     </section>

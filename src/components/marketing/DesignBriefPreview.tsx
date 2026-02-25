@@ -115,7 +115,7 @@ export function DesignBriefPreview() {
                   className="mt-4 rounded-full border-white bg-white px-5 text-xs font-medium uppercase tracking-wider text-black transition-colors duration-300 group-hover:border-foreground group-hover:bg-foreground group-hover:text-white hover:!border-brass hover:!bg-brass hover:!text-white"
                 >
                   <Link href="/signup">
-                    Enroll Now
+                    Trial Now
                     <ArrowRight className="ml-1.5 h-3 w-3" />
                   </Link>
                 </Button>
