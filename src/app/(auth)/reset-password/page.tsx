@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,15 +15,23 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Loader2, CheckCircle } from "lucide-react";
+import { Loader2, CheckCircle, AlertCircle } from "lucide-react";
 
-export default function ResetPasswordPage() {
+function ResetPasswordContent() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [expired, setExpired] = useState(false);
   const supabase = createClient();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (searchParams.get("error") === "expired") {
+      setExpired(true);
+    }
+  }, [searchParams]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -44,7 +53,17 @@ export default function ResetPasswordPage() {
     const { error } = await supabase.auth.updateUser({ password });
 
     if (error) {
-      setError(error.message);
+      if (
+        error.message.includes("session") ||
+        error.message.includes("not authenticated") ||
+        error.message.includes("Auth session missing")
+      ) {
+        setError(
+          "Your reset link has expired. Please request a new one."
+        );
+      } else {
+        setError(error.message);
+      }
       setLoading(false);
       return;
     }
@@ -71,6 +90,28 @@ export default function ResetPasswordPage() {
         <CardFooter className="justify-center">
           <Button asChild>
             <Link href="/login">Go to Login</Link>
+          </Button>
+        </CardFooter>
+      </Card>
+    );
+  }
+
+  if (expired) {
+    return (
+      <Card>
+        <CardHeader className="text-center">
+          <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-destructive/10">
+            <AlertCircle className="h-6 w-6 text-destructive" />
+          </div>
+          <CardTitle className="text-2xl">Link expired</CardTitle>
+          <CardDescription>
+            Your password reset link has expired or was already used. Please
+            request a new one.
+          </CardDescription>
+        </CardHeader>
+        <CardFooter className="justify-center">
+          <Button asChild>
+            <Link href="/forgot-password">Request New Reset Link</Link>
           </Button>
         </CardFooter>
       </Card>
@@ -127,5 +168,13 @@ export default function ResetPasswordPage() {
         </CardFooter>
       </form>
     </Card>
+  );
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense>
+      <ResetPasswordContent />
+    </Suspense>
   );
 }
