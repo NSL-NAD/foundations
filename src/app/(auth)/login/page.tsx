@@ -40,8 +40,18 @@ export default function LoginPage() {
       setError(error.message);
       setLoading(false);
     } else {
-      // Brief delay lets the browser credential manager capture the form
-      await new Promise((r) => setTimeout(r, 100));
+      // Explicitly ask browser to save credentials (Chromium browsers)
+      try {
+        if (window.PasswordCredential) {
+          const cred = new PasswordCredential({
+            id: email,
+            password: password,
+          });
+          await navigator.credentials.store(cred);
+        }
+      } catch {
+        // Credential storage not supported or blocked — continue silently
+      }
       router.push("/course");
       router.refresh();
     }
@@ -55,7 +65,7 @@ export default function LoginPage() {
           Log in to continue your learning journey
         </CardDescription>
       </CardHeader>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} action="/login" method="POST">
         <CardContent className="space-y-4">
           {error && (
             <div role="alert" className="rounded-md border border-destructive/50 bg-destructive/10 p-3 text-sm text-destructive">
@@ -66,6 +76,7 @@ export default function LoginPage() {
             <Label htmlFor="email">Email</Label>
             <Input
               id="email"
+              name="email"
               type="email"
               placeholder="you@example.com"
               value={email}
@@ -87,6 +98,7 @@ export default function LoginPage() {
             <div className="relative">
               <Input
                 id="password"
+                name="password"
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}

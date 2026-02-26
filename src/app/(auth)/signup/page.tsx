@@ -78,8 +78,19 @@ export default function SignupPage() {
       }).catch(() => {});
     }
 
-    // Brief delay lets the browser credential manager capture the form
-    await new Promise((r) => setTimeout(r, 100));
+    // Explicitly ask browser to save credentials (Chromium browsers)
+    try {
+      if (window.PasswordCredential) {
+        const cred = new PasswordCredential({
+          id: email,
+          password: password,
+          name: fullName,
+        });
+        await navigator.credentials.store(cred);
+      }
+    } catch {
+      // Credential storage not supported or blocked — continue silently
+    }
     router.push("/course");
     router.refresh();
   }
@@ -93,7 +104,7 @@ export default function SignupPage() {
           Welcome &amp; Orientation module.
         </CardDescription>
       </CardHeader>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} action="/signup" method="POST">
         <CardContent className="space-y-4">
           {error && (
             <div role="alert" className="rounded-md border border-destructive/50 bg-destructive/10 p-3 text-sm text-destructive">
@@ -104,6 +115,7 @@ export default function SignupPage() {
             <Label htmlFor="fullName">Full Name</Label>
             <Input
               id="fullName"
+              name="name"
               type="text"
               placeholder="Your full name"
               value={fullName}
@@ -116,6 +128,7 @@ export default function SignupPage() {
             <Label htmlFor="email">Email</Label>
             <Input
               id="email"
+              name="email"
               type="email"
               placeholder="you@example.com"
               value={email}
@@ -129,6 +142,7 @@ export default function SignupPage() {
             <div className="relative">
               <Input
                 id="password"
+                name="password"
                 type={showPassword ? "text" : "password"}
                 placeholder="At least 8 characters"
                 value={password}
