@@ -207,25 +207,25 @@ export default async function AdminPage() {
           </div>
         </div>
 
-        {/* Right: Student Reviews — gradient card */}
-        <div className="relative w-full overflow-hidden rounded-card bg-primary text-white md:w-80 md:self-stretch">
+        {/* Right: Student Reviews — gradient card (light base) */}
+        <div className="relative w-full overflow-hidden rounded-card border bg-background md:w-80 md:self-stretch">
           {/* Gradient orbs */}
-          <div className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-[#5F7F96]/35 blur-[60px]" />
-          <div className="pointer-events-none absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-[#B8593B]/30 blur-[55px]" />
-          <div className="pointer-events-none absolute -top-8 right-8 h-48 w-48 rounded-full bg-[#C4A44E]/25 blur-[50px]" />
-          <div className="pointer-events-none absolute bottom-4 left-1/3 h-56 w-56 rounded-full bg-[#6B3FA0]/15 blur-[55px]" />
+          <div className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-[#5F7F96]/20 blur-[60px]" />
+          <div className="pointer-events-none absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-[#B8593B]/15 blur-[55px]" />
+          <div className="pointer-events-none absolute -top-8 right-8 h-48 w-48 rounded-full bg-[#C4A44E]/15 blur-[50px]" />
+          <div className="pointer-events-none absolute bottom-4 left-1/3 h-56 w-56 rounded-full bg-[#6B3FA0]/10 blur-[55px]" />
 
           {/* Content */}
           <div className="relative flex h-full flex-col p-5">
             {/* Header */}
             <div className="mb-3 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Star className="h-4 w-4 text-white/50" />
-                <span className="text-xs font-medium uppercase tracking-wider text-white/70">
+                <Star className="h-4 w-4 text-muted-foreground" />
+                <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                   Student Reviews
                 </span>
               </div>
-              <span className="text-xs text-white/50">
+              <span className="text-xs text-muted-foreground">
                 {totalReviews || 0} total
               </span>
             </div>
@@ -241,7 +241,7 @@ export default async function AdminPage() {
                   return (
                     <div
                       key={i}
-                      className="rounded-md bg-white/10 p-3"
+                      className="rounded-md border bg-card/80 p-3"
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
@@ -252,26 +252,26 @@ export default async function AdminPage() {
                                 className={`h-3 w-3 ${
                                   star <= review.rating
                                     ? "fill-[#C4A44E] text-[#C4A44E]"
-                                    : "text-white/20"
+                                    : "text-muted-foreground/20"
                                 }`}
                               />
                             ))}
                           </div>
-                          <span className="text-sm font-medium text-white">
+                          <span className="text-sm font-medium">
                             {profile?.full_name || "Student"}
                           </span>
                         </div>
-                        <span className="text-xs text-white/50">
+                        <span className="text-xs text-muted-foreground">
                           {new Date(review.created_at).toLocaleDateString()}
                         </span>
                       </div>
                       {review.review_text && (
-                        <p className="mt-1.5 text-xs leading-relaxed text-white/70">
+                        <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
                           {review.review_text}
                         </p>
                       )}
                       {profile?.email && (
-                        <p className="mt-1 text-xs text-white/40">
+                        <p className="mt-1 text-xs text-muted-foreground/50">
                           {profile.email}
                         </p>
                       )}
@@ -281,7 +281,7 @@ export default async function AdminPage() {
               </div>
             ) : (
               <div className="flex flex-1 items-center justify-center">
-                <p className="text-sm text-white/50">No reviews yet.</p>
+                <p className="text-sm text-muted-foreground">No reviews yet.</p>
               </div>
             )}
           </div>
