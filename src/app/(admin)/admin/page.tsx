@@ -64,9 +64,16 @@ export default async function AdminPage() {
             Manage students, orders, and track metrics.
           </p>
         </div>
-        <Button variant="outline" size="sm" asChild>
-          <Link href="/">View Site</Link>
-        </Button>
+        <div className="flex items-center gap-2">
+          <form action="/api/auth/signout" method="POST">
+            <Button variant="outline" size="sm" type="submit">
+              Sign Out
+            </Button>
+          </form>
+          <Button variant="outline" size="sm" asChild>
+            <Link href="/">View Site</Link>
+          </Button>
+        </div>
       </div>
 
       {/* Stats + Actions grid */}

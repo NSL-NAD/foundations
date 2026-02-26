@@ -13,6 +13,7 @@ import { DefinitionCard } from "@/components/course/DefinitionCard";
 import { ToolCard } from "@/components/course/ToolCard";
 import { StarterKitButton } from "@/components/course/StarterKitButton";
 import { GenerateDesignBriefButton } from "@/components/course/GenerateDesignBriefButton";
+import { CourseStructure } from "@/components/course/CourseStructure";
 import { StraightedgeLine } from "@/components/decorative/StraightedgeLine";
 
 /* ── MDX component overrides ─────────────────────────────── */
@@ -86,6 +87,7 @@ const mdxComponents = {
   BriefPath,
   DownloadAllButton,
   CourseQuote,
+  CourseStructure,
   DefinitionCard,
   ToolCard,
   StarterKitButton,

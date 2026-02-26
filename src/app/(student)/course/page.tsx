@@ -185,7 +185,7 @@ export default async function CoursePage() {
               <div className="border-b p-5">
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-start gap-3">
-                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 font-heading text-sm font-bold text-primary">
+                    <span className="shrink-0 font-heading text-2xl font-bold text-primary/50">
                       {String(modIdx + 1).padStart(2, "0")}
                     </span>
                     <div>

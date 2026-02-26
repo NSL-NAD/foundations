@@ -78,6 +78,8 @@ export default function SignupPage() {
       }).catch(() => {});
     }
 
+    // Brief delay lets the browser credential manager capture the form
+    await new Promise((r) => setTimeout(r, 100));
     router.push("/course");
     router.refresh();
   }
