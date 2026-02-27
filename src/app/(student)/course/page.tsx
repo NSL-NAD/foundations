@@ -109,7 +109,7 @@ export default async function CoursePage() {
             {noteCount ? "notes across your lessons" : "Start taking notes in any lesson"}
           </p>
           <div className="mt-3">
-            <Button asChild size="sm" variant="secondary" className="bg-accent-foreground text-foreground hover:bg-accent-foreground/90">
+            <Button asChild size="sm" variant="secondary" className="bg-accent-foreground text-foreground dark:text-background hover:bg-accent-foreground/90">
               <Link href="/dashboard/notebook">
                 View All Notes
                 <ArrowRight className="ml-1.5 h-3 w-3" />

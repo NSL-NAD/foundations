@@ -15,7 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { CheckCircle, Loader2, Package } from "lucide-react";
+import { CheckCircle, Eye, EyeOff, Loader2, Package } from "lucide-react";
 import { Logo } from "@/components/shared/Logo";
 
 export function CheckoutSuccessContent() {
@@ -26,6 +26,7 @@ export function CheckoutSuccessContent() {
   const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
   const [accountCreated, setAccountCreated] = useState(false);
   const [sessionData, setSessionData] = useState<{
     email: string;
@@ -130,6 +131,20 @@ export function CheckoutSuccessContent() {
       }
     }
 
+    // Prompt browser to save credentials
+    try {
+      if (window.PasswordCredential) {
+        const cred = new window.PasswordCredential({
+          id: sessionData.email,
+          password,
+          name: fullName || undefined,
+        });
+        await navigator.credentials.store(cred);
+      }
+    } catch {
+      // Non-critical — credential saving is best-effort
+    }
+
     setAccountCreated(true);
     setLoading(false);
   }
@@ -223,7 +238,7 @@ export function CheckoutSuccessContent() {
           )}
 
           {includesCourse && !existingUser && !accountCreated && (
-            <form onSubmit={handleCreateAccount} className="space-y-4">
+            <form onSubmit={handleCreateAccount} action="/checkout/success" method="POST" className="space-y-4">
               <div>
                 <p className="mb-3 text-sm text-muted-foreground">
                   Create your account to access the course:
@@ -233,6 +248,7 @@ export function CheckoutSuccessContent() {
                     <Label htmlFor="email">Email</Label>
                     <Input
                       id="email"
+                      name="email"
                       type="email"
                       value={sessionData.email}
                       disabled
@@ -245,6 +261,7 @@ export function CheckoutSuccessContent() {
                 <Label htmlFor="fullName">Full Name</Label>
                 <Input
                   id="fullName"
+                  name="name"
                   type="text"
                   placeholder="Your full name"
                   value={fullName}
@@ -255,15 +272,33 @@ export function CheckoutSuccessContent() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="password">Create Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="At least 8 characters"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  minLength={8}
-                />
+                <div className="relative">
+                  <Input
+                    id="password"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="At least 8 characters"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    minLength={8}
+                    autoComplete="new-password"
+                    className="pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                    tabIndex={-1}
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                  </button>
+                </div>
               </div>
               {error && (
                 <p className="text-sm text-destructive">{error}</p>

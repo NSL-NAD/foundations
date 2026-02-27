@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, type RefObject } from "react";
+import { useState, useEffect, useCallback, useRef, type RefObject } from "react";
 import { NotebookPen } from "lucide-react";
 import { useToolsPanel } from "@/contexts/ToolsPanelContext";
 
@@ -14,28 +14,50 @@ export function SelectionBubble({ containerRef, onSaveHighlight }: SelectionBubb
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const { setPendingClip, open } = useToolsPanel();
 
+  // Store the selected text + range when bubble appears so we can use it
+  // even if the selection is cleared before the click/tap fires (mobile issue)
+  const savedSelectionRef = useRef<{
+    text: string;
+    range: Range;
+    prefix: string;
+    suffix: string;
+  } | null>(null);
+
+  // Flag to prevent selectionchange from hiding the bubble while user
+  // is touching the bubble button (mobile race condition)
+  const touchingBubbleRef = useRef(false);
+
   const hideBubble = useCallback(() => {
     setVisible(false);
   }, []);
 
   const handleAddToNotebook = useCallback(() => {
-    const selection = window.getSelection();
-    if (!selection || selection.isCollapsed) return;
+    // Prefer the stored selection (always available), fall back to live selection
+    const saved = savedSelectionRef.current;
+    let text = "";
+    let range: Range | null = null;
 
-    const text = selection.toString().trim();
-    if (!text) return;
+    if (saved?.text) {
+      text = saved.text;
+      range = saved.range;
+    } else {
+      const selection = window.getSelection();
+      if (!selection || selection.isCollapsed) return;
+      text = selection.toString().trim();
+      if (!text) return;
+      range = selection.getRangeAt(0).cloneRange();
+    }
 
     // Persist highlight using CSS Custom Highlight API (no DOM mutation)
-    // This avoids React reconciliation errors from modifying React-managed DOM
     try {
-      const range = selection.getRangeAt(0).cloneRange();
-      addHighlightRange(range);
+      if (range) {
+        addHighlightRange(range);
 
-      // Extract prefix/suffix context for disambiguation on restore
-      if (onSaveHighlight) {
-        const prefix = extractContext(range, "before", 30);
-        const suffix = extractContext(range, "after", 30);
-        onSaveHighlight(text, prefix, suffix);
+        if (onSaveHighlight) {
+          const prefix = saved?.prefix ?? extractContext(range, "before", 30);
+          const suffix = saved?.suffix ?? extractContext(range, "after", 30);
+          onSaveHighlight(text, prefix, suffix);
+        }
       }
     } catch {
       // Silently ignore — highlight is cosmetic only
@@ -43,7 +65,10 @@ export function SelectionBubble({ containerRef, onSaveHighlight }: SelectionBubb
 
     setPendingClip(text);
     open("notebook");
-    selection.removeAllRanges();
+
+    const selection = window.getSelection();
+    if (selection) selection.removeAllRanges();
+    savedSelectionRef.current = null;
     setVisible(false);
   }, [setPendingClip, open, onSaveHighlight]);
 
@@ -72,6 +97,16 @@ export function SelectionBubble({ containerRef, onSaveHighlight }: SelectionBubb
 
       const range = selection.getRangeAt(0);
       const rect = range.getBoundingClientRect();
+
+      // Save selection data so handleAddToNotebook can use it even if
+      // the selection is cleared before the click handler fires (mobile)
+      const cloned = range.cloneRange();
+      savedSelectionRef.current = {
+        text,
+        range: cloned,
+        prefix: extractContext(cloned, "before", 30),
+        suffix: extractContext(cloned, "after", 30),
+      };
 
       // Position centered above the selection, clamped to viewport
       const bubbleWidth = 180;
@@ -110,11 +145,22 @@ export function SelectionBubble({ containerRef, onSaveHighlight }: SelectionBubb
       setVisible(false);
     }
 
+    function handleTouchStart(e: TouchEvent) {
+      // If touching inside the bubble, don't hide (mirror of mousedown handler)
+      const target = e.target as HTMLElement;
+      if (target.closest("[data-selection-bubble]")) return;
+      setVisible(false);
+    }
+
     function handleScroll() {
       setVisible(false);
     }
 
     function handleSelectionChange() {
+      // Don't hide while the user is touching the bubble button —
+      // the tap collapses the selection before click fires on mobile
+      if (touchingBubbleRef.current) return;
+
       const selection = window.getSelection();
       if (!selection || selection.isCollapsed) {
         setVisible(false);
@@ -124,6 +170,7 @@ export function SelectionBubble({ containerRef, onSaveHighlight }: SelectionBubb
     container.addEventListener("mouseup", handleMouseUp);
     container.addEventListener("touchend", handleTouchEnd);
     document.addEventListener("mousedown", handleMouseDown);
+    document.addEventListener("touchstart", handleTouchStart);
     container.addEventListener("scroll", handleScroll, true);
     document.addEventListener("selectionchange", handleSelectionChange);
 
@@ -131,6 +178,7 @@ export function SelectionBubble({ containerRef, onSaveHighlight }: SelectionBubb
       container.removeEventListener("mouseup", handleMouseUp);
       container.removeEventListener("touchend", handleTouchEnd);
       document.removeEventListener("mousedown", handleMouseDown);
+      document.removeEventListener("touchstart", handleTouchStart);
       container.removeEventListener("scroll", handleScroll, true);
       document.removeEventListener("selectionchange", handleSelectionChange);
     };
@@ -146,8 +194,18 @@ export function SelectionBubble({ containerRef, onSaveHighlight }: SelectionBubb
         left: position.x,
         top: position.y,
       }}
+      onTouchStart={() => {
+        touchingBubbleRef.current = true;
+      }}
+      onTouchEnd={() => {
+        // Delay clearing the flag so the click handler fires first
+        setTimeout(() => {
+          touchingBubbleRef.current = false;
+        }, 300);
+      }}
     >
       <button
+        onPointerDown={(e) => e.preventDefault()}
         onClick={handleAddToNotebook}
         className="flex items-center gap-1.5 rounded-full bg-accent px-3.5 py-2 text-white shadow-lg transition-colors hover:bg-accent/90 active:scale-95"
       >
