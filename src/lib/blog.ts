@@ -99,9 +99,18 @@ function readAllPosts(): BlogPost[] {
   });
 }
 
+function isPostVisible(post: BlogPost): boolean {
+  if (post.status === "published") return true;
+  if (post.status === "scheduled") {
+    const today = new Date().toISOString().split("T")[0];
+    return post.date <= today;
+  }
+  return false;
+}
+
 export function getPublishedPosts(): BlogPost[] {
   return readAllPosts()
-    .filter((p) => p.status === "published")
+    .filter(isPostVisible)
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 
@@ -151,7 +160,7 @@ export function getPostBySlug(slug: string): BlogPost | null {
     content,
   };
 
-  if (post.status !== "published") return null;
+  if (!isPostVisible(post)) return null;
   return post;
 }
 
