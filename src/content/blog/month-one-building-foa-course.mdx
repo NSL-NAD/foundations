@@ -1,0 +1,155 @@
+---
+title: "Month One of Building FOA: Lessons Learned"
+slug: "month-one-building-foa-course"
+description: "An honest behind-the-scenes look at the first month of building Foundations of Architecture — what worked, what didn't, and what I'd do differently if I started over."
+date: "2026-04-17"
+updatedAt: "2026-04-17"
+author:
+  name: "Nic DeMore"
+  slug: "nic-demore"
+  avatar: "/images/nic-demore.jpg"
+category: "behind-the-scenes"
+tags: ["building an online course", "course creation", "FOA course", "behind the scenes", "architecture education"]
+pillar: "Behind the Scenes"
+productLink: "https://foacourse.com/#pricing"
+status: "scheduled"
+featured: false
+coverImage: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=1200&q=80"
+coverImageAlt: "Notebook and laptop on a desk with planning notes and sketches for course development"
+readingTime: ""
+seo:
+  metaTitle: "Month One of Building FOA Course: Lessons Learned"
+  metaDescription: "An honest look at the first month of building Foundations of Architecture — the challenges, wins, and lessons from creating an online architecture course for non-architects."
+  ogImage: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=1200&q=80"
+  canonicalUrl: "https://foacourse.com/blog/month-one-building-foa-course"
+  noIndex: false
+keywords:
+  primary: "building an online course"
+  secondary: ["course creation journey", "FOA course development", "architecture course behind the scenes"]
+externalLinks:
+  - "https://www.archdaily.com"
+  - "https://www.dezeen.com"
+internalLinks:
+  - "https://foacourse.com/#pricing"
+  - "https://foacourse.com/blog/why-i-built-architecture-course"
+  - "https://foacourse.com/blog/foa-course-module-breakdown"
+  - "https://foacourse.com/blog/foa-starter-kit-explained"
+gasStudioMention: true
+---
+
+## I Had No Idea What I Was Getting Into
+
+Let me just start there. One month ago, I had an idea: take everything I've learned about residential architecture — from years of studying, designing, and working alongside professionals — and turn it into a course that regular people could actually use. No $200K architecture degree. No impenetrable jargon. Just the knowledge you need to design your dream home with confidence.
+
+I wrote about [why I built this course](https://foacourse.com/blog/why-i-built-architecture-course) already, so I won't rehash the origin story. This post is about what actually happened during month one of **building an online course**. The real version, not the polished "everything went according to plan" version.
+
+Spoiler: things did not go according to plan.
+
+---
+
+## Week One: The Curriculum Problem
+
+I spent the first week trying to outline the curriculum. I thought this would take a day, maybe two. I know this material. I teach aspects of it through my work at <a href="https://goodatscale.studio" target="_blank" rel="noopener noreferrer">GAS Studio</a>. How hard could structuring it into lessons be?
+
+Very hard. Turns out there's a massive difference between knowing something and organizing that knowledge into a teachable sequence. Architecture is deeply interconnected — you need to understand scale to read floor plans, but you need to understand spatial concepts to know why floor plans matter, but you need to understand materials to know why spatial relationships feel different in different rooms.
+
+Everything connects to everything. And a course is linear. You can't teach everything at once.
+
+I must have reorganized the module order five or six times that first week. Should we start with "what is architecture" or jump straight into practical skills? Should floor plans come before or after spatial design? Where do materials fit? When do we introduce the tools?
+
+The breakthrough came when I stopped thinking about what I wanted to teach and started thinking about what someone would want to learn first. That shifted the entire structure. The course creation journey isn't about your expertise — it's about your student's experience. I ended up with [10 modules and 62 lessons](https://foacourse.com/blog/foa-course-module-breakdown), and while the order has been tweaked since then, the core framework has held up.
+
+---
+
+## Week Two: Writing Is Harder Than I Expected
+
+Once the curriculum was set, I started writing lesson content. And I immediately ran into a problem I hadn't anticipated: my first drafts sounded like a textbook.
+
+Here's the thing about spending years learning architecture: you absorb the language. You start thinking in terms that feel natural to you but mean absolutely nothing to someone who hasn't been immersed in the field. I'd write a paragraph, reread it, and realize I'd used three terms that needed definitions and assumed two concepts that I hadn't introduced yet.
+
+My rule became: every piece of jargon gets defined the first time it appears. Not in a footnote. Not in a glossary. Right there in the sentence, in parentheses or a dash. If someone has to leave the lesson to look something up, I've failed.
+
+The writing process also revealed gaps in my outline. I'd start writing a lesson and realize "wait, this requires understanding X, and I don't cover X until three modules later." Cue more restructuring. This happened at least a dozen times in the first month.
+
+What I'd do differently: I would write detailed outlines of every lesson before writing any full content. Not bullet points — actual paragraph-level outlines with the key concepts, definitions, and examples mapped out. This would have caught the dependency issues much earlier and saved me significant rewriting time.
+
+---
+
+## Week Three: The Tech Stack Decisions
+
+While writing content, I simultaneously had to build the actual platform. And this is where my **course creation journey** diverged from most advice I'd read online.
+
+Most "how to build a course" content pushes you toward existing platforms — Teachable, Thinkific, Kajabi. And those are perfectly good options. But I wanted more control over the experience. I wanted the course website to feel like the content it teaches — thoughtfully designed, intentional, well-built. I also wanted to own the tech stack so I could iterate quickly.
+
+So I built it myself. Next.js, TypeScript, Tailwind, Supabase for the backend, Stripe for payments. For someone who's comfortable with web development, this was the right call. For someone who isn't, it absolutely would not be. I spent the better part of week three wrestling with authentication flows, payment webhooks, and deployment configurations when I could have been writing more content.
+
+The lesson here is honest: build vs. buy is a real trade-off, and there's no universally right answer. I chose build because I have the skills and because the custom experience matters for this particular course. But I'd be lying if I said there weren't moments where I stared at a webhook error at 11 PM and thought "Teachable handles this automatically."
+
+---
+
+## Week Four: The Starter Kit Surprise
+
+One of the features I was most excited about was the [FOA Starter Kit](https://foacourse.com/blog/foa-starter-kit-explained) — a physical package shipped to students with tools and materials they'd use throughout the course. An architectural scale ruler, tracing paper, graph paper, pencils. The kind of hands-on kit that makes the learning tangible.
+
+What I didn't anticipate was the complexity of physical fulfillment. Sourcing materials, finding a fulfillment partner, calculating shipping costs, handling international orders, managing inventory. This is an entirely different business from creating digital content, and it added a layer of operational complexity that I was not prepared for.
+
+By the end of week four, I had a working fulfillment pipeline. But it took more time, more phone calls, and more spreadsheets than I'd budgeted for. The kit is worth it — I genuinely believe that physical tools make architecture education more effective — but if I could go back, I would have started the fulfillment research in week one, not week three.
+
+---
+
+## What Actually Worked
+
+It wasn't all struggle. Some things worked well from the start, and I want to be honest about those too:
+
+**Writing in my own voice.** I made a deliberate decision early on to write the way I talk. Not academically. Not formally. Just... me. Short sentences when a short sentence works. Longer explanations when something needs unpacking. First person. Self-deprecating where it's genuine. This made the writing process faster and the content more engaging. When I tried to sound "professional," the writing got worse.
+
+**Getting feedback early.** I shared draft lessons with a few people who matched the target audience — homeowners who were interested in design but had no formal background. Their feedback was invaluable. Things I thought were clear were confusing. Things I thought needed more explanation were actually intuitive. You can't evaluate your own teaching in a vacuum.
+
+**The blog as a proving ground.** Writing these [blog articles](https://foacourse.com/blog) served a dual purpose. It built an audience (slowly), and it let me test ideas and tone before committing them to the course. If a blog post resonated, I knew the underlying concept was worth expanding into a full lesson. If a post fell flat, I learned something about what my audience actually cared about.
+
+**Starting with the student experience.** Every time I made a decision — about curriculum order, about technology, about pricing — I asked "what does the student experience?" not "what's easiest for me?" This single question prevented a lot of bad decisions.
+
+---
+
+## What Didn't Work (Yet)
+
+Being honest about this part matters, because the **architecture course behind the scenes** story isn't just about wins.
+
+**My original timeline was delusional.** I thought I'd have the course launched and fully functional in a month. I was wildly wrong. Building a quality educational product — one that's actually worth someone's $93 — takes longer than building a minimum viable product. And it should.
+
+**I underestimated visual content needs.** Architecture is inherently visual. You can't teach someone about scale or floor plans with text alone. Every lesson needs diagrams, annotated images, and ideally video. Creating that visual content takes 3-4 times longer than writing the text. I'm still working through the backlog.
+
+**Marketing while building is exhausting.** The conventional wisdom says "build in public, market from day one." I tried. But context-switching between writing course content, debugging code, and creating blog posts for SEO is genuinely draining. Some days I'd make progress on all three fronts. Other days I'd make progress on none because I couldn't decide which one needed attention most.
+
+**I kept scope-creeping myself.** "Wouldn't it be cool if we also added..." is the most dangerous phrase in product development. I caught myself multiple times wanting to add features that were nice-to-have, not need-to-have. An interactive floor plan tool. A community forum. A professional directory. All good ideas. None of them essential for launch.
+
+---
+
+## The Numbers So Far
+
+In the interest of transparency:
+
+- **62 lessons** outlined and structured
+- **10 modules** organized into a coherent learning path
+- **~40%** of lesson content written in full
+- **1 functioning website** with auth, payments, and course access
+- **0 hours of sleep** that I'd like to talk about
+- **A lot of coffee**
+
+Is it where I wanted to be after a month? No. Is it further than where I started? Dramatically.
+
+---
+
+## What's Next
+
+Month two is about finishing the core content and getting the first students through the material. Real students, real feedback, real iteration. The curriculum is solid. The platform works. The [starter kit](https://foacourse.com/blog/foa-starter-kit-explained) is ready to ship. Now it's about execution and polish.
+
+I'll keep sharing these updates because I think there's value in honest documentation of the process. **Building an online course** isn't glamorous. It's a lot of late nights, a lot of rewriting, and a lot of moments where you wonder if anyone will care. But then someone emails you asking when the course will be ready, and you remember why you started.
+
+---
+
+## Follow Along (Or Jump In)
+
+If you've been following the **FOA course development** journey and you're ready to stop watching from the sidelines, the course is open for enrollment. 62 lessons across 10 modules, covering everything from floor plans and scale to materials, spatial design, and working with professionals. It's the architecture education I wish existed when I was starting out.
+
+[Enroll in Foundations of Architecture for $93.](https://foacourse.com/#pricing) And if you want to keep following the behind-the-scenes story, I'll be back next month with another honest update. Including, hopefully, a report on what happens when real students start going through the material. That's the part I'm most nervous — and most excited — about.
