@@ -12,7 +12,6 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Lock } from "lucide-react";
 
-// remark-gfm v3 has a type mismatch with next-mdx-remote's unified version
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const gfmPlugin = remarkGfm as any;
 

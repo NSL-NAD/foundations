@@ -6,12 +6,18 @@ import {
   getAllPublishedSlugs,
   getSerializedMdx,
 } from "@/lib/blog";
+import dynamic from "next/dynamic";
 import { ArticleJsonLd } from "@/components/blog/ArticleJsonLd";
 import { ArticleHeader } from "@/components/blog/ArticleHeader";
-import { ArticleBody } from "@/components/blog/ArticleBody";
 import { ArticleSidebar } from "@/components/blog/ArticleSidebar";
 import { ShareButtons } from "@/components/blog/ShareButtons";
 import { RelatedPosts } from "@/components/blog/RelatedPosts";
+
+const ArticleBody = dynamic(
+  () =>
+    import("@/components/blog/ArticleBody").then((mod) => mod.ArticleBody),
+  { ssr: false }
+);
 
 interface ArticlePageProps {
   params: { slug: string };

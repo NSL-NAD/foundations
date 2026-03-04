@@ -5,7 +5,6 @@ import readingTime from "reading-time";
 import { serialize } from "next-mdx-remote/serialize";
 import remarkGfm from "remark-gfm";
 
-// remark-gfm v3 has a type mismatch with next-mdx-remote's unified version
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const gfmPlugin = remarkGfm as any;
 
