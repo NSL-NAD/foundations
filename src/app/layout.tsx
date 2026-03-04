@@ -68,6 +68,11 @@ export const metadata: Metadata = {
     description:
       "Design your dream home — not $200K, just $47. Learn architecture fundamentals with this self-paced digital course.",
   },
+  alternates: {
+    types: {
+      "application/rss+xml": "/blog/rss.xml",
+    },
+  },
   keywords: [
     "architecture course",
     "online course",

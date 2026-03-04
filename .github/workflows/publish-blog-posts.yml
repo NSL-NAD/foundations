@@ -1,0 +1,84 @@
+name: Publish Scheduled Blog Posts
+
+on:
+  schedule:
+    # Run daily at 1:00 PM UTC (8:00 AM ET / 7:00 AM CT)
+    - cron: "0 13 * * *"
+  workflow_dispatch: # Allow manual trigger
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Merge eligible blog PRs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          TODAY=$(date -u +%Y-%m-%d)
+          echo "Today's date (UTC): $TODAY"
+
+          MERGED_COUNT=0
+
+          while IFS=$'\t' read -r PR_NUMBER BRANCH TITLE; do
+            echo "---"
+            echo "Checking PR #${PR_NUMBER}: ${TITLE} (branch: ${BRANCH})"
+
+            # Derive slug and expected MDX file path
+            SLUG="${BRANCH#blog/}"
+            FILE_PATH="src/content/blog/${SLUG}.mdx"
+
+            # Fetch file content from the PR branch via GitHub Contents API
+            FILE_CONTENT=$(gh api \
+              "repos/${GITHUB_REPOSITORY}/contents/${FILE_PATH}?ref=${BRANCH}" \
+              --jq '.content' 2>/dev/null || echo "")
+
+            if [ -z "$FILE_CONTENT" ]; then
+              echo "  WARNING: Could not read ${FILE_PATH} on branch ${BRANCH}. Skipping."
+              continue
+            fi
+
+            # Decode base64 and extract the date from frontmatter
+            ENTRY_DATE=$(echo "$FILE_CONTENT" | base64 -d | grep -m1 '^date:' | sed 's/^date:[[:space:]]*["'"'"']\?\([0-9-]*\)["'"'"']\?\s*$/\1/')
+
+            if [ -z "$ENTRY_DATE" ]; then
+              echo "  WARNING: Could not parse date from ${FILE_PATH}. Skipping."
+              continue
+            fi
+
+            echo "  Entry date: ${ENTRY_DATE}"
+
+            # Compare dates (lexicographic works for YYYY-MM-DD)
+            if [ "$ENTRY_DATE" \> "$TODAY" ]; then
+              echo "  Date is in the future. Skipping."
+              continue
+            fi
+
+            echo "  Date has arrived. Merging PR #${PR_NUMBER}..."
+            if gh pr merge "$PR_NUMBER" \
+              --repo "${GITHUB_REPOSITORY}" \
+              --merge \
+              --delete-branch \
+              --subject "Merge: ${TITLE}" \
+              --body "Auto-merged by publish-blog workflow. Entry date: ${ENTRY_DATE}"; then
+              echo "  Successfully merged PR #${PR_NUMBER}."
+              MERGED_COUNT=$((MERGED_COUNT + 1))
+            else
+              echo "  ERROR: Failed to merge PR #${PR_NUMBER}. It may have conflicts. Skipping."
+            fi
+          done < <(gh pr list \
+            --repo "${GITHUB_REPOSITORY}" \
+            --state open \
+            --json number,headRefName,title \
+            --jq '.[] | select(.headRefName | startswith("blog/")) | "\(.number)\t\(.headRefName)\t\(.title)"')
+
+          echo "---"
+          echo "Merged ${MERGED_COUNT} PR(s)."

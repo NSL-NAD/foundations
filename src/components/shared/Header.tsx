@@ -21,6 +21,7 @@ const publicLinks = [
   { href: "/#curriculum", label: "Curriculum" },
   { href: "/#pricing", label: "Pricing" },
   { href: "/#faq", label: "FAQ" },
+  { href: "/blog", label: "Blog" },
 ];
 
 const studentLinks = [
@@ -72,7 +73,7 @@ export function Header({ user, isAdmin, accessTier }: HeaderProps) {
               key={link.href}
               href={link.href}
               className={`font-heading text-[13px] font-medium uppercase tracking-[0.15em] transition-colors hover:text-primary ${
-                pathname === link.href
+                pathname === link.href || (link.href === "/blog" && pathname.startsWith("/blog"))
                   ? "text-foreground"
                   : "text-muted-foreground"
               }`}
@@ -137,7 +138,7 @@ export function Header({ user, isAdmin, accessTier }: HeaderProps) {
                   href={link.href}
                   onClick={() => setOpen(false)}
                   className={`font-heading text-xl font-light uppercase tracking-[0.15em] transition-colors hover:text-primary ${
-                    pathname === link.href
+                    pathname === link.href || (link.href === "/blog" && pathname.startsWith("/blog"))
                       ? "text-foreground"
                       : "text-muted-foreground"
                   }`}

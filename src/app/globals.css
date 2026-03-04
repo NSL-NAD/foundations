@@ -407,6 +407,165 @@ html {
   background: hsl(var(--brass) / 0.06);
 }
 
+/* ── Blog prose styling ──────────────────────────────────── */
+.prose-blog {
+  @apply max-w-none;
+}
+.prose-blog ::selection {
+  background: hsl(16 55% 48% / 0.22);
+  color: inherit;
+}
+.prose-blog ::-moz-selection {
+  background: hsl(16 55% 48% / 0.22);
+  color: inherit;
+}
+.prose-blog h1 {
+  @apply font-heading text-3xl font-bold tracking-tight mb-6;
+}
+.prose-blog h2 {
+  @apply font-heading text-2xl font-bold mt-14 mb-5 pb-3 border-b border-foreground/10;
+  position: relative;
+}
+.prose-blog h2::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(to right, hsl(var(--brass)), hsl(var(--brass) / 0.3), transparent);
+  border-radius: 2px;
+}
+.prose-blog h3 {
+  @apply font-heading text-xl font-semibold mt-10 mb-3;
+  padding-left: 1rem;
+  border-left: 2px solid hsl(var(--brass) / 0.4);
+}
+.prose-blog h4 {
+  @apply font-heading text-lg font-semibold mt-8 mb-2;
+}
+.prose-blog p {
+  @apply mb-6 leading-relaxed text-foreground/90;
+}
+.prose-blog ul {
+  @apply mb-6 pl-6 space-y-2.5;
+  list-style: none;
+}
+.prose-blog ul > li {
+  @apply relative pl-2;
+}
+.prose-blog ul > li::before {
+  content: '';
+  position: absolute;
+  left: -1rem;
+  top: 0.6em;
+  width: 5px;
+  height: 5px;
+  border-radius: 1px;
+  background: hsl(var(--brass) / 0.5);
+  transform: rotate(45deg);
+}
+.prose-blog ol {
+  @apply mb-6 space-y-3 pl-0;
+  list-style: none;
+  counter-reset: blog-counter;
+}
+.prose-blog ol > li {
+  @apply relative text-foreground/85;
+  padding-left: 2.5rem;
+  counter-increment: blog-counter;
+}
+.prose-blog ol > li::before {
+  content: counter(blog-counter, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 0.1em;
+  font-family: var(--font-space-grotesk);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: hsl(var(--primary));
+  width: 1.75rem;
+  text-align: center;
+}
+.prose-blog li {
+  @apply text-foreground/85;
+}
+.prose-blog strong {
+  @apply text-foreground font-semibold;
+}
+.prose-blog blockquote {
+  @apply my-10 rounded-lg py-5 px-6 not-italic;
+  border-left: 4px solid hsl(var(--brass));
+  background: hsl(var(--brass) / 0.04);
+}
+.prose-blog blockquote p {
+  @apply mb-0 italic leading-relaxed text-foreground/80;
+  font-size: 1.02em;
+}
+.prose-blog code {
+  @apply bg-surface px-2 py-0.5 rounded text-sm font-mono;
+}
+.prose-blog pre {
+  @apply bg-surface rounded-img p-4 overflow-x-auto my-6 border border-foreground/5;
+}
+.prose-blog pre code {
+  @apply bg-transparent p-0;
+}
+.prose-blog img {
+  @apply rounded-img my-8 shadow-sm ring-1 ring-foreground/5;
+}
+.prose-blog a {
+  @apply text-primary no-underline;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.prose-blog a:hover {
+  color: hsl(var(--brass));
+  border-bottom-color: hsl(var(--brass) / 0.5);
+}
+.prose-blog hr {
+  @apply my-14 border-none;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    hsl(var(--brass) / 0.3) 10%,
+    hsl(var(--brass) / 0.3) 90%,
+    transparent
+  );
+}
+.prose-blog table {
+  @apply mb-8 w-full text-sm;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid hsl(var(--foreground) / 0.08);
+}
+.prose-blog thead th {
+  @apply border-b border-foreground/15 bg-surface px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-foreground/70;
+}
+.prose-blog tbody td {
+  @apply border-b border-foreground/5 px-5 py-3 text-foreground/85;
+}
+.prose-blog tbody tr:hover {
+  background: hsl(var(--brass) / 0.04);
+}
+.prose-blog tbody tr:last-child td {
+  @apply border-b-0;
+}
+
+/* Blog prose dark mode */
+.dark .prose-blog p {
+  @apply text-foreground/85;
+}
+.dark .prose-blog li {
+  @apply text-foreground/80;
+}
+.dark .prose-blog blockquote {
+  background: hsl(var(--brass) / 0.06);
+}
+
 /* ── Notebook highlights ─────────────────────────────── */
 /* Persistent highlight via CSS Custom Highlight API (no DOM mutation) */
 ::highlight(notebook-clips) {

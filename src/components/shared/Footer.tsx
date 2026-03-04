@@ -6,6 +6,7 @@ const footerLinks = [
   { href: "/#curriculum", label: "Curriculum" },
   { href: "/#pricing", label: "Pricing" },
   { href: "/#faq", label: "FAQ" },
+  { href: "/blog", label: "Blog" },
   { href: "/terms", label: "Terms" },
   { href: "/privacy", label: "Privacy" },
   { href: "/refund", label: "Refunds" },
