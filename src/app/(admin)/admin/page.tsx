@@ -229,7 +229,7 @@ export default async function AdminPage() {
             {/* Latest Blog Card */}
             {latestPost && (
               <div className="col-span-2 md:col-span-1 rounded-card border bg-card overflow-hidden">
-                <div className="relative aspect-[16/9] max-h-[140px]">
+                <div className="relative aspect-[16/9]">
                   <Image
                     src={latestPost.coverImage}
                     alt={latestPost.coverImageAlt || latestPost.title}
