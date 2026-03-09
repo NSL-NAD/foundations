@@ -44,7 +44,7 @@ export default async function NewStudentsPage() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="text-xs font-medium uppercase tracking-wider">
+              <TableHead className="pl-5 text-xs font-medium uppercase tracking-wider">
                 Email
               </TableHead>
               <TableHead className="text-xs font-medium uppercase tracking-wider">
@@ -65,7 +65,7 @@ export default async function NewStudentsPage() {
             {newStudents && newStudents.length > 0 ? (
               newStudents.map((student) => (
                 <TableRow key={student.id}>
-                  <TableCell className="font-medium">
+                  <TableCell className="pl-5 font-medium">
                     {student.email}
                   </TableCell>
                   <TableCell>

@@ -56,7 +56,7 @@ export default async function StudentsPage() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="text-xs font-medium uppercase tracking-wider">Email</TableHead>
+              <TableHead className="pl-5 text-xs font-medium uppercase tracking-wider">Email</TableHead>
               <TableHead className="text-xs font-medium uppercase tracking-wider">Product</TableHead>
               <TableHead className="text-xs font-medium uppercase tracking-wider">Progress</TableHead>
               <TableHead className="text-xs font-medium uppercase tracking-wider">Enrolled</TableHead>
@@ -76,7 +76,7 @@ export default async function StudentsPage() {
 
                 return (
                   <TableRow key={purchase.id}>
-                    <TableCell className="font-medium">
+                    <TableCell className="pl-5 font-medium">
                       {purchase.email}
                     </TableCell>
                     <TableCell>

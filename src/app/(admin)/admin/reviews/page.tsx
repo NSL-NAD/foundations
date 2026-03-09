@@ -62,7 +62,7 @@ export default async function ReviewsPage() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="text-xs font-medium uppercase tracking-wider">
+              <TableHead className="pl-5 text-xs font-medium uppercase tracking-wider">
                 Rating
               </TableHead>
               <TableHead className="text-xs font-medium uppercase tracking-wider">
@@ -88,7 +88,7 @@ export default async function ReviewsPage() {
                 } | null;
                 return (
                   <TableRow key={review.id}>
-                    <TableCell>
+                    <TableCell className="pl-5">
                       <Stars rating={review.rating} />
                     </TableCell>
                     <TableCell className="font-medium">

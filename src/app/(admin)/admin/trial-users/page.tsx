@@ -56,7 +56,7 @@ export default async function TrialUsersPage() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="text-xs font-medium uppercase tracking-wider">
+              <TableHead className="pl-5 text-xs font-medium uppercase tracking-wider">
                 Name
               </TableHead>
               <TableHead className="text-xs font-medium uppercase tracking-wider">
@@ -79,7 +79,7 @@ export default async function TrialUsersPage() {
                 );
                 return (
                   <TableRow key={user.id}>
-                    <TableCell className="font-medium">
+                    <TableCell className="pl-5 font-medium">
                       {user.full_name || "—"}
                     </TableCell>
                     <TableCell>{user.email || "—"}</TableCell>

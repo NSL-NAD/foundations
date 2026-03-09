@@ -44,7 +44,7 @@ export default async function OrdersPage() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="text-xs font-medium uppercase tracking-wider">Email</TableHead>
+              <TableHead className="pl-5 text-xs font-medium uppercase tracking-wider">Email</TableHead>
               <TableHead className="text-xs font-medium uppercase tracking-wider">Ship To</TableHead>
               <TableHead className="text-xs font-medium uppercase tracking-wider">Status</TableHead>
               <TableHead className="text-xs font-medium uppercase tracking-wider">Tracking</TableHead>
@@ -56,7 +56,7 @@ export default async function OrdersPage() {
             {orders && orders.length > 0 ? (
               orders.map((order) => (
                 <TableRow key={order.id}>
-                  <TableCell className="font-medium">{order.email}</TableCell>
+                  <TableCell className="pl-5 font-medium">{order.email}</TableCell>
                   <TableCell className="max-w-[200px]">
                     <div className="text-sm">
                       <p>{order.shipping_name}</p>
