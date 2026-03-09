@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/dialog";
 import {
   Linkedin,
-  Twitter,
   Instagram,
   Check,
   Copy,
@@ -23,10 +22,17 @@ import {
   Loader2,
 } from "lucide-react";
 
+function XIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    </svg>
+  );
+}
+
 interface ShareActionsProps {
   blogSlug: string;
   blogTitle: string;
-  blogUrl: string;
   coverImage: string;
   platform: "linkedin" | "x" | "instagram";
   existingCopy: string | null;
@@ -42,7 +48,7 @@ const platformConfig = {
   },
   x: {
     label: "X",
-    icon: Twitter,
+    icon: XIcon,
     color: "text-foreground",
     bgColor: "bg-foreground/10",
   },
@@ -57,7 +63,6 @@ const platformConfig = {
 export function ShareActions({
   blogSlug,
   blogTitle,
-  blogUrl,
   coverImage,
   platform,
   existingCopy,
@@ -161,8 +166,7 @@ export function ShareActions({
       const intentUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(copy)}`;
       window.open(intentUrl, "_blank");
     } else if (platform === "linkedin") {
-      const shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(blogUrl)}`;
-      window.open(shareUrl, "_blank");
+      window.open("https://www.linkedin.com/company/foa-course/", "_blank");
     } else if (platform === "instagram") {
       window.open("https://www.instagram.com/", "_blank");
     }
@@ -249,9 +253,9 @@ export function ShareActions({
             {/* Generated copy */}
             <div className="relative">
               <textarea
-                readOnly
                 value={copy}
-                className="h-48 w-full resize-none rounded-md border bg-muted/50 p-3 text-sm leading-relaxed focus:outline-none"
+                onChange={(e) => setCopy(e.target.value)}
+                className="h-48 w-full resize-none rounded-md border bg-background p-3 text-sm leading-relaxed focus:outline-none focus:ring-1 focus:ring-primary"
               />
               {platform === "x" && (
                 <div

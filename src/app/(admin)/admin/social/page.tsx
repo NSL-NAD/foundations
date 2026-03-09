@@ -1,8 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
 import { getPublishedPosts } from "@/lib/blog";
 import { ShareActions } from "@/components/admin/ShareActions";
+import { CategoryBadge } from "@/components/blog/CategoryBadge";
 import { format } from "date-fns";
-import { Badge } from "@/components/ui/badge";
 import {
   Table,
   TableBody,
@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/table";
 
 export const metadata = {
-  title: "Blog Social | Admin",
+  title: "Blogs | Admin",
 };
 
 interface SocialShare {
@@ -56,7 +56,7 @@ export default async function AdminSocialPage() {
     <div className="p-6 md:p-10">
       <div className="mb-10">
         <h1 className="font-heading text-2xl font-bold uppercase tracking-tight md:text-3xl">
-          Blog Social
+          Blogs
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
           {pendingCount > 0
@@ -69,7 +69,7 @@ export default async function AdminSocialPage() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="text-xs font-medium uppercase tracking-wider">
+              <TableHead className="pl-5 text-xs font-medium uppercase tracking-wider">
                 Blog Post
               </TableHead>
               <TableHead className="text-xs font-medium uppercase tracking-wider">
@@ -89,18 +89,18 @@ export default async function AdminSocialPage() {
           <TableBody>
             {posts.map((post) => {
               const postShares = shareMap.get(post.slug) || {};
-              const blogUrl = `https://foacourse.com/blog/${post.slug}`;
 
               return (
                 <TableRow key={post.slug}>
-                  <TableCell>
-                    <div>
+                  <TableCell className="pl-5">
+                    <div className="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:gap-3">
                       <p className="font-medium text-sm leading-tight">
                         {post.title}
                       </p>
-                      <Badge variant="outline" className="mt-1 text-[10px]">
-                        {post.pillar || post.category}
-                      </Badge>
+                      <CategoryBadge
+                        category={post.category}
+                        className="self-start shrink-0 text-[10px] px-2 py-0.5"
+                      />
                     </div>
                   </TableCell>
                   <TableCell className="text-xs text-muted-foreground whitespace-nowrap">
@@ -114,7 +114,6 @@ export default async function AdminSocialPage() {
                           <ShareActions
                             blogSlug={post.slug}
                             blogTitle={post.title}
-                            blogUrl={blogUrl}
                             coverImage={post.coverImage}
                             platform={platform}
                             existingCopy={share?.generated_copy || null}

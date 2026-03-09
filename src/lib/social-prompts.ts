@@ -10,10 +10,11 @@ The website is foacourse.com. The course is created by Nic DeMore, an architect.
 
 When writing social posts:
 - Lead with a hook that creates curiosity or highlights a surprising insight from the blog
-- Summarize the blog's key value proposition — what will the reader learn or gain?
+- Summarize the blog's key value proposition, what will the reader learn or gain?
 - Include a clear call to action directing to the blog post URL
 - Never use clickbait or misleading hooks
-- Match the platform's native style and conventions`;
+- Match the platform's native style and conventions
+- NEVER use em dashes ( — ) anywhere in the post. Use commas, periods, or colons instead.`;
 
 export type SocialPlatform = "linkedin" | "x" | "instagram";
 
@@ -46,11 +47,12 @@ const platformInstructions: Record<SocialPlatform, (blogUrl: string) => string> 
 - Output ONLY the post text, nothing else`,
 
   instagram: () => `Write a caption for Instagram. Rules:
-- 150-250 words
-- Start with a hook line (this is what shows before "...more")
+- Keep the caption concise: 50-150 words max for the main text (before hashtags)
+- The first 125 characters are critical — this is what shows before "...more", so lead with a strong hook
 - Use line breaks for readability
 - Include a call to action mentioning "link in bio" (Instagram does not support clickable URLs in captions)
-- Use 10-15 relevant hashtags at the end, separated from the main caption by a few line breaks
+- Use exactly 3-5 highly relevant, niche-specific hashtags at the end (NOT generic ones like #architecture or #design)
+- Separate hashtags from the main caption with two blank lines
 - Tone: visual, inspiring, educational
 - Reference what the cover image might show (architecture, home design) to tie text to visual
 - Output ONLY the caption text, nothing else`,

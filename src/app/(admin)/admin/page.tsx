@@ -1,11 +1,11 @@
 import { createClient } from "@/lib/supabase/server";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Users, DollarSign, Package, ArrowRight, UserPlus, Star, UserCheck, Share2 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { getPublishedPosts } from "@/lib/blog";
 import { ShareActions } from "@/components/admin/ShareActions";
+import { CategoryBadge } from "@/components/blog/CategoryBadge";
 
 export const metadata = {
   title: "Admin Dashboard",
@@ -228,7 +228,7 @@ export default async function AdminPage() {
 
             {/* Latest Blog Card */}
             {latestPost && (
-              <div className="col-span-2 rounded-card border bg-card overflow-hidden">
+              <div className="col-span-2 md:col-span-1 rounded-card border bg-card overflow-hidden">
                 <div className="relative aspect-[16/9] max-h-[140px]">
                   <Image
                     src={latestPost.coverImage}
@@ -260,9 +260,10 @@ export default async function AdminPage() {
                     {latestPost.title}
                   </Link>
                   <div className="mt-1 flex items-center gap-2">
-                    <Badge variant="outline" className="text-[10px]">
-                      {latestPost.pillar || latestPost.category}
-                    </Badge>
+                    <CategoryBadge
+                      category={latestPost.category}
+                      className="text-[10px] px-2 py-0.5"
+                    />
                     <span className="text-[10px] text-muted-foreground">
                       {new Date(latestPost.date).toLocaleDateString("en-US", {
                         month: "short",
@@ -276,7 +277,6 @@ export default async function AdminPage() {
                         key={platform}
                         blogSlug={latestPost.slug}
                         blogTitle={latestPost.title}
-                        blogUrl={`https://foacourse.com/blog/${latestPost.slug}`}
                         coverImage={latestPost.coverImage}
                         platform={platform}
                         existingCopy={latestShareMap[platform]?.generated_copy || null}
