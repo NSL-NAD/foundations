@@ -49,7 +49,7 @@ export default async function OrdersPage() {
               <TableHead className="text-xs font-medium uppercase tracking-wider">Status</TableHead>
               <TableHead className="text-xs font-medium uppercase tracking-wider">Tracking</TableHead>
               <TableHead className="text-xs font-medium uppercase tracking-wider">Ordered</TableHead>
-              <TableHead className="text-right text-xs font-medium uppercase tracking-wider">Actions</TableHead>
+              <TableHead className="pr-5 text-right text-xs font-medium uppercase tracking-wider">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -87,7 +87,7 @@ export default async function OrdersPage() {
                   <TableCell className="text-sm text-muted-foreground">
                     {new Date(order.created_at).toLocaleDateString()}
                   </TableCell>
-                  <TableCell className="text-right">
+                  <TableCell className="pr-5 text-right">
                     <OrderActions order={order} />
                   </TableCell>
                 </TableRow>
