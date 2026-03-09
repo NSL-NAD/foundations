@@ -45,7 +45,7 @@ const platformInstructions: Record<SocialPlatform, (blogUrl: string) => string> 
 - Tone: professional but personable, as if written by the course creator (an architect)
 - Output ONLY the post text, nothing else`,
 
-  instagram: (blogUrl) => `Write a caption for Instagram. Rules:
+  instagram: () => `Write a caption for Instagram. Rules:
 - 150-250 words
 - Start with a hook line (this is what shows before "...more")
 - Use line breaks for readability
