@@ -1,7 +1,11 @@
 import { createClient } from "@/lib/supabase/server";
 import { Button } from "@/components/ui/button";
-import { Users, DollarSign, Package, ArrowRight, UserPlus, Star, UserCheck } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Users, DollarSign, Package, ArrowRight, UserPlus, Star, UserCheck, Share2 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
+import { getPublishedPosts } from "@/lib/blog";
+import { ShareActions } from "@/components/admin/ShareActions";
 
 export const metadata = {
   title: "Admin Dashboard",
@@ -51,6 +55,23 @@ export default async function AdminPage() {
   const { count: totalReviews } = await supabase
     .from("course_reviews")
     .select("*", { count: "exact", head: true });
+
+  // Latest blog + social shares
+  const latestPost = getPublishedPosts()[0] || null;
+  const { data: latestShares } = latestPost
+    ? await supabase
+        .from("social_shares")
+        .select("blog_slug, platform, generated_copy, shared_at")
+        .eq("blog_slug", latestPost.slug)
+    : { data: [] };
+
+  const latestShareMap: Record<string, { generated_copy: string | null; shared_at: string | null }> = {};
+  for (const s of latestShares || []) {
+    latestShareMap[s.platform] = {
+      generated_copy: s.generated_copy,
+      shared_at: s.shared_at,
+    };
+  }
 
   return (
     <div className="p-6 md:p-10">
@@ -191,7 +212,7 @@ export default async function AdminPage() {
             </Link>
           </div>
 
-          {/* Row 3: Total Revenue */}
+          {/* Row 3: Total Revenue + Latest Blog */}
           <div className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-3">
             <div className="col-span-2 flex flex-col justify-between rounded-card border bg-card p-5 md:col-span-1 md:min-h-[140px]">
               <div className="flex items-center justify-between">
@@ -204,6 +225,68 @@ export default async function AdminPage() {
                 ${(totalRevenue / 100).toFixed(2)}
               </div>
             </div>
+
+            {/* Latest Blog Card */}
+            {latestPost && (
+              <div className="col-span-2 rounded-card border bg-card overflow-hidden">
+                <div className="relative aspect-[16/9] max-h-[140px]">
+                  <Image
+                    src={latestPost.coverImage}
+                    alt={latestPost.coverImageAlt || latestPost.title}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 400px"
+                  />
+                </div>
+                <div className="p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      <Share2 className="h-3.5 w-3.5 text-muted-foreground" />
+                      <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+                        Latest Blog
+                      </span>
+                    </div>
+                    <Link
+                      href="/admin/social"
+                      className="text-[10px] text-primary hover:underline"
+                    >
+                      View all
+                    </Link>
+                  </div>
+                  <Link
+                    href="/admin/social"
+                    className="block font-medium text-sm leading-tight hover:text-primary transition-colors"
+                  >
+                    {latestPost.title}
+                  </Link>
+                  <div className="mt-1 flex items-center gap-2">
+                    <Badge variant="outline" className="text-[10px]">
+                      {latestPost.pillar || latestPost.category}
+                    </Badge>
+                    <span className="text-[10px] text-muted-foreground">
+                      {new Date(latestPost.date).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                      })}
+                    </span>
+                  </div>
+                  <div className="mt-3 flex items-center gap-3">
+                    {(["linkedin", "x", "instagram"] as const).map((platform) => (
+                      <ShareActions
+                        key={platform}
+                        blogSlug={latestPost.slug}
+                        blogTitle={latestPost.title}
+                        blogUrl={`https://foacourse.com/blog/${latestPost.slug}`}
+                        coverImage={latestPost.coverImage}
+                        platform={platform}
+                        existingCopy={latestShareMap[platform]?.generated_copy || null}
+                        sharedAt={latestShareMap[platform]?.shared_at || null}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 

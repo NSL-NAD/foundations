@@ -10,6 +10,7 @@ import {
   UserCheck,
   Package,
   Star,
+  Share2,
   ExternalLink,
   Pin,
   PinOff,
@@ -26,6 +27,7 @@ const adminNav = [
   { href: "/admin/trial-users", label: "Trial Users", icon: UserCheck },
   { href: "/admin/orders", label: "Kit Orders", icon: Package },
   { href: "/admin/reviews", label: "Reviews", icon: Star },
+  { href: "/admin/social", label: "Blog Social", icon: Share2 },
 ];
 
 interface AdminShellProps {

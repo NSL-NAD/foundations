@@ -163,6 +163,17 @@ export function getPostBySlug(slug: string): BlogPost | null {
   return post;
 }
 
+export function getAllPosts(): BlogPost[] {
+  return readAllPosts().sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+}
+
+export function getPostBySlugUnfiltered(slug: string): BlogPost | null {
+  const posts = readAllPosts();
+  return posts.find((p) => p.slug === slug) || null;
+}
+
 export function getPostsByCategory(categorySlug: string): BlogPost[] {
   return getPublishedPosts().filter((p) => p.category === categorySlug);
 }
