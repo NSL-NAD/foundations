@@ -8,7 +8,7 @@ import { LessonNavigation } from "./LessonNavigation";
 import { LessonDownloads } from "./LessonDownloads";
 import { SelectionBubble } from "./SelectionBubble";
 import { Button } from "@/components/ui/button";
-import { Menu, Check, Circle, ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
+import { Menu, Check, Circle, ArrowLeft, ArrowRight, ExternalLink, Pencil } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useToolsPanel } from "@/contexts/ToolsPanelContext";
 import { useHighlights } from "@/hooks/useHighlights";
@@ -31,6 +31,7 @@ interface CoursePlayerProps {
   mdxSource: MDXRemoteSerializeResult | null;
   accessTier?: AccessTier;
   userEmail?: string;
+  isAdmin?: boolean;
 }
 
 export function CoursePlayer({
@@ -44,6 +45,7 @@ export function CoursePlayer({
   mdxSource,
   accessTier,
   userEmail,
+  isAdmin,
 }: CoursePlayerProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -289,7 +291,17 @@ export function CoursePlayer({
           </div>
 
           {/* Lesson Content */}
-          <div ref={contentRef}>
+          <div ref={contentRef} className="relative">
+            {/* Admin edit pencil */}
+            {isAdmin && (
+              <Link
+                href={`/admin/editor/${moduleSlug}/${lessonSlug}`}
+                className="absolute -right-2 -top-2 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-primary text-white shadow-md transition-transform hover:scale-110"
+                title="Edit lesson content"
+              >
+                <Pencil className="h-3.5 w-3.5" />
+              </Link>
+            )}
             <LessonContent
               mdxSource={mdxSource}
               lesson={lesson}

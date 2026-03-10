@@ -15,6 +15,7 @@ import {
   Pin,
   PinOff,
   LogOut,
+  FileText,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/shared/ThemeToggle";
@@ -28,6 +29,7 @@ const adminNav = [
   { href: "/admin/orders", label: "Kit Orders", icon: Package },
   { href: "/admin/reviews", label: "Reviews", icon: Star },
   { href: "/admin/social", label: "Blogs", icon: Share2 },
+  { href: "/admin/content", label: "Content", icon: FileText },
 ];
 
 interface AdminShellProps {
@@ -78,7 +80,10 @@ export function AdminShell({ children }: AdminShellProps) {
         {/* Nav links */}
         <nav className="flex-1 space-y-1 px-2 pt-4">
           {adminNav.map((item) => {
-            const isActive = pathname === item.href;
+            const isActive =
+              pathname === item.href ||
+              (item.href === "/admin/content" &&
+                pathname.startsWith("/admin/editor"));
             return (
               <Link
                 key={item.href}
@@ -163,9 +168,12 @@ export function AdminShell({ children }: AdminShellProps) {
       </aside>
 
       {/* Mobile nav */}
-      <div className="sticky top-0 z-10 flex h-12 w-full items-center gap-4 border-b bg-[#1a1a1a] px-4 text-white md:hidden">
+      <div className="sticky top-0 z-10 flex h-12 w-full items-center gap-4 border-b bg-[#1a1a1a] px-4 text-white overflow-x-auto md:hidden">
         {adminNav.map((item) => {
-          const isActive = pathname === item.href;
+          const isActive =
+            pathname === item.href ||
+            (item.href === "/admin/content" &&
+              pathname.startsWith("/admin/editor"));
           return (
             <Link
               key={item.href}

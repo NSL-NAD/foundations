@@ -14,6 +14,8 @@ import { ToolCard } from "@/components/course/ToolCard";
 import { StarterKitButton } from "@/components/course/StarterKitButton";
 import { GenerateDesignBriefButton } from "@/components/course/GenerateDesignBriefButton";
 import { CourseStructure } from "@/components/course/CourseStructure";
+import { VideoBlock } from "@/components/course/VideoBlock";
+import { ImageCarousel } from "@/components/course/ImageCarousel";
 import { StraightedgeLine } from "@/components/decorative/StraightedgeLine";
 
 /* ── MDX component overrides ─────────────────────────────── */
@@ -92,6 +94,8 @@ const mdxComponents = {
   ToolCard,
   StarterKitButton,
   GenerateDesignBriefButton,
+  VideoBlock,
+  ImageCarousel,
   hr: () => <StraightedgeLine showTicks className="my-14" />,
   blockquote: InsightBlockquote,
   p: SmartParagraph,

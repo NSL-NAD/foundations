@@ -54,9 +54,11 @@ export default async function LessonPage({ params }: LessonPageProps) {
 
   const { data: userProfile } = await supabase
     .from("profiles")
-    .select("email")
+    .select("email, role")
     .eq("id", user!.id)
     .single();
+
+  const isAdmin = userProfile?.role === "admin";
 
   // Block trial users from locked lessons
   if (!isLessonAccessible(moduleSlug, tier, lessonSlug)) {
@@ -127,6 +129,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
       mdxSource={serializedMdx}
       accessTier={tier}
       userEmail={userProfile?.email}
+      isAdmin={isAdmin}
     />
   );
 }
