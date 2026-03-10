@@ -62,7 +62,7 @@ export function InstructorSection() {
               {[
                 { value: "11", label: "Modules" },
                 { value: "31", label: "Resources" },
-                { value: "106", label: "Lessons" },
+                { value: "107", label: "Lessons" },
               ].map((stat) => (
                 <div
                   key={stat.label}

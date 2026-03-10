@@ -10,7 +10,7 @@ import {
 const sections = [
   {
     title: "Welcome & Orientation",
-    lessons: 3,
+    lessons: 4,
     description:
       "Meet your instructor, set up your workspace, choose your learning path, and get ready for the journey.",
     tag: "Getting Started",
@@ -96,7 +96,7 @@ export function CurriculumPreview() {
             What You&apos;ll Learn
           </h2>
           <p className="mt-4 text-muted-foreground">
-            106 lessons across 11 modules — from foundational concepts to your
+            107 lessons across 11 modules — from foundational concepts to your
             own capstone project.
           </p>
         </div>

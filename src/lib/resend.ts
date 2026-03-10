@@ -143,7 +143,7 @@ export async function sendWelcomeEmail({
     : "Welcome to Foundations of Architecture!";
 
   const preheader = isUpgrade
-    ? "Congratulations! All 11 modules and 106 lessons are now unlocked."
+    ? "Congratulations! All 11 modules and 107 lessons are now unlocked."
     : "Your account is ready. Start learning architecture fundamentals today.";
 
   const heading = isUpgrade
@@ -151,7 +151,7 @@ export async function sendWelcomeEmail({
     : `Welcome, ${firstName}!`;
 
   const intro = isUpgrade
-    ? "Your full course access is now active. All 11 modules and 106 lessons are unlocked &mdash; let&rsquo;s pick up where you left off."
+    ? "Your full course access is now active. All 11 modules and 107 lessons are unlocked &mdash; let&rsquo;s pick up where you left off."
     : "Your Foundations of Architecture account is ready. You&rsquo;re about to learn how to think like an architect and design your dream home.";
 
   await resend.emails.send({
@@ -167,7 +167,7 @@ export async function sendWelcomeEmail({
 
         <h2 style="font-size: 17px; font-weight: 600; margin: 24px 0 12px 0; color: ${BRAND.primary};">What to expect</h2>
         <ul style="padding-left: 20px; margin: 0 0 8px 0; line-height: 1.8;">
-          <li><strong>106 lessons</strong> across 11 modules</li>
+          <li><strong>107 lessons</strong> across 11 modules</li>
           <li><strong>Two learning paths</strong> &mdash; Drawer and Brief Builder</li>
           <li><strong>31 downloadable PDFs &amp; worksheets</strong></li>
           <li><strong>Lifetime access</strong> &mdash; no deadlines</li>
@@ -342,7 +342,7 @@ export async function sendTrialWelcomeEmail({
 
         <h2 style="font-size: 17px; font-weight: 600; margin: 24px 0 12px 0; color: ${BRAND.primary};">What&rsquo;s included in your trial</h2>
         <ul style="padding-left: 20px; margin: 0 0 8px 0; line-height: 1.8;">
-          <li>Full access to <strong>Welcome &amp; Orientation</strong> (3 lessons)</li>
+          <li>Full access to <strong>Welcome &amp; Orientation</strong> (4 lessons)</li>
           <li><strong>Workshop Introduction</strong> preview from the Kickoff module</li>
           <li>Course Notebook to save your highlights</li>
           <li>Experience the full course platform</li>
@@ -351,7 +351,7 @@ export async function sendTrialWelcomeEmail({
         ${ctaButton("Start Learning &rarr;", `${BASE_URL()}/course`)}
 
         <h2 style="font-size: 17px; font-weight: 600; margin: 32px 0 12px 0; color: ${BRAND.primary};">Ready for more?</h2>
-        <p style="margin: 0 0 4px 0;">Upgrade anytime to unlock all 11 modules, 106 lessons, and 31 downloadable resources.</p>
+        <p style="margin: 0 0 4px 0;">Upgrade anytime to unlock all 11 modules, 107 lessons, and 31 downloadable resources.</p>
 
         ${ctaButton("Purchase Full Course &rarr;", `${BASE_URL()}/#pricing`)}
       `,
