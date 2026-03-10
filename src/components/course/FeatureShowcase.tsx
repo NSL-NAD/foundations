@@ -24,7 +24,7 @@ export function FeatureShowcase({
   const Icon = iconMap[icon] || Bot;
 
   return (
-    <div className="not-prose relative my-10 overflow-hidden rounded-card border border-border/60 bg-card p-6 md:p-8">
+    <div className="not-prose relative my-10 overflow-hidden rounded-card border border-border/60 bg-card px-6 py-5 md:px-8 md:py-6">
       {/* Gradient orbs — soft washes on light background */}
       <div className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-[#5F7F96]/25 blur-[60px]" />
       <div className="pointer-events-none absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-[#B8593B]/20 blur-[55px]" />
@@ -34,14 +34,14 @@ export function FeatureShowcase({
       {/* Content */}
       <div className="relative">
         {/* Icon + label */}
-        <div className="mb-5 flex items-center gap-3">
+        <div className="mb-4 flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
             <Icon className="h-5 w-5 text-primary" />
           </div>
           <div>
-            <h3 className="font-heading text-lg font-bold uppercase tracking-tight md:text-xl">
+            <p className="font-heading text-lg font-bold uppercase tracking-tight md:text-xl">
               {title}
-            </h3>
+            </p>
             {tagline && (
               <p className="text-sm text-muted-foreground">{tagline}</p>
             )}
