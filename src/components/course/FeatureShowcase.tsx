@@ -35,15 +35,15 @@ export function FeatureShowcase({
       <div className="relative">
         {/* Icon + label */}
         <div className="mb-4 flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10">
             <Icon className="h-5 w-5 text-primary" />
           </div>
           <div>
-            <p className="font-heading text-lg font-bold uppercase tracking-tight md:text-xl">
+            <span className="block font-heading text-lg font-bold uppercase tracking-tight md:text-xl">
               {title}
-            </p>
+            </span>
             {tagline && (
-              <p className="text-sm text-muted-foreground">{tagline}</p>
+              <span className="block text-sm text-muted-foreground">{tagline}</span>
             )}
           </div>
         </div>
