@@ -8,7 +8,8 @@
       "description": "Meet your instructor, set up your workspace, and choose your learning path.",
       "lessons": [
         { "slug": "course-overview", "title": "Course Overview", "type": "video", "duration": "5 min", "path": "both" },
-        { "slug": "how-to-use", "title": "How to Use This Course", "type": "text", "duration": "3 min", "path": "both" },
+        { "slug": "how-to-use", "title": "How to Use This Course", "type": "text", "duration": "5 min", "path": "both" },
+        { "slug": "getting-the-most", "title": "Getting the Most Out of This Course", "shortTitle": "Getting the Most", "type": "text", "duration": "5 min", "path": "both" },
         { "slug": "materials-needed", "title": "Materials You'll Need", "type": "text", "duration": "3 min", "path": "both", "downloads": ["materials-checklist.pdf"] }
       ]
     },

@@ -16,6 +16,8 @@ import { GenerateDesignBriefButton } from "@/components/course/GenerateDesignBri
 import { CourseStructure } from "@/components/course/CourseStructure";
 import { VideoBlock } from "@/components/course/VideoBlock";
 import { ImageCarousel } from "@/components/course/ImageCarousel";
+import { FeatureShowcase } from "@/components/course/FeatureShowcase";
+import { ProTip } from "@/components/course/ProTip";
 import { StraightedgeLine } from "@/components/decorative/StraightedgeLine";
 
 /* ── MDX component overrides ─────────────────────────────── */
@@ -96,6 +98,8 @@ const mdxComponents = {
   GenerateDesignBriefButton,
   VideoBlock,
   ImageCarousel,
+  FeatureShowcase,
+  ProTip,
   hr: () => <StraightedgeLine showTicks className="my-14" />,
   blockquote: InsightBlockquote,
   p: SmartParagraph,

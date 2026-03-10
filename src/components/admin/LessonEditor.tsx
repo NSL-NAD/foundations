@@ -62,6 +62,14 @@ const COMPONENT_SNIPPETS = [
     label: "Callout Card",
     template: `**Label:** Description text that will render as a callout card.`,
   },
+  {
+    label: "Feature Showcase",
+    template: `<FeatureShowcase icon="bot" title="Feature Name" tagline="Short description of the feature">\n\nFeature description and bullet points go here.\n\n- **First benefit** and explanation\n- **Second benefit** and explanation\n- **Third benefit** and explanation\n\n</FeatureShowcase>`,
+  },
+  {
+    label: "Pro Tip",
+    template: `<ProTip title="Recommendation">\n\nYour recommendation or tip text goes here.\n\n</ProTip>`,
+  },
 ];
 
 export function LessonEditor({
