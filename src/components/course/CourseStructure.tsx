@@ -88,9 +88,9 @@ export function CourseStructure() {
               {String(i + 1).padStart(2, "0")}
             </span>
             <div className="min-w-0 flex-1">
-              <h3 className="font-heading text-sm font-semibold uppercase tracking-wide">
+              <p className="font-heading text-sm font-semibold uppercase tracking-wide">
                 {mod.title}
-              </h3>
+              </p>
               <span className="mt-0.5 inline-block text-xs text-muted-foreground">
                 {mod.lessons} lessons
               </span>
