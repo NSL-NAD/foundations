@@ -53,10 +53,10 @@ export function AdminShell({ children }: AdminShellProps) {
 
   return (
     <div className="flex min-h-screen flex-col md:flex-row">
-      {/* Desktop Sidebar — icon-only, expands on hover or pin */}
+      {/* Desktop Sidebar — icon-only, expands on hover or pin, sticky */}
       <aside
         className={cn(
-          "group hidden flex-shrink-0 flex-col bg-[#1a1a1a] text-white transition-all duration-300 ease-in-out md:flex",
+          "group hidden flex-shrink-0 flex-col bg-[#1a1a1a] text-white transition-all duration-300 ease-in-out md:flex sticky top-0 h-screen overflow-y-auto",
           pinned ? "w-56" : "w-16 hover:w-56"
         )}
       >
