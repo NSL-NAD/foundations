@@ -25,6 +25,12 @@ export function ShareButtons({ url, title, className }: ShareButtonsProps) {
 
   const encodedUrl = encodeURIComponent(url);
   const encodedTitle = encodeURIComponent(title);
+  const twitterShareUrl = encodeURIComponent(
+    `${url}?utm_source=twitter&utm_medium=organic-share&utm_campaign=blog`
+  );
+  const linkedinShareUrl = encodeURIComponent(
+    `${url}?utm_source=linkedin&utm_medium=organic-share&utm_campaign=blog`
+  );
 
   return (
     <div className={cn("flex items-center gap-3", className)}>
@@ -43,7 +49,7 @@ export function ShareButtons({ url, title, className }: ShareButtonsProps) {
       </button>
 
       <a
-        href={`https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`}
+        href={`https://twitter.com/intent/tweet?url=${twitterShareUrl}&text=${encodedTitle}`}
         target="_blank"
         rel="noopener noreferrer"
         className="flex h-9 w-9 items-center justify-center rounded-full border border-foreground/10 text-muted-foreground transition-colors hover:bg-card hover:text-foreground"
@@ -55,7 +61,7 @@ export function ShareButtons({ url, title, className }: ShareButtonsProps) {
       </a>
 
       <a
-        href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`}
+        href={`https://www.linkedin.com/sharing/share-offsite/?url=${linkedinShareUrl}`}
         target="_blank"
         rel="noopener noreferrer"
         className="flex h-9 w-9 items-center justify-center rounded-full border border-foreground/10 text-muted-foreground transition-colors hover:bg-card hover:text-foreground"

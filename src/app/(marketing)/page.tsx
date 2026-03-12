@@ -38,6 +38,12 @@ const courseSchema = {
   },
   educationalLevel: "Beginner",
   numberOfCredits: 0,
+  instructor: {
+    "@type": "Person",
+    name: "Nic DeMore",
+    description: "Architect and founder of Foundations of Architecture",
+    url: "https://nicdemore.com",
+  },
   hasCourseInstance: {
     "@type": "CourseInstance",
     courseMode: "Online",
