@@ -5,11 +5,27 @@ import { getPostBySlugUnfiltered } from "@/lib/blog";
 const VALID_PLATFORMS = ["linkedin", "x", "instagram"] as const;
 type Platform = (typeof VALID_PLATFORMS)[number];
 
-const BUFFER_SERVICE_MAP: Record<Platform, string> = {
-  linkedin: "linkedin",
-  x: "twitter",
-  instagram: "instagram",
+const BUFFER_GRAPHQL = "https://api.buffer.com/graphql";
+const BUFFER_ORG_ID = "69b7026ee4bc4b63e1f6aa1a";
+
+// Channel IDs fetched from Buffer GraphQL API (2026-03-15)
+const BUFFER_CHANNEL_IDS: Record<Platform, string> = {
+  instagram: "69b702927be9f8b1715c58fe",
+  linkedin: "69b7037b7be9f8b1715c5f77",
+  x: "69b7042a7be9f8b1715c62ff",
 };
+
+async function bufferGraphQL(token: string, query: string, variables?: object) {
+  const res = await fetch(BUFFER_GRAPHQL, {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ query, variables }),
+  });
+  return res.json();
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -34,15 +50,10 @@ export async function POST(req: NextRequest) {
 
     const { blogSlug, platform, copy } = await req.json();
 
-    if (
-      !blogSlug ||
-      !platform ||
-      !VALID_PLATFORMS.includes(platform) ||
-      !copy
-    ) {
+    if (!blogSlug || !platform || !VALID_PLATFORMS.includes(platform) || !copy) {
       return NextResponse.json(
         { error: "Missing or invalid blogSlug, platform, or copy" },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -50,68 +61,61 @@ export async function POST(req: NextRequest) {
     if (!bufferToken) {
       return NextResponse.json(
         { error: "Buffer API not configured" },
-        { status: 503 },
+        { status: 503 }
       );
     }
 
-    // Fetch Buffer profiles
-    const profilesRes = await fetch(
-      `https://api.bufferapp.com/1/profiles.json?access_token=${bufferToken}`,
-    );
+    const channelId = BUFFER_CHANNEL_IDS[platform as Platform];
 
-    if (!profilesRes.ok) {
-      return NextResponse.json(
-        { error: "Failed to fetch Buffer profiles" },
-        { status: 502 },
-      );
-    }
-
-    const profiles = await profilesRes.json();
-    const serviceName = BUFFER_SERVICE_MAP[platform as Platform];
-    const bufferProfile = profiles.find(
-      (p: { service: string }) => p.service === serviceName,
-    );
-
-    if (!bufferProfile) {
-      return NextResponse.json(
-        { error: `No Buffer profile found for ${platform}` },
-        { status: 404 },
-      );
-    }
-
-    // Build form body
-    const formBody = new URLSearchParams();
-    formBody.append("access_token", bufferToken);
-    formBody.append("profile_ids[]", bufferProfile.id);
-    formBody.append("text", copy);
-
-    // For Instagram, attach OG image
+    // Build assets for Instagram (attach OG image)
+    let assetsInput = "";
     if (platform === "instagram") {
       const post = getPostBySlugUnfiltered(blogSlug);
       if (post) {
         const baseUrl = process.env.NEXT_PUBLIC_URL || "https://foacourse.com";
         const imageUrl = `${baseUrl}/api/og/instagram?title=${encodeURIComponent(post.title)}&category=${encodeURIComponent(post.category)}`;
-        formBody.append("media[photo]", imageUrl);
+        assetsInput = `assets: { image: { url: "${imageUrl}" } }`;
       }
     }
 
-    // Create Buffer update
-    const bufferRes = await fetch(
-      "https://api.bufferapp.com/1/updates/create.json",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: formBody.toString(),
-      },
-    );
+    const mutation = `
+      mutation CreatePost {
+        createPost(input: {
+          organizationId: "${BUFFER_ORG_ID}"
+          channelId: "${channelId}"
+          text: ${JSON.stringify(copy)}
+          schedulingType: queue
+          ${assetsInput}
+        }) {
+          ... on PostCreate {
+            post {
+              id
+              status
+              dueAt
+            }
+          }
+          ... on CoreError {
+            message
+            code
+          }
+        }
+      }
+    `;
 
-    const bufferData = await bufferRes.json();
+    const bufferData = await bufferGraphQL(bufferToken, mutation);
 
-    if (!bufferRes.ok || !bufferData.success) {
+    if (bufferData.errors?.length) {
       return NextResponse.json(
-        { error: bufferData.message || "Buffer API error" },
-        { status: 502 },
+        { error: bufferData.errors[0].message },
+        { status: 502 }
       );
+    }
+
+    const result = bufferData.data?.createPost;
+
+    if (result?.message) {
+      // CoreError returned
+      return NextResponse.json({ error: result.message }, { status: 502 });
     }
 
     // Mark as shared in Supabase
@@ -121,18 +125,19 @@ export async function POST(req: NextRequest) {
         platform,
         shared_at: new Date().toISOString(),
       },
-      { onConflict: "blog_slug,platform" },
+      { onConflict: "blog_slug,platform" }
     );
 
     return NextResponse.json({
       success: true,
-      bufferId: bufferData.updates?.[0]?.id || bufferData.update?.id,
+      bufferId: result?.post?.id,
+      scheduledFor: result?.post?.dueAt,
     });
   } catch (error) {
     console.error("Buffer post error:", error);
     return NextResponse.json(
       { error: "Failed to post via Buffer" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
