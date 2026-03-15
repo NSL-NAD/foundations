@@ -115,6 +115,7 @@ export default async function AdminSocialPage() {
                             blogSlug={post.slug}
                             blogTitle={post.title}
                             coverImage={post.coverImage}
+                            category={post.category}
                             platform={platform}
                             existingCopy={share?.generated_copy || null}
                             sharedAt={share?.shared_at || null}

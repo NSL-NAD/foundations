@@ -34,6 +34,7 @@ interface ShareActionsProps {
   blogSlug: string;
   blogTitle: string;
   coverImage: string;
+  category: string;
   platform: "linkedin" | "x" | "instagram";
   existingCopy: string | null;
   sharedAt: string | null;
@@ -64,6 +65,7 @@ export function ShareActions({
   blogSlug,
   blogTitle,
   coverImage,
+  category,
   platform,
   existingCopy,
   sharedAt,
@@ -72,6 +74,7 @@ export function ShareActions({
   const [loading, setLoading] = useState(false);
   const [copy, setCopy] = useState(existingCopy || "");
   const [copied, setCopied] = useState(false);
+  const [error, setError] = useState("");
   const router = useRouter();
 
   const config = platformConfig[platform];
@@ -149,6 +152,27 @@ export function ShareActions({
       if (res.ok) {
         setOpen(false);
         router.refresh();
+      }
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handlePostToBuffer() {
+    setLoading(true);
+    setError("");
+    try {
+      const res = await fetch("/api/admin/social/post", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ blogSlug, platform, copy }),
+      });
+      if (res.ok) {
+        setOpen(false);
+        router.refresh();
+      } else {
+        const err = await res.json();
+        setError(err.error || "Failed to post via Buffer");
       }
     } finally {
       setLoading(false);
@@ -250,6 +274,17 @@ export function ShareActions({
           </DialogHeader>
 
           <div className="space-y-4 pt-2">
+            {/* Instagram image preview */}
+            {platform === "instagram" && (
+              <div className="rounded-md overflow-hidden border">
+                <img
+                  src={`/api/og/instagram?title=${encodeURIComponent(blogTitle)}&category=${encodeURIComponent(category)}`}
+                  alt="Instagram image preview"
+                  className="w-full"
+                />
+              </div>
+            )}
+
             {/* Generated copy */}
             <div className="relative">
               <textarea
@@ -332,15 +367,28 @@ export function ShareActions({
               </Button>
             </div>
 
-            {/* Mark as shared */}
+            {/* Post via Buffer */}
+            {error && (
+              <p className="text-xs text-destructive">{error}</p>
+            )}
             <Button
-              onClick={handleMarkShared}
+              onClick={handlePostToBuffer}
               disabled={loading}
               className="w-full"
             >
               {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              <Check className="mr-2 h-4 w-4" />
-              Mark as Shared
+              Post via Buffer
+            </Button>
+
+            {/* Mark as manually shared */}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleMarkShared}
+              disabled={loading}
+              className="w-full text-muted-foreground"
+            >
+              Mark as manually shared instead
             </Button>
           </div>
         </DialogContent>

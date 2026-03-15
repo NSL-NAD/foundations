@@ -62,7 +62,8 @@ export function buildSocialPrompt(
   platform: SocialPlatform,
   post: SocialPromptInput,
 ): string {
-  const blogUrl = `https://foacourse.com/blog/${post.slug}`;
+  const utmParams = `utm_source=${platform}&utm_medium=social&utm_campaign=blog`;
+  const blogUrl = `https://foacourse.com/blog/${post.slug}?${utmParams}`;
   const truncatedContent = post.content.slice(0, 2000);
 
   return `Write a ${platform} post promoting this blog article.
