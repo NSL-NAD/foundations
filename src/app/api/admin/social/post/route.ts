@@ -74,7 +74,7 @@ export async function POST(req: NextRequest) {
       if (post) {
         const baseUrl = process.env.NEXT_PUBLIC_URL || "https://foacourse.com";
         const imageUrl = `${baseUrl}/api/og/instagram?title=${encodeURIComponent(post.title)}&category=${encodeURIComponent(post.category)}`;
-        assetsInput = `assets: { image: { url: "${imageUrl}" } }`;
+        assetsInput = `assets: { images: [{ url: "${imageUrl}" }] }`;
       }
     }
 
@@ -87,16 +87,18 @@ export async function POST(req: NextRequest) {
           mode: addToQueue
           ${assetsInput}
         }) {
-          ... on PostCreate {
+          ... on PostActionSuccess {
             post {
               id
               status
               dueAt
             }
           }
-          ... on CoreError {
+          ... on InvalidInputError {
             message
-            code
+          }
+          ... on UnexpectedError {
+            message
           }
         }
       }
@@ -113,9 +115,8 @@ export async function POST(req: NextRequest) {
 
     const result = bufferData.data?.createPost;
 
-    if (result?.message) {
-      // CoreError returned
-      return NextResponse.json({ error: result.message }, { status: 502 });
+    if (!result?.post) {
+      return NextResponse.json({ error: result?.message || "Buffer did not return a post" }, { status: 502 });
     }
 
     // Mark as shared in Supabase
