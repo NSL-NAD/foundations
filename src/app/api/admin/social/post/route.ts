@@ -78,7 +78,7 @@ export async function POST(req: NextRequest) {
         const imageUrl = `${baseUrl}/api/og/instagram?title=${encodeURIComponent(post.title)}&category=${encodeURIComponent(post.category)}`;
         assetsInput = `assets: { images: [{ url: "${imageUrl}" }] }`;
       }
-      metadataInput = `metadata: { instagram: { type: post } }`;
+      metadataInput = `metadata: { instagram: { type: post, shouldShareToFeed: true } }`;
     }
 
     const mutation = `
