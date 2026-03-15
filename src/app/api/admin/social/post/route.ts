@@ -67,8 +67,10 @@ export async function POST(req: NextRequest) {
 
     const channelId = BUFFER_CHANNEL_IDS[platform as Platform];
 
-    // Build assets for Instagram (attach OG image)
+    // Build platform-specific extras
     let assetsInput = "";
+    let metadataInput = "";
+
     if (platform === "instagram") {
       const post = getPostBySlugUnfiltered(blogSlug);
       if (post) {
@@ -76,6 +78,7 @@ export async function POST(req: NextRequest) {
         const imageUrl = `${baseUrl}/api/og/instagram?title=${encodeURIComponent(post.title)}&category=${encodeURIComponent(post.category)}`;
         assetsInput = `assets: { images: [{ url: "${imageUrl}" }] }`;
       }
+      metadataInput = `metadata: { instagram: { type: post } }`;
     }
 
     const mutation = `
@@ -86,6 +89,7 @@ export async function POST(req: NextRequest) {
           schedulingType: automatic
           mode: addToQueue
           ${assetsInput}
+          ${metadataInput}
         }) {
           ... on PostActionSuccess {
             post {

@@ -37,13 +37,13 @@ const platformInstructions: Record<SocialPlatform, (blogUrl: string) => string> 
 - Output ONLY the post text, nothing else`,
 
   linkedin: (blogUrl) => `Write a post for LinkedIn. Rules:
-- 150-300 words
+- Maximum 1200 characters total including spaces, URL, and hashtags (LinkedIn hard limit is 1248 — stay under to be safe)
 - Start with a bold opening line that hooks professionals
 - Use short paragraphs (1-2 sentences each) for readability
 - Include the blog URL: ${blogUrl}
 - End with a question or call to action to drive engagement
-- Use 3-5 relevant hashtags at the end
-- Tone: professional but personable, as if written by the course creator (an architect)
+- Use 2-3 relevant hashtags at the end (keep short to conserve character budget)
+- Tone: professional but personable, as if written by the course creator
 - Output ONLY the post text, nothing else`,
 
   instagram: () => `Write a caption for Instagram. Rules:
