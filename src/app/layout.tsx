@@ -21,6 +21,38 @@ const organizationSchema = {
   sameAs: [],
 };
 
+const courseSchema = {
+  "@context": "https://schema.org",
+  "@type": "Course",
+  name: "Foundations of Architecture",
+  description:
+    "A self-paced online course that teaches architecture fundamentals for homeowners. 107 lessons, two learning paths, 31 downloadable resources.",
+  url: siteUrl,
+  provider: {
+    "@type": "Organization",
+    name: "Foundations of Architecture",
+    url: siteUrl,
+  },
+  offers: [
+    {
+      "@type": "Offer",
+      name: "Full Course",
+      price: "93.00",
+      priceCurrency: "USD",
+      url: siteUrl,
+      availability: "https://schema.org/InStock",
+    },
+    {
+      "@type": "Offer",
+      name: "Course + Kit Bundle",
+      price: "123.00",
+      priceCurrency: "USD",
+      url: siteUrl,
+      availability: "https://schema.org/InStock",
+    },
+  ],
+};
+
 const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
@@ -66,7 +98,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Foundations of Architecture",
     description:
-      "Design your dream home — not $200K, just $47. Learn architecture fundamentals with this self-paced digital course.",
+      "Design your dream home — not $200K, just $93. Learn architecture fundamentals with this self-paced digital course.",
   },
   alternates: {
     types: {
@@ -115,6 +147,13 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(websiteSchema),
+          }}
+        />
+        <Script
+          id="course-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(courseSchema),
           }}
         />
         <ThemeProvider
