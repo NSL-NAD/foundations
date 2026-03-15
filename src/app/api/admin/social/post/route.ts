@@ -81,7 +81,6 @@ export async function POST(req: NextRequest) {
     const mutation = `
       mutation CreatePost {
         createPost(input: {
-          organizationId: "${BUFFER_ORG_ID}"
           channelId: "${channelId}"
           text: ${JSON.stringify(copy)}
           schedulingType: queue
