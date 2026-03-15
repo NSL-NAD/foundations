@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -277,10 +278,13 @@ export function ShareActions({
             {/* Instagram image preview */}
             {platform === "instagram" && (
               <div className="rounded-md overflow-hidden border">
-                <img
+                <Image
                   src={`/api/og/instagram?title=${encodeURIComponent(blogTitle)}&category=${encodeURIComponent(category)}`}
                   alt="Instagram image preview"
+                  width={1080}
+                  height={1350}
                   className="w-full"
+                  unoptimized
                 />
               </div>
             )}

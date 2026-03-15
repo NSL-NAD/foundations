@@ -6,9 +6,9 @@ const VALID_PLATFORMS = ["linkedin", "x", "instagram"] as const;
 type Platform = (typeof VALID_PLATFORMS)[number];
 
 const BUFFER_GRAPHQL = "https://api.buffer.com/graphql";
-const BUFFER_ORG_ID = "69b7026ee4bc4b63e1f6aa1a";
 
 // Channel IDs fetched from Buffer GraphQL API (2026-03-15)
+// Org ID: 69b7026ee4bc4b63e1f6aa1a (N-Squared Lifestyle LLC)
 const BUFFER_CHANNEL_IDS: Record<Platform, string> = {
   instagram: "69b702927be9f8b1715c58fe",
   linkedin: "69b7037b7be9f8b1715c5f77",
