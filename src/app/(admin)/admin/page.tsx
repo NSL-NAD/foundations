@@ -279,6 +279,7 @@ export default async function AdminPage() {
                         blogTitle={latestPost.title}
                         coverImage={latestPost.coverImage}
                         platform={platform}
+                        category={latestPost.category}
                         existingCopy={latestShareMap[platform]?.generated_copy || null}
                         sharedAt={latestShareMap[platform]?.shared_at || null}
                       />
