@@ -72,6 +72,8 @@ export function ShareActions({
 }: ShareActionsProps) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [posting, setPosting] = useState(false);
+  const [regenerating, setRegenerating] = useState(false);
   const [copy, setCopy] = useState(existingCopy || "");
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState("");
@@ -114,17 +116,15 @@ export function ShareActions({
   }
 
   async function handleRegenerate() {
-    setLoading(true);
+    setRegenerating(true);
     setCopy("");
     try {
-      // Clear cached copy first
       await fetch("/api/admin/social/mark-shared", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ blogSlug, platform, clearCopy: true }),
       });
 
-      // Re-generate fresh copy
       const res = await fetch("/api/admin/social/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -136,7 +136,7 @@ export function ShareActions({
         setCopy(data.copy);
       }
     } finally {
-      setLoading(false);
+      setRegenerating(false);
     }
   }
 
@@ -159,7 +159,7 @@ export function ShareActions({
   }
 
   async function handlePostToBuffer() {
-    setLoading(true);
+    setPosting(true);
     setError("");
     try {
       const res = await fetch("/api/admin/social/post", {
@@ -175,7 +175,7 @@ export function ShareActions({
         setError(err.error || "Failed to post via Buffer");
       }
     } finally {
-      setLoading(false);
+      setPosting(false);
     }
   }
 
@@ -355,10 +355,10 @@ export function ShareActions({
                 variant="ghost"
                 size="sm"
                 onClick={handleRegenerate}
-                disabled={loading}
+                disabled={regenerating || posting}
                 className="gap-1.5"
               >
-                {loading ? (
+                {regenerating ? (
                   <Loader2 className="h-3.5 w-3.5 animate-spin" />
                 ) : (
                   <RefreshCw className="h-3.5 w-3.5" />
@@ -373,11 +373,11 @@ export function ShareActions({
             )}
             <Button
               onClick={handlePostToBuffer}
-              disabled={loading}
+              disabled={posting || regenerating}
               className="w-full"
             >
-              {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Post via Buffer
+              {posting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {posting ? "Posting..." : "Post via Buffer"}
             </Button>
 
             {/* Mark as manually shared */}
@@ -385,7 +385,7 @@ export function ShareActions({
               variant="ghost"
               size="sm"
               onClick={handleMarkShared}
-              disabled={loading}
+              disabled={loading || posting}
               className="w-full text-muted-foreground"
             >
               Mark as manually shared instead
