@@ -1,7 +1,7 @@
 import { ExternalLink } from "lucide-react";
 import { format } from "date-fns";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { IdeaQueuePlaceholder } from "./IdeaQueuePlaceholder";
+import { IdeaQueue, type SocialIdea } from "./IdeaQueue";
 
 /*
  * FOA Content Pillars: Educate, Inspire, Empower, Hook/Provoke, Validate (hold)
@@ -32,9 +32,11 @@ const platformUrls: Record<string, { url: string; label: string }> = {
 export function PlatformTab({
   platform,
   posts,
+  ideas = [],
 }: {
   platform: string;
   posts: PlatformPost[];
+  ideas?: SocialIdea[];
 }) {
   const platformInfo = platformUrls[platform];
 
@@ -98,10 +100,7 @@ export function PlatformTab({
       </div>
 
       {/* Section B — Idea Queue */}
-      <div>
-        <h2 className="font-heading mb-4 text-lg font-semibold">Idea Queue</h2>
-        <IdeaQueuePlaceholder />
-      </div>
+      <IdeaQueue ideas={ideas} platform={platform} />
     </div>
   );
 }

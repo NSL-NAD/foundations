@@ -50,9 +50,9 @@ export async function POST(req: NextRequest) {
 
     const { blogSlug, platform, copy } = await req.json();
 
-    if (!blogSlug || !platform || !VALID_PLATFORMS.includes(platform) || !copy) {
+    if (!platform || !VALID_PLATFORMS.includes(platform) || !copy) {
       return NextResponse.json(
-        { error: "Missing or invalid blogSlug, platform, or copy" },
+        { error: "Missing or invalid platform or copy" },
         { status: 400 }
       );
     }
@@ -72,12 +72,23 @@ export async function POST(req: NextRequest) {
     let metadataInput = "";
 
     if (platform === "instagram") {
-      const post = getPostBySlugUnfiltered(blogSlug);
-      if (post) {
-        const baseUrl = process.env.NEXT_PUBLIC_URL || "https://foacourse.com";
-        const imageUrl = `${baseUrl}/api/og/instagram?title=${encodeURIComponent(post.title)}&category=${encodeURIComponent(post.category)}`;
-        assetsInput = `assets: { images: [{ url: "${imageUrl}" }] }`;
+      const baseUrl = process.env.NEXT_PUBLIC_URL || "https://foacourse.com";
+      let imageTitle = "";
+
+      if (blogSlug) {
+        const post = getPostBySlugUnfiltered(blogSlug);
+        if (post) {
+          imageTitle = post.title;
+        }
       }
+
+      // Fallback for composer posts (no blogSlug): extract title from copy
+      if (!imageTitle) {
+        imageTitle = copy.replace(/[#@\n]/g, " ").trim().split(/\s+/).slice(0, 8).join(" ");
+      }
+
+      const imageUrl = `${baseUrl}/api/og/instagram?title=${encodeURIComponent(imageTitle)}`;
+      assetsInput = `assets: { images: [{ url: "${imageUrl}" }] }`;
       metadataInput = `metadata: { instagram: { type: post, shouldShareToFeed: true } }`;
     }
 
@@ -123,15 +134,17 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: result?.message || "Buffer did not return a post" }, { status: 502 });
     }
 
-    // Mark as shared in Supabase
-    await supabase.from("social_shares").upsert(
-      {
-        blog_slug: blogSlug,
-        platform,
-        shared_at: new Date().toISOString(),
-      },
-      { onConflict: "blog_slug,platform" }
-    );
+    // Mark as shared in Supabase (skip for composer posts with no blog)
+    if (blogSlug) {
+      await supabase.from("social_shares").upsert(
+        {
+          blog_slug: blogSlug,
+          platform,
+          shared_at: new Date().toISOString(),
+        },
+        { onConflict: "blog_slug,platform" }
+      );
+    }
 
     return NextResponse.json({
       success: true,

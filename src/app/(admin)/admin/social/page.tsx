@@ -3,6 +3,7 @@ import { getPublishedPosts, getPostBySlugUnfiltered } from "@/lib/blog";
 import { ShareActions } from "@/components/admin/ShareActions";
 import { SocialHubNav } from "@/components/admin/SocialHubNav";
 import { PlatformTab } from "@/components/admin/PlatformTab";
+import { SocialComposer } from "@/components/admin/SocialComposer";
 import { CategoryBadge } from "@/components/blog/CategoryBadge";
 import { format, startOfWeek } from "date-fns";
 import {
@@ -47,6 +48,24 @@ export default async function AdminSocialPage({
 
   const allShares = (shares || []) as SocialShare[];
 
+  // Fetch pending + approved ideas for platform tabs
+  const { data: ideasData } = await supabase
+    .from("social_ideas")
+    .select("*")
+    .in("status", ["pending", "approved"])
+    .order("generated_at", { ascending: false });
+
+  const allIdeas = (ideasData || []) as Array<{
+    id: string;
+    platform: string;
+    pillar: string;
+    hook: string;
+    body: string;
+    source: string;
+    status: "pending" | "approved" | "posted" | "dismissed";
+    generated_at: string;
+  }>;
+
   // Build a lookup map: slug -> { linkedin, x, instagram }
   const shareMap = new Map<string, Record<string, SocialShare>>();
   for (const share of allShares) {
@@ -85,6 +104,8 @@ export default async function AdminSocialPage({
       {(activeTab === "linkedin" ||
         activeTab === "x" ||
         activeTab === "instagram") && (
+        <>
+        <SocialComposer platform={activeTab} />
         <PlatformTab
           platform={activeTab}
           posts={allShares
@@ -102,7 +123,9 @@ export default async function AdminSocialPage({
                 generatedCopy: s.generated_copy || "",
               };
             })}
+          ideas={allIdeas.filter((i) => i.platform === activeTab)}
         />
+        </>
       )}
     </div>
   );
