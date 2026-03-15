@@ -84,7 +84,7 @@ export async function POST(req: NextRequest) {
           channelId: "${channelId}"
           text: ${JSON.stringify(copy)}
           schedulingType: automatic
-          mode: QUEUE
+          mode: addToQueue
           ${assetsInput}
         }) {
           ... on PostCreate {
