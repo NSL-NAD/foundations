@@ -80,6 +80,9 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  verification: {
+    google: "JH5J348Tqq4U9pbvrqwQB7Gdo8LoRcam0jahd-tJRs4",
+  },
   title: {
     default: "Foundations of Architecture | Design Your Dream Home",
     template: "%s | Foundations of Architecture",
