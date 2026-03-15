@@ -1,8 +1,10 @@
 import { createClient } from "@/lib/supabase/server";
-import { getPublishedPosts } from "@/lib/blog";
+import { getPublishedPosts, getPostBySlugUnfiltered } from "@/lib/blog";
 import { ShareActions } from "@/components/admin/ShareActions";
+import { SocialHubNav } from "@/components/admin/SocialHubNav";
+import { PlatformTab } from "@/components/admin/PlatformTab";
 import { CategoryBadge } from "@/components/blog/CategoryBadge";
-import { format } from "date-fns";
+import { format, startOfWeek } from "date-fns";
 import {
   Table,
   TableBody,
@@ -13,7 +15,7 @@ import {
 } from "@/components/ui/table";
 
 export const metadata = {
-  title: "Blogs | Admin",
+  title: "Social Hub | Admin",
 };
 
 interface SocialShare {
@@ -23,7 +25,19 @@ interface SocialShare {
   shared_at: string | null;
 }
 
-export default async function AdminSocialPage() {
+const validTabs = ["blogs", "linkedin", "x", "instagram"] as const;
+type Tab = (typeof validTabs)[number];
+
+export default async function AdminSocialPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ tab?: string }>;
+}) {
+  const params = await searchParams;
+  const activeTab: Tab = validTabs.includes(params.tab as Tab)
+    ? (params.tab as Tab)
+    : "blogs";
+
   const posts = getPublishedPosts();
   const supabase = createClient();
 
@@ -31,18 +45,78 @@ export default async function AdminSocialPage() {
     .from("social_shares")
     .select("blog_slug, platform, generated_copy, shared_at");
 
-  // Build a lookup map: slug -> { linkedin, x, instagram }
-  const shareMap = new Map<
-    string,
-    Record<string, SocialShare>
-  >();
+  const allShares = (shares || []) as SocialShare[];
 
-  for (const share of (shares || []) as SocialShare[]) {
+  // Build a lookup map: slug -> { linkedin, x, instagram }
+  const shareMap = new Map<string, Record<string, SocialShare>>();
+  for (const share of allShares) {
     const existing = shareMap.get(share.blog_slug) || {};
     existing[share.platform] = share;
     shareMap.set(share.blog_slug, existing);
   }
 
+  // Count posts shared this week (across all platforms)
+  const weekStart = startOfWeek(new Date(), { weekStartsOn: 1 });
+  const thisWeekCount = allShares.filter(
+    (s) => s.shared_at && new Date(s.shared_at) >= weekStart
+  ).length;
+
+  return (
+    <div className="p-6 md:p-10">
+      <div className="mb-8">
+        <h1 className="font-heading text-2xl font-bold uppercase tracking-tight md:text-3xl">
+          Social Hub
+        </h1>
+        <p className="mt-1 text-sm text-muted-foreground">
+          {thisWeekCount > 0
+            ? `${thisWeekCount} post${thisWeekCount !== 1 ? "s" : ""} scheduled this week`
+            : "No posts scheduled this week"}
+        </p>
+      </div>
+
+      <div className="mb-6">
+        <SocialHubNav activeTab={activeTab} />
+      </div>
+
+      {activeTab === "blogs" && (
+        <BlogsTab posts={posts} shareMap={shareMap} />
+      )}
+
+      {(activeTab === "linkedin" ||
+        activeTab === "x" ||
+        activeTab === "instagram") && (
+        <PlatformTab
+          platform={activeTab}
+          posts={allShares
+            .filter((s) => s.platform === activeTab && s.shared_at)
+            .sort(
+              (a, b) =>
+                new Date(b.shared_at!).getTime() -
+                new Date(a.shared_at!).getTime()
+            )
+            .map((s) => {
+              const post = getPostBySlugUnfiltered(s.blog_slug);
+              return {
+                blogTitle: post?.title || s.blog_slug,
+                sharedAt: s.shared_at!,
+                generatedCopy: s.generated_copy || "",
+              };
+            })}
+        />
+      )}
+    </div>
+  );
+}
+
+/* ── Blogs Tab (preserves original page content exactly) ── */
+
+function BlogsTab({
+  posts,
+  shareMap,
+}: {
+  posts: ReturnType<typeof getPublishedPosts>;
+  shareMap: Map<string, Record<string, SocialShare>>;
+}) {
   // Count pending shares
   const pendingCount = posts.reduce((count, post) => {
     const postShares = shareMap.get(post.slug) || {};
@@ -53,18 +127,12 @@ export default async function AdminSocialPage() {
   }, 0);
 
   return (
-    <div className="p-6 md:p-10">
-      <div className="mb-10">
-        <h1 className="font-heading text-2xl font-bold uppercase tracking-tight md:text-3xl">
-          Blogs
-        </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          {pendingCount > 0
-            ? `${pendingCount} blog${pendingCount > 1 ? "s" : ""} with pending shares`
-            : "All blogs shared to all platforms"}
+    <>
+      {pendingCount > 0 && (
+        <p className="mb-4 text-sm text-muted-foreground">
+          {pendingCount} blog{pendingCount > 1 ? "s" : ""} with pending shares
         </p>
-      </div>
-
+      )}
       <div className="rounded-card border bg-card">
         <Table>
           <TableHeader>
@@ -140,6 +208,6 @@ export default async function AdminSocialPage() {
           </TableBody>
         </Table>
       </div>
-    </div>
+    </>
   );
 }
