@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Loader2, RefreshCw, X } from "lucide-react";
+import { Loader2, Pencil, RefreshCw, X } from "lucide-react";
 
 const PILLARS = ["Educate", "Inspire", "Empower", "Hook/Provoke"] as const;
 
@@ -102,9 +102,9 @@ export function SocialComposer({ platform }: SocialComposerProps) {
     return (
       <button
         onClick={() => setExpanded(true)}
-        className="mb-6 inline-flex items-center gap-2 rounded-md border border-dashed border-muted-foreground/30 px-4 py-2.5 text-sm text-muted-foreground transition-colors hover:border-primary hover:text-foreground"
+        className="mb-6 inline-flex items-center gap-2 rounded-md bg-accent px-4 py-2.5 text-sm font-medium text-accent-foreground transition-colors hover:bg-accent/90"
       >
-        <span>✏️</span> Create a post
+        <Pencil className="h-4 w-4" /> Create a post
       </button>
     );
   }

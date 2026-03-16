@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { Button } from "@/components/ui/button";
-import { Users, DollarSign, Package, ArrowRight, UserPlus, Star, UserCheck, Share2 } from "lucide-react";
+import { Users, DollarSign, Package, ArrowRight, UserPlus, Star, UserCheck, Share2, Lightbulb } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { getPublishedPosts } from "@/lib/blog";
@@ -45,6 +45,12 @@ export default async function AdminPage() {
   const { data: trialUsersCount } = (await supabase.rpc(
     "get_trial_users_count"
   )) as { data: number };
+
+  // Pending content ideas
+  const { count: pendingIdeasCount } = await supabase
+    .from("social_ideas")
+    .select("*", { count: "exact", head: true })
+    .eq("status", "pending");
 
   // Recent reviews
   const { data: reviews } = await supabase
@@ -212,7 +218,7 @@ export default async function AdminPage() {
             </Link>
           </div>
 
-          {/* Row 3: Total Revenue + Latest Blog */}
+          {/* Row 3: Total Revenue + Content Ideas + Latest Blog */}
           <div className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-3">
             <div className="col-span-2 flex flex-col justify-between rounded-card border bg-card p-5 md:col-span-1 md:min-h-[140px]">
               <div className="flex items-center justify-between">
@@ -225,6 +231,34 @@ export default async function AdminPage() {
                 ${(totalRevenue / 100).toFixed(2)}
               </div>
             </div>
+
+            {/* Content Ideas Card */}
+            <Link
+              href="/admin/social?tab=linkedin"
+              className="group col-span-2 md:col-span-1"
+            >
+              <div className="flex h-full flex-col justify-between rounded-card border bg-card p-5 transition-shadow hover:shadow-md md:min-h-[140px]">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                    Content Ideas
+                  </span>
+                  <Lightbulb className="h-4 w-4 text-muted-foreground" />
+                </div>
+                <div>
+                  <div className="mt-4 font-heading text-3xl font-bold">
+                    {pendingIdeasCount || 0}
+                  </div>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    {(pendingIdeasCount || 0) > 0
+                      ? "pending review"
+                      : "No pending ideas"}
+                  </p>
+                </div>
+                <span className="mt-2 text-xs text-primary group-hover:underline">
+                  Review in Social Hub →
+                </span>
+              </div>
+            </Link>
 
             {/* Latest Blog Card */}
             {latestPost && (
