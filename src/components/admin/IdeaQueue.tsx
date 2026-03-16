@@ -153,6 +153,9 @@ export function IdeaQueue({
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <h2 className="font-heading text-lg font-semibold">Idea Queue</h2>
+          <span className="text-xs text-muted-foreground">
+            ·  {pendingIdeas.length + approvedIdeas.length} ideas in queue
+          </span>
           {approvedIdeas.length > 0 && (
             <Badge variant="secondary" className="text-xs">
               {approvedIdeas.length} approved
