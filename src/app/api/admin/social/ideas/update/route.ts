@@ -22,18 +22,37 @@ export async function PATCH(req: NextRequest) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    const { id, status } = await req.json();
+    const { id, status, body } = await req.json();
 
-    if (!id || !status || !["approved", "dismissed", "posted"].includes(status)) {
+    if (!id) {
+      return NextResponse.json({ error: "Missing id" }, { status: 400 });
+    }
+
+    // Build update payload — at least one of status or body must be provided
+    const updates: Record<string, string> = {};
+    if (status) {
+      if (!["approved", "dismissed", "posted"].includes(status)) {
+        return NextResponse.json({ error: "Invalid status" }, { status: 400 });
+      }
+      updates.status = status;
+    }
+    if (typeof body === "string") {
+      if (!body.trim()) {
+        return NextResponse.json({ error: "Body cannot be empty" }, { status: 400 });
+      }
+      updates.body = body;
+    }
+
+    if (Object.keys(updates).length === 0) {
       return NextResponse.json(
-        { error: "Missing or invalid id / status" },
+        { error: "Nothing to update — provide status or body" },
         { status: 400 }
       );
     }
 
     const { error: updateError } = await supabase
       .from("social_ideas")
-      .update({ status })
+      .update(updates)
       .eq("id", id);
 
     if (updateError) {

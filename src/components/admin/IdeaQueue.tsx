@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { Lightbulb, Sparkles, Check, X, ChevronDown, ChevronUp, Loader2, Send, Linkedin, Instagram } from "lucide-react";
+import React, { useState, useRef } from "react";
+import { Lightbulb, Sparkles, Check, X, ChevronDown, ChevronUp, Loader2, Send, Linkedin, Instagram, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -38,6 +38,12 @@ const platformIcons: Record<string, { icon: React.ComponentType<{ className?: st
   instagram: { icon: Instagram, color: "text-[#E4405F]" },
 };
 
+const PLATFORM_CHAR_LIMITS: Record<string, number> = {
+  linkedin: 1200,
+  x: 280,
+  instagram: 2200,
+};
+
 export function IdeaQueue({
   ideas: initialIdeas,
   platform,
@@ -59,6 +65,10 @@ export function IdeaQueue({
   const [postingId, setPostingId] = useState<string | null>(null);
   const [postedId, setPostedId] = useState<string | null>(null);
   const [postError, setPostError] = useState<string | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editBody, setEditBody] = useState("");
+  const [savingEdit, setSavingEdit] = useState(false);
+  const editTextareaRef = useRef<HTMLTextAreaElement>(null);
 
   const pendingIdeas = ideas.filter((i: SocialIdea) => i.status === "pending");
   const approvedIdeas = ideas.filter((i: SocialIdea) => i.status === "approved");
@@ -146,6 +156,51 @@ export function IdeaQueue({
       setPostingId(null);
     }
   }
+
+  function startEditing(idea: SocialIdea) {
+    setEditingId(idea.id);
+    setEditBody(idea.body);
+    // Auto-expand so the full text is visible
+    setExpandedId(idea.id);
+    // Focus textarea after render
+    setTimeout(() => editTextareaRef.current?.focus(), 0);
+  }
+
+  function cancelEditing() {
+    setEditingId(null);
+    setEditBody("");
+  }
+
+  async function saveEdit(id: string) {
+    setSavingEdit(true);
+    const trimmed = editBody.trim();
+    // Optimistic update
+    setIdeas((prev) =>
+      prev.map((idea) => (idea.id === id ? { ...idea, body: trimmed } : idea))
+    );
+    setEditingId(null);
+    try {
+      const res = await fetch("/api/admin/social/ideas/update", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, body: trimmed }),
+      });
+      if (!res.ok) throw new Error("Failed to save edit");
+    } catch (error) {
+      console.error("Save edit error:", error);
+      // Revert — find original from initialIdeas or just keep as-is
+      const original = initialIdeas.find((i) => i.id === id);
+      if (original) {
+        setIdeas((prev) =>
+          prev.map((idea) => (idea.id === id ? { ...idea, body: original.body } : idea))
+        );
+      }
+    } finally {
+      setSavingEdit(false);
+    }
+  }
+
+  const charLimit = PLATFORM_CHAR_LIMITS[platform];
 
   return (
     <div>
@@ -255,25 +310,77 @@ export function IdeaQueue({
                       </div>
                       <p className="text-sm font-medium leading-snug">{idea.hook}</p>
                       <div className="mt-2">
-                        <p className="text-xs text-muted-foreground/80 whitespace-pre-line">
-                          {isExpanded
-                            ? idea.body
-                            : idea.body.length > 100
-                              ? idea.body.slice(0, 100) + "…"
-                              : idea.body}
-                        </p>
-                        {idea.body.length > 100 && (
-                          <button
-                            type="button"
-                            onClick={() => setExpandedId(isExpanded ? null : idea.id)}
-                            className="mt-1 inline-flex items-center gap-0.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
-                          >
-                            {isExpanded ? (
-                              <>less <ChevronUp className="h-3 w-3" /></>
-                            ) : (
-                              <>more <ChevronDown className="h-3 w-3" /></>
-                            )}
-                          </button>
+                        {editingId === idea.id ? (
+                          <div className="space-y-2">
+                            <textarea
+                              ref={editTextareaRef}
+                              value={editBody}
+                              onChange={(e) => setEditBody(e.target.value)}
+                              className="w-full rounded-md border border-foreground/20 bg-background px-3 py-2 text-xs leading-relaxed text-foreground focus:outline-none focus:ring-2 focus:ring-green-500/40 resize-y"
+                              rows={5}
+                            />
+                            <div className="flex items-center justify-between">
+                              {charLimit && (
+                                <span className={`text-[10px] ${editBody.length > charLimit ? "text-destructive font-medium" : "text-muted-foreground"}`}>
+                                  {charLimit - editBody.length} chars remaining
+                                </span>
+                              )}
+                              <div className="flex gap-1.5 ml-auto">
+                                <Button
+                                  size="sm"
+                                  variant="ghost"
+                                  className="h-7 text-xs text-muted-foreground"
+                                  onClick={cancelEditing}
+                                  disabled={savingEdit}
+                                >
+                                  Cancel
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  className="h-7 text-xs"
+                                  onClick={() => saveEdit(idea.id)}
+                                  disabled={savingEdit || !editBody.trim() || (!!charLimit && editBody.length > charLimit)}
+                                >
+                                  {savingEdit ? <Loader2 className="h-3 w-3 animate-spin" /> : "Save"}
+                                </Button>
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <>
+                            <p className="text-xs text-muted-foreground/80 whitespace-pre-line">
+                              {isExpanded
+                                ? idea.body
+                                : idea.body.length > 100
+                                  ? idea.body.slice(0, 100) + "…"
+                                  : idea.body}
+                            </p>
+                            <div className="mt-1 flex items-center gap-2">
+                              {idea.body.length > 100 && (
+                                <button
+                                  type="button"
+                                  onClick={() => setExpandedId(isExpanded ? null : idea.id)}
+                                  className="inline-flex items-center gap-0.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                                >
+                                  {isExpanded ? (
+                                    <>less <ChevronUp className="h-3 w-3" /></>
+                                  ) : (
+                                    <>more <ChevronDown className="h-3 w-3" /></>
+                                  )}
+                                </button>
+                              )}
+                              {isApproved && (
+                                <button
+                                  type="button"
+                                  onClick={() => startEditing(idea)}
+                                  className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                                >
+                                  <Pencil className="h-3 w-3" />
+                                  Edit
+                                </button>
+                              )}
+                            </div>
+                          </>
                         )}
                       </div>
                     </div>
