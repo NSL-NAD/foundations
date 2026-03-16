@@ -67,6 +67,8 @@ export function SocialHubClient({
   const [activeTab, setActiveTab] = useState<Tab>(initialTab);
   // Lift ideas into parent state so tab switches don't reset posted/dismissed ideas
   const [ideas, setIdeas] = useState<SerializedIdea[]>(allIdeas);
+  // Track shares in state so in-session posts update the count
+  const [shares, setShares] = useState<SerializedShare[]>(allShares);
 
   function handleIdeaUpdate(id: string, status: SerializedIdea["status"]) {
     setIdeas((prev) =>
@@ -87,16 +89,20 @@ export function SocialHubClient({
   }
 
   const weekStart = startOfWeek(new Date(), { weekStartsOn: 1 });
-  const thisWeekCount = allShares.filter(
+  const thisWeekCount = shares.filter(
     (s) =>
       s.shared_at &&
       new Date(s.shared_at) >= weekStart &&
       (activeTab === "blogs" || s.platform === activeTab)
   ).length;
+  const totalPlatformCount =
+    activeTab !== "blogs"
+      ? shares.filter((s) => s.shared_at && s.platform === activeTab).length
+      : 0;
 
   // Build shareMap for BlogsTab
   const shareMap = new Map<string, Record<string, SerializedShare>>();
-  for (const share of allShares) {
+  for (const share of shares) {
     const existing = shareMap.get(share.blog_slug) || {};
     existing[share.platform] = share;
     shareMap.set(share.blog_slug, existing);
@@ -105,7 +111,7 @@ export function SocialHubClient({
   // Filter data for current platform tab
   const platformShares =
     activeTab !== "blogs"
-      ? allShares
+      ? shares
           .filter((s) => s.platform === activeTab && s.shared_at)
           .sort(
             (a, b) =>
@@ -133,9 +139,14 @@ export function SocialHubClient({
     <div>
       {/* Week count */}
       <p className="mt-1 mb-8 text-sm text-muted-foreground">
-        {thisWeekCount > 0
-          ? `${thisWeekCount} post${thisWeekCount !== 1 ? "s" : ""} scheduled this week`
-          : "No posts scheduled this week"}
+        {activeTab === "blogs"
+          ? thisWeekCount > 0
+            ? `${thisWeekCount} post${thisWeekCount !== 1 ? "s" : ""} shared this week`
+            : "No posts shared this week"
+          : totalPlatformCount > 0
+            ? `${totalPlatformCount} post${totalPlatformCount !== 1 ? "s" : ""} shared` +
+              (thisWeekCount > 0 ? ` · ${thisWeekCount} this week` : "")
+            : "No posts shared yet"}
       </p>
 
       {/* Tab nav */}
