@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import { Lightbulb, Sparkles, Check, X, ChevronDown, ChevronUp, Loader2, Send, Linkedin, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 
 export interface SocialIdea {
@@ -153,13 +152,13 @@ export function IdeaQueue({
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <h2 className="font-heading text-lg font-semibold">Idea Queue</h2>
-          <span className="text-xs text-muted-foreground">
-            ·  {pendingIdeas.length + approvedIdeas.length} ideas in queue
+          <span className="inline-flex items-center rounded-full bg-[#C4704F]/15 px-2.5 py-0.5 text-xs font-medium text-[#C4704F]">
+            {pendingIdeas.length} queued
           </span>
           {approvedIdeas.length > 0 && (
-            <Badge variant="secondary" className="text-xs">
+            <span className="inline-flex items-center rounded-full bg-green-500/15 px-2.5 py-0.5 text-xs font-medium text-green-600 dark:text-green-400">
               {approvedIdeas.length} approved
-            </Badge>
+            </span>
           )}
         </div>
         <Button
