@@ -48,7 +48,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    const { blogSlug, platform, copy } = await req.json();
+    let { blogSlug, platform, copy } = await req.json();
+
+    // Hard enforce X 280 char limit
+    if (platform === "x" && copy && copy.length > 280) {
+      copy = copy.slice(0, 277) + "...";
+    }
 
     if (!platform || !VALID_PLATFORMS.includes(platform) || !copy) {
       return NextResponse.json(

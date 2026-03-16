@@ -27,8 +27,8 @@ Tone: Warm but authoritative. Conversational, not corporate. Use line breaks for
   x: `Platform: X (Twitter)
 Personality: Fast, punchy, opinionated. Nic shares hot takes and quick insights about home design, architecture, and renovation. Contrarian when appropriate.
 Active pillars: Hook/Provoke, Educate
-Character limit: 280 characters
-Tone: Direct, sharp, slightly provocative. No hashtags. Make people stop scrolling.`,
+HARD LIMIT: The entire post body (hook + any body text combined) MUST be 240 characters or fewer. Count every character. If it exceeds 240 characters, cut it. No hashtags. No URLs. One punchy thought only.
+Tone: Direct, sharp, slightly provocative. Make people stop scrolling.`,
 
   instagram: `Platform: Instagram
 Personality: Visual-first, warm, approachable. Nic helps homeowners feel confident about their design journey. Content should pair well with a photo or graphic.

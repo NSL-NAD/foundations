@@ -119,7 +119,7 @@ export function IdeaQueue({
       setTimeout(() => {
         setPostedId(null);
         router.refresh();
-      }, 1500);
+      }, 2500);
     } catch {
       setPostError("Failed to post via Buffer");
     } finally {
