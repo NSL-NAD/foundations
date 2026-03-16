@@ -24,7 +24,7 @@ export async function PATCH(req: NextRequest) {
 
     const { id, status } = await req.json();
 
-    if (!id || !status || !["approved", "dismissed"].includes(status)) {
+    if (!id || !status || !["approved", "dismissed", "posted"].includes(status)) {
       return NextResponse.json(
         { error: "Missing or invalid id / status" },
         { status: 400 }

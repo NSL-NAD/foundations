@@ -76,6 +76,10 @@ export function SocialHubClient({
     );
   }
 
+  function handleIdeasGenerated(newIdeas: SerializedIdea[]) {
+    setIdeas((prev) => [...newIdeas, ...prev]);
+  }
+
   function handleTabChange(tab: Tab) {
     setActiveTab(tab);
     // Update URL for shareability without triggering server re-render
@@ -170,6 +174,7 @@ export function SocialHubClient({
             posts={platformShares}
             ideas={platformIdeas}
             onIdeaUpdate={handleIdeaUpdate}
+            onIdeasGenerated={handleIdeasGenerated}
           />
         </>
       )}

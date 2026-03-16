@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { Lightbulb, Sparkles, Check, X, ChevronDown, ChevronUp, Loader2, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -30,12 +29,13 @@ export function IdeaQueue({
   ideas: initialIdeas,
   platform,
   onIdeaUpdate,
+  onIdeasGenerated,
 }: {
   ideas: SocialIdea[];
   platform: string;
   onIdeaUpdate?: (id: string, status: SocialIdea["status"]) => void;
+  onIdeasGenerated?: (newIdeas: SocialIdea[]) => void;
 }) {
-  const router = useRouter();
   // Local state is source of truth for optimistic updates.
   // Do NOT sync back from initialIdeas after mount — that causes posted ideas to reappear.
   // Tab switches force a remount via key={activeTab} in the parent, which reinitialises state.
@@ -62,8 +62,12 @@ export function IdeaQueue({
         const err = await res.json();
         throw new Error(err.error || "Failed to generate ideas");
       }
-      // Refresh server data to load newly generated ideas
-      router.refresh();
+      const data = await res.json();
+      const newIdeas: SocialIdea[] = data.ideas || [];
+      // Add new ideas to local state
+      setIdeas((prev) => [...newIdeas, ...prev]);
+      // Also bubble up to parent so they survive tab switches
+      onIdeasGenerated?.(newIdeas);
     } catch (error) {
       console.error("Generate ideas error:", error);
       alert(error instanceof Error ? error.message : "Failed to generate ideas");
