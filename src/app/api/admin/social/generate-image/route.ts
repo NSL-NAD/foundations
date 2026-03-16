@@ -95,7 +95,7 @@ Rules:
     const imagePrompt = promptResult.text.trim();
 
     // Step 2: Call fal.ai FLUX schnell model
-    const falRes = await fetch("https://queue.fal.run/fal-ai/flux/schnell", {
+    const falRes = await fetch("https://fal.run/fal-ai/flux/schnell", {
       method: "POST",
       headers: {
         "Authorization": `Key ${falApiKey}`,
