@@ -65,6 +65,16 @@ export function SocialHubClient({
 }) {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<Tab>(initialTab);
+  // Lift ideas into parent state so tab switches don't reset posted/dismissed ideas
+  const [ideas, setIdeas] = useState<SerializedIdea[]>(allIdeas);
+
+  function handleIdeaUpdate(id: string, status: SerializedIdea["status"]) {
+    setIdeas((prev) =>
+      status === "posted" || status === "dismissed"
+        ? prev.filter((i) => i.id !== id)
+        : prev.map((i) => (i.id === id ? { ...i, status } : i))
+    );
+  }
 
   function handleTabChange(tab: Tab) {
     setActiveTab(tab);
@@ -112,7 +122,7 @@ export function SocialHubClient({
 
   const platformIdeas =
     activeTab !== "blogs"
-      ? allIdeas.filter((i) => i.platform === activeTab)
+      ? ideas.filter((i) => i.platform === activeTab)
       : [];
 
   return (
@@ -125,7 +135,8 @@ export function SocialHubClient({
       </p>
 
       {/* Tab nav */}
-      <div className="mb-6 inline-flex h-9 items-center justify-center rounded-lg bg-muted p-1 text-muted-foreground">
+      <div className="mb-6">
+      <div className="inline-flex h-9 items-center justify-center rounded-lg bg-muted p-1 text-muted-foreground">
         {tabs.map((tab) => (
           <button
             key={tab.key}
@@ -142,6 +153,7 @@ export function SocialHubClient({
           </button>
         ))}
       </div>
+      </div>
 
       {/* Blogs tab */}
       {activeTab === "blogs" && (
@@ -157,6 +169,7 @@ export function SocialHubClient({
             platform={activeTab}
             posts={platformShares}
             ideas={platformIdeas}
+            onIdeaUpdate={handleIdeaUpdate}
           />
         </>
       )}

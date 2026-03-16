@@ -34,10 +34,12 @@ export function PlatformTab({
   platform,
   posts,
   ideas = [],
+  onIdeaUpdate,
 }: {
   platform: string;
   posts: PlatformPost[];
   ideas?: SocialIdea[];
+  onIdeaUpdate?: (id: string, status: SocialIdea["status"]) => void;
 }) {
   const platformInfo = platformUrls[platform];
 
@@ -99,7 +101,7 @@ export function PlatformTab({
       </div>
 
       {/* Section B — Idea Queue */}
-      <IdeaQueue ideas={ideas} platform={platform} />
+      <IdeaQueue ideas={ideas} platform={platform} onIdeaUpdate={onIdeaUpdate} />
     </div>
   );
 }

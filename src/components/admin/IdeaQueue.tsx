@@ -29,9 +29,11 @@ const pillarColors: Record<string, string> = {
 export function IdeaQueue({
   ideas: initialIdeas,
   platform,
+  onIdeaUpdate,
 }: {
   ideas: SocialIdea[];
   platform: string;
+  onIdeaUpdate?: (id: string, status: SocialIdea["status"]) => void;
 }) {
   const router = useRouter();
   // Local state is source of truth for optimistic updates.
@@ -72,10 +74,11 @@ export function IdeaQueue({
 
   async function handleUpdateStatus(id: string, status: "approved" | "dismissed") {
     setUpdatingId(id);
-    // Optimistic update first
+    // Optimistic update — local + parent
     setIdeas((prev: SocialIdea[]) =>
       prev.map((idea: SocialIdea) => (idea.id === id ? { ...idea, status } : idea))
     );
+    onIdeaUpdate?.(id, status);
     try {
       const res = await fetch("/api/admin/social/ideas/update", {
         method: "PATCH",
@@ -89,6 +92,7 @@ export function IdeaQueue({
       setIdeas((prev: SocialIdea[]) =>
         prev.map((idea: SocialIdea) => (idea.id === id ? { ...idea, status: "pending" } : idea))
       );
+      onIdeaUpdate?.(id, "pending");
     } finally {
       setUpdatingId(null);
     }
@@ -114,11 +118,9 @@ export function IdeaQueue({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: idea.id, status: "posted" }),
       });
-      // Remove from local state immediately — do NOT call router.refresh() here
-      // as stale server data would bring the idea back before the DB write propagates
-      setIdeas((prev) =>
-        prev.filter((i) => i.id !== idea.id)
-      );
+      // Remove from local + parent state immediately
+      setIdeas((prev) => prev.filter((i) => i.id !== idea.id));
+      onIdeaUpdate?.(idea.id, "posted");
       setPostedId(idea.id);
       setTimeout(() => setPostedId(null), 2500);
     } catch {
