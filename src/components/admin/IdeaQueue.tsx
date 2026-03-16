@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Lightbulb, Sparkles, Check, X, ChevronDown, ChevronUp, Loader2, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -34,12 +34,10 @@ export function IdeaQueue({
   platform: string;
 }) {
   const router = useRouter();
+  // Local state is source of truth for optimistic updates.
+  // Do NOT sync back from initialIdeas after mount — that causes posted ideas to reappear.
+  // Tab switches force a remount via key={activeTab} in the parent, which reinitialises state.
   const [ideas, setIdeas] = useState(initialIdeas);
-
-  // Sync with server when initialIdeas updates (after router.refresh())
-  useEffect(() => {
-    setIdeas(initialIdeas);
-  }, [initialIdeas]);
   const [generating, setGenerating] = useState(false);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
@@ -62,6 +60,7 @@ export function IdeaQueue({
         const err = await res.json();
         throw new Error(err.error || "Failed to generate ideas");
       }
+      // Refresh server data to load newly generated ideas
       router.refresh();
     } catch (error) {
       console.error("Generate ideas error:", error);
@@ -73,6 +72,10 @@ export function IdeaQueue({
 
   async function handleUpdateStatus(id: string, status: "approved" | "dismissed") {
     setUpdatingId(id);
+    // Optimistic update first
+    setIdeas((prev: SocialIdea[]) =>
+      prev.map((idea: SocialIdea) => (idea.id === id ? { ...idea, status } : idea))
+    );
     try {
       const res = await fetch("/api/admin/social/ideas/update", {
         method: "PATCH",
@@ -80,12 +83,12 @@ export function IdeaQueue({
         body: JSON.stringify({ id, status }),
       });
       if (!res.ok) throw new Error("Failed to update");
-
-      setIdeas((prev: SocialIdea[]) =>
-        prev.map((idea: SocialIdea) => (idea.id === id ? { ...idea, status } : idea))
-      );
     } catch (error) {
+      // Revert on failure
       console.error("Update idea error:", error);
+      setIdeas((prev: SocialIdea[]) =>
+        prev.map((idea: SocialIdea) => (idea.id === id ? { ...idea, status: "pending" } : idea))
+      );
     } finally {
       setUpdatingId(null);
     }
@@ -105,21 +108,19 @@ export function IdeaQueue({
         setPostError(err.error || "Failed to post via Buffer");
         return;
       }
-      // Mark idea as posted
+      // Mark idea as posted in DB
       await fetch("/api/admin/social/ideas/update", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: idea.id, status: "posted" }),
       });
-      // Update local state immediately so idea disappears from list
+      // Remove from local state immediately — do NOT call router.refresh() here
+      // as stale server data would bring the idea back before the DB write propagates
       setIdeas((prev) =>
-        prev.map((i) => (i.id === idea.id ? { ...i, status: "posted" as const } : i))
+        prev.filter((i) => i.id !== idea.id)
       );
       setPostedId(idea.id);
-      setTimeout(() => {
-        setPostedId(null);
-        router.refresh();
-      }, 2500);
+      setTimeout(() => setPostedId(null), 2500);
     } catch {
       setPostError("Failed to post via Buffer");
     } finally {
@@ -163,9 +164,7 @@ export function IdeaQueue({
             <div className="mb-4 rounded-full bg-muted p-3">
               <Lightbulb className="h-6 w-6 text-muted-foreground" />
             </div>
-            <h3 className="font-heading text-lg font-semibold">
-              No ideas yet
-            </h3>
+            <h3 className="font-heading text-lg font-semibold">No ideas yet</h3>
             <p className="mt-1 max-w-sm text-sm text-muted-foreground">
               Generate AI-powered content ideas based on trending topics in home
               design and architecture.
@@ -187,11 +186,12 @@ export function IdeaQueue({
         </Card>
       ) : (
         <div className="space-y-3">
-          {/* Show approved ideas first, then pending */}
+          {/* Approved first, then pending */}
           {[...approvedIdeas, ...pendingIdeas].map((idea) => {
             const isExpanded = expandedId === idea.id;
             const isUpdating = updatingId === idea.id;
             const isApproved = idea.status === "approved";
+            const isPosted = postedId === idea.id;
 
             return (
               <Card
@@ -214,22 +214,20 @@ export function IdeaQueue({
                         >
                           {idea.pillar}
                         </span>
-                        {isApproved && postedId !== idea.id && (
+                        {isApproved && !isPosted && (
                           <span className="inline-flex items-center gap-1 text-xs text-green-700 dark:text-green-400">
                             <Check className="h-3 w-3" />
                             Ready to post
                           </span>
                         )}
-                        {postedId === idea.id && (
+                        {isPosted && (
                           <span className="inline-flex items-center gap-1 text-xs text-green-700 dark:text-green-400">
                             <Check className="h-3 w-3" />
-                            Posted!
+                            Posted to Buffer!
                           </span>
                         )}
                       </div>
-                      <p className="text-sm font-medium leading-snug">
-                        {idea.hook}
-                      </p>
+                      <p className="text-sm font-medium leading-snug">{idea.hook}</p>
                       <div className="mt-2">
                         <p className="text-xs text-muted-foreground/80 whitespace-pre-line">
                           {isExpanded
@@ -241,19 +239,13 @@ export function IdeaQueue({
                         {idea.body.length > 100 && (
                           <button
                             type="button"
-                            onClick={() =>
-                              setExpandedId(isExpanded ? null : idea.id)
-                            }
+                            onClick={() => setExpandedId(isExpanded ? null : idea.id)}
                             className="mt-1 inline-flex items-center gap-0.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
                           >
                             {isExpanded ? (
-                              <>
-                                less <ChevronUp className="h-3 w-3" />
-                              </>
+                              <>less <ChevronUp className="h-3 w-3" /></>
                             ) : (
-                              <>
-                                more <ChevronDown className="h-3 w-3" />
-                              </>
+                              <>more <ChevronDown className="h-3 w-3" /></>
                             )}
                           </button>
                         )}
@@ -265,7 +257,7 @@ export function IdeaQueue({
                         <Button
                           size="sm"
                           onClick={() => handlePostIdea(idea)}
-                          disabled={postingId === idea.id || postedId === idea.id}
+                          disabled={postingId === idea.id || isPosted}
                           className="h-8 gap-1.5"
                         >
                           {postingId === idea.id ? (
@@ -274,6 +266,17 @@ export function IdeaQueue({
                             <Send className="h-3.5 w-3.5" />
                           )}
                           {postingId === idea.id ? "Posting..." : "Post via Buffer"}
+                        </Button>
+                        {/* Dismiss option for approved ideas */}
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="h-8 text-muted-foreground"
+                          onClick={() => handleUpdateStatus(idea.id, "dismissed")}
+                          disabled={isUpdating}
+                          title="Dismiss idea"
+                        >
+                          <X className="h-3.5 w-3.5" />
                         </Button>
                       </div>
                     ) : (
@@ -292,9 +295,7 @@ export function IdeaQueue({
                           size="sm"
                           variant="ghost"
                           className="h-8 text-muted-foreground"
-                          onClick={() =>
-                            handleUpdateStatus(idea.id, "dismissed")
-                          }
+                          onClick={() => handleUpdateStatus(idea.id, "dismissed")}
                           disabled={isUpdating}
                         >
                           <X className="h-3.5 w-3.5" />
