@@ -115,6 +115,7 @@ export default async function AdminSocialPage({
                 new Date(b.shared_at!).getTime() -
                 new Date(a.shared_at!).getTime()
             )
+            .slice(0, 3)
             .map((s) => {
               const post = getPostBySlugUnfiltered(s.blog_slug);
               return {
