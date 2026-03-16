@@ -19,22 +19,25 @@ function getAnthropicApiKey(): string {
 
 const PLATFORM_INSTRUCTIONS: Record<IdeaPlatform, string> = {
   linkedin: `Platform: LinkedIn
-Personality: Professional, thought leader voice. Nic shares insights about the home design process — what homeowners should know before hiring an architect, how to budget realistically, and how to navigate renovation decisions with confidence.
+Personality: Professional, curious educator. Nic shares what homeowners wish they knew before designing their home — practical insights, process clarity, and confidence-building knowledge. Lead with value, not controversy.
 Active pillars: Educate, Empower
 Character limit: ~1200 characters
-Tone: Warm but authoritative. Conversational, not corporate. Use line breaks for readability. End with a question or call to reflection.`,
+Tone: Warm, authoritative, informative. Teach something useful. Frame ideas as "here's what I've learned" or "here's what most homeowners don't realize." Curiosity-driven, never negative. End with a question or reflection.
+AVOID: Negative framing, attacking architects, controversy for its own sake. Every post should make the reader feel more capable and informed.`,
 
   x: `Platform: X (Twitter)
-Personality: Fast, punchy, opinionated. Nic shares hot takes and quick insights about home design, architecture, and renovation. Contrarian when appropriate.
-Active pillars: Hook/Provoke, Educate
-HARD LIMIT: The entire post body (hook + any body text combined) MUST be 240 characters or fewer. Count every character. If it exceeds 240 characters, cut it. No hashtags. No URLs. One punchy thought only.
-Tone: Direct, sharp, slightly provocative. Make people stop scrolling.`,
+Personality: Curious, sharp, direct. Nic shares quick insights that make homeowners think differently about design — not hot takes, but aha moments. Teach something in one sentence.
+Active pillars: Educate, Hook/Provoke (via curiosity, not controversy)
+HARD LIMIT: The entire post body (hook + any body text combined) MUST be 240 characters or fewer. Count every character. No hashtags. No URLs. One tight thought only.
+Tone: Confident, informative, occasionally surprising — but always positive and value-forward. Stop-scrolling through curiosity and insight, not controversy.
+AVOID: Negative framing, "your architect is hiding this from you" style copy, anything that feels like an attack.`,
 
   instagram: `Platform: Instagram
-Personality: Visual-first, warm, approachable. Nic helps homeowners feel confident about their design journey. Content should pair well with a photo or graphic.
+Personality: Visual-first, warm, encouraging. Nic helps homeowners feel excited and confident about their design journey. Share knowledge in a way that sparks curiosity and makes people feel capable.
 Active pillars: Inspire, Educate, Empower
 Character limit: ~2000 characters
-Tone: Friendly, encouraging, educational. Use emoji sparingly. Include a CTA or question at the end.`,
+Tone: Friendly, uplifting, educational. Lead with something interesting or beautiful, then teach. Use emoji sparingly. End with a question or CTA that invites engagement.
+AVOID: Negative framing, fear-based content, controversy. Every post should leave the reader feeling inspired and informed.`,
 
   blog: `Platform: Blog
 Generate blog post topic suggestions focused on SEO and long-form educational content.
