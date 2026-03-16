@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Loader2, Pencil, RefreshCw, X } from "lucide-react";
+import { Loader2, Pencil, RefreshCw, X, Check } from "lucide-react";
 
 const PILLARS = ["Educate", "Inspire", "Empower", "Hook/Provoke"] as const;
 
@@ -18,11 +19,13 @@ interface SocialComposerProps {
 }
 
 export function SocialComposer({ platform }: SocialComposerProps) {
+  const router = useRouter();
   const [expanded, setExpanded] = useState(false);
   const [prompt, setPrompt] = useState("");
   const [pillar, setPillar] = useState<string | null>(null);
   const [generating, setGenerating] = useState(false);
   const [posting, setPosting] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [copy, setCopy] = useState("");
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [error, setError] = useState("");
@@ -72,8 +75,14 @@ export function SocialComposer({ platform }: SocialComposerProps) {
         setError(err.error || "Failed to post via Buffer");
         return;
       }
-      // Success — reset
-      handleClear();
+      // Success — show confirmation for 2 seconds, then reset
+      setPosting(false);
+      setSuccess(true);
+      setTimeout(() => {
+        handleClear();
+        router.refresh();
+      }, 2000);
+      return;
     } catch {
       setError("Failed to post via Buffer");
     } finally {
@@ -206,11 +215,13 @@ export function SocialComposer({ platform }: SocialComposerProps) {
           <div className="flex flex-wrap gap-2">
             <Button
               onClick={handlePost}
-              disabled={posting || !copy.trim()}
+              disabled={posting || success || !copy.trim()}
               size="sm"
+              className={success ? "bg-green-600 hover:bg-green-600" : ""}
             >
               {posting && <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />}
-              {posting ? "Posting..." : "Post via Buffer"}
+              {success && <Check className="mr-2 h-3.5 w-3.5" />}
+              {posting ? "Posting..." : success ? "Posted to Buffer!" : "Post via Buffer"}
             </Button>
 
             <Button

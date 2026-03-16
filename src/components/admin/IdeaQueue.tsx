@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Lightbulb, Sparkles, Check, X, ChevronDown, ChevronUp, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Lightbulb, Sparkles, Check, X, ChevronDown, ChevronUp, Loader2, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -32,10 +33,14 @@ export function IdeaQueue({
   ideas: SocialIdea[];
   platform: string;
 }) {
+  const router = useRouter();
   const [ideas, setIdeas] = useState(initialIdeas);
   const [generating, setGenerating] = useState(false);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
+  const [postingId, setPostingId] = useState<string | null>(null);
+  const [postedId, setPostedId] = useState<string | null>(null);
+  const [postError, setPostError] = useState<string | null>(null);
 
   const pendingIdeas = ideas.filter((i: SocialIdea) => i.status === "pending");
   const approvedIdeas = ideas.filter((i: SocialIdea) => i.status === "approved");
@@ -79,6 +84,38 @@ export function IdeaQueue({
       console.error("Update idea error:", error);
     } finally {
       setUpdatingId(null);
+    }
+  }
+
+  async function handlePostIdea(idea: SocialIdea) {
+    setPostingId(idea.id);
+    setPostError(null);
+    try {
+      const res = await fetch("/api/admin/social/post", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ blogSlug: null, platform, copy: idea.body }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        setPostError(err.error || "Failed to post via Buffer");
+        return;
+      }
+      // Mark idea as posted
+      await fetch("/api/admin/social/ideas/update", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: idea.id, status: "posted" }),
+      });
+      setPostedId(idea.id);
+      setTimeout(() => {
+        setPostedId(null);
+        router.refresh();
+      }, 1500);
+    } catch {
+      setPostError("Failed to post via Buffer");
+    } finally {
+      setPostingId(null);
     }
   }
 
@@ -169,10 +206,16 @@ export function IdeaQueue({
                         >
                           {idea.pillar}
                         </span>
-                        {isApproved && (
+                        {isApproved && postedId !== idea.id && (
                           <span className="inline-flex items-center gap-1 text-xs text-green-700 dark:text-green-400">
                             <Check className="h-3 w-3" />
                             Ready to post
+                          </span>
+                        )}
+                        {postedId === idea.id && (
+                          <span className="inline-flex items-center gap-1 text-xs text-green-700 dark:text-green-400">
+                            <Check className="h-3 w-3" />
+                            Posted!
                           </span>
                         )}
                       </div>
@@ -209,7 +252,23 @@ export function IdeaQueue({
                       </div>
                     </div>
 
-                    {!isApproved && (
+                    {isApproved ? (
+                      <div className="flex shrink-0 gap-1.5">
+                        <Button
+                          size="sm"
+                          onClick={() => handlePostIdea(idea)}
+                          disabled={postingId === idea.id || postedId === idea.id}
+                          className="h-8 gap-1.5"
+                        >
+                          {postingId === idea.id ? (
+                            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                          ) : (
+                            <Send className="h-3.5 w-3.5" />
+                          )}
+                          {postingId === idea.id ? "Posting..." : "Post via Buffer"}
+                        </Button>
+                      </div>
+                    ) : (
                       <div className="flex shrink-0 gap-1.5">
                         <Button
                           size="sm"
@@ -235,6 +294,9 @@ export function IdeaQueue({
                       </div>
                     )}
                   </div>
+                  {postError && postingId === null && (
+                    <p className="text-xs text-destructive mt-2">{postError}</p>
+                  )}
                 </CardContent>
               </Card>
             );

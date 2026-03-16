@@ -74,10 +74,13 @@ export default async function AdminSocialPage({
     shareMap.set(share.blog_slug, existing);
   }
 
-  // Count posts shared this week (across all platforms)
+  // Count posts shared this week (filtered by active platform, or all if "blogs")
   const weekStart = startOfWeek(new Date(), { weekStartsOn: 1 });
   const thisWeekCount = allShares.filter(
-    (s) => s.shared_at && new Date(s.shared_at) >= weekStart
+    (s) =>
+      s.shared_at &&
+      new Date(s.shared_at) >= weekStart &&
+      (activeTab === "blogs" || s.platform === activeTab)
   ).length;
 
   return (
@@ -107,6 +110,7 @@ export default async function AdminSocialPage({
         <>
         <SocialComposer platform={activeTab} />
         <PlatformTab
+          key={activeTab}
           platform={activeTab}
           posts={allShares
             .filter((s) => s.platform === activeTab && s.shared_at)
@@ -117,9 +121,11 @@ export default async function AdminSocialPage({
             )
             .slice(0, 3)
             .map((s) => {
-              const post = getPostBySlugUnfiltered(s.blog_slug);
+              const isComposer = s.blog_slug.startsWith("composer-");
+              const post = isComposer ? null : getPostBySlugUnfiltered(s.blog_slug);
               return {
-                blogTitle: post?.title || s.blog_slug,
+                blogTitle: isComposer ? "Composer post" : (post?.title || s.blog_slug),
+                isComposer,
                 sharedAt: s.shared_at!,
                 generatedCopy: s.generated_copy || "",
               };
