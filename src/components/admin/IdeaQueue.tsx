@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Lightbulb, Sparkles, Check, X, ChevronDown, ChevronUp, Loader2, Send } from "lucide-react";
+import React, { useState } from "react";
+import { Lightbulb, Sparkles, Check, X, ChevronDown, ChevronUp, Loader2, Send, Linkedin, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -23,6 +23,20 @@ const pillarColors: Record<string, string> = {
   Empower: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300",
   "Hook/Provoke": "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300",
   SEO: "bg-teal-100 text-teal-800 dark:bg-teal-900/30 dark:text-teal-300",
+};
+
+function XIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    </svg>
+  );
+}
+
+const platformIcons: Record<string, { icon: React.ComponentType<{ className?: string }>; color: string }> = {
+  linkedin: { icon: Linkedin, color: "text-[#0077B5]" },
+  x: { icon: XIcon, color: "text-foreground" },
+  instagram: { icon: Instagram, color: "text-[#E4405F]" },
 };
 
 export function IdeaQueue({
@@ -212,6 +226,10 @@ export function IdeaQueue({
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0 flex-1">
                       <div className="mb-2 flex items-center gap-2">
+                        {platformIcons[platform] && (() => {
+                          const { icon: PlatformIcon, color } = platformIcons[platform];
+                          return <PlatformIcon className={`h-4 w-4 shrink-0 ${color}`} />;
+                        })()}
                         <span
                           className={`inline-flex items-center rounded-md px-2 py-0.5 text-[10px] font-semibold ${
                             pillarColors[idea.pillar] ||
