@@ -227,9 +227,10 @@ export async function POST(req: NextRequest) {
       generated_at: new Date().toISOString(),
     }));
 
-    const { error: insertError } = await supabase
+    const { data: inserted, error: insertError } = await supabase
       .from("social_ideas")
-      .insert(rows);
+      .insert(rows)
+      .select();
 
     if (insertError) {
       console.error("Failed to insert ideas:", insertError);
@@ -239,7 +240,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    return NextResponse.json({ ideas, count: ideas.length });
+    return NextResponse.json({ ideas: inserted, count: inserted?.length ?? 0 });
   } catch (error) {
     console.error("Idea generation error:", error);
     return NextResponse.json(
