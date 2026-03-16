@@ -68,7 +68,7 @@ export function SocialHubClient({
   // Lift ideas into parent state so tab switches don't reset posted/dismissed ideas
   const [ideas, setIdeas] = useState<SerializedIdea[]>(allIdeas);
   // Track shares in state so in-session posts update the count
-  const [shares, setShares] = useState<SerializedShare[]>(allShares);
+  const [shares] = useState<SerializedShare[]>(allShares);
 
   function handleIdeaUpdate(id: string, status: SerializedIdea["status"]) {
     setIdeas((prev) =>
