@@ -381,7 +381,7 @@ export function ShareActions({
               className="w-full"
             >
               {posting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              {posting ? "Posting..." : "Post via Buffer"}
+              {posting ? "Scheduling..." : "Schedule"}
             </Button>
 
             {/* Mark as manually shared */}

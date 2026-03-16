@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Loader2, Pencil, RefreshCw, X, Check } from "lucide-react";
+import { Loader2, Pencil, RefreshCw, X, Check, ImageIcon } from "lucide-react";
 
 const PILLARS = ["Educate", "Inspire", "Empower", "Hook/Provoke"] as const;
 
@@ -28,8 +28,35 @@ export function SocialComposer({ platform }: SocialComposerProps) {
   const [success, setSuccess] = useState(false);
   const [copy, setCopy] = useState("");
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [generatingImage, setGeneratingImage] = useState(false);
+  const [imageError, setImageError] = useState<string | null>(null);
   const [error, setError] = useState("");
   const [phase, setPhase] = useState<"input" | "preview">("input");
+
+  const isInstagram = platform === "instagram";
+
+  async function generateImage(copyText: string) {
+    setGeneratingImage(true);
+    setImageError(null);
+    try {
+      const res = await fetch("/api/admin/social/generate-image", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ copy: copyText, platform: "instagram" }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        setImageError(err.error || "Failed to generate image");
+        return;
+      }
+      const data = await res.json();
+      setImageUrl(data.imageUrl);
+    } catch {
+      setImageError("Failed to generate image");
+    } finally {
+      setGeneratingImage(false);
+    }
+  }
 
   async function handleGenerate() {
     if (!prompt.trim()) return;
@@ -52,8 +79,12 @@ export function SocialComposer({ platform }: SocialComposerProps) {
       }
       const data = await res.json();
       setCopy(data.copy);
-      if (data.imageUrl) setImageUrl(data.imageUrl);
       setPhase("preview");
+
+      // Auto-trigger fal.ai image generation for Instagram
+      if (isInstagram) {
+        generateImage(data.copy);
+      }
     } catch {
       setError("Failed to generate copy");
     } finally {
@@ -68,14 +99,18 @@ export function SocialComposer({ platform }: SocialComposerProps) {
       const res = await fetch("/api/admin/social/post", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ blogSlug: null, platform, copy }),
+        body: JSON.stringify({
+          blogSlug: null,
+          platform,
+          copy,
+          ...(imageUrl ? { imageUrl } : {}),
+        }),
       });
       if (!res.ok) {
         const err = await res.json();
-        setError(err.error || "Failed to post via Buffer");
+        setError(err.error || "Failed to schedule");
         return;
       }
-      // Success — show confirmation for 2 seconds, then reset
       setPosting(false);
       setSuccess(true);
       setTimeout(() => {
@@ -84,7 +119,7 @@ export function SocialComposer({ platform }: SocialComposerProps) {
       }, 2000);
       return;
     } catch {
-      setError("Failed to post via Buffer");
+      setError("Failed to schedule");
     } finally {
       setPosting(false);
     }
@@ -94,6 +129,7 @@ export function SocialComposer({ platform }: SocialComposerProps) {
     setPhase("input");
     setCopy("");
     setImageUrl(null);
+    setImageError(null);
     setError("");
   }
 
@@ -103,6 +139,7 @@ export function SocialComposer({ platform }: SocialComposerProps) {
     setPillar(null);
     setCopy("");
     setImageUrl(null);
+    setImageError(null);
     setError("");
     setPhase("input");
   }
@@ -176,7 +213,7 @@ export function SocialComposer({ platform }: SocialComposerProps) {
       {phase === "preview" && (
         <div className="space-y-4">
           {/* Instagram image preview */}
-          {platform === "instagram" && imageUrl && (
+          {isInstagram && imageUrl && (
             <div className="overflow-hidden rounded-md border">
               <Image
                 src={imageUrl}
@@ -187,6 +224,44 @@ export function SocialComposer({ platform }: SocialComposerProps) {
                 unoptimized
               />
             </div>
+          )}
+
+          {/* Instagram image loading state */}
+          {isInstagram && generatingImage && (
+            <div className="flex items-center gap-2 rounded-md border border-dashed p-4 text-sm text-muted-foreground">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              Generating image…
+            </div>
+          )}
+
+          {/* Instagram image error */}
+          {isInstagram && imageError && (
+            <div className="flex items-center justify-between rounded-md border border-destructive/30 bg-destructive/5 p-3">
+              <p className="text-xs text-destructive">{imageError}</p>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => generateImage(copy)}
+                disabled={generatingImage}
+                className="h-7 gap-1.5 text-xs"
+              >
+                <RefreshCw className="h-3 w-3" />
+                Retry
+              </Button>
+            </div>
+          )}
+
+          {/* Instagram regenerate image button */}
+          {isInstagram && imageUrl && !generatingImage && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => generateImage(copy)}
+              className="gap-1.5"
+            >
+              <ImageIcon className="h-3.5 w-3.5" />
+              Regenerate Image
+            </Button>
           )}
 
           {/* Editable copy */}
@@ -215,13 +290,14 @@ export function SocialComposer({ platform }: SocialComposerProps) {
           <div className="flex flex-wrap gap-2">
             <Button
               onClick={handlePost}
-              disabled={posting || success || !copy.trim()}
+              disabled={posting || success || !copy.trim() || (isInstagram && !imageUrl) || generatingImage}
               size="sm"
               className={success ? "bg-green-600 hover:bg-green-600" : ""}
+              title={isInstagram && !imageUrl ? "Image required for Instagram" : undefined}
             >
               {posting && <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />}
               {success && <Check className="mr-2 h-3.5 w-3.5" />}
-              {posting ? "Posting..." : success ? "Posted to Buffer!" : "Post via Buffer"}
+              {posting ? "Scheduling..." : success ? "Scheduled!" : "Schedule"}
             </Button>
 
             <Button

@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { NextRequest, NextResponse } from "next/server";
 import { getPostBySlugUnfiltered } from "@/lib/blog";
 
@@ -27,6 +28,35 @@ async function bufferGraphQL(token: string, query: string, variables?: object) {
   return res.json();
 }
 
+async function uploadImageToSupabase(imageUrl: string, filename: string): Promise<string> {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!supabaseUrl || !serviceRoleKey) {
+    throw new Error("Supabase Storage not configured");
+  }
+
+  const adminClient = createSupabaseClient(supabaseUrl, serviceRoleKey);
+
+  // Fetch the image
+  const imgRes = await fetch(imageUrl);
+  if (!imgRes.ok) throw new Error("Failed to fetch image for upload");
+  const buffer = Buffer.from(await imgRes.arrayBuffer());
+  const contentType = imgRes.headers.get("content-type") || "image/png";
+
+  // Upload to og-images bucket
+  const { error } = await adminClient.storage
+    .from("og-images")
+    .upload(filename, buffer, { contentType, upsert: true });
+
+  if (error) throw new Error(`Storage upload failed: ${error.message}`);
+
+  const { data: publicUrlData } = adminClient.storage
+    .from("og-images")
+    .getPublicUrl(filename);
+
+  return publicUrlData.publicUrl;
+}
+
 export async function POST(req: NextRequest) {
   try {
     const supabase = createClient();
@@ -48,7 +78,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    const { blogSlug, platform, copy: rawCopy } = await req.json();
+    const { blogSlug, platform, copy: rawCopy, imageUrl: providedImageUrl } = await req.json();
 
     // Hard enforce X 280 char limit
     const copy: string = platform === "x" && rawCopy?.length > 280
@@ -77,23 +107,34 @@ export async function POST(req: NextRequest) {
     let metadataInput = "";
 
     if (platform === "instagram") {
-      const baseUrl = process.env.NEXT_PUBLIC_URL || "https://foacourse.com";
-      let imageTitle = "";
+      let finalImageUrl = "";
 
-      if (blogSlug) {
-        const post = getPostBySlugUnfiltered(blogSlug);
-        if (post) {
-          imageTitle = post.title;
+      if (providedImageUrl) {
+        // fal.ai CDN URL or other external URL — use directly
+        finalImageUrl = providedImageUrl;
+      } else {
+        // Blog-to-social: render OG image, upload to Supabase Storage for a stable URL
+        const baseUrl = process.env.NEXT_PUBLIC_URL || "https://foacourse.com";
+        let imageTitle = "";
+
+        if (blogSlug) {
+          const post = getPostBySlugUnfiltered(blogSlug);
+          if (post) {
+            imageTitle = post.title;
+          }
         }
+
+        if (!imageTitle) {
+          imageTitle = copy.replace(/[#@\n]/g, " ").trim().split(/\s+/).slice(0, 8).join(" ");
+        }
+
+        const ogUrl = `${baseUrl}/api/og/instagram?title=${encodeURIComponent(imageTitle)}`;
+        const slug = blogSlug || `composer-${Date.now()}`;
+        const filename = `${slug}-${Date.now()}.png`;
+        finalImageUrl = await uploadImageToSupabase(ogUrl, filename);
       }
 
-      // Fallback for composer posts (no blogSlug): extract title from copy
-      if (!imageTitle) {
-        imageTitle = copy.replace(/[#@\n]/g, " ").trim().split(/\s+/).slice(0, 8).join(" ");
-      }
-
-      const imageUrl = `${baseUrl}/api/og/instagram?title=${encodeURIComponent(imageTitle)}`;
-      assetsInput = `assets: { images: [{ url: "${imageUrl}" }] }`;
+      assetsInput = `assets: { images: [{ url: "${finalImageUrl}" }] }`;
       metadataInput = `metadata: { instagram: { type: post, shouldShareToFeed: true } }`;
     }
 

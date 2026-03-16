@@ -65,11 +65,6 @@ const platformInstructions: Record<Platform, string> = {
 - Output ONLY the caption text, nothing else`,
 };
 
-function extractImageTitle(text: string): string {
-  const words = text.replace(/[#@\n]/g, " ").trim().split(/\s+/);
-  return words.slice(0, 7).join(" ");
-}
-
 export async function POST(req: NextRequest) {
   try {
     const supabase = createClient();
@@ -91,7 +86,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    const { platform, prompt, pillar, imagePrompt } = await req.json();
+    const { platform, prompt, pillar } = await req.json();
 
     if (!platform || !VALID_PLATFORMS.includes(platform) || !prompt) {
       return NextResponse.json(
@@ -131,15 +126,7 @@ ${platformInstructions[platform as Platform]}`;
 
     const copy = result.text;
 
-    // Build response
-    const response: { copy: string; imageUrl?: string } = { copy };
-
-    if (platform === "instagram") {
-      const imageTitle = imagePrompt || extractImageTitle(copy);
-      response.imageUrl = `/api/og/instagram?title=${encodeURIComponent(imageTitle)}`;
-    }
-
-    return NextResponse.json(response);
+    return NextResponse.json({ copy });
   } catch (error) {
     console.error("Compose error:", error);
     return NextResponse.json(

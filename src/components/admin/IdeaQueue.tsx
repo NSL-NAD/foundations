@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import { Lightbulb, Sparkles, Check, X, ChevronDown, ChevronUp, Loader2, Send, Linkedin, Instagram, Pencil } from "lucide-react";
+import Image from "next/image";
+import { Lightbulb, Sparkles, Check, X, ChevronDown, ChevronUp, Loader2, Send, Linkedin, Instagram, Pencil, RefreshCw, ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -55,9 +56,6 @@ export function IdeaQueue({
   onIdeaUpdate?: (id: string, status: SocialIdea["status"]) => void;
   onIdeasGenerated?: (newIdeas: SocialIdea[]) => void;
 }) {
-  // Local state is source of truth for optimistic updates.
-  // Do NOT sync back from initialIdeas after mount — that causes posted ideas to reappear.
-  // Tab switches force a remount via key={activeTab} in the parent, which reinitialises state.
   const [ideas, setIdeas] = useState(initialIdeas);
   const [generating, setGenerating] = useState(false);
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -69,6 +67,11 @@ export function IdeaQueue({
   const [editBody, setEditBody] = useState("");
   const [savingEdit, setSavingEdit] = useState(false);
   const editTextareaRef = useRef<HTMLTextAreaElement>(null);
+
+  // Instagram image generation state (per-idea)
+  const [generatingImageId, setGeneratingImageId] = useState<string | null>(null);
+  const [ideaImages, setIdeaImages] = useState<Record<string, string>>({});
+  const [imageError, setImageError] = useState<string | null>(null);
 
   const pendingIdeas = ideas.filter((i: SocialIdea) => i.status === "pending");
   const approvedIdeas = ideas.filter((i: SocialIdea) => i.status === "approved");
@@ -87,9 +90,7 @@ export function IdeaQueue({
       }
       const data = await res.json();
       const newIdeas: SocialIdea[] = data.ideas || [];
-      // Add new ideas to local state
       setIdeas((prev) => [...newIdeas, ...prev]);
-      // Also bubble up to parent so they survive tab switches
       onIdeasGenerated?.(newIdeas);
     } catch (error) {
       console.error("Generate ideas error:", error);
@@ -101,7 +102,6 @@ export function IdeaQueue({
 
   async function handleUpdateStatus(id: string, status: "approved" | "dismissed") {
     setUpdatingId(id);
-    // Optimistic update — local + parent
     setIdeas((prev: SocialIdea[]) =>
       prev.map((idea: SocialIdea) => (idea.id === id ? { ...idea, status } : idea))
     );
@@ -114,7 +114,6 @@ export function IdeaQueue({
       });
       if (!res.ok) throw new Error("Failed to update");
     } catch (error) {
-      // Revert on failure
       console.error("Update idea error:", error);
       setIdeas((prev: SocialIdea[]) =>
         prev.map((idea: SocialIdea) => (idea.id === id ? { ...idea, status: "pending" } : idea))
@@ -125,33 +124,68 @@ export function IdeaQueue({
     }
   }
 
+  async function handleGenerateImage(idea: SocialIdea) {
+    setGeneratingImageId(idea.id);
+    setImageError(null);
+    try {
+      const res = await fetch("/api/admin/social/generate-image", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ copy: idea.body, platform: "instagram" }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        setImageError(err.error || "Failed to generate image");
+        return;
+      }
+      const data = await res.json();
+      setIdeaImages((prev) => ({ ...prev, [idea.id]: data.imageUrl }));
+    } catch {
+      setImageError("Failed to generate image");
+    } finally {
+      setGeneratingImageId(null);
+    }
+  }
+
   async function handlePostIdea(idea: SocialIdea) {
+    const imageUrl = ideaImages[idea.id];
+
+    // For Instagram, require an image
+    if (platform === "instagram" && !imageUrl) {
+      // Trigger image generation first
+      await handleGenerateImage(idea);
+      return;
+    }
+
     setPostingId(idea.id);
     setPostError(null);
     try {
       const res = await fetch("/api/admin/social/post", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ blogSlug: null, platform, copy: idea.body }),
+        body: JSON.stringify({
+          blogSlug: null,
+          platform,
+          copy: idea.body,
+          ...(imageUrl ? { imageUrl } : {}),
+        }),
       });
       if (!res.ok) {
         const err = await res.json();
-        setPostError(err.error || "Failed to post via Buffer");
+        setPostError(err.error || "Failed to schedule");
         return;
       }
-      // Mark idea as posted in DB
       await fetch("/api/admin/social/ideas/update", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: idea.id, status: "posted" }),
       });
-      // Remove from local + parent state immediately
       setIdeas((prev) => prev.filter((i) => i.id !== idea.id));
       onIdeaUpdate?.(idea.id, "posted");
       setPostedId(idea.id);
       setTimeout(() => setPostedId(null), 2500);
     } catch {
-      setPostError("Failed to post via Buffer");
+      setPostError("Failed to schedule");
     } finally {
       setPostingId(null);
     }
@@ -160,9 +194,7 @@ export function IdeaQueue({
   function startEditing(idea: SocialIdea) {
     setEditingId(idea.id);
     setEditBody(idea.body);
-    // Auto-expand so the full text is visible
     setExpandedId(idea.id);
-    // Focus textarea after render
     setTimeout(() => editTextareaRef.current?.focus(), 0);
   }
 
@@ -174,11 +206,16 @@ export function IdeaQueue({
   async function saveEdit(id: string) {
     setSavingEdit(true);
     const trimmed = editBody.trim();
-    // Optimistic update
     setIdeas((prev) =>
       prev.map((idea) => (idea.id === id ? { ...idea, body: trimmed } : idea))
     );
     setEditingId(null);
+    // Clear any previously generated image since copy changed
+    setIdeaImages((prev) => {
+      const next = { ...prev };
+      delete next[id];
+      return next;
+    });
     try {
       const res = await fetch("/api/admin/social/ideas/update", {
         method: "PATCH",
@@ -188,7 +225,6 @@ export function IdeaQueue({
       if (!res.ok) throw new Error("Failed to save edit");
     } catch (error) {
       console.error("Save edit error:", error);
-      // Revert — find original from initialIdeas or just keep as-is
       const original = initialIdeas.find((i) => i.id === id);
       if (original) {
         setIdeas((prev) =>
@@ -201,6 +237,7 @@ export function IdeaQueue({
   }
 
   const charLimit = PLATFORM_CHAR_LIMITS[platform];
+  const isInstagram = platform === "instagram";
 
   return (
     <div>
@@ -263,12 +300,13 @@ export function IdeaQueue({
         </Card>
       ) : (
         <div className="space-y-3">
-          {/* Approved first, then pending */}
           {[...approvedIdeas, ...pendingIdeas].map((idea) => {
             const isExpanded = expandedId === idea.id;
             const isUpdating = updatingId === idea.id;
             const isApproved = idea.status === "approved";
             const isPosted = postedId === idea.id;
+            const hasImage = !!ideaImages[idea.id];
+            const isGeneratingImage = generatingImageId === idea.id;
 
             return (
               <Card
@@ -304,7 +342,7 @@ export function IdeaQueue({
                         {isPosted && (
                           <span className="inline-flex items-center gap-1 text-xs text-green-700 dark:text-green-400">
                             <Check className="h-3 w-3" />
-                            Posted to Buffer!
+                            Scheduled!
                           </span>
                         )}
                       </div>
@@ -383,34 +421,96 @@ export function IdeaQueue({
                           </>
                         )}
                       </div>
+
+                      {/* Instagram image preview */}
+                      {isApproved && isInstagram && hasImage && (
+                        <div className="mt-3 overflow-hidden rounded-md border max-w-[200px]">
+                          <Image
+                            src={ideaImages[idea.id]}
+                            alt="Generated Instagram image"
+                            width={1080}
+                            height={1350}
+                            className="w-full"
+                            unoptimized
+                          />
+                        </div>
+                      )}
+
+                      {/* Image generation loading state */}
+                      {isApproved && isInstagram && isGeneratingImage && (
+                        <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
+                          <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                          Generating image…
+                        </div>
+                      )}
+
+                      {/* Image error */}
+                      {isApproved && isInstagram && imageError && generatingImageId === null && !hasImage && (
+                        <p className="mt-2 text-xs text-destructive">{imageError}</p>
+                      )}
                     </div>
 
                     {isApproved ? (
-                      <div className="flex shrink-0 gap-1.5">
-                        <Button
-                          size="sm"
-                          onClick={() => handlePostIdea(idea)}
-                          disabled={postingId === idea.id || isPosted}
-                          className="h-8 gap-1.5"
-                        >
-                          {postingId === idea.id ? (
-                            <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                          ) : (
-                            <Send className="h-3.5 w-3.5" />
+                      <div className="flex shrink-0 flex-col gap-1.5">
+                        <div className="flex gap-1.5">
+                          {/* For Instagram: show Generate Image or Regenerate button */}
+                          {isInstagram && !hasImage && (
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleGenerateImage(idea)}
+                              disabled={isGeneratingImage || postingId === idea.id}
+                              className="h-8 gap-1.5"
+                            >
+                              {isGeneratingImage ? (
+                                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                              ) : (
+                                <ImageIcon className="h-3.5 w-3.5" />
+                              )}
+                              {isGeneratingImage ? "Generating…" : "Generate Image"}
+                            </Button>
                           )}
-                          {postingId === idea.id ? "Posting..." : "Post via Buffer"}
-                        </Button>
-                        {/* Dismiss option for approved ideas */}
-                        <Button
-                          size="sm"
-                          variant="ghost"
-                          className="h-8 text-muted-foreground"
-                          onClick={() => handleUpdateStatus(idea.id, "dismissed")}
-                          disabled={isUpdating}
-                          title="Dismiss idea"
-                        >
-                          <X className="h-3.5 w-3.5" />
-                        </Button>
+                          {isInstagram && hasImage && (
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleGenerateImage(idea)}
+                              disabled={isGeneratingImage || postingId === idea.id}
+                              className="h-8 gap-1.5"
+                            >
+                              {isGeneratingImage ? (
+                                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                              ) : (
+                                <RefreshCw className="h-3.5 w-3.5" />
+                              )}
+                              Regenerate
+                            </Button>
+                          )}
+                          <Button
+                            size="sm"
+                            onClick={() => handlePostIdea(idea)}
+                            disabled={postingId === idea.id || isPosted || isGeneratingImage || (isInstagram && !hasImage)}
+                            className="h-8 gap-1.5"
+                            title={isInstagram && !hasImage ? "Generate an image first" : undefined}
+                          >
+                            {postingId === idea.id ? (
+                              <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                            ) : (
+                              <Send className="h-3.5 w-3.5" />
+                            )}
+                            {postingId === idea.id ? "Scheduling..." : "Schedule"}
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            className="h-8 text-muted-foreground"
+                            onClick={() => handleUpdateStatus(idea.id, "dismissed")}
+                            disabled={isUpdating}
+                            title="Dismiss idea"
+                          >
+                            <X className="h-3.5 w-3.5" />
+                          </Button>
+                        </div>
                       </div>
                     ) : (
                       <div className="flex shrink-0 gap-1.5">
