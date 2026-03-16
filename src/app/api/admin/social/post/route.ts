@@ -134,16 +134,20 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: result?.message || "Buffer did not return a post" }, { status: 502 });
     }
 
-    // Mark as shared in Supabase (skip for composer posts with no blog)
+    // Mark as shared in Supabase — always write for weekly count tracking
     if (blogSlug) {
       await supabase.from("social_shares").upsert(
-        {
-          blog_slug: blogSlug,
-          platform,
-          shared_at: new Date().toISOString(),
-        },
+        { blog_slug: blogSlug, platform, shared_at: new Date().toISOString() },
         { onConflict: "blog_slug,platform" }
       );
+    } else {
+      // Composer post (no blog slug) — insert as standalone row for count tracking
+      await supabase.from("social_shares").insert({
+        blog_slug: `composer-${Date.now()}`,
+        platform,
+        generated_copy: copy,
+        shared_at: new Date().toISOString(),
+      });
     }
 
     return NextResponse.json({

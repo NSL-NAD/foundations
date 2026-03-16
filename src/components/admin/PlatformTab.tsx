@@ -84,14 +84,7 @@ export function PlatformTab({
                       </p>
                     )}
                   </div>
-                  <a
-                    href={platformInfo.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-0.5 shrink-0 text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    <ExternalLink className="h-4 w-4" />
-                  </a>
+
                 </CardContent>
               </Card>
             ))}

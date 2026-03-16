@@ -28,7 +28,7 @@ const adminNav = [
   { href: "/admin/trial-users", label: "Trial Users", icon: UserCheck },
   { href: "/admin/orders", label: "Kit Orders", icon: Package },
   { href: "/admin/reviews", label: "Reviews", icon: Star },
-  { href: "/admin/social", label: "Blogs", icon: Share2 },
+  { href: "/admin/social", label: "Social Hub", icon: Share2 },
   { href: "/admin/content", label: "Content", icon: FileText },
 ];
 
