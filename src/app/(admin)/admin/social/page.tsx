@@ -15,6 +15,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Social Hub | Admin",
 };

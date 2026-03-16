@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Lightbulb, Sparkles, Check, X, ChevronDown, ChevronUp, Loader2, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -35,6 +35,11 @@ export function IdeaQueue({
 }) {
   const router = useRouter();
   const [ideas, setIdeas] = useState(initialIdeas);
+
+  // Sync with server when initialIdeas updates (after router.refresh())
+  useEffect(() => {
+    setIdeas(initialIdeas);
+  }, [initialIdeas]);
   const [generating, setGenerating] = useState(false);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
@@ -57,8 +62,7 @@ export function IdeaQueue({
         const err = await res.json();
         throw new Error(err.error || "Failed to generate ideas");
       }
-      // Reload the page to get fresh data from the server
-      window.location.reload();
+      router.refresh();
     } catch (error) {
       console.error("Generate ideas error:", error);
       alert(error instanceof Error ? error.message : "Failed to generate ideas");
@@ -107,6 +111,10 @@ export function IdeaQueue({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: idea.id, status: "posted" }),
       });
+      // Update local state immediately so idea disappears from list
+      setIdeas((prev) =>
+        prev.map((i) => (i.id === idea.id ? { ...i, status: "posted" as const } : i))
+      );
       setPostedId(idea.id);
       setTimeout(() => {
         setPostedId(null);
