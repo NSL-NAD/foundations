@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import {
   Search,
   Key,
@@ -14,6 +16,8 @@ import {
   ChevronDown,
   ChevronUp,
   Sparkles,
+  Copy,
+  Check,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -94,6 +98,31 @@ function StatusBadge({ status }: { status: StrategySection["status"] }) {
   );
 }
 
+function CopyButton({ text }: { text: string }) {
+  const [copied, setCopied] = useState(false);
+
+  async function handleCopy() {
+    await navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={handleCopy}
+      className="absolute right-3 top-3 rounded-md border border-border/50 bg-background/80 p-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+      title="Copy section markdown"
+    >
+      {copied ? (
+        <Check className="h-3.5 w-3.5 text-green-500" />
+      ) : (
+        <Copy className="h-3.5 w-3.5" />
+      )}
+    </button>
+  );
+}
+
 export function StrategyTab({ sections }: { sections: StrategySection[] }) {
   const [expandedKeys, setExpandedKeys] = useState<Set<string>>(new Set());
 
@@ -105,6 +134,15 @@ export function StrategyTab({ sections }: { sections: StrategySection[] }) {
       return next;
     });
   }
+
+  function toggleAll() {
+    setExpandedKeys((prev) => {
+      if (prev.size === sections.length) return new Set();
+      return new Set(sections.map((s) => s.section_key));
+    });
+  }
+
+  const allExpanded = expandedKeys.size === sections.length;
 
   const latestResearch = sections
     .filter((s) => s.researched_at)
@@ -128,10 +166,20 @@ export function StrategyTab({ sections }: { sections: StrategySection[] }) {
               : "Research pending"}
           </p>
         </div>
-        <Button variant="outline" size="sm" disabled className="gap-1.5">
-          <Sparkles className="h-3.5 w-3.5" />
-          Run Research
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={toggleAll}
+            className="text-xs text-muted-foreground"
+          >
+            {allExpanded ? "Collapse All" : "Expand All"}
+          </Button>
+          <Button variant="outline" size="sm" disabled className="gap-1.5">
+            <Sparkles className="h-3.5 w-3.5" />
+            Run Research
+          </Button>
+        </div>
       </div>
 
       {/* Section Cards */}
@@ -140,11 +188,18 @@ export function StrategyTab({ sections }: { sections: StrategySection[] }) {
           const isExpanded = expandedKeys.has(section.section_key);
           const Icon = sectionIcons[section.section_key];
           const placeholder = sectionPlaceholders[section.section_key];
+          const isComplete = section.status === "complete";
+          const markdown =
+            isComplete && section.content?.markdown
+              ? String(section.content.markdown)
+              : null;
 
           return (
             <Card
               key={section.section_key}
-              className="overflow-hidden border-border/50 transition-colors hover:border-border"
+              className={`overflow-hidden border-border/50 transition-colors hover:border-border ${
+                isComplete ? "border-l-2 border-l-[#C4704F]" : ""
+              }`}
             >
               <button
                 type="button"
@@ -161,7 +216,7 @@ export function StrategyTab({ sections }: { sections: StrategySection[] }) {
                   <Icon className="h-4 w-4 shrink-0 text-muted-foreground" />
                 )}
 
-                {/* Title + status */}
+                {/* Title + status + summary */}
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2.5">
                     <span className="font-semibold text-sm">
@@ -170,7 +225,7 @@ export function StrategyTab({ sections }: { sections: StrategySection[] }) {
                     <StatusBadge status={section.status} />
                   </div>
                   {!isExpanded && (
-                    <p className="mt-0.5 truncate text-xs text-muted-foreground">
+                    <p className="mt-0.5 line-clamp-2 text-xs text-muted-foreground">
                       {section.summary || placeholder || ""}
                     </p>
                   )}
@@ -187,12 +242,14 @@ export function StrategyTab({ sections }: { sections: StrategySection[] }) {
               {/* Expanded content */}
               {isExpanded && (
                 <CardContent className="border-t px-5 pb-5 pt-4">
-                  {section.status === "complete" &&
-                  Object.keys(section.content).length > 0 ? (
-                    <div className="prose prose-sm dark:prose-invert max-w-none">
-                      <pre className="whitespace-pre-wrap rounded-lg bg-muted/50 p-4 text-xs">
-                        {JSON.stringify(section.content, null, 2)}
-                      </pre>
+                  {isComplete && markdown ? (
+                    <div className="relative">
+                      <CopyButton text={markdown} />
+                      <div className="prose prose-sm dark:prose-invert max-w-none">
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                          {markdown}
+                        </ReactMarkdown>
+                      </div>
                     </div>
                   ) : (
                     <div>
