@@ -39,6 +39,7 @@ interface ShareActionsProps {
   platform: "linkedin" | "x" | "instagram";
   existingCopy: string | null;
   sharedAt: string | null;
+  onShared?: (blogSlug: string, platform: string, sharedAt: string) => void;
 }
 
 const platformConfig = {
@@ -70,6 +71,7 @@ export function ShareActions({
   platform,
   existingCopy,
   sharedAt,
+  onShared,
 }: ShareActionsProps) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -169,6 +171,7 @@ export function ShareActions({
         body: JSON.stringify({ blogSlug, platform, copy }),
       });
       if (res.ok) {
+        onShared?.(blogSlug, platform, new Date().toISOString());
         setOpen(false);
         router.refresh();
       } else {

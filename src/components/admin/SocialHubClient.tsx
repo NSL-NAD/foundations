@@ -68,7 +68,7 @@ export function SocialHubClient({
   // Lift ideas into parent state so tab switches don't reset posted/dismissed ideas
   const [ideas, setIdeas] = useState<SerializedIdea[]>(allIdeas);
   // Track shares in state so in-session posts update the count
-  const [shares] = useState<SerializedShare[]>(allShares);
+  const [shares, setShares] = useState<SerializedShare[]>(allShares);
 
   function handleIdeaUpdate(id: string, status: SerializedIdea["status"]) {
     setIdeas((prev) =>
@@ -80,6 +80,28 @@ export function SocialHubClient({
 
   function handleIdeasGenerated(newIdeas: SerializedIdea[]) {
     setIdeas((prev) => [...newIdeas, ...prev]);
+  }
+
+  function handleShared(blogSlug: string, platform: string, sharedAt: string) {
+    setShares((prev) => {
+      const idx = prev.findIndex(
+        (s) => s.blog_slug === blogSlug && s.platform === platform
+      );
+      if (idx >= 0) {
+        const updated = [...prev];
+        updated[idx] = { ...updated[idx], shared_at: sharedAt };
+        return updated;
+      }
+      return [
+        ...prev,
+        {
+          blog_slug: blogSlug,
+          platform: platform as SerializedShare["platform"],
+          generated_copy: null,
+          shared_at: sharedAt,
+        },
+      ];
+    });
   }
 
   function handleTabChange(tab: Tab) {
@@ -172,7 +194,7 @@ export function SocialHubClient({
 
       {/* Blogs tab */}
       {activeTab === "blogs" && (
-        <BlogsTabContent posts={posts} shareMap={shareMap} />
+        <BlogsTabContent posts={posts} shareMap={shareMap} onShared={handleShared} />
       )}
 
       {/* Platform tabs */}
@@ -197,9 +219,11 @@ export function SocialHubClient({
 function BlogsTabContent({
   posts,
   shareMap,
+  onShared,
 }: {
   posts: SerializedPost[];
   shareMap: Map<string, Record<string, SerializedShare>>;
+  onShared: (blogSlug: string, platform: string, sharedAt: string) => void;
 }) {
   const pendingCount = posts.reduce((count, post) => {
     const postShares = shareMap.get(post.slug) || {};
@@ -267,6 +291,7 @@ function BlogsTabContent({
                             platform={platform}
                             existingCopy={share?.generated_copy || null}
                             sharedAt={share?.shared_at || null}
+                            onShared={onShared}
                           />
                         </div>
                       </TableCell>
