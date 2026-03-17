@@ -35,6 +35,13 @@ export default async function AdminSocialPage({
     .in("status", ["pending", "approved"])
     .order("generated_at", { ascending: false });
 
+  // Fetch pending + approved blog ideas
+  const { data: blogIdeasData } = await supabase
+    .from("blog_ideas")
+    .select("*")
+    .in("status", ["pending", "approved"])
+    .order("generated_at", { ascending: false });
+
   // Serialize blog posts (strip non-plain fields)
   const rawPosts = getPublishedPosts();
   const posts = rawPosts.map((p) => ({
@@ -57,6 +64,7 @@ export default async function AdminSocialPage({
         initialTab={initialTab}
         allIdeas={(ideasData || []) as Parameters<typeof SocialHubClient>[0]["allIdeas"]}
         allShares={(sharesData || []) as Parameters<typeof SocialHubClient>[0]["allShares"]}
+        allBlogIdeas={(blogIdeasData || []) as Parameters<typeof SocialHubClient>[0]["allBlogIdeas"]}
         posts={posts}
       />
     </div>

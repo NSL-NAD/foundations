@@ -224,3 +224,89 @@ export async function generateIdeas(opts: {
 
   return { ideas: inserted ?? [], count: inserted?.length ?? 0 };
 }
+
+/**
+ * Generate blog topic ideas using Perplexity research + Claude.
+ * Saves to `blog_ideas` table (separate from social_ideas).
+ */
+export async function generateBlogIdeas(opts: {
+  count?: number;
+  source?: string;
+}): Promise<{ ideas: Record<string, unknown>[]; count: number }> {
+  const { count = 5, source = "weekly-cron" } = opts;
+
+  // Step 1: Research with Perplexity Sonar
+  const research = await researchWithSonar();
+
+  // Step 2: Generate blog ideas with Claude
+  const apiKey = getAnthropicApiKey();
+  if (!apiKey) {
+    throw new Error("AI service not configured");
+  }
+
+  const anthropic = createAnthropic({
+    apiKey,
+    baseURL: "https://api.anthropic.com/v1",
+  });
+
+  const result = await generateText({
+    model: anthropic("claude-sonnet-4-20250514"),
+    system: IDEA_SYSTEM_PROMPT,
+    messages: [
+      {
+        role: "user",
+        content: `Here is current research on trending topics in home design and architecture:
+
+${research}
+
+${PLATFORM_INSTRUCTIONS["blog"]}
+
+Based on this research, generate exactly ${count} blog topic ideas. Each idea should be grounded in current trends and written for FOA's audience of aspiring homeowners.
+
+Return a JSON array with exactly ${count} objects, each having:
+- "hook": a compelling blog post title (SEO-friendly, specific)
+- "outline": 2-3 sentence description of what the post should cover + 3-5 target keywords
+- "pillar": which content pillar this supports (one of "Educate", "Inspire", "Empower", "Hook")
+
+Return ONLY the JSON array, nothing else.`,
+      },
+    ],
+    maxOutputTokens: 4096,
+  });
+
+  const text = result.text.trim();
+  const jsonMatch = text.match(/\[[\s\S]*\]/);
+  if (!jsonMatch) {
+    throw new Error("Failed to parse blog ideas JSON");
+  }
+
+  const parsed = JSON.parse(jsonMatch[0]) as Array<{
+    hook: string;
+    outline: string;
+    pillar: string;
+  }>;
+
+  // Step 3: Insert into blog_ideas table
+  const supabase = createAdminClient();
+
+  const rows = parsed.map((idea) => ({
+    hook: idea.hook,
+    outline: idea.outline,
+    pillar: idea.pillar,
+    source,
+    status: "pending" as const,
+    generated_at: new Date().toISOString(),
+  }));
+
+  const { data: inserted, error: insertError } = await supabase
+    .from("blog_ideas")
+    .insert(rows)
+    .select();
+
+  if (insertError) {
+    console.error("Failed to insert blog ideas:", insertError);
+    throw new Error("Failed to save blog ideas");
+  }
+
+  return { ideas: inserted ?? [], count: inserted?.length ?? 0 };
+}

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Octokit } from "@octokit/rest";
-import { generateIdeas } from "@/lib/social/generate-ideas";
+import { generateIdeas, generateBlogIdeas } from "@/lib/social/generate-ideas";
 
 export const maxDuration = 300;
 
@@ -126,15 +126,22 @@ export async function GET(req: NextRequest) {
     const pastDuePRs = await checkBlogPRs();
 
     // Part B: Generate 5 ideas per platform (LI, X, IG)
-    const result = await generateIdeas({
+    const socialResult = await generateIdeas({
       platforms: ["linkedin", "x", "instagram"],
       ideasPerPlatform: 5,
       source: "weekly-cron",
     });
 
+    // Part C: Generate 5 blog topic ideas
+    const blogResult = await generateBlogIdeas({
+      count: 5,
+      source: "weekly-cron",
+    });
+
     return NextResponse.json({
       success: true,
-      ideasGenerated: result.count,
+      socialIdeasGenerated: socialResult.count,
+      blogIdeasGenerated: blogResult.count,
       pastDuePRs,
     });
   } catch (error) {
