@@ -8,9 +8,10 @@ import { SocialComposer } from "@/components/admin/SocialComposer";
 import { ShareActions } from "@/components/admin/ShareActions";
 import { CategoryBadge } from "@/components/blog/CategoryBadge";
 import { format, startOfWeek } from "date-fns";
-import { Check, X, Pencil, Loader2 } from "lucide-react";
+import { Check, X, Pencil, Loader2, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { StrategyTab, type StrategySection } from "@/components/admin/StrategyTab";
 import {
   Table,
   TableBody,
@@ -57,6 +58,7 @@ export interface SerializedBlogIdea {
 }
 
 const tabs = [
+  { key: "strategy", label: "Strategy", icon: Sparkles },
   { key: "blogs", label: "Blogs" },
   { key: "linkedin", label: "LinkedIn" },
   { key: "x", label: "X" },
@@ -70,12 +72,14 @@ export function SocialHubClient({
   allIdeas,
   allShares,
   allBlogIdeas,
+  allStrategySections,
   posts,
 }: {
   initialTab: Tab;
   allIdeas: SerializedIdea[];
   allShares: SerializedShare[];
   allBlogIdeas: SerializedBlogIdea[];
+  allStrategySections: StrategySection[];
   posts: SerializedPost[];
 }) {
   const router = useRouter();
@@ -184,38 +188,49 @@ export function SocialHubClient({
 
   return (
     <div>
-      {/* Week count */}
-      <p className="mt-1 mb-8 text-sm text-muted-foreground">
-        {activeTab === "blogs"
-          ? thisWeekCount > 0
-            ? `${thisWeekCount} post${thisWeekCount !== 1 ? "s" : ""} shared this week`
-            : "No posts shared this week"
-          : totalPlatformCount > 0
-            ? `${totalPlatformCount} post${totalPlatformCount !== 1 ? "s" : ""} shared` +
-              (thisWeekCount > 0 ? ` · ${thisWeekCount} this week` : "")
-            : "No posts shared yet"}
-      </p>
+      {/* Week count — hide on strategy tab */}
+      {activeTab !== "strategy" && (
+        <p className="mt-1 mb-8 text-sm text-muted-foreground">
+          {activeTab === "blogs"
+            ? thisWeekCount > 0
+              ? `${thisWeekCount} post${thisWeekCount !== 1 ? "s" : ""} shared this week`
+              : "No posts shared this week"
+            : totalPlatformCount > 0
+              ? `${totalPlatformCount} post${totalPlatformCount !== 1 ? "s" : ""} shared` +
+                (thisWeekCount > 0 ? ` · ${thisWeekCount} this week` : "")
+              : "No posts shared yet"}
+        </p>
+      )}
 
       {/* Tab nav */}
       <div className="mb-6">
       <div className="inline-flex h-9 items-center justify-center rounded-lg bg-muted p-1 text-muted-foreground">
-        {tabs.map((tab) => (
-          <button
-            key={tab.key}
-            type="button"
-            onClick={() => handleTabChange(tab.key)}
-            className={cn(
-              "inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium transition-all",
-              activeTab === tab.key
-                ? "bg-background text-foreground shadow-sm"
-                : "hover:text-foreground/80"
-            )}
-          >
-            {tab.label}
-          </button>
-        ))}
+        {tabs.map((tab) => {
+          const TabIcon = "icon" in tab ? tab.icon : null;
+          return (
+            <button
+              key={tab.key}
+              type="button"
+              onClick={() => handleTabChange(tab.key)}
+              className={cn(
+                "inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium transition-all gap-1.5",
+                activeTab === tab.key
+                  ? "bg-background text-foreground shadow-sm"
+                  : "hover:text-foreground/80"
+              )}
+            >
+              {TabIcon && <TabIcon className="h-3.5 w-3.5" />}
+              {tab.label}
+            </button>
+          );
+        })}
       </div>
       </div>
+
+      {/* Strategy tab */}
+      {activeTab === "strategy" && (
+        <StrategyTab sections={allStrategySections} />
+      )}
 
       {/* Blogs tab */}
       {activeTab === "blogs" && (
