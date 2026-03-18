@@ -83,7 +83,7 @@ function readAllPosts(): BlogPost[] {
         metaDescription: data.seo?.metaDescription || data.description || "",
         ogImage: data.seo?.ogImage || data.coverImage || "",
         canonicalUrl:
-          data.seo?.canonicalUrl || `https://foacourse.com/blog/${slug}`,
+          data.seo?.canonicalUrl || `https://www.foacourse.com/blog/${slug}`,
         noIndex: data.seo?.noIndex || false,
       },
       keywords: {
@@ -146,7 +146,7 @@ export function getPostBySlug(slug: string): BlogPost | null {
       metaDescription: data.seo?.metaDescription || data.description || "",
       ogImage: data.seo?.ogImage || data.coverImage || "",
       canonicalUrl:
-        data.seo?.canonicalUrl || `https://foacourse.com/blog/${slug}`,
+        data.seo?.canonicalUrl || `https://www.foacourse.com/blog/${slug}`,
       noIndex: data.seo?.noIndex || false,
     },
     keywords: {
