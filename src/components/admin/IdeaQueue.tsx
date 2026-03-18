@@ -429,25 +429,25 @@ export function IdeaQueue({
                             <button
                               type="button"
                               onClick={() => setExpandedImage(ideaImages[idea.id])}
-                              className="overflow-hidden rounded-md border cursor-pointer hover:opacity-90 transition-opacity"
+                              className="overflow-hidden rounded-md border cursor-pointer hover:opacity-90 transition-opacity w-1/2"
                             >
                               <Image
                                 src={ideaImages[idea.id]}
                                 alt="Generated Instagram image"
-                                width={1080}
-                                height={1350}
+                                width={540}
+                                height={675}
                                 className="w-full"
                                 style={{ aspectRatio: "1080/1350" }}
                                 unoptimized
                               />
                             </button>
                           ) : isGeneratingImage ? (
-                            <div className="flex w-full flex-col items-center justify-center rounded-md border border-dashed border-muted-foreground/30 bg-muted/30 p-6" style={{ aspectRatio: "1080/1350" }}>
+                            <div className="flex w-1/2 flex-col items-center justify-center rounded-md border border-dashed border-muted-foreground/30 bg-muted/30 p-6" style={{ aspectRatio: "1080/1350" }}>
                               <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
                               <span className="mt-2 text-xs text-muted-foreground">Generating image…</span>
                             </div>
                           ) : (
-                            <div className="flex w-full flex-col items-center justify-center rounded-md border border-dashed border-muted-foreground/25 bg-muted/20 p-6" style={{ aspectRatio: "1080/1350" }}>
+                            <div className="flex w-1/2 flex-col items-center justify-center rounded-md border border-dashed border-muted-foreground/25 bg-muted/20 p-6" style={{ aspectRatio: "1080/1350" }}>
                               <ImageIcon className="h-6 w-6 text-muted-foreground/40" />
                               <span className="mt-2 text-[10px] text-muted-foreground/50">No image yet</span>
                             </div>
