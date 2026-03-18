@@ -16,6 +16,7 @@ import {
   PinOff,
   LogOut,
   FileText,
+  Target,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/shared/ThemeToggle";
@@ -29,6 +30,7 @@ const adminNav = [
   { href: "/admin/orders", label: "Kit Orders", icon: Package },
   { href: "/admin/reviews", label: "Reviews", icon: Star },
   { href: "/admin/social", label: "Social Hub", icon: Share2 },
+  { href: "/admin/strategy", label: "Strategy", icon: Target },
   { href: "/admin/content", label: "Content", icon: FileText },
 ];
 
