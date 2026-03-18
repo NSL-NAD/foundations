@@ -24,6 +24,8 @@ import {
   Target,
   Lightbulb,
   FileText,
+  CheckCircle,
+  Star,
 } from "lucide-react";
 import { format } from "date-fns";
 import type { StrategySection } from "@/components/admin/StrategyTab";
@@ -49,6 +51,21 @@ const sectionIcons: Record<string, React.ComponentType<{ className?: string }>> 
   "paid-acquisition": DollarSign,
   partnerships: LinkIcon,
   "content-calendar": Calendar,
+  "strategic-summary": Star,
+};
+
+// ─── Nav labels per section ─────────────────────────────
+const NAV_LABELS: Record<string, string> = {
+  "seo-audit": "SEO",
+  "keyword-universe": "Keywords",
+  competitive: "Competitors",
+  audience: "Audience",
+  "customer-journey": "Journey",
+  "platform-strategy": "Platforms",
+  "paid-acquisition": "Paid",
+  partnerships: "Partnerships",
+  "content-calendar": "Content",
+  "strategic-summary": "Summary",
 };
 
 // ─── Count-up hook ──────────────────────────────────────
@@ -280,6 +297,37 @@ function KeywordTable() {
   );
 }
 
+// ─── Quick Wins (published posts targeting priority keywords) ─
+function QuickWinsCallout() {
+  const posts = [
+    { title: "What Is Architectural Scale", keyword: "exact match keyword", date: "March 1" },
+    { title: "How Much Does It Cost to Build a House 2026", keyword: "high-volume TOFU", date: "March 4" },
+    { title: "Best AI Tools for Home Design 2026", keyword: "trending cluster, well-timed", date: "March 3" },
+  ];
+  return (
+    <motion.div variants={fadeInUp} className="mt-6 rounded-xl border p-5"
+      style={{ backgroundColor: `${COLORS.teal}10`, borderColor: `${COLORS.teal}40` }}
+    >
+      <div className="mb-3 flex items-center gap-2">
+        <Target className="h-4 w-4" style={{ color: COLORS.teal }} />
+        <h4 className="font-heading text-sm font-bold" style={{ color: COLORS.teal }}>Quick Wins</h4>
+      </div>
+      <p className="mb-3 text-xs text-muted-foreground">Published posts already targeting priority keywords — optimize and promote these first.</p>
+      <div className="flex flex-wrap gap-2">
+        {posts.map((p) => (
+          <div key={p.title} className="inline-flex items-center gap-2 rounded-full border border-border/50 bg-white px-3 py-1.5 dark:bg-[#0F1923]/50">
+            <span className="inline-flex rounded-full px-1.5 py-0.5 text-[9px] font-bold uppercase"
+              style={{ backgroundColor: `${COLORS.teal}20`, color: COLORS.teal }}
+            >Published</span>
+            <span className="text-xs font-medium">{p.title}</span>
+            <span className="text-[10px] text-muted-foreground">— {p.keyword}</span>
+          </div>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
 // ─── Trending Topics ────────────────────────────────────
 const TRENDS = [
   { name: "Multi-generational Design", desc: "Homes designed for extended family living" },
@@ -367,6 +415,42 @@ function WhiteSpaceCallout() {
   );
 }
 
+// ─── Strategic Implication (Competitive) ────────────────
+function StrategicImplicationCallout() {
+  return (
+    <motion.div variants={fadeInUp} className="mt-4 rounded-xl border p-5"
+      style={{ backgroundColor: `${COLORS.blue}10`, borderColor: `${COLORS.blue}40` }}
+    >
+      <div className="mb-2 flex items-center gap-2">
+        <Lightbulb className="h-4 w-4" style={{ color: COLORS.blue }} />
+        <h4 className="font-heading text-sm font-bold" style={{ color: COLORS.blue }}>Strategic Implication</h4>
+      </div>
+      <p className="text-sm text-foreground/80">
+        30x40 Design Workshop serves architects-in-training (supply side). FOA serves homeowners who will hire those architects (demand side). Audiences barely overlap — potential affiliate or cross-promotion opportunity. Eric Reinholdt also hosts a separate podcast on architecture entrepreneurship.
+      </p>
+    </motion.div>
+  );
+}
+
+// ─── Key Stat Callout (Audience) ────────────────────────
+function KeyStatCallout() {
+  return (
+    <motion.div variants={fadeInUp} className="mb-6 rounded-xl border p-6"
+      style={{ backgroundColor: `${COLORS.terracotta}08`, borderColor: `${COLORS.terracotta}40` }}
+    >
+      <div className="flex items-start gap-4">
+        <div className="font-heading text-5xl font-bold" style={{ color: COLORS.terracotta }}>22%</div>
+        <div>
+          <p className="text-sm text-foreground/80">
+            of homeowners report difficulty visualizing finished spaces before renovation — maps directly to FOA&apos;s how-to-read-drawings curriculum.
+          </p>
+          <p className="mt-1 text-[10px] text-muted-foreground">Source: Houzz Q1 2026 Renovation Barometer</p>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 // ─── Persona Cards ──────────────────────────────────────
 const PERSONAS = [
   {
@@ -375,6 +459,7 @@ const PERSONAS = [
     tags: ["30-45", "HHI $150K+", "Pre-build"],
     quote: "I have the budget but zero idea how to talk to an architect without getting steamrolled.",
     platforms: ["LinkedIn", "Pinterest", "Reddit"],
+    secondaryPlatform: { name: "X", rationale: "Secondary — Hook/Provoke pillar, smaller but engaged architecture community." },
   },
   {
     name: "The Researcher",
@@ -382,6 +467,7 @@ const PERSONAS = [
     tags: ["35-50", "HHI $200K+", "Custom build"],
     quote: "I spent 80 hours on Houzz and still don't know what questions to ask my contractor.",
     platforms: ["Reddit", "YouTube", "Instagram"],
+    secondaryPlatform: { name: "X", rationale: "Secondary — Hook/Provoke pillar, smaller but engaged architecture community." },
   },
   {
     name: "The Renovator",
@@ -389,6 +475,7 @@ const PERSONAS = [
     tags: ["40-55", "HHI $175K+", "Major renovation"],
     quote: "My architect speaks a different language. I need a translator.",
     platforms: ["Pinterest", "Instagram", "LinkedIn"],
+    secondaryPlatform: { name: "X", rationale: "Secondary — Hook/Provoke pillar, smaller but engaged architecture community." },
   },
 ];
 
@@ -415,6 +502,12 @@ function PersonaCards() {
             {p.platforms.map((pl) => (
               <span key={pl} className="rounded-full border border-border/50 px-2 py-0.5 text-[10px] font-medium">{pl}</span>
             ))}
+            <span className="rounded-full border px-2 py-0.5 text-[10px] font-medium"
+              style={{ borderColor: `${COLORS.amber}60`, color: COLORS.amber }}
+              title={p.secondaryPlatform.rationale}
+            >
+              {p.secondaryPlatform.name}
+            </span>
           </div>
         </motion.div>
       ))}
@@ -506,6 +599,56 @@ function FunnelGapCards() {
   );
 }
 
+// ─── Leaking Funnel Callout Cards (enrichment) ──────────
+function LeakingFunnelCards() {
+  const leaks = [
+    { title: "No email capture", desc: "Every blog visitor leaves permanently. Highest-priority funnel fix.", borderColor: COLORS.amber },
+    { title: "No retargeting pixel", desc: "Visitors cannot be re-engaged with paid ads. Install Meta Pixel + Google Tag immediately.", borderColor: COLORS.blue },
+    { title: "No social proof yet", desc: "Validate content pillar on hold until first enrolled student.", borderColor: COLORS.teal },
+  ];
+  return (
+    <motion.div variants={stagger} initial="initial" animate="animate" className="mt-6 grid gap-3 sm:grid-cols-3">
+      {leaks.map((l, i) => (
+        <motion.div key={i} variants={fadeInUp}
+          className="rounded-xl border-2 p-4 dark:bg-[#0F1923]/50 bg-white"
+          style={{ borderColor: `${l.borderColor}60` }}
+        >
+          <div className="mb-1.5 flex items-center gap-2">
+            <AlertTriangle className="h-4 w-4" style={{ color: l.borderColor }} />
+            <span className="text-sm font-bold" style={{ color: l.borderColor }}>{l.title}</span>
+          </div>
+          <p className="text-xs text-foreground/70">{l.desc}</p>
+        </motion.div>
+      ))}
+    </motion.div>
+  );
+}
+
+// ─── Weekly Cadence Bar (Platform Strategy enrichment) ───
+function WeeklyCadenceBar() {
+  const cadences = [
+    { name: "LinkedIn", logo: LinkedInLogo, cadence: "3-4x/week" },
+    { name: "X", logo: XLogo, cadence: "5x/week" },
+    { name: "Instagram", logo: InstagramLogo, cadence: "3-4x/week" },
+    { name: "Pinterest", logo: PinterestLogo, cadence: "5-10 pins/week" },
+    { name: "Reddit", logo: RedditLogo, cadence: "2x/month" },
+  ];
+  return (
+    <motion.div variants={fadeInUp} className="mb-6 rounded-xl border border-border/50 bg-muted/20 p-4">
+      <h4 className="mb-3 font-heading text-xs font-bold uppercase tracking-wider text-muted-foreground">Weekly Cadence</h4>
+      <div className="flex flex-wrap gap-3">
+        {cadences.map((c) => (
+          <div key={c.name} className="inline-flex items-center gap-2 rounded-full border border-border/50 bg-white px-3 py-1.5 dark:bg-[#0F1923]/50">
+            <c.logo className="h-3.5 w-3.5" />
+            <span className="text-xs font-semibold">{c.name}</span>
+            <span className="text-[10px] text-muted-foreground">{c.cadence}</span>
+          </div>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
 // ─── Platform Strategy Cards ────────────────────────────
 const PLATFORMS = [
   {
@@ -515,12 +658,12 @@ const PLATFORMS = [
   },
   {
     name: "X (Twitter)", logo: XLogo, hoverColor: "#000000",
-    cadence: "5-7x/week",
+    cadence: "5x/week",
     bullets: ["Thread format for education", "Quote-tweet industry news with hot takes", "CTA: follow + bookmark"],
   },
   {
     name: "Instagram", logo: InstagramLogo, hoverColor: "#E4405F",
-    cadence: "4-5x/week",
+    cadence: "3-4x/week",
     bullets: ["Reels 15-30s for reach (80%+ watch)", "Carousels for saves and shares", "CTA: save this for later"],
   },
   {
@@ -530,7 +673,7 @@ const PLATFORMS = [
   },
   {
     name: "Reddit", logo: RedditLogo, hoverColor: "#FF4500",
-    cadence: "2-3x/week",
+    cadence: "2x/month",
     bullets: ["Highest-trust discovery channel", "Value-first, never self-promote directly", "CTA: helpful answers with profile link"],
   },
   {
@@ -580,12 +723,12 @@ const PHASES = [
 function BudgetTimeline() {
   return (
     <motion.div variants={fadeInUp} className="mb-6">
-      <div className="relative flex flex-col gap-4 md:flex-row md:gap-0">
+      <div className="relative grid gap-4 md:grid-cols-3">
         {/* connecting line */}
         <div className="absolute left-6 top-0 hidden h-full w-0.5 md:left-0 md:top-1/2 md:h-0.5 md:w-full" style={{ backgroundColor: `${COLORS.terracotta}30` }} />
         {PHASES.map((p, i) => (
-          <div key={i} className="relative flex-1 md:px-3">
-            <div className="rounded-xl border border-border/50 p-4 dark:bg-[#0F1923]/50 bg-white"
+          <div key={i} className="relative flex flex-col">
+            <div className="flex h-full flex-col rounded-xl border border-border/50 p-4 dark:bg-[#0F1923]/50 bg-white"
               style={{ borderTopWidth: 3, borderTopColor: p.color }}
             >
               <div className="mb-1 flex items-center gap-2">
@@ -642,19 +785,19 @@ function CPCTable() {
 // ─── Partnership Tiers ──────────────────────────────────
 const TIERS = [
   {
-    tier: "Tier 1 -- Dream",
+    tier: "Tier 1 — Dream",
     color: COLORS.terracotta,
     glow: true,
     partners: ["Architectural Digest", "Dwell Magazine", "30x40 Design Workshop", "Houzz Pro"],
   },
   {
-    tier: "Tier 2 -- Reachable",
+    tier: "Tier 2 — Reachable",
     color: COLORS.blue,
     glow: false,
     partners: ["ArchDaily", "Business of Architecture Podcast", "Build Show Network", "Young House Love"],
   },
   {
-    tier: "Tier 3 -- Grassroots",
+    tier: "Tier 3 — Grassroots",
     color: COLORS.teal,
     glow: false,
     partners: ["Local AIA chapters", "Houzz Ideabook contributor", "Reddit AMAs", "Home design Facebook groups"],
@@ -685,16 +828,48 @@ function PartnershipTiers() {
   );
 }
 
+// ─── Quick Wins — Zero Budget (Partnerships enrichment) ─
+function PartnershipQuickWins() {
+  const wins = [
+    { name: "ArchDaily", desc: "Free editorial project submission. High-value backlink, zero cost. Submit an educational article via archdaily.com editorial portal." },
+    { name: "Houzz", desc: "Create FOA Pro profile and build Ideabook collections. Organic Houzz discovery at zero cost via Houzz community." },
+    { name: "Eric Reinholdt (30x40)", desc: "Hosts both 30x40 Design Workshop AND a separate architecture entrepreneurship podcast. Two distinct outreach opportunities with one creator." },
+  ];
+  return (
+    <motion.div variants={fadeInUp} className="mt-6 rounded-xl border-2 p-5"
+      style={{ borderColor: `${COLORS.teal}60` }}
+    >
+      <div className="mb-3 flex items-center gap-2">
+        <CheckCircle className="h-4 w-4" style={{ color: COLORS.teal }} />
+        <h4 className="font-heading text-sm font-bold" style={{ color: COLORS.teal }}>3 Quick Wins — Zero Budget</h4>
+      </div>
+      <div className="space-y-3">
+        {wins.map((w, i) => (
+          <div key={i} className="flex items-start gap-3">
+            <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white"
+              style={{ backgroundColor: COLORS.teal }}
+            >{i + 1}</span>
+            <div>
+              <span className="text-sm font-semibold">{w.name}</span>
+              <p className="mt-0.5 text-xs text-foreground/70">{w.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
 // ─── Outreach Templates ─────────────────────────────────
 const OUTREACH_TEMPLATES = [
   {
-    tier: "Tier 1 -- Dream Partners",
+    tier: "Tier 1 — Dream Partners",
     preview: "High-touch, personalized outreach for premium publications and influencers...",
     content: `Subject: Collaboration: Architecture Education for Homeowners
 
 Hi [Name],
 
-I'm Nic, founder of Fundamentals of Architecture — the first online course designed to teach homeowners how to confidently navigate the design and build process.
+I'm Nic, founder of Foundations of Architecture — the first online course designed to teach homeowners how to confidently navigate the design and build process.
 
 I've followed [Publication/Channel] for years and believe there's a natural alignment between your audience and what we're building. We're not training architects — we're empowering the people who hire them.
 
@@ -702,32 +877,32 @@ Would you be open to a quick conversation about how we might collaborate? I'm th
 
 Best,
 Nic DeMore
-Fundamentals of Architecture`,
+Foundations of Architecture`,
   },
   {
-    tier: "Tier 2 -- Reachable Partners",
+    tier: "Tier 2 — Reachable Partners",
     preview: "Value-forward outreach with specific content ideas and mutual benefit...",
     content: `Subject: Guest Contribution Idea — Architecture for Non-Architects
 
 Hi [Name],
 
-I run Fundamentals of Architecture — an online course helping homeowners understand residential design before they hire an architect.
+I run Foundations of Architecture — an online course helping homeowners understand residential design before they hire an architect.
 
 I'd love to contribute a piece to [Platform] on [specific topic, e.g., "5 Questions Every Homeowner Should Ask Before Hiring an Architect"]. It's a topic I see constant demand for and that your audience would find immediately useful.
 
-Happy to tailor the angle to fit your editorial style. Here's a link to our blog for context: fundamentalsofarchitecture.com/blog
+Happy to tailor the angle to fit your editorial style. Here's a link to our blog for context: foacourse.com/blog
 
 Thanks for considering,
 Nic`,
   },
   {
-    tier: "Tier 3 -- Grassroots Partners",
+    tier: "Tier 3 — Grassroots Partners",
     preview: "Community-first engagement, no hard pitch, pure value contribution...",
     content: `Subject: Happy to Contribute — Architecture Education Resources
 
 Hi [Moderator/Organizer],
 
-I'm Nic, an architect who created Fundamentals of Architecture — a course for homeowners learning to navigate the design process.
+I'm Nic, an architect who created Foundations of Architecture — a course for homeowners learning to navigate the design process.
 
 I noticed your [community/group/chapter] discusses topics I specialize in. I'd love to contribute — whether that's answering questions, doing a Q&A session, or sharing a resource guide your members could use.
 
@@ -880,59 +1055,174 @@ function EmergingPillarsCallout() {
         <Lightbulb className="h-4 w-4" style={{ color: COLORS.amber }} />
         <h4 className="font-heading text-sm font-bold" style={{ color: COLORS.amber }}>2 New Pillars Recommended</h4>
       </div>
-      <p className="text-sm text-foreground/80">
-        <strong>Process</strong> (the build timeline made visual) and <strong>Before/After</strong> (transformation as proof of concept). Both added to FOA-STRATEGY.md -- March 17, 2026.
-      </p>
+      <div className="space-y-3 text-sm text-foreground/80">
+        <div>
+          <strong>Process:</strong> The home build timeline made visual — sequencing, milestones, what to expect. Strongest signal on Reddit (r/Homebuilding), YouTube, and Pinterest.
+        </div>
+        <div>
+          <strong>Before/After:</strong> Decisions made visible, not just aesthetics. Transform &ldquo;before I understood architectural drawings&rdquo; into a content series. High emotional resonance, excellent for ads and Reels.
+        </div>
+      </div>
     </motion.div>
+  );
+}
+
+// ─── Section 10: Strategic Summary Components ───────────
+
+function InsightCards() {
+  const insights = [
+    { title: "First-Mover Advantage", body: "No course exists for homeowner architecture literacy. Closest competitor has 17 subscribers. FOA owns this niche by default — window is finite." },
+    { title: "The Funnel Has One Critical Gap", body: "No email capture means every blog visitor is lost permanently. Building the list is the single highest-leverage item remaining." },
+    { title: "Organic Search Is Just Getting Started", body: "0 impressions today; www canonical fix deployed March 17. First keyword data in 30-60 days. Strong opportunities in low-competition niche." },
+    { title: "Platform Clarity", body: "Instagram and Pinterest are highest-potential visual platforms. LinkedIn for professional credibility. X for reach via Hook/Provoke. Reddit for deep trust-building." },
+  ];
+  return (
+    <motion.div variants={stagger} initial="initial" animate="animate">
+      <h3 className="mb-4 font-heading text-base font-bold">What We Found</h3>
+      <div className="grid gap-3 sm:grid-cols-2">
+        {insights.map((ins, i) => (
+          <motion.div key={i} variants={fadeInUp}
+            className="rounded-xl border border-border/50 p-5 dark:bg-[#0F1923]/50 bg-white"
+            style={{ boxShadow: `0 0 24px ${COLORS.terracotta}10` }}
+          >
+            <div className="mb-2 flex items-center gap-2">
+              <span className="flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold text-white"
+                style={{ backgroundColor: COLORS.terracotta }}
+              >{i + 1}</span>
+              <h4 className="text-sm font-bold">{ins.title}</h4>
+            </div>
+            <p className="text-xs text-foreground/70 leading-relaxed">{ins.body}</p>
+          </motion.div>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
+function PriorityOrderList() {
+  const items = [
+    { text: "Fix www canonical and submit sitemap to www GSC property", tag: "Done — March 17, 2026", tagColor: COLORS.teal },
+    { text: "Build email capture — lead magnet + opt-in on all blog posts (Phase 4.5)", tag: null, tagColor: "" },
+    { text: "Execute 4-week content calendar from Section 9 across LI/X/IG", tag: null, tagColor: "" },
+    { text: "Set up Pinterest Business account and begin pinning cadence", tag: null, tagColor: "" },
+    { text: "Begin Reddit presence — karma-build 2-4 weeks before mentioning FOA", tag: null, tagColor: "" },
+    { text: "Install Meta Pixel + Google Tag — start building retargeting audiences immediately", tag: null, tagColor: "" },
+    { text: "First enrollment push at 5+ organic sales → activate Pinterest Ads $300/mo", tag: null, tagColor: "" },
+    { text: "Tier 3 partnership outreach — Remodelista and ArchDaily editorial submissions (free)", tag: null, tagColor: "" },
+    { text: "Re-run Strategy Baseline v3 at 90 days with live GSC data (June 2026)", tag: null, tagColor: "" },
+  ];
+  return (
+    <motion.div variants={fadeInUp} className="mt-8">
+      <h3 className="mb-4 font-heading text-base font-bold">Priority Order</h3>
+      <div className="space-y-2">
+        {items.map((item, i) => (
+          <div key={i} className="flex items-start gap-3 rounded-lg border border-border/50 p-3 dark:bg-[#0F1923]/50 bg-white">
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold"
+              style={{
+                backgroundColor: item.tag ? `${COLORS.teal}20` : `${COLORS.terracotta}15`,
+                color: item.tag ? COLORS.teal : COLORS.terracotta,
+              }}
+            >{i + 1}</span>
+            <div className="flex flex-1 flex-wrap items-center gap-2">
+              <span className="text-sm">{item.text}</span>
+              {item.tag && (
+                <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold"
+                  style={{ backgroundColor: `${item.tagColor}20`, color: item.tagColor }}
+                >
+                  <CheckCircle className="h-3 w-3" />
+                  {item.tag}
+                </span>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
+function NextMilestoneCard() {
+  return (
+    <motion.div variants={fadeInUp} className="mt-8 rounded-xl border-2 p-6"
+      style={{
+        borderColor: `${COLORS.terracotta}60`,
+        background: `radial-gradient(ellipse at center, ${COLORS.terracotta}08 0%, transparent 70%)`,
+      }}
+    >
+      <h3 className="mb-4 font-heading text-base font-bold">Next Milestone</h3>
+      <div className="flex items-start gap-4">
+        <div className="font-heading text-6xl font-bold" style={{ color: COLORS.terracotta, textShadow: `0 0 40px ${COLORS.terracotta}30` }}>5</div>
+        <div>
+          <p className="text-sm font-semibold leading-relaxed">
+            First 5 organic course sales. This unlocks paid acquisition (Pinterest Ads) and proves the funnel. Everything before this milestone is foundation-building.
+          </p>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+function StrategicSummaryContent() {
+  return (
+    <div>
+      <InsightCards />
+      <PriorityOrderList />
+      <NextMilestoneCard />
+    </div>
   );
 }
 
 // ─── Section-specific content map ───────────────────────
 const KEY_FINDINGS: Record<string, string[]> = {
   "seo-audit": [
-    "0 of 13 submitted pages indexed -- www/non-www canonical mismatch is the root cause",
-    "Organization, WebSite, and Course schemas present -- sameAs array empty, needs social handles",
-    "Article schema on blog posts has parse errors -- needs debugging before rich results",
+    "0 of 13 submitted pages indexed — www/non-www canonical mismatch is the root cause",
+    "Organization, Website, and Course schemas present — sameAs array empty, needs social handles",
+    "Article schema on blog posts has parse errors — needs debugging before rich results",
   ],
   "keyword-universe": [
-    "No GSC data yet -- site pre-index. First real keyword data expected in 30-60 days.",
-    "architecture courses for homeowners has low competition and is FOAs exact-match keyword",
-    "January-March is peak planning season -- FOA launched at the right moment",
+    "No GSC data yet — site pre-index. First real keyword data expected in 30-60 days.",
+    "architecture courses for homeowners has low competition and is FOA's exact-match keyword",
+    "January-March is peak planning season — FOA launched at the right moment",
   ],
   competitive: [
-    "No direct competition -- FOA owns the homeowner architecture literacy niche by default",
+    "No direct competition — FOA owns the homeowner architecture literacy niche by default",
     "Closest YouTube competitor (Florence Is An Architect) has 17 subscribers",
-    "30x40 Design Workshop serves architects-in-training, not homeowners -- zero audience overlap",
+    "30x40 Design Workshop serves architects-in-training, not homeowners — zero audience overlap",
   ],
   audience: [
     "Primary audience: homeowners 30-50, HHI $150k+, planning custom build or major renovation",
-    "22% of homeowners report difficulty visualizing spaces -- maps directly to FOA curriculum",
+    "22% of homeowners report difficulty visualizing spaces — maps directly to FOA curriculum",
     "Multi-generational design is an underserved content niche with affluent, motivated audience",
   ],
   "customer-journey": [
     "No email capture = every blog visitor leaves forever. Highest-leverage gap in the funnel.",
-    "Pinterest traffic has 30-90 day purchase latency -- start now to build delayed return pipeline",
+    "Pinterest traffic has 30-90 day purchase latency — start now to build delayed return pipeline",
     "Reddit is highest-trust discovery channel for the research-heavy buyer persona",
   ],
   "platform-strategy": [
-    "LinkedIn: single images dominate at 62.7% of top content -- consistent 3-4x/week cadence",
-    "Instagram Reels (15-30s) get highest reach -- algorithm rewards 80%+ watch completion",
-    "Pinterest users saved 40% more home design pins YoY -- high-intent planning audience",
+    "LinkedIn: single images dominate at 62.7% of top content — consistent 3-4x/week cadence",
+    "Instagram Reels (15-30s) get highest reach — algorithm rewards 80%+ watch completion",
+    "Pinterest users saved 40% more home design pins YoY — high-intent planning audience",
   ],
   "paid-acquisition": [
-    "Install Meta Pixel + Google Tag immediately -- retargeting is 2-4x more efficient than cold traffic",
+    "Install Meta Pixel + Google Tag immediately — retargeting is 2-4x more efficient than cold traffic",
     "Pinterest Ads reach women 25-54 at 2-3x lower CPM than Instagram for home design",
-    "Do not run Google Ads until 50+ conversion events -- use manual CPC on Search first",
+    "Do not run Google Ads until 50+ conversion events — use manual CPC on Search first",
   ],
   partnerships: [
-    "ArchDaily accepts free editorial submissions -- high-value backlink with zero budget",
-    "Business of Architecture host is Enoch Sears (not Eric Reinholdt -- that is 30x40)",
+    "ArchDaily accepts free editorial submissions — high-value backlink with zero budget",
+    "Business of Architecture host is Enoch Sears (not Eric Reinholdt — that is 30x40)",
     "Houzz Ideabook as FOA Pro contributor = organic Houzz discovery at zero cost",
   ],
   "content-calendar": [
     "4-week plan grounded in keyword gaps, platform research, and FOA content pillars",
-    "Week 4 is conversion week -- all content pushes toward enrollment",
+    "Week 4 is conversion week — all content pushes toward enrollment",
     "Blog topics prioritized by keyword opportunity from Section 2",
+  ],
+  "strategic-summary": [
+    "FOA is a first-mover in homeowner architecture literacy — no direct competitor exists",
+    "Email capture is the single highest-leverage gap — fix before scaling any channel",
+    "First 5 organic sales is the milestone that unlocks paid acquisition",
   ],
 };
 
@@ -947,7 +1237,7 @@ function SectionContent({ sectionKey, expanded }: { sectionKey: string; expanded
               <h4 className="font-heading text-xs font-bold uppercase tracking-wider text-muted-foreground">Schema Status</h4>
               <div className="grid grid-cols-2 gap-2">
                 <SchemaBadge name="Organization" status="Complete" color={COLORS.teal} />
-                <SchemaBadge name="WebSite" status="Complete" color={COLORS.teal} />
+                <SchemaBadge name="Website" status="Complete" color={COLORS.teal} />
                 <SchemaBadge name="Course" status="Needs Fix" color={COLORS.terracotta} />
                 <SchemaBadge name="Article" status="Error" color={COLORS.amber} />
               </div>
@@ -967,6 +1257,7 @@ function SectionContent({ sectionKey, expanded }: { sectionKey: string; expanded
           <KeywordTable />
           <h4 className="mb-3 font-heading text-xs font-bold uppercase tracking-wider text-muted-foreground">Trending Topics</h4>
           <TrendingGrid />
+          <QuickWinsCallout />
         </div>
       );
     case "competitive":
@@ -974,11 +1265,13 @@ function SectionContent({ sectionKey, expanded }: { sectionKey: string; expanded
         <div>
           <CompetitorCards expanded={expanded} />
           <WhiteSpaceCallout />
+          <StrategicImplicationCallout />
         </div>
       );
     case "audience":
       return (
         <div>
+          <KeyStatCallout />
           <PersonaCards />
           <h4 className="mb-3 font-heading text-xs font-bold uppercase tracking-wider text-muted-foreground">Platform Audience Breakdown</h4>
           <PlatformAudienceRow />
@@ -990,11 +1283,13 @@ function SectionContent({ sectionKey, expanded }: { sectionKey: string; expanded
           <FunnelVisual />
           <h4 className="mb-3 font-heading text-xs font-bold uppercase tracking-wider text-muted-foreground">Current Funnel Gaps</h4>
           <FunnelGapCards />
+          <LeakingFunnelCards />
         </div>
       );
     case "platform-strategy":
       return (
         <div>
+          <WeeklyCadenceBar />
           <PlatformStrategyGrid />
           <EmergingPillarsCallout />
         </div>
@@ -1013,10 +1308,13 @@ function SectionContent({ sectionKey, expanded }: { sectionKey: string; expanded
           <PartnershipTiers />
           <h4 className="mb-3 font-heading text-xs font-bold uppercase tracking-wider text-muted-foreground">Outreach Templates</h4>
           <OutreachAccordion />
+          <PartnershipQuickWins />
         </div>
       );
     case "content-calendar":
       return <ContentCalendar />;
+    case "strategic-summary":
+      return <StrategicSummaryContent />;
     default:
       return null;
   }
@@ -1090,6 +1388,16 @@ export function StrategyDashboard({ sections }: { sections: StrategySection[] })
     }
   }
 
+  const allExpanded = sections.every((s) => expandedKeys.has(s.section_key));
+
+  function toggleAll() {
+    if (allExpanded) {
+      setExpandedKeys(new Set());
+    } else {
+      setExpandedKeys(new Set(sections.map((s) => s.section_key)));
+    }
+  }
+
   // Intersection observer for active section tracking
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -1102,7 +1410,7 @@ export function StrategyDashboard({ sections }: { sections: StrategySection[] })
           }
         }
       },
-      { rootMargin: "-100px 0px -60% 0px", threshold: 0 }
+      { rootMargin: "-100px 0px -60% 0px", threshold: 0.3 }
     );
 
     Object.values(sectionRefs.current).forEach((el) => {
@@ -1131,15 +1439,25 @@ export function StrategyDashboard({ sections }: { sections: StrategySection[] })
               : "Research pending \u00B7 v2"}
           </p>
         </div>
-        <a
-          href="/FOA-STRATEGY-BASELINE.md"
-          download
-          className="inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold text-white transition-shadow hover:shadow-lg"
-          style={{ backgroundColor: COLORS.terracotta, boxShadow: `0 0 24px ${COLORS.terracotta}18` }}
-        >
-          <Download className="h-4 w-4" />
-          Download Full Report
-        </a>
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={toggleAll}
+            className="inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm font-medium transition-colors hover:bg-muted"
+          >
+            <ChevronDown className={`h-4 w-4 transition-transform ${allExpanded ? "rotate-180" : ""}`} />
+            {allExpanded ? "Collapse All" : "Expand All"}
+          </button>
+          <a
+            href="/FOA-STRATEGY-BASELINE.md"
+            download
+            className="inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold text-white transition-shadow hover:shadow-lg"
+            style={{ backgroundColor: COLORS.terracotta, boxShadow: `0 0 24px ${COLORS.terracotta}18` }}
+          >
+            <Download className="h-4 w-4" />
+            Download Full Report
+          </a>
+        </div>
       </div>
 
       {/* Sticky Section Nav */}
@@ -1157,7 +1475,7 @@ export function StrategyDashboard({ sections }: { sections: StrategySection[] })
                 border: activeSection === s.section_number ? "none" : "1px solid var(--border)",
               }}
             >
-              {String(s.section_number).padStart(2, "0")}
+              {NAV_LABELS[s.section_key] || String(s.section_number).padStart(2, "0")}
             </button>
           ))}
         </div>
@@ -1173,6 +1491,7 @@ export function StrategyDashboard({ sections }: { sections: StrategySection[] })
           const markdown = isComplete && section.content?.markdown ? String(section.content.markdown) : null;
           const findings = KEY_FINDINGS[section.section_key] || [];
           const isResearchOpen = showFullResearch.has(section.section_key);
+          const isStrategicSummary = section.section_key === "strategic-summary";
 
           return (
             <div
@@ -1186,6 +1505,7 @@ export function StrategyDashboard({ sections }: { sections: StrategySection[] })
                 style={{
                   borderLeftWidth: isComplete ? 2 : undefined,
                   borderLeftColor: isComplete ? COLORS.terracotta : undefined,
+                  ...(isStrategicSummary ? { backgroundColor: `${COLORS.dark}0A` } : {}),
                 }}
                 onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = `0 0 24px ${COLORS.terracotta}10`; }}
                 onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = "none"; }}
@@ -1249,13 +1569,16 @@ export function StrategyDashboard({ sections }: { sections: StrategySection[] })
                         {/* Full Research Accordion */}
                         {markdown && (
                           <div className="mt-6">
+                            <div className="mb-3 border-t border-border/30 pt-4">
+                              <span className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground/60">Full Research</span>
+                            </div>
                             <button
                               type="button"
                               onClick={() => toggleFullResearch(section.section_key)}
                               className="flex items-center gap-2 text-xs font-semibold text-muted-foreground transition-colors hover:text-foreground"
                             >
                               <FileText className="h-3.5 w-3.5" />
-                              Full Research
+                              Full Research (14,700 words)
                               <ChevronDown className={`h-3.5 w-3.5 transition-transform ${isResearchOpen ? "rotate-180" : ""}`} />
                             </button>
                             <AnimatePresence>
@@ -1268,7 +1591,7 @@ export function StrategyDashboard({ sections }: { sections: StrategySection[] })
                                   className="overflow-hidden"
                                 >
                                   <div className="mt-4 rounded-xl border border-border/30 p-5 dark:bg-[#0F1923]/20">
-                                    <div className="prose prose-sm dark:prose-invert max-w-none">
+                                    <div className="prose prose-sm dark:prose-invert max-w-none leading-relaxed [&_h2]:text-base [&_h2]:font-semibold [&_h2]:mt-6 [&_h2]:mb-2 [&_h3]:text-sm [&_h3]:font-medium [&_h3]:mt-4 [&_h3]:mb-1.5 [&_table]:text-xs [&_table]:w-full [&_td]:border [&_td]:border-border [&_td]:p-2 [&_th]:border [&_th]:border-border [&_th]:p-2 [&_th]:bg-muted/50 [&_th]:font-medium">
                                       <ReactMarkdown remarkPlugins={[remarkGfm]}>
                                         {markdown}
                                       </ReactMarkdown>

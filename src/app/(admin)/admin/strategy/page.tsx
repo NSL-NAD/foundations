@@ -18,6 +18,7 @@ const DEFAULT_STRATEGY_SECTIONS: StrategySection[] = [
   { id: "default-7", section_key: "paid-acquisition", section_number: 7, title: "Paid Acquisition Strategy", content: {}, summary: null, researched_at: null, status: "pending", created_at: "", updated_at: "" },
   { id: "default-8", section_key: "partnerships", section_number: 8, title: "Partnerships and Outreach", content: {}, summary: null, researched_at: null, status: "pending", created_at: "", updated_at: "" },
   { id: "default-9", section_key: "content-calendar", section_number: 9, title: "Content Calendar Foundation", content: {}, summary: null, researched_at: null, status: "pending", created_at: "", updated_at: "" },
+  { id: "default-10", section_key: "strategic-summary", section_number: 10, title: "Strategic Summary", content: {}, summary: null, researched_at: null, status: "pending", created_at: "", updated_at: "" },
 ];
 
 export default async function AdminStrategyPage() {
