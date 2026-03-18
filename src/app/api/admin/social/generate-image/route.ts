@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    const { copy, platform } = await req.json();
+    const { copy, platform, feedback } = await req.json();
 
     if (platform !== "instagram") {
       return NextResponse.json(
@@ -86,7 +86,7 @@ Rules:
       messages: [
         {
           role: "user",
-          content: `Generate an image prompt for this Instagram post:\n\n${copy}`,
+          content: `Generate an image prompt for this Instagram post:\n\n${copy}${feedback ? `\n\nAdditional direction: ${feedback}` : ""}`,
         },
       ],
       maxOutputTokens: 256,
