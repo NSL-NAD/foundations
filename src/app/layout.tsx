@@ -4,8 +4,10 @@ import { Space_Grotesk, Syne, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { Toaster } from "@/components/ui/sonner";
 import { CookieConsent } from "@/components/shared/CookieConsent";
+import { MetaPixel } from "@/components/analytics/MetaPixel";
 import "./globals.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:3007";
@@ -171,9 +173,13 @@ export default function RootLayout({
           {children}
           <Toaster />
           <CookieConsent />
+          <MetaPixel />
         </ThemeProvider>
         <Analytics />
         <SpeedInsights />
+        {process.env.NEXT_PUBLIC_GA4_ID && (
+          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA4_ID} />
+        )}
       </body>
     </html>
   );
